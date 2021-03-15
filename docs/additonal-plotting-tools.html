@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data Analysis and Visualization in R (IN2339)</title>
+  <title>C Additonal plotting tools | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Analysis and Visualization in R (IN2339)" />
+  <meta property="og:title" content="C Additonal plotting tools | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Analysis and Visualization in R (IN2339)" />
+  <meta name="twitter:title" content="C Additonal plotting tools | Data Analysis and Visualization in R (IN2339)" />
   
   <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="acknowledgments.html"/>
+<link rel="prev" href="appendix-r-programming.html"/>
+<link rel="next" href="appendix-probabilities.html"/>
 <script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -627,24 +627,201 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Data Analysis and Visualization in R (IN2339)</h1>
-<h2 class="subtitle"><em>A practical introduction to Data Science</em></h2>
-<p class="author"><em>Chair of Computational Molecular Medicine</em></p>
-<p class="date"><em>2021-03-15</em></p>
+<div id="additonal-plotting-tools" class="section level1" number="15">
+<h1><span class="header-section-number">C</span> Additonal plotting tools</h1>
+<div id="plotting-themes" class="section level2" number="15.1">
+<h2><span class="header-section-number">C.1</span> Plotting themes</h2>
+<p>Themes control non-data parts of your plots, such as:</p>
+<ul>
+<li>Overall appearance</li>
+<li>Axes</li>
+<li>Plot title</li>
+<li>Legends</li>
+</ul>
+<p>They control the appearance of your plots (size, color, position) but not how the data is represented.
+One example is <code>theme_bw</code> which provides a white background.</p>
+<div class="sourceCode" id="cb795"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb795-1"><a href="additonal-plotting-tools.html#cb795-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ind, <span class="fu">aes</span>(CPI, HDI, <span class="at">color =</span> region)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-519-1.png" width="400px" height="250px" style="display: block; margin: auto;" /></p>
+<p>Other complete themes are: <code>theme_classic</code>, <code>theme_minimal</code>, <code>theme_light</code>, <code>theme_dark</code>.</p>
+<p>More themes are available in the <code>ggthemes</code> package.</p>
+<div class="sourceCode" id="cb796"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb796-1"><a href="additonal-plotting-tools.html#cb796-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb796-2"><a href="additonal-plotting-tools.html#cb796-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ind, <span class="fu">aes</span>(CPI, HDI, <span class="at">color =</span> region)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_wsj</span>() <span class="sc">+</span> <span class="fu">scale_colour_wsj</span>(<span class="st">&quot;colors6&quot;</span>, </span>
+<span id="cb796-3"><a href="additonal-plotting-tools.html#cb796-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:lecture-02-520"></span>
+<img src="dataviz_book_files/figure-html/lecture-02-520-1.png" alt="Example of Wall Street Journal theme" width="400px" height="250px" />
+<p class="caption">
+Figure C.1: Example of Wall Street Journal theme
+</p>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p>This is the lecture script of the module Data Analysis and Visualization in R (IN2339).</p>
-<p>This work is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
+</div>
+<div id="axes" class="section level2" number="15.2">
+<h2><span class="header-section-number">C.2</span> Axes</h2>
+<p>The appearance of the axis titles can be controlled with the global variable <code>axis.title</code>,
+or independently for <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> using <code>axis.title.x</code> and <code>axis.title.y</code>.</p>
+<div class="sourceCode" id="cb797"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb797-1"><a href="additonal-plotting-tools.html#cb797-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ind, <span class="fu">aes</span>(CPI, HDI, <span class="at">color =</span> region)) <span class="sc">+</span> <span class="fu">geom_jitter</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, </span>
+<span id="cb797-2"><a href="additonal-plotting-tools.html#cb797-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-521-1.png" width="400px" height="250px" style="display: block; margin: auto;" /></p>
+<p>Similar for <code>axis.text</code>:</p>
+<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb798-1"><a href="additonal-plotting-tools.html#cb798-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ind, <span class="fu">aes</span>(CPI, HDI, <span class="at">color =</span> region)) <span class="sc">+</span> <span class="fu">geom_jitter</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, </span>
+<span id="cb798-2"><a href="additonal-plotting-tools.html#cb798-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-522-1.png" width="400px" height="250px" style="display: block; margin: auto;" /></p>
+<div id="axis-elements" class="section level3" number="15.2.1">
+<h3><span class="header-section-number">C.2.1</span> Axis elements</h3>
+<p>The axis elements control the appearance of the axes:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Element</th>
+<th>Setter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>axis.line</td>
+<td><code>element_line()</code></td>
+<td>line parallel to axis (hidden in default themes)</td>
+</tr>
+<tr class="even">
+<td>axis.text</td>
+<td><code>element_text()</code></td>
+<td>tick labels</td>
+</tr>
+<tr class="odd">
+<td>axis.text.x</td>
+<td><code>element_text()</code></td>
+<td>x-axis tick labels</td>
+</tr>
+<tr class="even">
+<td>axis.text.y</td>
+<td><code>element_text()</code></td>
+<td>y-axis tick labels</td>
+</tr>
+<tr class="odd">
+<td>axis.title</td>
+<td><code>element_text()</code></td>
+<td>axis titles</td>
+</tr>
+<tr class="even">
+<td>axis.title.x</td>
+<td><code>element_text()</code></td>
+<td>x-axis title</td>
+</tr>
+<tr class="odd">
+<td>axis.title.y</td>
+<td><code>element_text()</code></td>
+<td>y-axis title</td>
+</tr>
+<tr class="even">
+<td>axis.ticks</td>
+<td><code>element_line()</code></td>
+<td>axis tick marks</td>
+</tr>
+<tr class="odd">
+<td>axis.ticks.length</td>
+<td><code>unit()</code></td>
+<td>length of tick marks</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="plot-title" class="section level2" number="15.3">
+<h2><span class="header-section-number">C.3</span> Plot title</h2>
+<p>The appearance of the plot’s title can be controlled with the variable <code>plot.title</code>.</p>
+<div class="sourceCode" id="cb799"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb799-1"><a href="additonal-plotting-tools.html#cb799-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ind, <span class="fu">aes</span>(CPI, HDI, <span class="at">color =</span> region)) <span class="sc">+</span> <span class="fu">geom_jitter</span>() <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;CPI vs HDI&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb799-2"><a href="additonal-plotting-tools.html#cb799-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-523-1.png" width="400px" height="250px" style="display: block; margin: auto;" /></p>
+</div>
+<div id="legend" class="section level2" number="15.4">
+<h2><span class="header-section-number">C.4</span> Legend</h2>
+<p>The appearance of the legend can be controlled with <code>legend.text</code> and <code>legend.title</code>.</p>
+<div class="sourceCode" id="cb800"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb800-1"><a href="additonal-plotting-tools.html#cb800-1" aria-hidden="true" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ind, <span class="fu">aes</span>(CPI, HDI, <span class="at">color =</span> region)) <span class="sc">+</span> <span class="fu">geom_jitter</span>()</span>
+<span id="cb800-2"><a href="additonal-plotting-tools.html#cb800-2" aria-hidden="true" tabindex="-1"></a>base <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>), <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>, </span>
+<span id="cb800-3"><a href="additonal-plotting-tools.html#cb800-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-524-1.png" width="400px" height="250px" style="display: block; margin: auto;" /></p>
+<p>The legend elements control the appearance of all legends. You can also modify the appearance of individual legends by modifying the same elements in <code>guide_legend()</code> or <code>guide_colourbar()</code>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Element</th>
+<th>Setter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>legend.background</td>
+<td><code>element_rect()</code></td>
+<td>legend background</td>
+</tr>
+<tr class="even">
+<td>legend.key</td>
+<td><code>element_rect()</code></td>
+<td>background of legend keys</td>
+</tr>
+<tr class="odd">
+<td>legend.key.size</td>
+<td><code>unit()</code></td>
+<td>legend key size</td>
+</tr>
+<tr class="even">
+<td>legend.key.height</td>
+<td><code>unit()</code></td>
+<td>legend key height</td>
+</tr>
+<tr class="odd">
+<td>legend.key.width</td>
+<td><code>unit()</code></td>
+<td>legend key width</td>
+</tr>
+<tr class="even">
+<td>legend.margin</td>
+<td><code>unit()</code></td>
+<td>legend margin</td>
+</tr>
+<tr class="odd">
+<td>legend.text</td>
+<td><code>element_text()</code></td>
+<td>legend labels</td>
+</tr>
+<tr class="even">
+<td>legend.text.align</td>
+<td>0–1</td>
+<td>legend label alignment (0 = right, 1 = left)</td>
+</tr>
+<tr class="odd">
+<td>legend.title</td>
+<td><code>element_text()</code></td>
+<td>legend name</td>
+</tr>
+<tr class="even">
+<td>legend.title.align</td>
+<td>0–1</td>
+<td>legend name alignment (0 = right, 1 = left)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="interactive-plots" class="section level2" number="15.5">
+<h2><span class="header-section-number">C.5</span> Interactive plots</h2>
+<p>Interactive plots can improve presentations. The library <code>plotly</code> allows to interactively construct plots. We can simply construct a plot with <code>ggplot2</code> and pass this object to the function <code>ggplotly()</code>:</p>
+<div class="sourceCode" id="cb801"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb801-1"><a href="additonal-plotting-tools.html#cb801-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb801-2"><a href="additonal-plotting-tools.html#cb801-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="fu">factor</span>(cyl), mpg)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span>
+<span id="cb801-3"><a href="additonal-plotting-tools.html#cb801-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p)</span></code></pre></div>
+<p>We can also save the generated <code>plotly</code> object into an <code>html</code> file as follows:</p>
+<div class="sourceCode" id="cb802"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb802-1"><a href="additonal-plotting-tools.html#cb802-1" aria-hidden="true" tabindex="-1"></a>plotly_path <span class="ot">&lt;-</span> <span class="st">&quot;assets/fig/my_plotly_fig.html&quot;</span></span>
+<span id="cb802-2"><a href="additonal-plotting-tools.html#cb802-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plotly_as_widget</span>(<span class="fu">ggplotly</span>(p), <span class="fu">file.path</span>(<span class="fu">getwd</span>(), plotly_path))</span></code></pre></div>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="acknowledgments.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="appendix-r-programming.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix-probabilities.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

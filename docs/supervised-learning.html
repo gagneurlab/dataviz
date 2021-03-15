@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data Analysis and Visualization in R (IN2339)</title>
+  <title>Chapter 12 Supervised Learning | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Analysis and Visualization in R (IN2339)" />
+  <meta property="og:title" content="Chapter 12 Supervised Learning | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Analysis and Visualization in R (IN2339)" />
+  <meta name="twitter:title" content="Chapter 12 Supervised Learning | Data Analysis and Visualization in R (IN2339)" />
   
   <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="acknowledgments.html"/>
+<link rel="prev" href="chap-log-reg.html"/>
+<link rel="next" href="importing-data.html"/>
 <script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -627,24 +627,726 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Data Analysis and Visualization in R (IN2339)</h1>
-<h2 class="subtitle"><em>A practical introduction to Data Science</em></h2>
-<p class="author"><em>Chair of Computational Molecular Medicine</em></p>
-<p class="date"><em>2021-03-15</em></p>
+<div id="supervised-learning" class="section level1" number="12">
+<h1><span class="header-section-number">Chapter 12</span> Supervised Learning</h1>
+<div id="introduction-3" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> Introduction</h2>
+<div id="motivation-2" class="section level3" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> Motivation</h3>
+<p>In the last two chapters we introduced linear and logistic regression models. The primary motivation lied in the interpretation of the coefficients, seen as the effect of explanatory variables on the response adjusted for the effects of other, potentially correlated, variables. Under some assumptions this even allowed us – holy grail – to conclude about conditional independence. Often, these models were considered as interpretable data generative models, supposed to reflect the underlying process.</p>
+<p>In this chapter, we will take a supervised machine learning angle. Here, we are interested in good predictions rather than identifying the most predictive features or drawing conclusions about statistical independence. On the one hand, the goal is less ambitious. On the other hand, focusing on prediction accuracy alone allows unleashing a wide variety of modeling techniques. The application area is immense and contains the most prominent successes of today’s artificial intelligence including medical diagnosis, image recognition, automatized translation, etc. We will learn how to evaluate the prediction performance on an independent test set and avoid problems related to poor generalization of a model to an independent test set. Additionally, we will introduce random forests as an alternative machine learning model for both regression and classification tasks.</p>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p>This is the lecture script of the module Data Analysis and Visualization in R (IN2339).</p>
-<p>This work is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
+<div id="supervised-learning-vs.-unsupervised-learning" class="section level3" number="12.1.2">
+<h3><span class="header-section-number">12.1.2</span> Supervised learning vs. unsupervised learning</h3>
+<p>Machine learning is the study of computer algorithms that improve automatically through experience<a href="#fn48" class="footnote-ref" id="fnref48"><sup>48</sup></a>.
+Most machine learning problems can be mainly categorized into two: supervised or unsupervised problems. In <strong>supervised learning</strong>, the goal is to build a powerful algorithm that takes feature values as input and returns a prediction for an outcome, even when we do not know the value for the actual outcome. For this, we <em>train</em> an algorithm using a data set for which we know the outcome, and then use this trained model to make predictions. In particular, for building the model, we associate each set of feature values to a certain outcome. In <strong>unsupervised learning</strong>, we do not associate feature values to an outcome. The situation is referred to as unsupervised because we lack an outcome variable that can supervise our analysis and model building. Instead, unsupervised learning algorithms identify patterns in the distribution of data. Typically, clustering problems and dimensionality reduction are attributed to unsupervised machine learning problems.</p>
+<p>A powerful framework to study supervised and unsupervised learning is statistical learning, which express these problems in statistical terms. Supervised learning then maps to the task of fitting conditional distribution <span class="math inline">\(p(y|\mathbf x)\)</span> where <span class="math inline">\(y\)</span> is the outcome and <span class="math inline">\(\mathbf x\)</span> are the features (or fitting aspects of the conditional distribution: the expectation, etc.). Linear regression is one method we already saw. Unsupervised learning in contrast refers to the task of fitting the distribution of the data <span class="math inline">\(p(\mathbf x)\)</span>, or some aspects of it (covariance: PCA, mixture components: clustering, etc.)</p>
+<p>This chapter focuses on supervised learning. In fact, logistic and linear regression are two classical methods in supervised learning for solving classification and regression tasks.</p>
+</div>
+<div id="notation" class="section level3" number="12.1.3">
+<h3><span class="header-section-number">12.1.3</span> Notation</h3>
+<p>In this chapter, we will use the classical machine learning nomenclature:</p>
+<ul>
+<li><span class="math inline">\(y\)</span> denotes the <em>outcome</em> (or response) that we want to predict</li>
+<li><span class="math inline">\(x_1, \dots, x_p\)</span> denote the <em>features</em> that we will use to predict the outcome.</li>
+</ul>
+<!-- The data set used for training is usually referred to as training data set.  -->
+</div>
+<div id="basic-approach-in-supervised-machine-learning" class="section level3" number="12.1.4">
+<h3><span class="header-section-number">12.1.4</span> Basic approach in supervised machine learning</h3>
+<p>In regression and classification tasks, we have a series of features and an unknown numeric or categorial outcome we want to predict:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center;">
+outcome
+</th>
+<th style="text-align:center;">
+feature_1
+</th>
+<th style="text-align:center;">
+feature_2
+</th>
+<th style="text-align:center;">
+feature_3
+</th>
+<th style="text-align:center;">
+feature_4
+</th>
+<th style="text-align:center;">
+feature_5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+?
+</td>
+<td style="text-align:center;">
+<span class="math inline">\(x_1\)</span>
+</td>
+<td style="text-align:center;">
+<span class="math inline">\(x_2\)</span>
+</td>
+<td style="text-align:center;">
+<span class="math inline">\(x_3\)</span>
+</td>
+<td style="text-align:center;">
+<span class="math inline">\(x_4\)</span>
+</td>
+<td style="text-align:center;">
+<span class="math inline">\(x_5\)</span>
+</td>
+</tr>
+</tbody>
+</table>
+<p>To <em>build a model</em> that provides a prediction for any set of observed values <span class="math inline">\(x_1, x_2, \dots x_5\)</span>, we collect data for which we know the outcome:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+outcome
+</th>
+<th style="text-align:left;">
+feature_1
+</th>
+<th style="text-align:left;">
+feature_2
+</th>
+<th style="text-align:left;">
+feature_3
+</th>
+<th style="text-align:left;">
+feature_4
+</th>
+<th style="text-align:left;">
+feature_5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{1,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{1,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{1,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{1,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{1,5}\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{2,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{2,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{2,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{2,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{2,5}\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{3,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{3,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{3,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{3,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{3,5}\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{4,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{4,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{4,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{4,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{4,5}\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{5}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{5,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{5,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{5,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{5,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{5,5}\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{6}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{6,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{6,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{6,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{6,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{6,5}\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{7}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{7,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{7,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{7,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{7,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{7,5}\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{8}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{8,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{8,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{8,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{8,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{8,5}\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{9}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{9,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{9,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{9,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{9,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{9,5}\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(y_{10}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{10,1}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{10,2}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{10,3}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{10,4}\)</span>
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(x_{10,5}\)</span>
+</td>
+</tr>
+</tbody>
+</table>
+<p>We use this data to train the model and then use the trained model to apply to our (new) data for which we do not know the outcome.</p>
+<p>Now… how do we evaluate our model? And how do we make sure our model will perform well on our (new) data?</p>
+</div>
+</div>
+<div id="over--and-under-fitting" class="section level2" number="12.2">
+<h2><span class="header-section-number">12.2</span> Over- and Under-fitting</h2>
+<p>Analyzing whether our built model is generalizing well and capturing the trend of the data is an essential aspect of supervised machine learning. Two situations should be avoided: (1) that the model does not capture the trends of the data resulting in a high measured error between actual and predicted outcomes (under-fitting) and (2) that the model does not generalize well but fits the data used for training the model too well (over-fitting).</p>
+<div id="example-polynomial-curve-fitting" class="section level3" number="12.2.1">
+<h3><span class="header-section-number">12.2.1</span> Example: polynomial curve fitting</h3>
+<p>As an example, we consider a polynomial curve fitting as a regression task with a dataset of <span class="math inline">\(n =10\)</span> points shown in Figure <a href="supervised-learning.html#fig:poly1">12.1</a> , each comprising an observation of the input variable <span class="math inline">\(x\)</span> along with the corresponding outcome variable <span class="math inline">\(y\)</span>. In this example, the data is generated from the function <span class="math display">\[f(x)=\sin(2πx)\]</span> (shown in blue) with added random noise from a normal distribution.</p>
+<div class="figure" style="text-align: center"><span id="fig:poly1"></span>
+<img src="dataviz_book_files/figure-html/poly1-1.png" alt="Data set of $N =10$ points  with a blue curve showing the function $sin(2πx)$ used to generate the data" width="384" />
+<p class="caption">
+Figure 12.1: Data set of <span class="math inline">\(N =10\)</span> points with a blue curve showing the function <span class="math inline">\(sin(2πx)\)</span> used to generate the data
+</p>
+</div>
+<!-- ```{r poly1, out.width = "300px", echo=FALSE, fig.cap="Data set of $N =10$ points (blue circles) with a green curve showing the function $sin(2πx)$ used to generate the data"} -->
+<!-- knitr::include_graphics("assets/img/topic12_supervised_learning/overfitting_ex.png") -->
+<!-- ``` -->
+<p>Assuming that we do not know the function plotted in the blue curve, the goal is to predict the value of <span class="math inline">\(y\)</span> for some new arbitrary value of <span class="math inline">\(x\)</span>. For this, we want to exploit the given dataset of <span class="math inline">\(n\)</span> data points in order to make predictions of the value <span class="math inline">\(y\)</span> of the outcome variable for some new value <span class="math inline">\(x\)</span>, which involves implicitly trying to discover the underlying function <span class="math inline">\(f(x)=\sin(2πx)\)</span>. This is a difficult problem considering that we have to generalize from a finite dataset of only <span class="math inline">\(n\)</span> points. Furthermore, the given data points are include noise, and so for a given <span class="math inline">\(x\)</span>, there is a certain uncertainty regarding the correct value for <span class="math inline">\(y\)</span>.</p>
+<p>We consider a simple approach based on curve fitting to make predictions for a given value of <span class="math inline">\(x\)</span>. More precisely, we fit the data using a polynomial function of the form:</p>
+<p><span class="math display">\[
+y(x, \boldsymbol\beta) = \beta_0 + \beta_1x + \beta_2x^2 + ... + \beta_mx^m = \sum_{j=0}^m w_j x^j
+\]</span></p>
+<p>Here, <span class="math inline">\(m\)</span> is the order of the polynomial function and <span class="math inline">\(x^j\)</span> denotes <span class="math inline">\(x\)</span> raised to the power of <span class="math inline">\(j\)</span>. The polynomial coefficients <span class="math inline">\(\beta_0,...,\beta_m\)</span> are denoted by the vector <span class="math inline">\(\boldsymbol\beta\)</span>. Note that, the polynomial function <span class="math inline">\(y(x, \boldsymbol\beta)\)</span> is a nonlinear function of <span class="math inline">\(x\)</span> but it is a linear function of the coefficients <span class="math inline">\(\boldsymbol\beta\)</span>. Hence, a linear regression model (see Chapter <a href="chap-lin-reg.html#chap-lin-reg">10</a>) can be applied to find optimal values of <span class="math inline">\(\boldsymbol\beta\)</span> assuming that we have selected a value for the order <span class="math inline">\(m\)</span> of the polynomial fit.</p>
+<p>As described in Chapter <a href="chap-lin-reg.html#chap-lin-reg">10</a>, an optimal linear model (with optimal <span class="math inline">\(\boldsymbol\beta\)</span> values) can be found by minimizing an error function (sum of squared errors) that measures the misfit between the function <span class="math inline">\(y(x, \boldsymbol\beta)\)</span> and the data points in the considered dataset.</p>
+<p>Selecting different values for the order <span class="math inline">\(m\)</span> of the polynomial has a huge impact on the resulting model. In Figure <a href="supervised-learning.html#fig:poly2">12.2</a>, we show four examples of the results of fitting polynomials with different orders <span class="math inline">\(m = 0, 1, 3\)</span> and <span class="math inline">\(9\)</span> to our dataset of <span class="math inline">\(n=10\)</span> points.</p>
+<div class="figure" style="text-align: center"><span id="fig:poly2"></span>
+<img src="dataviz_book_files/figure-html/poly2-1.png" alt="Plots of polynomials having various orders $M$, shown as green curves, fitted to the considered data set with underlying expected value function in blue." width="384" />
+<p class="caption">
+Figure 12.2: Plots of polynomials having various orders <span class="math inline">\(M\)</span>, shown as green curves, fitted to the considered data set with underlying expected value function in blue.
+</p>
+</div>
+<!-- ```{r poly2, out.width = "300px", echo=FALSE, fig.cap="Plots of polynomials having various orders $M$, shown as red curves, fitted to the considered data set"} -->
+<!-- knitr::include_graphics(c("assets/img/topic12_supervised_learning/overfitting_ex_all.png")) -->
+<!-- ``` -->
+<p>We can clearly see that the constant (<span class="math inline">\(m = 0\)</span>) and first order (<span class="math inline">\(m = 1\)</span>) polynomials give rather poor fits to the data and consequently rather poor representations of the function <span class="math inline">\(\sin(2πx)\)</span>. These two polynomial fits fail to capture the underlying trend of the data. A high error can be computed between the predicted and the actual data samples. These are examples of under-fitting.</p>
+<p>The third order (<span class="math inline">\(m = 3\)</span>) polynomial seems to give the best fit to the function <span class="math inline">\(\sin(2πx)\)</span>. By selecting <span class="math inline">\(m=3\)</span> in the previous example, we observe an appropriate balance between capturing the trends in the data to achieve good generalization and making accurate predictions for outcome values.</p>
+<p>When we go to a much higher order polynomial (<span class="math inline">\(m = 9\)</span>), we obtain a polynomial that passes exactly through each data point. However, the fitted polynomial fails to give a good representation of
+the function <span class="math inline">\(\sin(2πx)\)</span>. The fitted curve considers each deviation in the data points (including noise). The model is too sensitive to noise and captures random patterns which are present only in the current dataset. Poor generalization to other datasets is expected. This latter behavior is known as over-fitting.</p>
+<p>It is particularly interesting to examine the behavior of a given model as the size of the data set varies. We can see that, for a given model complexity, the over-fitting problem become less severe as the size of the data set increases. In our example, by considering not only <span class="math inline">\(10\)</span>, but <span class="math inline">\(n=15\)</span> or <span class="math inline">\(n=100\)</span> data points, we observe that increasing the size of the data set reduces the over-fitting problem (see Figure <a href="supervised-learning.html#fig:poly3">12.3</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:poly3"></span>
+<img src="dataviz_book_files/figure-html/poly3-1.png" alt="Polynomial curve fitting with $n=15$ and $n=100$ data points and polynomial order $m=9$ in green and $\sin(2πx)$ in blue." width="384" />
+<p class="caption">
+Figure 12.3: Polynomial curve fitting with <span class="math inline">\(n=15\)</span> and <span class="math inline">\(n=100\)</span> data points and polynomial order <span class="math inline">\(m=9\)</span> in green and <span class="math inline">\(\sin(2πx)\)</span> in blue.
+</p>
+</div>
+<p>This example, borrowed from the Christopher Bishop’s textbook, is very informative about the approach taken in and the issues faced by supervised learning.</p>
+<p>First, supervised learning methods are more or less agnostic of the underlying processes. In our example, the underlying function is a sine. We may be looking at tides, an oscillating spring, etc. A physicist could come up with a model that leads to the right class of mathematical function. In supervised learning, we simply work with a generic class of flexible mathematical functions (here the polynomials, but there are many others), which can in principle approximate any function. One implication is that we will not aim at interpreting the coefficients. We would not pretend that the coefficient of say <span class="math inline">\(x^4\)</span> has any physical meaning. A physicist would (and could!) in contrast interpret the amplitude or the period of the sine. In supervised learning, what guides our choice of the fit is data and only data. In particular, the complexity of the function we chose (here the order of polynomials) depends on how much data we have and not on theoretical considerations about the underlying process.</p>
+<p>Second, the key issue is that it is easy with flexible mathematical functions to fit extremely well to a dataset. The challenge is not reducing the error on data at hand but the error on unseen data. Expected error on unseen data is called the <strong>generalization error</strong>. We will now investigate practical techniques to control the generalization error.</p>
+</div>
+</div>
+<div id="splitting-the-dataset-for-performance-assessment" class="section level2" number="12.3">
+<h2><span class="header-section-number">12.3</span> Splitting the dataset for performance assessment</h2>
+<p>As previously stated, a supervised learning task starts with an available dataset that we use to build a model so that this model will eventually be used in completely independent datasets, as shown in Figure <a href="supervised-learning.html#fig:dataset1">12.4</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:dataset1"></span>
+<img src="assets/img/topic12_supervised_learning/dataset.png" alt="Illustration of an available set (in blue), whose outcome values are known and which is used to train a model, and an independent dataset (in grey), whose outcome values are unknown." width="500px" />
+<p class="caption">
+Figure 12.4: Illustration of an available set (in blue), whose outcome values are known and which is used to train a model, and an independent dataset (in grey), whose outcome values are unknown.
+</p>
+</div>
+<p>The first challenge arises when we do not know these independent datasets. However, in such cases, we still want to make sure that our model is not only working well when applied to the available dataset but can generalize well to independent unknown datasets. In particular, we want to make sure that we are not over-fitting to the dataset that the model was trained on.</p>
+<p>How to minimize error on data we have never seen? We will make the following assumption:</p>
+<blockquote>
+<p>We assume that the observations <span class="math inline">\(\mathbf x_i, i=1...n\)</span> of our dataset and of unseen data are i.i.d., meaning they are independent obsvervations of the same population.</p>
+</blockquote>
+<p>Under this assumption, one common strategy to evaluate the performance of the model on independent datasets is to select a subset of our dataset and pretend it is an independent dataset. As illustrated in Figure <a href="supervised-learning.html#fig:dataset2">12.5</a>, we divide the available dataset into a training set and a test set. We will train our algorithm exclusively on the training set and use the test set only for evaluation purposes.</p>
+<div class="figure" style="text-align: center"><span id="fig:dataset2"></span>
+<img src="assets/img/topic12_supervised_learning/train_test_dataset.png" alt="Separation of an available dataset into a training dataset (in green) and a test dataset (in orange) for building and evaluating a model." width="500px" />
+<p class="caption">
+Figure 12.5: Separation of an available dataset into a training dataset (in green) and a test dataset (in orange) for building and evaluating a model.
+</p>
+</div>
+<p>Typically, we select a small piece of the dataset so that we have as much data as possible to train. However, we also want the test set to be large enough to obtain a stable estimate of the performance of the model on independent datasets. Common choices for the size of the train set are to use 10%-30% of the data for testing.</p>
+<div id="over-fitting-to-the-training-dataset" class="section level3" number="12.3.1">
+<h3><span class="header-section-number">12.3.1</span> Over-fitting to the training dataset</h3>
+<p>Over-fitting can be detected when the measured error computed from a defined error function is notably larger for the test dataset than for the training dataset. Alternatively, one can use performance measurements such as precision or recall or visualize the performance of the model on the training vs. test dataset with ROC or precision-recall curves. Notable differences with the measurements or the plotted curves are signs of over-fitting.</p>
+<p>In the previous example of the polynomial curve fitting, we can split the data consisting of <span class="math inline">\(n=10\)</span> data points into train and test datasets and compare the computed error for different polynomial orders <span class="math inline">\(n\)</span>. For <span class="math inline">\(m=9\)</span>, the computed root-mean-squared error for the test dataset notably increases while the error for the training dataset decreases.</p>
+<!-- Wesee in Figure \@ref(fig:poly4) that for $M=9$, the computed root-mean-squared error $E_{RMS}$ for the test dataset notably increases while the error for the training dataset decreases: -->
+<!-- ```{r poly4, out.width = "500px", echo=FALSE, fig.cap="Graphs of the root-mean-square error, evaluated on the training set and on an test set for various values of M for the polynomial curve fitting example."} -->
+<!-- knitr::include_graphics("assets/img/topic12_supervised_learning/overfitting_ex_error.png") -->
+<!-- ``` -->
+<!-- In practice, there are several approaches to avoid over-fitting. These include: -->
+<!-- * increasing the size of the dataset (which is not always possible), -->
+<!-- * hyper-parameter tuning (i.e. manipulating parameters that are specific to a model type, e.g. number of trees in a random forest), -->
+<!-- * removing features, -->
+<!-- * regularization techniques (out of scope of this lecture),  -->
+<!-- * early stopping (or early termination) and -->
+<!-- * cross-validation (which will be introduced in the following section). -->
+<!-- More precisely, early termination is referred to stopping the the training process before the model’s ability to generalize weakens as it begins to over-fit the training data. Graphically, this can be explained with the following figure: -->
+<!-- ```{r early stopiing, out.width = "300px", echo=FALSE, fig.cap="Graphical explanation of early-termination, meaning to stop the training process when the difference between the testing and training error starts to increase notably."} -->
+<!-- knitr::include_graphics("assets/img/topic12_supervised_learning/early_stopping.png") -->
+<!-- ``` -->
+<!-- Now, splitting the dataset into train and test, presents a new problem because for most machine learning algorithms we need to select hyper-parameters, for example the number of neighbors  k  in k-nearest neighbors. Here, we will refer to the set of hyper-parameters as  $\lambda$. We need to optimize hyper-parameters without using our test set and we can imagine that if we optimize and evaluate on the same dataset, we will probably overfit. This is where cross-validation is useful. Furthermore, if not sufficient data is available to create train and test sets cross-validation is often used as a strategy to assess the performance of a machine learning model.  -->
+</div>
+<div id="cross-validation" class="section level3" number="12.3.2">
+<h3><span class="header-section-number">12.3.2</span> Cross-validation</h3>
+<p>Cross-validation is often used as a strategy to assess the performance of a machine learning model that can help to prevent over-fitting.</p>
+<p>In cross-validation the data is randomly split into a number k of folds (e.g. 3, 5 or 10), as illustrated in Figure <a href="supervised-learning.html#fig:crossval1">12.6</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:crossval1"></span>
+<img src="assets/img/topic12_supervised_learning/c_val.png" alt="Schematic Illustration of cross-validation with $k=3$ folds." width="700px" />
+<p class="caption">
+Figure 12.6: Schematic Illustration of cross-validation with <span class="math inline">\(k=3\)</span> folds.
+</p>
+</div>
+<p>Then, a model is repeatedly trained on <span class="math inline">\(k-1\)</span> folds and evaluated on the fold not used for training. In this manner, we train <span class="math inline">\(k\)</span> models with a different training dataset on each fold <span class="math inline">\(i\)</span> with <span class="math inline">\(i\in\{1,...,k\}\)</span>. After the <span class="math inline">\(k\)</span> models have been trained and evaluated on the respective left-out folds, evaluation metrics can be summarized into a combined evaluation metric.</p>
+<p>Now, how do we pick <span class="math inline">\(k\)</span> for the number of folds? Large values of <span class="math inline">\(k\)</span> are preferable because the training data better imitates the original dataset. However, larger values of <span class="math inline">\(k\)</span> will have much slower computation time: for example, 100-fold cross-validation will be 10 times slower than 10-fold cross-validation. For this reason, the choices of <span class="math inline">\(k=5\)</span> and <span class="math inline">\(k=10\)</span> are usually considered in practice.</p>
+<div id="pitfalls-of-cross-validation" class="section level4" number="12.3.2.1">
+<h4><span class="header-section-number">12.3.2.1</span> Pitfalls of cross-validation</h4>
+<p>For considering cross-validation one fundamental assumption has to be met, namely that the training samples and the test samples are independently and identically distributed (i.i.d.). As a trivial example, we would consider a non identical distribution if our training set consisted of red apples and green pears, but our test set also contained green apples. The issue of having non independent distributions may arise if we have data coming in clusters that we are not aware of (e.g: repeated measures, people from same families, homologous genes).</p>
+<p>As an example of this issue, we consider a simulated dataset <code>simulated_dt</code> consisting of a feature variable <code>x</code> and an outcome variable <code>y</code>:</p>
+<div class="sourceCode" id="cb698"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb698-1"><a href="supervised-learning.html#cb698-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(simulated_dt, <span class="at">n=</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##     x           y
+##  1: 1  0.00000000
+##  2: 1 -0.03377742
+##  3: 1  0.25579509
+##  4: 1  0.22420401
+##  5: 1  0.11684048
+##  6: 1 -0.05580587
+##  7: 1  0.39764426
+##  8: 1  0.13625628
+##  9: 1 -0.02500456
+## 10: 1 -0.02142251</code></pre>
+<p>We observe that the dataset contains repeated measures and that the between replicate simulated trend is <code>x=y</code></p>
+<p><img src="dataviz_book_files/figure-html/lecture-02-446-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Performing cross-validation at the level of individual data points will favor models that learn the clusters:</p>
+<p><img src="dataviz_book_files/figure-html/lecture-02-447-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>We need to perform cross-validation at the cluster level to learn the trend across clusters. However, this is difficult without application knowledge. Visualization techniques can help. Application areas may have their own strategies. In genetics, models are required to be replicated on independent populations (genetic associations on say Swedes must be replicated among say Germans). The issue also arises with temporal data. Cross-validation cannot be done by taking random subsets of past data points. For temporal data, it is common practice (and common sense) to test models my mimicking predictions of future time points.</p>
+<p><img src="dataviz_book_files/figure-html/lecture-02-448-1.png" width="384" style="display: block; margin: auto;" /></p>
+</div>
+<div id="cross-validation-in-r" class="section level4" number="12.3.2.2">
+<h4><span class="header-section-number">12.3.2.2</span> Cross-validation in R</h4>
+<p>In R, one approach to implement a cross validated model is using the <code>caret</code> package. The <code>caret</code> package consolidates different machine learning algorithms and tools from different authors into one library. It conveniently provides a function that performs cross-validation.</p>
+<p>As an example, we implement a logistic regression model to solve the binary classification task from Chapter <a href="chap-log-reg.html#chap-log-reg">11</a>, which consists in predicting the gender of a person based on height values of him/herself and his/her parents. First, we load the heights dataset:</p>
+<div class="sourceCode" id="cb700"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb700-1"><a href="supervised-learning.html#cb700-1" aria-hidden="true" tabindex="-1"></a>heights_dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/height.csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb700-2"><a href="supervised-learning.html#cb700-2" aria-hidden="true" tabindex="-1"></a>  .[, sex<span class="sc">:</span><span class="er">=</span><span class="fu">as.factor</span>(<span class="fu">toupper</span>(sex))]</span>
+<span id="cb700-3"><a href="supervised-learning.html#cb700-3" aria-hidden="true" tabindex="-1"></a>heights_dt</span></code></pre></div>
+<p>Then, we define the validation specification with the help of the function <code>trainControl()</code>. Here, we set the method as <code>cv</code> for cross-validation with <code>k=5</code> folds as the <code>number</code> argument. Additionally, we define <code>twoClassSummary</code> as the summary function for computing the sensitivity, specificity and the area under the ROC curve for performance measurement in binary classification tasks.</p>
+<div class="sourceCode" id="cb701"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb701-1"><a href="supervised-learning.html#cb701-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;caret&quot;)</span></span>
+<span id="cb701-2"><a href="supervised-learning.html#cb701-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb701-3"><a href="supervised-learning.html#cb701-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb701-4"><a href="supervised-learning.html#cb701-4" aria-hidden="true" tabindex="-1"></a><span class="co"># generate control structure</span></span>
+<span id="cb701-5"><a href="supervised-learning.html#cb701-5" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">5</span>    <span class="co"># number of folds</span></span>
+<span id="cb701-6"><a href="supervised-learning.html#cb701-6" aria-hidden="true" tabindex="-1"></a>fitControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="co"># cv for cross-validation</span></span>
+<span id="cb701-7"><a href="supervised-learning.html#cb701-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">number =</span> k, </span>
+<span id="cb701-8"><a href="supervised-learning.html#cb701-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">classProbs=</span><span class="cn">TRUE</span>, <span class="co"># compute class probabilities </span></span>
+<span id="cb701-9"><a href="supervised-learning.html#cb701-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">summaryFunction =</span> twoClassSummary</span>
+<span id="cb701-10"><a href="supervised-learning.html#cb701-10" aria-hidden="true" tabindex="-1"></a>                           )</span></code></pre></div>
+<p>Next, we can train the model with the <code>train()</code> function. Here, we set the previously defined <code>fitControl</code> as the training control for implementing cross-validation:</p>
+<div class="sourceCode" id="cb702"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb702-1"><a href="supervised-learning.html#cb702-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run CV</span></span>
+<span id="cb702-2"><a href="supervised-learning.html#cb702-2" aria-hidden="true" tabindex="-1"></a>lr_fit <span class="ot">&lt;-</span> <span class="fu">train</span>(<span class="do">## formula and dataset definition</span></span>
+<span id="cb702-3"><a href="supervised-learning.html#cb702-3" aria-hidden="true" tabindex="-1"></a>                sex<span class="sc">~</span>., </span>
+<span id="cb702-4"><a href="supervised-learning.html#cb702-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> heights_dt,</span>
+<span id="cb702-5"><a href="supervised-learning.html#cb702-5" aria-hidden="true" tabindex="-1"></a>                <span class="do">## model specification</span></span>
+<span id="cb702-6"><a href="supervised-learning.html#cb702-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb702-7"><a href="supervised-learning.html#cb702-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>,</span>
+<span id="cb702-8"><a href="supervised-learning.html#cb702-8" aria-hidden="true" tabindex="-1"></a>                <span class="do">## validation specification</span></span>
+<span id="cb702-9"><a href="supervised-learning.html#cb702-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">trControl =</span> fitControl,</span>
+<span id="cb702-10"><a href="supervised-learning.html#cb702-10" aria-hidden="true" tabindex="-1"></a>                <span class="do">## Specify which metric to optimize</span></span>
+<span id="cb702-11"><a href="supervised-learning.html#cb702-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">metric =</span> <span class="st">&quot;ROC&quot;</span>,</span>
+<span id="cb702-12"><a href="supervised-learning.html#cb702-12" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb702-13"><a href="supervised-learning.html#cb702-13" aria-hidden="true" tabindex="-1"></a>lr_fit</span></code></pre></div>
+<pre><code>## Generalized Linear Model 
+## 
+## 253 samples
+##   3 predictor
+##   2 classes: &#39;F&#39;, &#39;M&#39; 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## Summary of sample sizes: 203, 202, 202, 203, 202 
+## Resampling results:
+## 
+##   ROC        Sens   Spec     
+##   0.9811125  0.911  0.9310541</code></pre>
+<p>As we can observe, the <code>lr_fit</code> object returns the average values for the computed values of sensitivity, specificity and the area under the ROC curve of the <code>k=5</code> trained models. The performance measurements for each model can be obtained as follows:</p>
+<div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb704-1"><a href="supervised-learning.html#cb704-1" aria-hidden="true" tabindex="-1"></a>lr_fit<span class="sc">$</span>resample</span></code></pre></div>
+<pre><code>##         ROC      Sens      Spec Resample
+## 1 0.9967949 1.0000000 0.9615385    Fold1
+## 2 0.9830769 0.9200000 0.9230769    Fold2
+## 3 0.9953704 0.9583333 0.9629630    Fold3
+## 4 0.9887821 0.9166667 0.9615385    Fold4
+## 5 0.9415385 0.7600000 0.8461538    Fold5</code></pre>
+<p>Additionally, the final model can be obtained by accessing the attribute <code>finalModel</code> from the <code>lr_fit</code> object:</p>
+<div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb706-1"><a href="supervised-learning.html#cb706-1" aria-hidden="true" tabindex="-1"></a>lr_fit<span class="sc">$</span>finalModel</span></code></pre></div>
+<pre><code>## 
+## Call:  NULL
+## 
+## Coefficients:
+## (Intercept)       height       mother       father  
+##    -37.4913       0.7307      -0.2899      -0.2360  
+## 
+## Degrees of Freedom: 252 Total (i.e. Null);  249 Residual
+## Null Deviance:       350.4 
+## Residual Deviance: 83.05     AIC: 91.05</code></pre>
+</div>
+</div>
+</div>
+<div id="random-forests-as-alternative-models" class="section level2" number="12.4">
+<h2><span class="header-section-number">12.4</span> Random Forests as alternative models</h2>
+<p>There is a plethora of supervised learning algorithms out there. Providing a reasonable survey of them is out of the scope of this module. We therefore introduce here a single supervised learning method beyond linear and logistic regression which is working well in many situations: Random forests. Just as linear and logistic regression, should be the first baseline models to try, random forests can be seen as the first non-interpretable supervised learning model to give a shoot for. From this basis, many other options can be considered, often depending on the application areas.</p>
+<p>Random forests can be applied to both regression and classification tasks in supervised learning. In this section, we introduce random forests as a further type of model for solving both tasks, as these are easy to understand and achieve state-of-the-art performance in many prediction tasks.</p>
+<p>Random forests are based on decision trees. More precisely, they are an instance of tree-based ensemble learning, which is a strategy robust to over-fitting and allows fitting very flexible functions. Each random forest is an ensemble of several decision trees, which are machine learning models for both classification and regression tasks and will be introduced in the following section.</p>
+<div id="the-basics-of-decision-trees" class="section level3" number="12.4.1">
+<h3><span class="header-section-number">12.4.1</span> The basics of decision trees</h3>
+<p>A decision tree is a method that involves partitioning or segmenting the training data set into a number of simple regions. Typically, once the input space of the training dataset has been segmented, we can make a prediction for a new input sample by using the mean or the mode of the training observations in the region to which the new input sample is assigned to.</p>
+<div id="decision-trees-for-regression-tasks" class="section level4" number="12.4.1.1">
+<h4><span class="header-section-number">12.4.1.1</span> Decision trees for regression tasks</h4>
+<p>As an example for a decision tree model for a regression task, we consider the <code>Hitters</code> dataset<a href="#fn49" class="footnote-ref" id="fnref49"><sup>49</sup></a> to predict a baseball player’s (log-transformed) <code>Salary</code> based on the feature <code>Years</code> (the number of years that he has played in the major leagues) and on the feature <code>Hits</code> (the number of hits that he made in the previous year). A regression tree for this dataset is shown in Figure <a href="supervised-learning.html#fig:dt1">12.7</a> The constructed tree consist of 3 splitting rules. First, observations having <code>Years&lt;4.5</code> get passed to the right branch and observations having <code>Years&gt;=4.5</code> to the left branch. The predicted log-transformed salary for these players in the right is given by the mean log-transformed salary of all training samples in this node, which is in this case <code>5.11</code>. Players assigned to the left branch are further subdivided by the feature <code>Hits</code>.</p>
+<div class="figure" style="text-align: center"><span id="fig:dt1"></span>
+<img src="assets/img/topic12_supervised_learning/dt_reg.png" alt="Illustration of a decision tree for predicting the logarithmic salary of a baseball player based on the features Years and Hits." width="300px" />
+<p class="caption">
+Figure 12.7: Illustration of a decision tree for predicting the logarithmic salary of a baseball player based on the features Years and Hits.
+</p>
+</div>
+<p>After the training is finalized, the tree regions the players into three regions: players who have played for four or fewer years, players who have played for five or more years and who made fewer than 118 hits last year, and players who have played for five or more years and who made at least 118 hits last year. A graphical representation of this resulting segmentation can be observed in Figure <a href="supervised-learning.html#fig:dt2">12.8</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:dt2"></span>
+<img src="dataviz_book_files/figure-html/dt2-1.png" alt="Illustration of the resulting three regions from the trained decision tree based on Hits and Years." width="384" />
+<p class="caption">
+Figure 12.8: Illustration of the resulting three regions from the trained decision tree based on Hits and Years.
+</p>
+</div>
+<p>Formally, the three resulting regions can be written as:</p>
+<p><span class="math display">\[
+\begin{align}
+R_1 &amp;=\{X | \text{Years}&lt;4.5\} \\
+R_2 &amp;=\{X | \text{Years}&gt;=4.5,\text{Hits}&lt;117.5\}\\
+R_3 &amp;=\{X | \text{Years}&gt;=4.5, \text{Hits}&gt;=117.5\}
+\end{align}
+\]</span></p>
+<p>Here, <span class="math inline">\(X\)</span> is the dataset consisting of all training samples and the regions <span class="math inline">\(R_1\)</span>, <span class="math inline">\(R_2\)</span> and <span class="math inline">\(R_3\)</span> are the leaf nodes of the tree. All other nodes are denoted as internal nodes of the constructed decision tree.</p>
+<p>Decision trees are easy to interpret. In our example, we can interpret the tree as follows:</p>
+<ul>
+<li><p><code>Years</code> is the most important feature for predicting the log-transformed salary of a player. Players with less experience earn lower salaries than more experienced players.</p></li>
+<li><p>If a player is more experienced, the number of hits that he made in the previous year is important for determining his salary.</p></li>
+</ul>
+<p>Now… why and how did we choose the feature <code>Years</code> and the threshold of <code>4.5</code> for the top split? Overall, the goal of a decision tree for regression tasks is to find the optional regions <span class="math inline">\(R_1, R_2, ..., R_J\)</span> that minimize the residual residual sum of squares (RSS) given by:</p>
+<p><span class="math display">\[
+\sum_{j=1}^J \sum_{i\in R_j} (y_i - \hat{y}_{R_j})^2,
+\]</span></p>
+<p>where <span class="math inline">\(\hat{y}_{R_j}\)</span> is the prediction for all samples in region <span class="math inline">\(R_j\)</span>, which is computed from the mean of the outcome value for the training samples in region <span class="math inline">\(R_j\)</span><a href="#fn50" class="footnote-ref" id="fnref50"><sup>50</sup></a>.</p>
+<p>Unfortunately, it is computationally unfeasible to consider every possible partition of the training dataset. This is why decision trees follow a top-down greedy approach to build the tree. The approach is top-down because it begins at the top of the tree with the complete dataset and then successively splits the dataset. Here, each split results into two new branches further down on the tree. Note that the approach is greedy because at each step of the process, the best split is made at that particular step.</p>
+<p>In order to perform recursive binary splitting, we first select the feature <span class="math inline">\(X_j\)</span> and a threshold <span class="math inline">\(s\)</span> such that splitting the samples into the regions <span class="math inline">\(R_1(j,s) = {X|X_j &lt; s}\)</span> and <span class="math inline">\(R_2(j,s) = {X|X_j ≥ s}\)</span> results into the greatest possible reduction in RSS. For this, we consider all possible features <span class="math inline">\(X_1,...,X_p\)</span>, and all possible values threshold values <span class="math inline">\(s\)</span> for each feature. In greater detail, for any <span class="math inline">\(j\)</span> and <span class="math inline">\(s\)</span>, we want to minimize the equation:</p>
+<p><span class="math display">\[
+\sum_{i\in R_1(j,s)} (y_i - \hat{y}_{R_{1}})^2 + \sum_{i\in R_2(j,s)} (y_i - \hat{y}_{R_{2}})^2,
+\]</span>
+Note that finding optimal values for thresholds and features can be achieved quickly with the current advances in computer science assuming that the number of features is not too large.</p>
+<p>The iterative process of finding features and thresholds that define splitting rules continues until a stopping criterion is met. This prevents to consider every possible partition of the training dataset. Stopping criteria include setting a minimum number of samples in a region or defining a maximum number of resulting regions.</p>
+<p>Once the regions <span class="math inline">\(R_1,...,R_J\)</span> have been created, we can predict the outcome of any given sample (from the test set) by assigning this sample to a region and returning the the mean of the training observations in the region to which that (test) sample belongs.</p>
+</div>
+<div id="decision-trees-for-classification-tasks" class="section level4" number="12.4.1.2">
+<h4><span class="header-section-number">12.4.1.2</span> Decision trees for classification tasks</h4>
+<p>As stated before, decision trees can be applied for both regression and classification tasks. The construction process of classification decision trees is very similar to the one that we previously described for regression tasks. One difference is that for a regression tree, the predicted outcome for an observation is given by the mean response of the training observations that belong to the same leaf node. In contrast, for a classification tree, we predict that each observation belongs to the most commonly occurring class of training observations in the region to which it belongs.</p>
+<p>Additionally, in contrast to regression scenarios, RSS cannot be used as a criterion for making the tree splits for classification tasks. Typically, cross-entropy is used to fit the model (See Section <a href="chap-log-reg.html#ML-CE">11.2</a>).</p>
+<!-- A suitable alternative to RSS is the classification error rate $E$, which is simply the fraction of the training samples in a region that do not belong to the most common class in the region: -->
+<!-- $$ -->
+<!-- 1 - \max_k \hat{p}_{R_jk} -->
+<!-- $$ -->
+<!-- Here,  $\hat{p}_{jk}$ is the proportion of training samples in the region $R_j$ that belong to the class $k$. Alternatives to this classification error rate are the Gini Index $G$ and the cross entropy $CE$ which are more sensitive for tree-growing and are preferred in practice. These are defined by: -->
+<!-- $$ -->
+<!-- \begin{align} -->
+<!-- G &= \sum_{k=1}^K \hat{p}_{R_jk} \cdot (1 - \hat{p}_{R_jk}) \\ -->
+<!-- CE &= \sum_{k=1}^K \hat{p}_{R_jk} \cdot \log \hat{p}_{R_jk} -->
+<!-- \end{align} -->
+<!-- $$ -->
+<p>As an example we consider the binary classification task of deciding whether a person should play tennis on a given day or not. We consider the simulated data for training a model. The data contains four feature variables (<code>"Outlook"</code>, <code>"Temperature"</code>, <code>"Humidity"</code> and <code>"Windy"</code>) and the outcome variable <code>"Play.Tennis"</code>.</p>
+<div class="sourceCode" id="cb708"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb708-1"><a href="supervised-learning.html#cb708-1" aria-hidden="true" tabindex="-1"></a>play_tennis_dt</span></code></pre></div>
+<pre><code>##     Day Outlook Temperature Humidity Windy Play.Tennis
+##  1:   1   Sunny        15.5   Normal   Yes          No
+##  2:   2   Rainy        24.5     High   Yes          No
+##  3:   3   Rainy        24.0   Normal    No         Yes
+##  4:   4   Rainy        15.0   Normal   Yes         Yes
+##  5:   5   Rainy        27.0   Normal   Yes         Yes
+##  6:   6   Rainy        27.5   Normal    No         Yes
+##  7:   7   Sunny        16.0     High    No         Yes
+##  8:   8   Sunny        29.5   Normal   Yes         Yes
+##  9:   9   Sunny        17.0     High    No         Yes
+## 10:  10   Rainy        20.5   Normal   Yes         Yes</code></pre>
+<p>Figure <a href="supervised-learning.html#fig:dt3">12.9</a> shows an example of a decision tree for solving the described classification task.The initial splitting rule tests whether the value of the <code>Outlook</code> feature of each sample is either sunny or rainy. Samples with the feature value being sunny are passed to the right node. If the outlook is rainy for a subset of the initial samples in the dataset, these samples are passed to the left node. Here, a second feature test is performed. This test involves checking the humidity feature for all samples. If the humidity value is normal, a third splitting rule is defined for checking whether the day is windy or not. In total, four regions results from the training process of the decision tree.</p>
+<div class="figure" style="text-align: center"><span id="fig:dt3"></span>
+<img src="assets/img/topic12_supervised_learning/dt_class.png" alt="Example of a decision tree for the binary classification task of deciding whether to play tennis or not based on the features Outlook, Humidity and Windy." width="300px" />
+<p class="caption">
+Figure 12.9: Example of a decision tree for the binary classification task of deciding whether to play tennis or not based on the features Outlook, Humidity and Windy.
+</p>
+</div>
+<p>Note that decision trees for classification tasks can be constructed with both numerical and categorical features, even though our tennis example only contains categorical data. Feature tests for numerical features can be formulated with an (un)equality for a certain feature, as described before for regression trees. For instance, a node in a decision tree could test whether the temperature feature is higher than 20 degrees Celsius (<code>Temperature&gt;20</code>).</p>
+<!-- #### Decision trees in R -->
+<!-- In R, we can use the `rpart` function from the `rpart` package to train decision trees (for both classification and regression problems). -->
+<!-- ```{r} -->
+<!-- #install.packages("rpart") -->
+<!-- library(rpart) -->
+<!-- dt_classifier <- rpart(Play.Tennis ~ ., data = play_tennis_dt) -->
+<!-- dt_classifier -->
+<!-- ``` -->
+<!-- We can plot the resulting decision tree as follows: -->
+<!-- ```{r} -->
+<!-- plot(dt_classifier, margin = 0.1) -->
+<!-- text(dt_classifier, cex = 0.75) -->
+<!-- ``` -->
+</div>
+</div>
+<div id="random-forests-for-classification-and-regression-tasks" class="section level3" number="12.4.2">
+<h3><span class="header-section-number">12.4.2</span> Random Forests for classification and regression tasks</h3>
+<p>For constructing a random forest, the first step is called aggregation (or bagging), which involves generating many predictors, each using regression or classification trees. To ensure that the individual trees are not the same, we use bootstrap to induce randomness. These two features combined explain the name: the bootstrap makes the individual trees randomly different, and the combination of trees is the forest. In a random forest for classification tasks, the predicted output is the majority vote of the contained decision trees. In contrast, the predicted value of a random forest regressor is the mean of the predictions from each decision tree in the random forest.</p>
+<div class="figure" style="text-align: center"><span id="fig:rf"></span>
+<img src="assets/img/topic12_supervised_learning/rf_wiki.png" alt="Illustration of a random forest for classification tasks. Source: https://en.wikipedia.org/wiki/Random_forest#/media/File:Random_forest_diagram_complete.png " width="500px" />
+<p class="caption">
+Figure 12.10: Illustration of a random forest for classification tasks. Source: <a href="https://en.wikipedia.org/wiki/Random_forest#/media/File:Random_forest_diagram_complete.png" class="uri">https://en.wikipedia.org/wiki/Random_forest#/media/File:Random_forest_diagram_complete.png</a>
+</p>
+</div>
+<p>The specific steps for building a random forest can be formulated as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>Build <span class="math inline">\(B\)</span> decision trees using the training set. We refer to the fitted models as <span class="math inline">\(T_1,T_2,...,T_B\)</span>.</p></li>
+<li><p>For every observation in the test set, form a prediction <span class="math inline">\(\hat{y}_j\)</span> using tree <span class="math inline">\(T_j\)</span></p></li>
+<li><p>For continuous outcomes, form a final prediction with the average <span class="math inline">\(\hat{y} =\frac{1}{B}\sum_{j=1}^B \hat{y}_j\)</span>. For categorical outcomes, predict <span class="math inline">\(\hat{y}\)</span> with majority vote (most frequent class among <span class="math inline">\(\hat{y}_1, ..., \hat{y}_B\)</span>.</p></li>
+</ol>
+<p>Now… how do we assure that the decision trees are different in the random forest, even if they are trained on the same training dataset? For this, we use randomness in two ways. Let <span class="math inline">\(N\)</span> be the number of observations in the training set. To create the trees <span class="math inline">\(T_1,T_2,...,T_B\)</span> from the training set we do the following with the feature and sample selection:</p>
+<ol style="list-style-type: decimal">
+<li><p>Create a bootstrap training set by sampling <span class="math inline">\(N\)</span> observations from the training set with replacement. In this manner, each tree is trained on a different dataset.</p></li>
+<li><p>Randomly select a subset of the features to be included in the building of each tree so that not all features are considered for each tree. A different random subset is selected for each tree. This reduces correlation between trees in the forest and prevents over-fitting.</p></li>
+</ol>
+</div>
+<div id="random-forests-in-r" class="section level3" number="12.4.3">
+<h3><span class="header-section-number">12.4.3</span> Random Forests in R</h3>
+<p>We use function <code>randomForest</code> from the package <code>randomForest</code> for training random forests in R.</p>
+<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb710-1"><a href="supervised-learning.html#cb710-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;randomForest&quot;)</span></span>
+<span id="cb710-2"><a href="supervised-learning.html#cb710-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span></code></pre></div>
+<p>As an example, we train a random forest classifier for predicting the gender of each person in the <code>heights_dt</code> data table given the height values of the person and the person’s parents as before. We define the values for a few hyper parameters such as the number of trees in the random forest (<code>ntree</code>), the minimum number of samples in a leaf node (<code>nodesize</code>) and the maximum number of leaf nodes in a tree (<code>maxnodes</code>).</p>
+<div class="sourceCode" id="cb711"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb711-1"><a href="supervised-learning.html#cb711-1" aria-hidden="true" tabindex="-1"></a>rf_classifier <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(<span class="do">## Define formula and data</span></span>
+<span id="cb711-2"><a href="supervised-learning.html#cb711-2" aria-hidden="true" tabindex="-1"></a>                              sex<span class="sc">~</span>.,</span>
+<span id="cb711-3"><a href="supervised-learning.html#cb711-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data=</span>heights_dt,</span>
+<span id="cb711-4"><a href="supervised-learning.html#cb711-4" aria-hidden="true" tabindex="-1"></a>                              </span>
+<span id="cb711-5"><a href="supervised-learning.html#cb711-5" aria-hidden="true" tabindex="-1"></a>                              <span class="do">## Hyper parameters</span></span>
+<span id="cb711-6"><a href="supervised-learning.html#cb711-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">ntree=</span><span class="dv">100</span>,     <span class="co"># Define number of trees</span></span>
+<span id="cb711-7"><a href="supervised-learning.html#cb711-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">nodesize =</span> <span class="dv">5</span>,  <span class="co"># Minimum size of leaf nodes</span></span>
+<span id="cb711-8"><a href="supervised-learning.html#cb711-8" aria-hidden="true" tabindex="-1"></a>                              <span class="at">maxnodes =</span> <span class="dv">30</span>, <span class="co"># Maximum number of leaf nodes</span></span>
+<span id="cb711-9"><a href="supervised-learning.html#cb711-9" aria-hidden="true" tabindex="-1"></a>                              </span>
+<span id="cb711-10"><a href="supervised-learning.html#cb711-10" aria-hidden="true" tabindex="-1"></a>                              <span class="do">## Output the feature importances                             </span></span>
+<span id="cb711-11"><a href="supervised-learning.html#cb711-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">importance=</span><span class="cn">TRUE</span>)</span>
+<span id="cb711-12"><a href="supervised-learning.html#cb711-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb711-13"><a href="supervised-learning.html#cb711-13" aria-hidden="true" tabindex="-1"></a>rf_classifier</span></code></pre></div>
+<pre><code>## 
+## Call:
+##  randomForest(formula = sex ~ ., data = heights_dt, ntree = 100,      nodesize = 5, maxnodes = 30, importance = TRUE) 
+##                Type of random forest: classification
+##                      Number of trees: 100
+## No. of variables tried at each split: 1
+## 
+##         OOB estimate of  error rate: 12.65%
+## Confusion matrix:
+##     F   M class.error
+## F 106  16   0.1311475
+## M  16 115   0.1221374</code></pre>
+<p>We remark that the number of threes (<code>ntree</code>), the minimum size of leaf nodes (<code>nodesize</code>) and the maximum amount of leaf nodes (<code>maxnodes</code>) in each tree are hyper parameters of random forests. These should be optimized (or tuned) for each application to achieve a better performance of the models. However, hyper-parameter tuning is out scope in this lecture.</p>
+<p>As stated before, tree-based models are widely used in practice partly because of their high interpretability. The random forest classifier in R offers a closer look at the feature importances of the model. We can observe in this example that the height of the person is the most important feature for predicting his/her gender for both females and males. Additionally, the mother’s height seems to be more important for predicting the female gender than the father’s height and the father’s height seems to be more determinant for predicting the gender male than the mother’s height.</p>
+<div class="sourceCode" id="cb713"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb713-1"><a href="supervised-learning.html#cb713-1" aria-hidden="true" tabindex="-1"></a>rf_classifier<span class="sc">$</span>importance</span></code></pre></div>
+<pre><code>##                 F          M MeanDecreaseAccuracy
+## height 0.30866100 0.32522524           0.31588077
+## mother 0.01286732 0.01533178           0.01439007
+## father 0.02484089 0.04097106           0.03349557
+##        MeanDecreaseGini
+## height         77.20067
+## mother         12.86759
+## father         16.67947</code></pre>
+<p>For predicting the gender of an input sample using the trained model stored in the variable <code>rf_classifier</code>, we can use the function <code>predict</code> as follows:</p>
+<div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb715-1"><a href="supervised-learning.html#cb715-1" aria-hidden="true" tabindex="-1"></a>heights_dt[, sex_predicted<span class="sc">:</span><span class="er">=</span> <span class="fu">predict</span>(rf_classifier,</span>
+<span id="cb715-2"><a href="supervised-learning.html#cb715-2" aria-hidden="true" tabindex="-1"></a>                                     heights_dt[,<span class="sc">-</span><span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>)])]</span>
+<span id="cb715-3"><a href="supervised-learning.html#cb715-3" aria-hidden="true" tabindex="-1"></a>heights_dt</span></code></pre></div>
+<pre><code>##      height sex mother father sex_predicted
+##   1:    197   M    175    191             M
+##   2:    196   M    163    192             M
+##   3:    195   M    171    185             M
+##   4:    195   M    168    191             M
+##   5:    194   M    164    189             M
+##  ---                                       
+## 249:    152   F    150    165             F
+## 250:    172   F    165    188             F
+## 251:    154   F    155    165             F
+## 252:    178   M    169    174             M
+## 253:    175   F    171    189             F</code></pre>
+</div>
+</div>
+<div id="conclusion-2" class="section level2" number="12.5">
+<h2><span class="header-section-number">12.5</span> Conclusion</h2>
+<p>This chapter introduced concepts from supervised machine learning for prediction tasks. Here, the main focus is to build and evaluate models that identify trends in the training dataset but are still able to generalize to (new) independent datasets. We described cross-validation as a strategy to prevent over-fitting.</p>
+<p>Additionally, we introduced random forests as alternative machine learning models to linear and logistic regression for regression and classification tasks, since they are easy to understand and interpret and still show good performance in many application tasks. However, there are many more algorithms for solving regression and/or classification tasks in supervised learning. A few of the most popular methods include support vector machines (SVMs), (Deep) Neural Networks, k-Nearest Neighbors and Naive Bayes classifiers.</p>
+</div>
+<div id="resources-4" class="section level2" number="12.6">
+<h2><span class="header-section-number">12.6</span> Resources</h2>
+<ul>
+<li><p>Christopher M. Bishop. 2006. Pattern Recognition and Machine Learning (Information Science and Statistics). Springer-Verlag, Berlin, Heidelberg.</p></li>
+<li><p>Rafael A. Irizarry. 2019. Introduction to Data Science. Data Analysis and Prediction Algorithms with R .</p></li>
+<li><p>Gareth James, Daniela Witten, Trevor Hastie &amp; Robert Tibshirani. 2013. An Introduction to Statistical Learning with Applications in R.</p></li>
+<li><p>The caret package manual:
+<a href="https://topepo.github.io/caret/" class="uri">https://topepo.github.io/caret/</a></p></li>
+<li><p>The Datacamp machine learning courses:
+<a href="https://www.datacamp.com/courses/machine-learning-toolbox" class="uri">https://www.datacamp.com/courses/machine-learning-toolbox</a></p></li>
+</ul>
+
+</div>
+</div>
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="48">
+<li id="fn48"><p><a href="https://en.wikipedia.org/wiki/Machine_learning" class="uri">https://en.wikipedia.org/wiki/Machine_learning</a><a href="supervised-learning.html#fnref48" class="footnote-back">↩︎</a></p></li>
+<li id="fn49"><p><a href="https://rdrr.io/cran/ISLR/man/Hitters.html" class="uri">https://rdrr.io/cran/ISLR/man/Hitters.html</a><a href="supervised-learning.html#fnref49" class="footnote-back">↩︎</a></p></li>
+<li id="fn50"><p>Show that sample mean minimizes the least square errors to a set of observations.<a href="supervised-learning.html#fnref50" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="acknowledgments.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chap-log-reg.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="importing-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

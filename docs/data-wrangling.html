@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="r-basics.html"/>
-
+<link rel="next" href="tidy-data-and-combining-tables.html"/>
 <script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -53,6 +53,8 @@
 
 <link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -234,6 +236,376 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summary"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
 <li class="chapter" data-level="2.8" data-path="data-wrangling.html"><a href="data-wrangling.html#data.table-resources"><i class="fa fa-check"></i><b>2.8</b> Data.table resources</a></li>
 </ul></li>
+<li class="chapter" data-level="3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html"><i class="fa fa-check"></i><b>3</b> Tidy data and combining tables</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#motivation"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#datasets-used-in-this-chapter"><i class="fa fa-check"></i><b>3.1.2</b> Datasets used in this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-and-untidy-data"><i class="fa fa-check"></i><b>3.2</b> Tidy and untidy data</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#definition-of-tidy-data"><i class="fa fa-check"></i><b>3.2.1</b> Definition of tidy data</a></li>
+<li class="chapter" data-level="3.2.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advantages-of-tidy-data"><i class="fa fa-check"></i><b>3.2.2</b> Advantages of tidy data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#common-signs-of-untidy-datasets"><i class="fa fa-check"></i><b>3.2.3</b> Common signs of untidy datasets</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidying-up-datasets"><i class="fa fa-check"></i><b>3.3</b> Tidying up datasets</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#melting-wide-to-long"><i class="fa fa-check"></i><b>3.3.1</b> Melting (wide to long)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#casting-long-to-wide"><i class="fa fa-check"></i><b>3.3.2</b> Casting (long to wide)</a></li>
+<li class="chapter" data-level="3.3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#separating-columns"><i class="fa fa-check"></i><b>3.3.3</b> Separating columns</a></li>
+<li class="chapter" data-level="3.3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.3.4</b> Uniting columns</a></li>
+<li class="chapter" data-level="3.3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.3.5</b> Advanced: Columns containing sets of values</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.4</b> Concatenating tables</a></li>
+<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.5</b> Merging tables</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.5.1</b> Inner merge</a></li>
+<li class="chapter" data-level="3.5.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.5.2</b> Outer (full) merge</a></li>
+<li class="chapter" data-level="3.5.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.5.3</b> Left merge</a></li>
+<li class="chapter" data-level="3.5.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.5.4</b> Right merge</a></li>
+<li class="chapter" data-level="3.5.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.5.5</b> Merging by several columns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.6</b> Tidy representations are not unique</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.6.1</b> Alternative tidy forms of a table</a></li>
+<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.6.2</b> On multiple types of observational units in the same table</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.7</b> Summary</a></li>
+<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.8</b> Tidy data resources</a></li>
+</ul></li>
+<li class="part"><span><b>II Look</b></span></li>
+<li class="chapter" data-level="4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html"><i class="fa fa-check"></i><b>4</b> Low dimensional visualizations</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#why-plotting"><i class="fa fa-check"></i><b>4.1</b> Why plotting?</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plot-vs-stat"><i class="fa fa-check"></i><b>4.1.1</b> Plotting versus summary statistics</a></li>
+<li class="chapter" data-level="4.1.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plot-debug"><i class="fa fa-check"></i><b>4.1.2</b> Plotting helps finding bugs in the data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#grammar-of-graphics"><i class="fa fa-check"></i><b>4.2</b> Grammar of graphics</a></li>
+<li class="chapter" data-level="4.3" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#components-of-the-layered-grammar"><i class="fa fa-check"></i><b>4.3</b> Components of the layered grammar</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#components-of-the-grammar-of-graphics"><i class="fa fa-check"></i><b>4.3.1</b> Components of the grammar of graphics</a></li>
+<li class="chapter" data-level="4.3.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#defining-the-data-and-layers"><i class="fa fa-check"></i><b>4.3.2</b> Defining the data and layers</a></li>
+<li class="chapter" data-level="4.3.3" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#mapping-of-aesthetics"><i class="fa fa-check"></i><b>4.3.3</b> Mapping of aesthetics</a></li>
+<li class="chapter" data-level="4.3.4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#facets-axes-and-labels"><i class="fa fa-check"></i><b>4.3.4</b> Facets, axes and labels</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#different-types-of-one--and-two-dimensional-plots"><i class="fa fa-check"></i><b>4.4</b> Different types of one- and two-dimensional plots</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plots-for-one-single-continuous-variable"><i class="fa fa-check"></i><b>4.4.1</b> Plots for one single continuous variable</a></li>
+<li class="chapter" data-level="4.4.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plots-for-two-variables-one-continuous-one-discrete"><i class="fa fa-check"></i><b>4.4.2</b> Plots for two variables: one continuous, one discrete</a></li>
+<li class="chapter" data-level="4.4.3" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plots-for-two-continuos-variables"><i class="fa fa-check"></i><b>4.4.3</b> Plots for two continuos variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#further-plots-for-low-dimensional-data"><i class="fa fa-check"></i><b>4.5</b> Further plots for low dimensional data</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plot-matrix"><i class="fa fa-check"></i><b>4.5.1</b> Plot matrix</a></li>
+<li class="chapter" data-level="4.5.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#correlation-plot"><i class="fa fa-check"></i><b>4.5.2</b> Correlation plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+<li class="chapter" data-level="4.7" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#resources"><i class="fa fa-check"></i><b>4.7</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html"><i class="fa fa-check"></i><b>5</b> High dimensional visualizations</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#notations"><i class="fa fa-check"></i><b>5.1</b> Notations</a></li>
+<li class="chapter" data-level="5.2" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#data-matrix-preparation"><i class="fa fa-check"></i><b>5.2</b> Data matrix preparation</a></li>
+<li class="chapter" data-level="5.3" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#heatmaps"><i class="fa fa-check"></i><b>5.3</b> Heatmaps</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#centering-and-scaling-variables"><i class="fa fa-check"></i><b>5.3.1</b> Centering and scaling variables</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#clustering"><i class="fa fa-check"></i><b>5.4</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#k-means-clustering"><i class="fa fa-check"></i><b>5.4.1</b> K-Means clustering</a></li>
+<li class="chapter" data-level="5.4.2" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#hclust"><i class="fa fa-check"></i><b>5.4.2</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="5.4.3" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#comparing-clusterings-with-the-rand-index"><i class="fa fa-check"></i><b>5.4.3</b> Comparing clusterings with the Rand index</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#dimensionality-reduction-with-pca"><i class="fa fa-check"></i><b>5.5</b> Dimensionality reduction with PCA</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#a-minimal-pca-from-2d-to-1d"><i class="fa fa-check"></i><b>5.5.1</b> A minimal PCA: From 2D to 1D</a></li>
+<li class="chapter" data-level="5.5.2" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#pca-in-higher-dimensions"><i class="fa fa-check"></i><b>5.5.2</b> PCA in higher dimensions</a></li>
+<li class="chapter" data-level="5.5.3" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#pca-in-r"><i class="fa fa-check"></i><b>5.5.3</b> PCA in R</a></li>
+<li class="chapter" data-level="5.5.4" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#plotting-pca-results-in-r"><i class="fa fa-check"></i><b>5.5.4</b> Plotting PCA results in R</a></li>
+<li class="chapter" data-level="5.5.5" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#pca-summary"><i class="fa fa-check"></i><b>5.5.5</b> PCA summary</a></li>
+<li class="chapter" data-level="5.5.6" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#nonlinear-dimension-reduction"><i class="fa fa-check"></i><b>5.5.6</b> Nonlinear dimension reduction</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#discussion"><i class="fa fa-check"></i><b>5.6</b> Discussion</a></li>
+<li class="chapter" data-level="5.7" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#summary-3"><i class="fa fa-check"></i><b>5.7</b> Summary</a></li>
+<li class="chapter" data-level="5.8" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#resources-1"><i class="fa fa-check"></i><b>5.8</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html"><i class="fa fa-check"></i><b>6</b> Graphically supported hypotheses</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#descriptive-vs.-associative-plots"><i class="fa fa-check"></i><b>6.1</b> Descriptive vs. associative plots</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#descriptive-plots"><i class="fa fa-check"></i><b>6.1.1</b> Descriptive plots</a></li>
+<li class="chapter" data-level="6.1.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#associative-plots"><i class="fa fa-check"></i><b>6.1.2</b> Associative plots</a></li>
+<li class="chapter" data-level="6.1.3" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#correctly-using-descriptive-and-demonstrative-plots"><i class="fa fa-check"></i><b>6.1.3</b> Correctly using descriptive and demonstrative plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#correlation-and-causation"><i class="fa fa-check"></i><b>6.2</b> Correlation and causation</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#the-association-is-not-statistically-supported"><i class="fa fa-check"></i><b>6.2.1</b> The association is not statistically supported</a></li>
+<li class="chapter" data-level="6.2.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#reversing-cause-and-effect"><i class="fa fa-check"></i><b>6.2.2</b> Reversing cause and effect</a></li>
+<li class="chapter" data-level="6.2.3" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#the-association-is-induced-by-a-third-variable"><i class="fa fa-check"></i><b>6.2.3</b> The association is induced by a third variable</a></li>
+<li class="chapter" data-level="6.2.4" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#simpsons-paradox"><i class="fa fa-check"></i><b>6.2.4</b> Simpson’s paradox</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#data-presentation-as-story-telling"><i class="fa fa-check"></i><b>6.3</b> Data presentation as story telling</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#what-is-a-story"><i class="fa fa-check"></i><b>6.3.1</b> What is a story?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#presentation-structure"><i class="fa fa-check"></i><b>6.3.2</b> Presentation structure</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#guidelines-for-coloring-in-data-visualization"><i class="fa fa-check"></i><b>6.4</b> Guidelines for coloring in data visualization</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#color-coding-in-r"><i class="fa fa-check"></i><b>6.4.1</b> Color coding in R</a></li>
+<li class="chapter" data-level="6.4.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#general-rules-for-color-coding"><i class="fa fa-check"></i><b>6.4.2</b> General rules for color coding</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#general-dos-and-donts-in-data-visualization"><i class="fa fa-check"></i><b>6.5</b> General do’s and don’ts in data visualization</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#dos"><i class="fa fa-check"></i><b>6.5.1</b> Do’s</a></li>
+<li class="chapter" data-level="6.5.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#donts"><i class="fa fa-check"></i><b>6.5.2</b> don’ts</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#summary-4"><i class="fa fa-check"></i><b>6.6</b> Summary</a></li>
+<li class="chapter" data-level="6.7" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#resources-2"><i class="fa fa-check"></i><b>6.7</b> Resources</a></li>
+</ul></li>
+<li class="part"><span><b>III Conclude</b></span></li>
+<li class="chapter" data-level="7" data-path="resampling-stat.html"><a href="resampling-stat.html"><i class="fa fa-check"></i><b>7</b> Resampling-based Statistical Assessment</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="resampling-stat.html"><a href="resampling-stat.html#yeast-dataset"><i class="fa fa-check"></i><b>7.1</b> The yeast dataset</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="resampling-stat.html"><a href="resampling-stat.html#the-experiment"><i class="fa fa-check"></i><b>7.1.1</b> The experiment</a></li>
+<li class="chapter" data-level="7.1.2" data-path="resampling-stat.html"><a href="resampling-stat.html#genotype"><i class="fa fa-check"></i><b>7.1.2</b> Genotype</a></li>
+<li class="chapter" data-level="7.1.3" data-path="resampling-stat.html"><a href="resampling-stat.html#growth-rates"><i class="fa fa-check"></i><b>7.1.3</b> Growth rates</a></li>
+<li class="chapter" data-level="7.1.4" data-path="resampling-stat.html"><a href="resampling-stat.html#genotype-growth-rate-association-in-maltose-at-a-specific-marker"><i class="fa fa-check"></i><b>7.1.4</b> Genotype-growth rate association in maltose at a specific marker</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="resampling-stat.html"><a href="resampling-stat.html#statistical-hypothesis-testing"><i class="fa fa-check"></i><b>7.2</b> Statistical hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="resampling-stat.html"><a href="resampling-stat.html#permut-test-build-up"><i class="fa fa-check"></i><b>7.2.1</b> Permutation testing: An intuitive build-up</a></li>
+<li class="chapter" data-level="7.2.2" data-path="resampling-stat.html"><a href="resampling-stat.html#concepts-of-statistical-hypothesis-testing"><i class="fa fa-check"></i><b>7.2.2</b> Concepts of Statistical Hypothesis Testing</a></li>
+<li class="chapter" data-level="7.2.3" data-path="resampling-stat.html"><a href="resampling-stat.html#permutation-testing-formally"><i class="fa fa-check"></i><b>7.2.3</b> Permutation testing, formally</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="resampling-stat.html"><a href="resampling-stat.html#confidence-intervals-quantifying-uncertainty-in-parameter-estimates"><i class="fa fa-check"></i><b>7.3</b> Confidence intervals: Quantifying uncertainty in parameter estimates</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="resampling-stat.html"><a href="resampling-stat.html#repeating-experiments-to-quantify-uncertainty"><i class="fa fa-check"></i><b>7.3.1</b> Repeating experiments to quantify uncertainty</a></li>
+<li class="chapter" data-level="7.3.2" data-path="resampling-stat.html"><a href="resampling-stat.html#simulating-repeated-experiments"><i class="fa fa-check"></i><b>7.3.2</b> Simulating repeated experiments</a></li>
+<li class="chapter" data-level="7.3.3" data-path="resampling-stat.html"><a href="resampling-stat.html#quantifying-uncertainty-using-the-case-resampling-bootstrap"><i class="fa fa-check"></i><b>7.3.3</b> Quantifying uncertainty using the case resampling bootstrap</a></li>
+<li class="chapter" data-level="7.3.4" data-path="resampling-stat.html"><a href="resampling-stat.html#confidence-intervals-formal-definition"><i class="fa fa-check"></i><b>7.3.4</b> Confidence Intervals: Formal definition</a></li>
+<li class="chapter" data-level="7.3.5" data-path="resampling-stat.html"><a href="resampling-stat.html#visualizing-the-formal-definition-of-confidence-intervals"><i class="fa fa-check"></i><b>7.3.5</b> Visualizing the formal definition of Confidence Intervals</a></li>
+<li class="chapter" data-level="7.3.6" data-path="resampling-stat.html"><a href="resampling-stat.html#hypothesis-testing-with-the-confidence-interval"><i class="fa fa-check"></i><b>7.3.6</b> Hypothesis testing with the Confidence Interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="resampling-stat.html"><a href="resampling-stat.html#discussion-1"><i class="fa fa-check"></i><b>7.4</b> Discussion</a></li>
+<li class="chapter" data-level="7.5" data-path="resampling-stat.html"><a href="resampling-stat.html#conclusion"><i class="fa fa-check"></i><b>7.5</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="analytical-stat.html"><a href="analytical-stat.html"><i class="fa fa-check"></i><b>8</b> Analytical Statistical Assessment</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="analytical-stat.html"><a href="analytical-stat.html#motivation-hypothesis-testing-in-large-datasets"><i class="fa fa-check"></i><b>8.1</b> Motivation: Hypothesis testing in large datasets</a></li>
+<li class="chapter" data-level="8.2" data-path="analytical-stat.html"><a href="analytical-stat.html#the-binomial-test-testing-hypotheses-for-a-single-binary-variable"><i class="fa fa-check"></i><b>8.2</b> The Binomial Test: testing hypotheses for a single binary variable</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="analytical-stat.html"><a href="analytical-stat.html#abstraction-tossing-a-coin"><i class="fa fa-check"></i><b>8.2.1</b> Abstraction: Tossing a coin</a></li>
+<li class="chapter" data-level="8.2.2" data-path="analytical-stat.html"><a href="analytical-stat.html#computing-a-binomial-test-with-r"><i class="fa fa-check"></i><b>8.2.2</b> Computing a binomial test with R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="analytical-stat.html"><a href="analytical-stat.html#fisher-test"><i class="fa fa-check"></i><b>8.3</b> Fisher’s exact test: Testing the association between two binary variables</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="analytical-stat.html"><a href="analytical-stat.html#permutation-testing-and-the-hypergeometric-distribution"><i class="fa fa-check"></i><b>8.3.1</b> Permutation testing and the hypergeometric distribution</a></li>
+<li class="chapter" data-level="8.3.2" data-path="analytical-stat.html"><a href="analytical-stat.html#fishers-exact-test"><i class="fa fa-check"></i><b>8.3.2</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="8.3.3" data-path="analytical-stat.html"><a href="analytical-stat.html#fishers-exact-test-in-r"><i class="fa fa-check"></i><b>8.3.3</b> Fisher’s exact test in R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="analytical-stat.html"><a href="analytical-stat.html#testing-the-association-between-one-quantitative-and-one-binary-variable"><i class="fa fa-check"></i><b>8.4</b> Testing the association between one quantitative and one binary variable</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="analytical-stat.html"><a href="analytical-stat.html#the-t-test"><i class="fa fa-check"></i><b>8.4.1</b> The t-test</a></li>
+<li class="chapter" data-level="8.4.2" data-path="analytical-stat.html"><a href="analytical-stat.html#wilcoxon-rank-sum-test-an-alternative-to-the-t-test-for-non-gaussian-data"><i class="fa fa-check"></i><b>8.4.2</b> Wilcoxon rank-sum test: An alternative to the t-test for non-Gaussian data</a></li>
+<li class="chapter" data-level="8.4.3" data-path="analytical-stat.html"><a href="analytical-stat.html#why-bother-with-the-wilcoxon-rank-sum-test"><i class="fa fa-check"></i><b>8.4.3</b> Why bother with the Wilcoxon rank-sum test?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="analytical-stat.html"><a href="analytical-stat.html#association-between-two-quantitative-variables"><i class="fa fa-check"></i><b>8.5</b> Association between two quantitative variables</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="analytical-stat.html"><a href="analytical-stat.html#the-pearson-correlation-test"><i class="fa fa-check"></i><b>8.5.1</b> The Pearson correlation test</a></li>
+<li class="chapter" data-level="8.5.2" data-path="analytical-stat.html"><a href="analytical-stat.html#the-spearman-rank-correlation-test"><i class="fa fa-check"></i><b>8.5.2</b> The Spearman rank correlation test</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="analytical-stat.html"><a href="analytical-stat.html#testing-associations-of-two-variables-overview"><i class="fa fa-check"></i><b>8.6</b> Testing associations of two variables: Overview</a></li>
+<li class="chapter" data-level="8.7" data-path="analytical-stat.html"><a href="analytical-stat.html#assessing-distributional-assumptions-with-q-q-plots"><i class="fa fa-check"></i><b>8.7</b> Assessing distributional assumptions with Q-Q Plots</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="analytical-stat.html"><a href="analytical-stat.html#limitations-of-histograms"><i class="fa fa-check"></i><b>8.7.1</b> Limitations of Histograms</a></li>
+<li class="chapter" data-level="8.7.2" data-path="analytical-stat.html"><a href="analytical-stat.html#q-q-plots-comparing-empirical-to-theoretical-quantiles"><i class="fa fa-check"></i><b>8.7.2</b> Q-Q plots: Comparing empirical to theoretical quantiles</a></li>
+<li class="chapter" data-level="8.7.3" data-path="analytical-stat.html"><a href="analytical-stat.html#typical-q-q-plots"><i class="fa fa-check"></i><b>8.7.3</b> Typical Q-Q plots</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="analytical-stat.html"><a href="analytical-stat.html#analytical-conf-int"><i class="fa fa-check"></i><b>8.8</b> Analytical Confidence intervals</a>
+<ul>
+<li class="chapter" data-level="8.8.1" data-path="analytical-stat.html"><a href="analytical-stat.html#binomial-case"><i class="fa fa-check"></i><b>8.8.1</b> Binomial case</a></li>
+<li class="chapter" data-level="8.8.2" data-path="analytical-stat.html"><a href="analytical-stat.html#confidence-intervals-in-r"><i class="fa fa-check"></i><b>8.8.2</b> Confidence intervals in R</a></li>
+<li class="chapter" data-level="8.8.3" data-path="analytical-stat.html"><a href="analytical-stat.html#advanced-a-note-on-overlapping-confidence-intervals"><i class="fa fa-check"></i><b>8.8.3</b> Advanced: A note on overlapping confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="8.9" data-path="analytical-stat.html"><a href="analytical-stat.html#discussion-2"><i class="fa fa-check"></i><b>8.9</b> Discussion</a></li>
+<li class="chapter" data-level="8.10" data-path="analytical-stat.html"><a href="analytical-stat.html#conclusion-1"><i class="fa fa-check"></i><b>8.10</b> Conclusion</a></li>
+<li class="chapter" data-level="8.11" data-path="analytical-stat.html"><a href="analytical-stat.html#resources-3"><i class="fa fa-check"></i><b>8.11</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="big-data-stat.html"><a href="big-data-stat.html"><i class="fa fa-check"></i><b>9</b> Statistical Assessments for Big Data</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="big-data-stat.html"><a href="big-data-stat.html#motivation-statistical-significance-in-a-big-data-context"><i class="fa fa-check"></i><b>9.1</b> Motivation: Statistical Significance in a Big Data context</a></li>
+<li class="chapter" data-level="9.2" data-path="big-data-stat.html"><a href="big-data-stat.html#effect-size-actually-important-or-just-significant"><i class="fa fa-check"></i><b>9.2</b> Effect Size: Actually important or just significant?</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="big-data-stat.html"><a href="big-data-stat.html#the-relationship-of-sample-size-and-significance"><i class="fa fa-check"></i><b>9.2.1</b> The relationship of sample size and significance</a></li>
+<li class="chapter" data-level="9.2.2" data-path="big-data-stat.html"><a href="big-data-stat.html#report-p-value-effect-size-and-plot"><i class="fa fa-check"></i><b>9.2.2</b> Report P-value, effect size, and plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="big-data-stat.html"><a href="big-data-stat.html#multiple-testing"><i class="fa fa-check"></i><b>9.3</b> Multiple Testing</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="big-data-stat.html"><a href="big-data-stat.html#multiple-testing-in-real-life-p-hacking-and-fishing-expeditions"><i class="fa fa-check"></i><b>9.3.1</b> Multiple testing in real life: p-Hacking and fishing expeditions</a></li>
+<li class="chapter" data-level="9.3.2" data-path="big-data-stat.html"><a href="big-data-stat.html#the-land-of-counterfeit-fake-coins"><i class="fa fa-check"></i><b>9.3.2</b> The Land of Counterfeit (fake) coins</a></li>
+<li class="chapter" data-level="9.3.3" data-path="big-data-stat.html"><a href="big-data-stat.html#simulation"><i class="fa fa-check"></i><b>9.3.3</b> Simulation</a></li>
+<li class="chapter" data-level="9.3.4" data-path="big-data-stat.html"><a href="big-data-stat.html#nominal-p-values"><i class="fa fa-check"></i><b>9.3.4</b> Nominal p-values</a></li>
+<li class="chapter" data-level="9.3.5" data-path="big-data-stat.html"><a href="big-data-stat.html#family-wise-error-rate"><i class="fa fa-check"></i><b>9.3.5</b> Family-wise error rate</a></li>
+<li class="chapter" data-level="9.3.6" data-path="big-data-stat.html"><a href="big-data-stat.html#false-discovery-rate"><i class="fa fa-check"></i><b>9.3.6</b> False Discovery Rate</a></li>
+<li class="chapter" data-level="9.3.7" data-path="big-data-stat.html"><a href="big-data-stat.html#overview-figure"><i class="fa fa-check"></i><b>9.3.7</b> Overview figure</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="big-data-stat.html"><a href="big-data-stat.html#conclusions"><i class="fa fa-check"></i><b>9.4</b> Conclusions</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="big-data-stat.html"><a href="big-data-stat.html#to-remember"><i class="fa fa-check"></i><b>9.4.1</b> To remember</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="big-data-stat.html"><a href="big-data-stat.html#references"><i class="fa fa-check"></i><b>9.5</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#motivation-and-overview"><i class="fa fa-check"></i><b>10.1</b> Motivation and overview</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#testing-conditional-dependence"><i class="fa fa-check"></i><b>10.1.1</b> Testing conditional dependence</a></li>
+<li class="chapter" data-level="10.1.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#linear-regression"><i class="fa fa-check"></i><b>10.1.2</b> Linear regression</a></li>
+<li class="chapter" data-level="10.1.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#limitations"><i class="fa fa-check"></i><b>10.1.3</b> Limitations</a></li>
+<li class="chapter" data-level="10.1.4" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#applications"><i class="fa fa-check"></i><b>10.1.4</b> Applications</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#univariate-regression"><i class="fa fa-check"></i><b>10.2</b> Univariate regression</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#galtons-height-dataset"><i class="fa fa-check"></i><b>10.2.1</b> Galton’s height dataset</a></li>
+<li class="chapter" data-level="10.2.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#ML-LSE"><i class="fa fa-check"></i><b>10.2.2</b> Maximum likelihood and least squares estimates</a></li>
+<li class="chapter" data-level="10.2.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#interpretation-of-the-fitted-coefficients"><i class="fa fa-check"></i><b>10.2.3</b> Interpretation of the fitted coefficients</a></li>
+<li class="chapter" data-level="10.2.4" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#predicted-values-are-random-variables"><i class="fa fa-check"></i><b>10.2.4</b> Predicted values are random variables</a></li>
+<li class="chapter" data-level="10.2.5" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#explained-variance"><i class="fa fa-check"></i><b>10.2.5</b> Explained variance</a></li>
+<li class="chapter" data-level="10.2.6" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#testing-the-relationship-between-y-and-x"><i class="fa fa-check"></i><b>10.2.6</b> Testing the relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#multivariate-regression"><i class="fa fa-check"></i><b>10.3</b> Multivariate regression</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#a-multivariate-example-the-baseball-dataset"><i class="fa fa-check"></i><b>10.3.1</b> A multivariate example: The baseball dataset</a></li>
+<li class="chapter" data-level="10.3.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#fitting-multivariate-regression"><i class="fa fa-check"></i><b>10.3.2</b> Fitting multivariate regression</a></li>
+<li class="chapter" data-level="10.3.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#testing-sets-of-parameters"><i class="fa fa-check"></i><b>10.3.3</b> Testing sets of parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#lin-reg-diagnostic"><i class="fa fa-check"></i><b>10.4</b> Diagnostic plots</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#assessing-non-linearity-with-residual-plot"><i class="fa fa-check"></i><b>10.4.1</b> Assessing non-linearity with residual plot</a></li>
+<li class="chapter" data-level="10.4.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#when-error-variance-is-not-constant-heteroscedascity"><i class="fa fa-check"></i><b>10.4.2</b> When error variance is not constant: Heteroscedascity</a></li>
+<li class="chapter" data-level="10.4.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#gaussianity-q-q-plot-of-the-residuals"><i class="fa fa-check"></i><b>10.4.3</b> Gaussianity: Q-Q-plot of the residuals</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#conclusions-1"><i class="fa fa-check"></i><b>10.5</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="chap-log-reg.html"><a href="chap-log-reg.html"><i class="fa fa-check"></i><b>11</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#a-univariate-example-predicting-sex-given-the-height"><i class="fa fa-check"></i><b>11.1</b> A univariate example: predicting sex given the height</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#from-linear-regression-to-logistic-regression"><i class="fa fa-check"></i><b>11.1.1</b> From linear regression to logistic regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#ML-CE"><i class="fa fa-check"></i><b>11.2</b> Maximum likelihood estimates and the cross-entropy criterion</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-log-reg.html"><a href="chap-log-reg.html#logistic-regression-as-a-generalized-linear-model"><i class="fa fa-check"></i><b>11.3</b> Logistic regression as a generalized linear model</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#logistic-regression-with-r"><i class="fa fa-check"></i><b>11.3.1</b> Logistic regression with R</a></li>
+<li class="chapter" data-level="11.3.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#overview-plot-of-the-univariate-example"><i class="fa fa-check"></i><b>11.3.2</b> Overview plot of the univariate example</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="chap-log-reg.html"><a href="chap-log-reg.html#interpreting-a-logistic-regression-fit"><i class="fa fa-check"></i><b>11.4</b> Interpreting a logistic regression fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#predicted-odds"><i class="fa fa-check"></i><b>11.4.1</b> Predicted odds</a></li>
+<li class="chapter" data-level="11.4.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#coefficients-of-the-logistic-regression"><i class="fa fa-check"></i><b>11.4.2</b> Coefficients of the logistic regression</a></li>
+<li class="chapter" data-level="11.4.3" data-path="chap-log-reg.html"><a href="chap-log-reg.html#effects-on-probabilities"><i class="fa fa-check"></i><b>11.4.3</b> Effects on probabilities</a></li>
+<li class="chapter" data-level="11.4.4" data-path="chap-log-reg.html"><a href="chap-log-reg.html#class-imbalance"><i class="fa fa-check"></i><b>11.4.4</b> Class imbalance</a></li>
+<li class="chapter" data-level="11.4.5" data-path="chap-log-reg.html"><a href="chap-log-reg.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>11.4.5</b> Multiple Logistic regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="chap-log-reg.html"><a href="chap-log-reg.html#assessing-the-performance-of-a-classifier"><i class="fa fa-check"></i><b>11.5</b> Assessing the performance of a classifier</a>
+<ul>
+<li class="chapter" data-level="11.5.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#classification-with-logistic-regression"><i class="fa fa-check"></i><b>11.5.1</b> Classification with logistic regression</a></li>
+<li class="chapter" data-level="11.5.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#confusion-matrix"><i class="fa fa-check"></i><b>11.5.2</b> Confusion Matrix</a></li>
+<li class="chapter" data-level="11.5.3" data-path="chap-log-reg.html"><a href="chap-log-reg.html#classification-performance-metrics"><i class="fa fa-check"></i><b>11.5.3</b> Classification performance metrics</a></li>
+<li class="chapter" data-level="11.5.4" data-path="chap-log-reg.html"><a href="chap-log-reg.html#choosing-a-classification-cutoff"><i class="fa fa-check"></i><b>11.5.4</b> Choosing a classification cutoff</a></li>
+<li class="chapter" data-level="11.5.5" data-path="chap-log-reg.html"><a href="chap-log-reg.html#roc-curve"><i class="fa fa-check"></i><b>11.5.5</b> ROC curve</a></li>
+<li class="chapter" data-level="11.5.6" data-path="chap-log-reg.html"><a href="chap-log-reg.html#precision-recall-curve"><i class="fa fa-check"></i><b>11.5.6</b> Precision Recall curve</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="chap-log-reg.html"><a href="chap-log-reg.html#conclusions-2"><i class="fa fa-check"></i><b>11.6</b> Conclusions</a>
+<ul>
+<li class="chapter" data-level="11.6.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#to-remember-1"><i class="fa fa-check"></i><b>11.6.1</b> To remember</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>12</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="supervised-learning.html"><a href="supervised-learning.html#introduction-3"><i class="fa fa-check"></i><b>12.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#motivation-2"><i class="fa fa-check"></i><b>12.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="12.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#supervised-learning-vs.-unsupervised-learning"><i class="fa fa-check"></i><b>12.1.2</b> Supervised learning vs. unsupervised learning</a></li>
+<li class="chapter" data-level="12.1.3" data-path="supervised-learning.html"><a href="supervised-learning.html#notation"><i class="fa fa-check"></i><b>12.1.3</b> Notation</a></li>
+<li class="chapter" data-level="12.1.4" data-path="supervised-learning.html"><a href="supervised-learning.html#basic-approach-in-supervised-machine-learning"><i class="fa fa-check"></i><b>12.1.4</b> Basic approach in supervised machine learning</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="supervised-learning.html"><a href="supervised-learning.html#over--and-under-fitting"><i class="fa fa-check"></i><b>12.2</b> Over- and Under-fitting</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="supervised-learning.html"><a href="supervised-learning.html#example-polynomial-curve-fitting"><i class="fa fa-check"></i><b>12.2.1</b> Example: polynomial curve fitting</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="supervised-learning.html"><a href="supervised-learning.html#splitting-the-dataset-for-performance-assessment"><i class="fa fa-check"></i><b>12.3</b> Splitting the dataset for performance assessment</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="supervised-learning.html"><a href="supervised-learning.html#over-fitting-to-the-training-dataset"><i class="fa fa-check"></i><b>12.3.1</b> Over-fitting to the training dataset</a></li>
+<li class="chapter" data-level="12.3.2" data-path="supervised-learning.html"><a href="supervised-learning.html#cross-validation"><i class="fa fa-check"></i><b>12.3.2</b> Cross-validation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forests-as-alternative-models"><i class="fa fa-check"></i><b>12.4</b> Random Forests as alternative models</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="supervised-learning.html"><a href="supervised-learning.html#the-basics-of-decision-trees"><i class="fa fa-check"></i><b>12.4.1</b> The basics of decision trees</a></li>
+<li class="chapter" data-level="12.4.2" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forests-for-classification-and-regression-tasks"><i class="fa fa-check"></i><b>12.4.2</b> Random Forests for classification and regression tasks</a></li>
+<li class="chapter" data-level="12.4.3" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forests-in-r"><i class="fa fa-check"></i><b>12.4.3</b> Random Forests in R</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="supervised-learning.html"><a href="supervised-learning.html#conclusion-2"><i class="fa fa-check"></i><b>12.5</b> Conclusion</a></li>
+<li class="chapter" data-level="12.6" data-path="supervised-learning.html"><a href="supervised-learning.html#resources-4"><i class="fa fa-check"></i><b>12.6</b> Resources</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>A</b> Importing data</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="importing-data.html"><a href="importing-data.html#paths-and-the-working-directory"><i class="fa fa-check"></i><b>A.1</b> Paths and the working directory</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="importing-data.html"><a href="importing-data.html#the-filesystem"><i class="fa fa-check"></i><b>A.1.1</b> The filesystem</a></li>
+<li class="chapter" data-level="A.1.2" data-path="importing-data.html"><a href="importing-data.html#relative-and-full-paths"><i class="fa fa-check"></i><b>A.1.2</b> Relative and full paths</a></li>
+<li class="chapter" data-level="A.1.3" data-path="importing-data.html"><a href="importing-data.html#the-working-directory"><i class="fa fa-check"></i><b>A.1.3</b> The working directory</a></li>
+<li class="chapter" data-level="A.1.4" data-path="importing-data.html"><a href="importing-data.html#generating-path-names"><i class="fa fa-check"></i><b>A.1.4</b> Generating path names</a></li>
+<li class="chapter" data-level="A.1.5" data-path="importing-data.html"><a href="importing-data.html#copying-files-using-paths"><i class="fa fa-check"></i><b>A.1.5</b> Copying files using paths</a></li>
+</ul></li>
+<li class="chapter" data-level="A.2" data-path="importing-data.html"><a href="importing-data.html#the-readr-and-readxl-packages"><i class="fa fa-check"></i><b>A.2</b> The readr and readxl packages</a>
+<ul>
+<li class="chapter" data-level="A.2.1" data-path="importing-data.html"><a href="importing-data.html#readr"><i class="fa fa-check"></i><b>A.2.1</b> readr</a></li>
+<li class="chapter" data-level="A.2.2" data-path="importing-data.html"><a href="importing-data.html#readxl"><i class="fa fa-check"></i><b>A.2.2</b> readxl</a></li>
+</ul></li>
+<li class="chapter" data-level="A.3" data-path="importing-data.html"><a href="importing-data.html#exercises"><i class="fa fa-check"></i><b>A.3</b> Exercises</a></li>
+<li class="chapter" data-level="A.4" data-path="importing-data.html"><a href="importing-data.html#downloading-files"><i class="fa fa-check"></i><b>A.4</b> Downloading files</a></li>
+<li class="chapter" data-level="A.5" data-path="importing-data.html"><a href="importing-data.html#r-base-importing-functions"><i class="fa fa-check"></i><b>A.5</b> R-base importing functions</a>
+<ul>
+<li><a href="importing-data.html#scan"><code>scan</code></a></li>
+</ul></li>
+<li class="chapter" data-level="A.6" data-path="importing-data.html"><a href="importing-data.html#text-versus-binary-files"><i class="fa fa-check"></i><b>A.6</b> Text versus binary files</a></li>
+<li class="chapter" data-level="A.7" data-path="importing-data.html"><a href="importing-data.html#unicode-versus-ascii"><i class="fa fa-check"></i><b>A.7</b> Unicode versus ASCII</a></li>
+<li class="chapter" data-level="A.8" data-path="importing-data.html"><a href="importing-data.html#organizing-data-with-spreadsheets"><i class="fa fa-check"></i><b>A.8</b> Organizing data with spreadsheets</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html"><i class="fa fa-check"></i><b>B</b> R programming</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#conditionals"><i class="fa fa-check"></i><b>B.1</b> Conditional expressions</a></li>
+<li class="chapter" data-level="B.2" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#defining-functions"><i class="fa fa-check"></i><b>B.2</b> Defining functions</a></li>
+<li class="chapter" data-level="B.3" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#namespaces"><i class="fa fa-check"></i><b>B.3</b> Namespaces</a></li>
+<li class="chapter" data-level="B.4" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#for-loops"><i class="fa fa-check"></i><b>B.4</b> For-loops</a></li>
+<li class="chapter" data-level="B.5" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#vectorization"><i class="fa fa-check"></i><b>B.5</b> Vectorization and functionals</a></li>
+<li class="chapter" data-level="B.6" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#r-markdown"><i class="fa fa-check"></i><b>B.6</b> R Markdown</a></li>
+<li class="chapter" data-level="B.7" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#resources-5"><i class="fa fa-check"></i><b>B.7</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html"><i class="fa fa-check"></i><b>C</b> Additonal plotting tools</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#plotting-themes"><i class="fa fa-check"></i><b>C.1</b> Plotting themes</a></li>
+<li class="chapter" data-level="C.2" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#axes"><i class="fa fa-check"></i><b>C.2</b> Axes</a>
+<ul>
+<li class="chapter" data-level="C.2.1" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#axis-elements"><i class="fa fa-check"></i><b>C.2.1</b> Axis elements</a></li>
+</ul></li>
+<li class="chapter" data-level="C.3" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#plot-title"><i class="fa fa-check"></i><b>C.3</b> Plot title</a></li>
+<li class="chapter" data-level="C.4" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#legend"><i class="fa fa-check"></i><b>C.4</b> Legend</a></li>
+<li class="chapter" data-level="C.5" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#interactive-plots"><i class="fa fa-check"></i><b>C.5</b> Interactive plots</a></li>
+</ul></li>
+<li class="chapter" data-level="D" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html"><i class="fa fa-check"></i><b>D</b> Probabilities</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#probability-conditional-probability-and-dependence"><i class="fa fa-check"></i><b>D.1</b> Probability, conditional probability, and dependence</a></li>
+<li class="chapter" data-level="D.2" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#expected-value-variance-and-covariance"><i class="fa fa-check"></i><b>D.2</b> Expected value, variance, and covariance</a></li>
+<li class="chapter" data-level="D.3" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#sample-estimates"><i class="fa fa-check"></i><b>D.3</b> Sample estimates</a></li>
+<li class="chapter" data-level="D.4" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#appendix-lin-reg"><i class="fa fa-check"></i><b>D.4</b> Linear regression</a></li>
+<li class="chapter" data-level="D.5" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#resources-6"><i class="fa fa-check"></i><b>D.5</b> Resources</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="./">Julien Gagneur, TUM</a></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -310,30 +682,42 @@ from <code>data.frame</code>.</p>
 <div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="data-wrangling.html#cb220-1" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&#39;path_to_file/flightsLAX.csv&#39;</span>)</span></code></pre></div>
 <p>Typing the name of the newly created <code>data.table</code> (<code>flights</code>) in the console displays its first and last rows. We observe that reading the file was successful.</p>
 <div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="data-wrangling.html#cb221-1" aria-hidden="true" tabindex="-1"></a>flights</span></code></pre></div>
-<pre><code>##         YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
-##      1: 2015     1   1           4      AA          2336      N3KUAA            LAX                 PBI
-##      2: 2015     1   1           4      AA           258      N3HYAA            LAX                 MIA
-##      3: 2015     1   1           4      US          2013      N584UW            LAX                 CLT
-##      4: 2015     1   1           4      DL          1434      N547US            LAX                 MSP
-##      5: 2015     1   1           4      AA           115      N3CTAA            LAX                 MIA
-##     ---                                                                                                
-## 389365: 2015    12  31           4      AA          1538      N866AA            LAX                 MIA
-## 389366: 2015    12  31           4      AS           175      N431AS            LAX                 ANC
-## 389367: 2015    12  31           4      AS           471      N570AS            LAX                 SEA
-## 389368: 2015    12  31           4      AA           219      N3LYAA            LAX                 ORD
-## 389369: 2015    12  31           4      B6           688      N657JB            LAX                 BOS
-##         DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-##      1:              2      263     2330          741
-##      2:             15      258     2342          756
-##      3:             44      228     2125          753
-##      4:             35      188     1535          605
-##      5:            103      255     2342          839
-##     ---                                              
-## 389365:           2357      250     2342          731
-## 389366:           2350      291     2345          400
-## 389367:           2353      132      954          225
-## 389368:           2358      198     1744          544
-## 389369:           2355      272     2611          753</code></pre>
+<pre><code>##         YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER
+##      1: 2015     1   1           4      AA          2336      N3KUAA
+##      2: 2015     1   1           4      AA           258      N3HYAA
+##      3: 2015     1   1           4      US          2013      N584UW
+##      4: 2015     1   1           4      DL          1434      N547US
+##      5: 2015     1   1           4      AA           115      N3CTAA
+##     ---                                                             
+## 389365: 2015    12  31           4      AA          1538      N866AA
+## 389366: 2015    12  31           4      AS           175      N431AS
+## 389367: 2015    12  31           4      AS           471      N570AS
+## 389368: 2015    12  31           4      AA           219      N3LYAA
+## 389369: 2015    12  31           4      B6           688      N657JB
+##         ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE
+##      1:            LAX                 PBI              2      263     2330
+##      2:            LAX                 MIA             15      258     2342
+##      3:            LAX                 CLT             44      228     2125
+##      4:            LAX                 MSP             35      188     1535
+##      5:            LAX                 MIA            103      255     2342
+##     ---                                                                    
+## 389365:            LAX                 MIA           2357      250     2342
+## 389366:            LAX                 ANC           2350      291     2345
+## 389367:            LAX                 SEA           2353      132      954
+## 389368:            LAX                 ORD           2358      198     1744
+## 389369:            LAX                 BOS           2355      272     2611
+##         ARRIVAL_TIME
+##      1:          741
+##      2:          756
+##      3:          753
+##      4:          605
+##      5:          839
+##     ---             
+## 389365:          731
+## 389366:          400
+## 389367:          225
+## 389368:          544
+## 389369:          753</code></pre>
 </div>
 <div id="inspecting-tables" class="section level3" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Inspecting tables</h3>
@@ -352,13 +736,20 @@ from <code>data.frame</code>.</p>
 <!-- ``` -->
 <p>Next, we are often interested in basic statistics on the columns. To obtain this information we can call the <code>summary()</code> function on the table.</p>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="data-wrangling.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(flights[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span></code></pre></div>
-<pre><code>##       YEAR          MONTH             DAY        DAY_OF_WEEK      AIRLINE          FLIGHT_NUMBER 
-##  Min.   :2015   Min.   : 1.000   Min.   : 1.0   Min.   :1.000   Length:389369      Min.   :   1  
-##  1st Qu.:2015   1st Qu.: 3.000   1st Qu.: 8.0   1st Qu.:2.000   Class :character   1st Qu.: 501  
-##  Median :2015   Median : 6.000   Median :16.0   Median :4.000   Mode  :character   Median :1296  
-##  Mean   :2015   Mean   : 6.198   Mean   :15.7   Mean   :3.934                      Mean   :1905  
-##  3rd Qu.:2015   3rd Qu.: 9.000   3rd Qu.:23.0   3rd Qu.:6.000                      3rd Qu.:2617  
-##  Max.   :2015   Max.   :12.000   Max.   :31.0   Max.   :7.000                      Max.   :6896</code></pre>
+<pre><code>##       YEAR          MONTH             DAY        DAY_OF_WEEK   
+##  Min.   :2015   Min.   : 1.000   Min.   : 1.0   Min.   :1.000  
+##  1st Qu.:2015   1st Qu.: 3.000   1st Qu.: 8.0   1st Qu.:2.000  
+##  Median :2015   Median : 6.000   Median :16.0   Median :4.000  
+##  Mean   :2015   Mean   : 6.198   Mean   :15.7   Mean   :3.934  
+##  3rd Qu.:2015   3rd Qu.: 9.000   3rd Qu.:23.0   3rd Qu.:6.000  
+##  Max.   :2015   Max.   :12.000   Max.   :31.0   Max.   :7.000  
+##    AIRLINE          FLIGHT_NUMBER 
+##  Length:389369      Min.   :   1  
+##  Class :character   1st Qu.: 501  
+##  Mode  :character   Median :1296  
+##                     Mean   :1905  
+##                     3rd Qu.:2617  
+##                     Max.   :6896</code></pre>
 <p>This provides us already a lot of information about our data. We can for example see that all data is from 2015 as all values in the YEAR column are 2015. But for categorical data this is not very insightful, as we can see for the AIRLINE column.</p>
 <p>To investigate categorical columns we can have a look at their unique elements using:</p>
 <div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="data-wrangling.html#cb229-1" aria-hidden="true" tabindex="-1"></a>flights[, <span class="fu">unique</span>(AIRLINE)]</span></code></pre></div>
@@ -383,34 +774,34 @@ from <code>data.frame</code>.</p>
 <h3><span class="header-section-number">2.2.1</span> Subsetting rows by indices</h3>
 <p>If we want to see the second element of the table, we can do the following:</p>
 <div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="data-wrangling.html#cb234-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">2</span>, ]   <span class="co"># Access the 2nd row (also flights[2] or flights[i = 2])</span></span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
-## 1: 2015     1   1           4      AA           258      N3HYAA            LAX                 MIA
-##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-## 1:             15      258     2342          756</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
+## 1: 2015     1   1           4      AA           258      N3HYAA            LAX
+##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+## 1:                 MIA             15      258     2342          756</code></pre>
 <p>A shorter writing allows leaving out the comma:</p>
 <div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="data-wrangling.html#cb236-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">2</span>]   <span class="co"># Access the 2nd row (also flights[2] or flights[i = 2])</span></span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
-## 1: 2015     1   1           4      AA           258      N3HYAA            LAX                 MIA
-##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-## 1:             15      258     2342          756</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
+## 1: 2015     1   1           4      AA           258      N3HYAA            LAX
+##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+## 1:                 MIA             15      258     2342          756</code></pre>
 <p>For accessing multiple consecutive rows we can use the <code>start:stop</code> syntax as for example:</p>
 <div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="data-wrangling.html#cb238-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]   </span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
-## 1: 2015     1   1           4      AA          2336      N3KUAA            LAX                 PBI
-## 2: 2015     1   1           4      AA           258      N3HYAA            LAX                 MIA
-## 3: 2015     1   1           4      US          2013      N584UW            LAX                 CLT
-##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-## 1:              2      263     2330          741
-## 2:             15      258     2342          756
-## 3:             44      228     2125          753</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
+## 1: 2015     1   1           4      AA          2336      N3KUAA            LAX
+## 2: 2015     1   1           4      AA           258      N3HYAA            LAX
+## 3: 2015     1   1           4      US          2013      N584UW            LAX
+##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+## 1:                 PBI              2      263     2330          741
+## 2:                 MIA             15      258     2342          756
+## 3:                 CLT             44      228     2125          753</code></pre>
 <p>Accessing multiple rows that are not necessarily consecutive can be done by creating an index vector with <code>c()</code>:</p>
 <div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="data-wrangling.html#cb240-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)]</span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
-## 1: 2015     1   1           4      US          2013      N584UW            LAX                 CLT
-## 2: 2015     1   1           4      AA           115      N3CTAA            LAX                 MIA
-##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-## 1:             44      228     2125          753
-## 2:            103      255     2342          839</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
+## 1: 2015     1   1           4      US          2013      N584UW            LAX
+## 2: 2015     1   1           4      AA           115      N3CTAA            LAX
+##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+## 1:                 CLT             44      228     2125          753
+## 2:                 MIA            103      255     2342          839</code></pre>
 </div>
 <div id="subsetting-rows-by-logical-conditions" class="section level3" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Subsetting rows by logical conditions</h3>
@@ -424,82 +815,118 @@ from <code>data.frame</code>.</p>
 </ul>
 <p>For example, entries of flights operated by “AA” (American Airlines) can be extracted using:</p>
 <div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="data-wrangling.html#cb242-1" aria-hidden="true" tabindex="-1"></a>flights[AIRLINE <span class="sc">==</span> <span class="st">&quot;AA&quot;</span>]</span></code></pre></div>
-<pre><code>##        YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
-##     1: 2015     1   1           4      AA          2336      N3KUAA            LAX                 PBI
-##     2: 2015     1   1           4      AA           258      N3HYAA            LAX                 MIA
-##     3: 2015     1   1           4      AA           115      N3CTAA            LAX                 MIA
-##     4: 2015     1   1           4      AA          2410      N3BAAA            LAX                 DFW
-##     5: 2015     1   1           4      AA          1515      N3HMAA            LAX                 ORD
-##    ---                                                                                                
-## 65479: 2015    12  31           4      AA          1116      N029AA            LAX                 ATL
-## 65480: 2015    12  31           4      AA           246      N863AA            KOA                 LAX
-## 65481: 2015    12  31           4      AA          1927      N837AW            LAX                 IAD
-## 65482: 2015    12  31           4      AA          1538      N866AA            LAX                 MIA
-## 65483: 2015    12  31           4      AA           219      N3LYAA            LAX                 ORD
-##        DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-##     1:              2      263     2330          741
-##     2:             15      258     2342          756
-##     3:            103      255     2342          839
-##     4:            600      150     1235         1052
-##     5:            557      202     1744         1139
-##    ---                                              
-## 65479:           2256      207     1947          553
-## 65480:           2335      272     2504          635
-## 65481:           2346      239     2288          712
-## 65482:           2357      250     2342          731
-## 65483:           2358      198     1744          544</code></pre>
+<pre><code>##        YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER
+##     1: 2015     1   1           4      AA          2336      N3KUAA
+##     2: 2015     1   1           4      AA           258      N3HYAA
+##     3: 2015     1   1           4      AA           115      N3CTAA
+##     4: 2015     1   1           4      AA          2410      N3BAAA
+##     5: 2015     1   1           4      AA          1515      N3HMAA
+##    ---                                                             
+## 65479: 2015    12  31           4      AA          1116      N029AA
+## 65480: 2015    12  31           4      AA           246      N863AA
+## 65481: 2015    12  31           4      AA          1927      N837AW
+## 65482: 2015    12  31           4      AA          1538      N866AA
+## 65483: 2015    12  31           4      AA           219      N3LYAA
+##        ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE
+##     1:            LAX                 PBI              2      263     2330
+##     2:            LAX                 MIA             15      258     2342
+##     3:            LAX                 MIA            103      255     2342
+##     4:            LAX                 DFW            600      150     1235
+##     5:            LAX                 ORD            557      202     1744
+##    ---                                                                    
+## 65479:            LAX                 ATL           2256      207     1947
+## 65480:            KOA                 LAX           2335      272     2504
+## 65481:            LAX                 IAD           2346      239     2288
+## 65482:            LAX                 MIA           2357      250     2342
+## 65483:            LAX                 ORD           2358      198     1744
+##        ARRIVAL_TIME
+##     1:          741
+##     2:          756
+##     3:          839
+##     4:         1052
+##     5:         1139
+##    ---             
+## 65479:          553
+## 65480:          635
+## 65481:          712
+## 65482:          731
+## 65483:          544</code></pre>
 <p>Alternatively, if we are interested in all flights from any destination to the airports in NYC (“JFK” and “LGA”), we can subset the rows using the following command:</p>
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="data-wrangling.html#cb244-1" aria-hidden="true" tabindex="-1"></a>flights[DESTINATION_AIRPORT <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;LGA&quot;</span>, <span class="st">&quot;JFK&quot;</span>)]</span></code></pre></div>
-<pre><code>##        YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
-##     1: 2015     1   1           4      B6            24      N923JB            LAX                 JFK
-##     2: 2015     1   1           4      DL           476      N196DN            LAX                 JFK
-##     3: 2015     1   1           4      AA           118      N788AA            LAX                 JFK
-##     4: 2015     1   1           4      VX           404      N621VA            LAX                 JFK
-##     5: 2015     1   1           4      UA           275      N598UA            LAX                 JFK
-##    ---                                                                                                
-## 12011: 2015    12  31           4      AA           180      N796AA            LAX                 JFK
-## 12012: 2015    12  31           4      B6           524      N934JB            LAX                 JFK
-## 12013: 2015    12  31           4      B6           624      N942JB            LAX                 JFK
-## 12014: 2015    12  31           4      DL          1262      N394DL            LAX                 JFK
-## 12015: 2015    12  31           4      B6          1124      N943JB            LAX                 JFK
-##        DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-##     1:            620      279     2475         1413
-##     2:            650      274     2475         1458
-##     3:            650      268     2475         1436
-##     4:            728      268     2475         1512
-##     5:            806      277     2475         1606
-##    ---                                              
-## 12011:           1640      259     2475           18
-## 12012:           1645      261     2475           18
-## 12013:           2107      280     2475          513
-## 12014:           2244      256     2475          625
-## 12015:           2349      274     2475          748</code></pre>
+<pre><code>##        YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER
+##     1: 2015     1   1           4      B6            24      N923JB
+##     2: 2015     1   1           4      DL           476      N196DN
+##     3: 2015     1   1           4      AA           118      N788AA
+##     4: 2015     1   1           4      VX           404      N621VA
+##     5: 2015     1   1           4      UA           275      N598UA
+##    ---                                                             
+## 12011: 2015    12  31           4      AA           180      N796AA
+## 12012: 2015    12  31           4      B6           524      N934JB
+## 12013: 2015    12  31           4      B6           624      N942JB
+## 12014: 2015    12  31           4      DL          1262      N394DL
+## 12015: 2015    12  31           4      B6          1124      N943JB
+##        ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE
+##     1:            LAX                 JFK            620      279     2475
+##     2:            LAX                 JFK            650      274     2475
+##     3:            LAX                 JFK            650      268     2475
+##     4:            LAX                 JFK            728      268     2475
+##     5:            LAX                 JFK            806      277     2475
+##    ---                                                                    
+## 12011:            LAX                 JFK           1640      259     2475
+## 12012:            LAX                 JFK           1645      261     2475
+## 12013:            LAX                 JFK           2107      280     2475
+## 12014:            LAX                 JFK           2244      256     2475
+## 12015:            LAX                 JFK           2349      274     2475
+##        ARRIVAL_TIME
+##     1:         1413
+##     2:         1458
+##     3:         1436
+##     4:         1512
+##     5:         1606
+##    ---             
+## 12011:           18
+## 12012:           18
+## 12013:          513
+## 12014:          625
+## 12015:          748</code></pre>
 <p>Additionally, we can concatenate multiple conditions using the logical OR <code>|</code> or the logical AND <code>&amp;</code> operator. For instance, if we want to inspect all flights departing between 6am and 7am operated by American Airlines we can use the following statement:</p>
 <div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="data-wrangling.html#cb246-1" aria-hidden="true" tabindex="-1"></a>flights[AIRLINE <span class="sc">==</span> <span class="st">&quot;AA&quot;</span> <span class="sc">&amp;</span> DEPARTURE_TIME <span class="sc">&gt;</span> <span class="dv">600</span> <span class="sc">&amp;</span> DEPARTURE_TIME <span class="sc">&lt;</span> <span class="dv">700</span>]</span></code></pre></div>
-<pre><code>##       YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
-##    1: 2015     1   1           4      AA          1686      N4XXAA            LAX                 STL
-##    2: 2015     1   1           4      AA          1361      N3KYAA            BNA                 LAX
-##    3: 2015     1   1           4      AA          2420      N3ERAA            LAX                 DFW
-##    4: 2015     1   1           4      AA           338      N3DJAA            LAX                 SFO
-##    5: 2015     1   1           4      AA          2424      N3DLAA            LAX                 DFW
-##   ---                                                                                                
-## 3820: 2015    12  31           4      AA           169      N787AA            SFO                 LAX
-## 3821: 2015    12  31           4      AA          1352      N7CAAA            MIA                 LAX
-## 3822: 2015    12  31           4      AA           146      N3MKAA            LAX                 BOS
-## 3823: 2015    12  31           4      AA          2453      N869AA            LAX                 DFW
-## 3824: 2015    12  31           4      AA           118      N791AA            LAX                 JFK
-##       DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-##    1:            609      183     1592         1134
-##    2:            607      255     1797          847
-##    3:            619      149     1235         1119
-##    4:            644       55      337          803
-##    5:            641      146     1235         1149
-##   ---                                              
-## 3820:            623       54      337          740
-## 3821:            651      303     2342          913
-## 3822:            650      268     2611         1446
-## 3823:            651      142     1235         1134
-## 3824:            659      272     2475         1505</code></pre>
+<pre><code>##       YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER
+##    1: 2015     1   1           4      AA          1686      N4XXAA
+##    2: 2015     1   1           4      AA          1361      N3KYAA
+##    3: 2015     1   1           4      AA          2420      N3ERAA
+##    4: 2015     1   1           4      AA           338      N3DJAA
+##    5: 2015     1   1           4      AA          2424      N3DLAA
+##   ---                                                             
+## 3820: 2015    12  31           4      AA           169      N787AA
+## 3821: 2015    12  31           4      AA          1352      N7CAAA
+## 3822: 2015    12  31           4      AA           146      N3MKAA
+## 3823: 2015    12  31           4      AA          2453      N869AA
+## 3824: 2015    12  31           4      AA           118      N791AA
+##       ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE
+##    1:            LAX                 STL            609      183     1592
+##    2:            BNA                 LAX            607      255     1797
+##    3:            LAX                 DFW            619      149     1235
+##    4:            LAX                 SFO            644       55      337
+##    5:            LAX                 DFW            641      146     1235
+##   ---                                                                    
+## 3820:            SFO                 LAX            623       54      337
+## 3821:            MIA                 LAX            651      303     2342
+## 3822:            LAX                 BOS            650      268     2611
+## 3823:            LAX                 DFW            651      142     1235
+## 3824:            LAX                 JFK            659      272     2475
+##       ARRIVAL_TIME
+##    1:         1134
+##    2:          847
+##    3:         1119
+##    4:          803
+##    5:         1149
+##   ---             
+## 3820:          740
+## 3821:          913
+## 3822:         1446
+## 3823:         1134
+## 3824:         1505</code></pre>
 </div>
 </div>
 <div id="column-operations" class="section level2" number="2.3">
@@ -510,7 +937,8 @@ from <code>data.frame</code>.</p>
 <h3><span class="header-section-number">2.3.1</span> Working with columns</h3>
 <p>Accessing columns by name also makes the code more readable: <code>flights[, TAIL_NUMBER]</code> instead of <code>flights[, 7]</code>.</p>
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="data-wrangling.html#cb248-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, TAIL_NUMBER]    <span class="co"># Access column x (also DT$x or DT[j=x]). </span></span></code></pre></div>
-<pre><code>##  [1] &quot;N3KUAA&quot; &quot;N3HYAA&quot; &quot;N584UW&quot; &quot;N547US&quot; &quot;N3CTAA&quot; &quot;N76517&quot; &quot;N925SW&quot; &quot;N719SK&quot; &quot;N435SW&quot; &quot;N560SW&quot;</code></pre>
+<pre><code>##  [1] &quot;N3KUAA&quot; &quot;N3HYAA&quot; &quot;N584UW&quot; &quot;N547US&quot; &quot;N3CTAA&quot; &quot;N76517&quot; &quot;N925SW&quot; &quot;N719SK&quot;
+##  [9] &quot;N435SW&quot; &quot;N560SW&quot;</code></pre>
 <p>For accessing a specific cell (i.e. specific column and specific row), we can use the following syntax:</p>
 <div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="data-wrangling.html#cb250-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">4</span>, TAIL_NUMBER]   <span class="co"># Access a specific cell.</span></span></code></pre></div>
 <pre><code>## [1] &quot;N547US&quot;</code></pre>
@@ -553,12 +981,14 @@ from <code>data.frame</code>.</p>
 <h3><span class="header-section-number">2.3.3</span> Advanced commands: *apply() over columns</h3>
 <p>The columns of a <code>data.table</code> are exposed as a list to the environment. Therefore functions applying to a list can be applied to them, including those of the <code>*apply</code> family such as sapply()`. For example:</p>
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="data-wrangling.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(flights, class)   <span class="co"># Try the same with lapply</span></span></code></pre></div>
-<pre><code>##                YEAR               MONTH                 DAY         DAY_OF_WEEK             AIRLINE 
-##           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot;         &quot;character&quot; 
-##       FLIGHT_NUMBER         TAIL_NUMBER      ORIGIN_AIRPORT DESTINATION_AIRPORT      DEPARTURE_TIME 
-##           &quot;integer&quot;         &quot;character&quot;         &quot;character&quot;         &quot;character&quot;           &quot;integer&quot; 
-##            AIR_TIME            DISTANCE        ARRIVAL_TIME 
-##           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot;</code></pre>
+<pre><code>##                YEAR               MONTH                 DAY         DAY_OF_WEEK 
+##           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot; 
+##             AIRLINE       FLIGHT_NUMBER         TAIL_NUMBER      ORIGIN_AIRPORT 
+##         &quot;character&quot;           &quot;integer&quot;         &quot;character&quot;         &quot;character&quot; 
+## DESTINATION_AIRPORT      DEPARTURE_TIME            AIR_TIME            DISTANCE 
+##         &quot;character&quot;           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot; 
+##        ARRIVAL_TIME 
+##           &quot;integer&quot;</code></pre>
 <div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="data-wrangling.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that we can access columns stored as variables by setting with=F.</span></span>
 <span id="cb270-2"><a href="data-wrangling.html#cb270-2" aria-hidden="true" tabindex="-1"></a><span class="co"># In this case, `colnames(iris_dt)!=&quot;Species&quot;` returns a logical vector and `</span></span>
 <span id="cb270-3"><a href="data-wrangling.html#cb270-3" aria-hidden="true" tabindex="-1"></a><span class="co"># iris_dt` is subsetted by the logical vector</span></span>
@@ -644,20 +1074,20 @@ we can build even more powerful statements using all three elements. For example
 <p>As an example, we can add a new column called <code>SPEED</code> (in miles per hour) whose value is the <code>DISTANCE</code> divided by <code>AIR_TIME</code> times 60:</p>
 <div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="data-wrangling.html#cb283-1" aria-hidden="true" tabindex="-1"></a>flights[, SPEED <span class="sc">:</span><span class="er">=</span> DISTANCE <span class="sc">/</span> AIR_TIME <span class="sc">*</span> <span class="dv">60</span>]</span>
 <span id="cb283-2"><a href="data-wrangling.html#cb283-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights)</span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
-## 1: 2015     1   1           4      AA          2336      N3KUAA            LAX                 PBI
-## 2: 2015     1   1           4      AA           258      N3HYAA            LAX                 MIA
-## 3: 2015     1   1           4      US          2013      N584UW            LAX                 CLT
-## 4: 2015     1   1           4      DL          1434      N547US            LAX                 MSP
-## 5: 2015     1   1           4      AA           115      N3CTAA            LAX                 MIA
-## 6: 2015     1   1           4      UA          1545      N76517            LAX                 IAH
-##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME    SPEED
-## 1:              2      263     2330          741 531.5589
-## 2:             15      258     2342          756 544.6512
-## 3:             44      228     2125          753 559.2105
-## 4:             35      188     1535          605 489.8936
-## 5:            103      255     2342          839 551.0588
-## 6:            112      156     1379          607 530.3846</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
+## 1: 2015     1   1           4      AA          2336      N3KUAA            LAX
+## 2: 2015     1   1           4      AA           258      N3HYAA            LAX
+## 3: 2015     1   1           4      US          2013      N584UW            LAX
+## 4: 2015     1   1           4      DL          1434      N547US            LAX
+## 5: 2015     1   1           4      AA           115      N3CTAA            LAX
+## 6: 2015     1   1           4      UA          1545      N76517            LAX
+##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME    SPEED
+## 1:                 PBI              2      263     2330          741 531.5589
+## 2:                 MIA             15      258     2342          756 544.6512
+## 3:                 CLT             44      228     2125          753 559.2105
+## 4:                 MSP             35      188     1535          605 489.8936
+## 5:                 MIA            103      255     2342          839 551.0588
+## 6:                 IAH            112      156     1379          607 530.3846</code></pre>
 <p>Having computed a new column using the <code>:=</code> operator, we can use it for further analyses. For instance, we can compute the average speed, air time and distance for each airline:</p>
 <div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="data-wrangling.html#cb285-1" aria-hidden="true" tabindex="-1"></a>flights[, .(<span class="at">mean_AIR_TIME =</span> <span class="fu">mean</span>(AIR_TIME, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
 <span id="cb285-2"><a href="data-wrangling.html#cb285-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_SPEED =</span> <span class="fu">mean</span>(SPEED, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
@@ -681,20 +1111,20 @@ we can build even more powerful statements using all three elements. For example
 <p>Additionally we can use the <code>:=</code> operator to remove columns. If we for example observe that tail numbers are not important for our analysis we can remove them with the following statement:</p>
 <div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="data-wrangling.html#cb287-1" aria-hidden="true" tabindex="-1"></a>flights[, TAIL_NUMBER <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
 <span id="cb287-2"><a href="data-wrangling.html#cb287-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights)</span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME
-## 1: 2015     1   1           4      AA          2336            LAX                 PBI              2      263
-## 2: 2015     1   1           4      AA           258            LAX                 MIA             15      258
-## 3: 2015     1   1           4      US          2013            LAX                 CLT             44      228
-## 4: 2015     1   1           4      DL          1434            LAX                 MSP             35      188
-## 5: 2015     1   1           4      AA           115            LAX                 MIA            103      255
-## 6: 2015     1   1           4      UA          1545            LAX                 IAH            112      156
-##    DISTANCE ARRIVAL_TIME    SPEED
-## 1:     2330          741 531.5589
-## 2:     2342          756 544.6512
-## 3:     2125          753 559.2105
-## 4:     1535          605 489.8936
-## 5:     2342          839 551.0588
-## 6:     1379          607 530.3846</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER ORIGIN_AIRPORT
+## 1: 2015     1   1           4      AA          2336            LAX
+## 2: 2015     1   1           4      AA           258            LAX
+## 3: 2015     1   1           4      US          2013            LAX
+## 4: 2015     1   1           4      DL          1434            LAX
+## 5: 2015     1   1           4      AA           115            LAX
+## 6: 2015     1   1           4      UA          1545            LAX
+##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME    SPEED
+## 1:                 PBI              2      263     2330          741 531.5589
+## 2:                 MIA             15      258     2342          756 544.6512
+## 3:                 CLT             44      228     2125          753 559.2105
+## 4:                 MSP             35      188     1535          605 489.8936
+## 5:                 MIA            103      255     2342          839 551.0588
+## 6:                 IAH            112      156     1379          607 530.3846</code></pre>
 <p>Here we observe, that the tail numbers are gone from the <code>data.table</code>.</p>
 </div>
 <div id="advanced-multiple-assignments" class="section level3" number="2.6.2">
@@ -705,10 +1135,14 @@ we can build even more powerful statements using all three elements. For example
 <span id="cb289-3"><a href="data-wrangling.html#cb289-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Add columns with sepal and petal area. Note the syntax of multiple assignment.</span></span>
 <span id="cb289-4"><a href="data-wrangling.html#cb289-4" aria-hidden="true" tabindex="-1"></a>iris_dt[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span> (<span class="at">Sepal.Area =</span> Sepal.Length <span class="sc">*</span> Sepal.Width,</span>
 <span id="cb289-5"><a href="data-wrangling.html#cb289-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">Petal.Area =</span> Petal.Length <span class="sc">*</span> Petal.Width)][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
-<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Area Petal.Area
-## 1:          5.1         3.5          1.4         0.2  setosa      17.85       0.28
-## 2:          4.9         3.0          1.4         0.2  setosa      14.70       0.28
-## 3:          4.7         3.2          1.3         0.2  setosa      15.04       0.26</code></pre>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Area
+## 1:          5.1         3.5          1.4         0.2  setosa      17.85
+## 2:          4.9         3.0          1.4         0.2  setosa      14.70
+## 3:          4.7         3.2          1.3         0.2  setosa      15.04
+##    Petal.Area
+## 1:       0.28
+## 2:       0.28
+## 3:       0.26</code></pre>
 <p>You can also delete columns by using the <code>:=</code> command.</p>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="data-wrangling.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s assume setosa flowers are orange, versicolor purple and virginica pink.</span></span>
 <span id="cb291-2"><a href="data-wrangling.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a column with these colors.</span></span>
@@ -723,7 +1157,8 @@ we can build even more powerful statements using all three elements. For example
 <div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="data-wrangling.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can delete this new column by setting it to NULL</span></span>
 <span id="cb293-2"><a href="data-wrangling.html#cb293-2" aria-hidden="true" tabindex="-1"></a>iris_dt[, color <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
 <span id="cb293-3"><a href="data-wrangling.html#cb293-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(iris_dt)</span></code></pre></div>
-<pre><code>## [1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot;  &quot;Species&quot;      &quot;Sepal.Area&quot;   &quot;Petal.Area&quot;</code></pre>
+<pre><code>## [1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot;  &quot;Species&quot;     
+## [6] &quot;Sepal.Area&quot;   &quot;Petal.Area&quot;</code></pre>
 </div>
 <div id="copying-tables" class="section level3" number="2.6.3">
 <h3><span class="header-section-number">2.6.3</span> Copying tables</h3>
@@ -762,13 +1197,6 @@ we can build even more powerful statements using all three elements. For example
 
 </div>
 </div>
-
-
-
-
-
-
-
 <div class="footnotes">
 <hr />
 <ol start="2">
@@ -780,8 +1208,8 @@ we can build even more powerful statements using all three elements. For example
           </div>
         </div>
       </div>
-<a href="r-basics.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="r-basics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tidy-data-and-combining-tables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

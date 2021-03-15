@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Analytical Statistical Assessment | Data Analysis and Visualization in R (IN2339)</title>
+  <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Analytical Statistical Assessment | Data Analysis and Visualization in R (IN2339)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Analytical Statistical Assessment | Data Analysis and Visualization in R (IN2339)" />
+  
+  <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  
+
+<meta name="author" content="Chair of Computational Molecular Medicine" />
+
+
+<meta name="date" content="2021-03-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="resampling-stat.html"/>
+<link rel="next" href="big-data-stat.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data Analysis and Visualization in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i>Acknowledgments</a></li>
+<li class="chapter" data-level="" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#data-science-what-and-why"><i class="fa fa-check"></i>Data Science: What and why?</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#what-you-will-learn-and-not-learn"><i class="fa fa-check"></i>What you will learn and not learn</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#the-r-language"><i class="fa fa-check"></i>The R language</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#course-overview"><i class="fa fa-check"></i>Course overview</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#complementary-reading"><i class="fa fa-check"></i>Complementary reading</a></li>
+</ul></li>
+<li class="part"><span><b>I Get</b></span></li>
+<li class="chapter" data-level="1" data-path="r-basics.html"><a href="r-basics.html"><i class="fa fa-check"></i><b>1</b> R basics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="r-basics.html"><a href="r-basics.html#rstudio"><i class="fa fa-check"></i><b>1.1</b> Rstudio</a></li>
+<li class="chapter" data-level="1.2" data-path="r-basics.html"><a href="r-basics.html#first-steps-with-r"><i class="fa fa-check"></i><b>1.2</b> First steps with R</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="r-basics.html"><a href="r-basics.html#objects"><i class="fa fa-check"></i><b>1.2.1</b> Objects</a></li>
+<li class="chapter" data-level="1.2.2" data-path="r-basics.html"><a href="r-basics.html#the-workspace"><i class="fa fa-check"></i><b>1.2.2</b> The workspace</a></li>
+<li class="chapter" data-level="1.2.3" data-path="r-basics.html"><a href="r-basics.html#functions"><i class="fa fa-check"></i><b>1.2.3</b> Functions</a></li>
+<li class="chapter" data-level="1.2.4" data-path="r-basics.html"><a href="r-basics.html#other-prebuilt-objects"><i class="fa fa-check"></i><b>1.2.4</b> Other prebuilt objects</a></li>
+<li class="chapter" data-level="1.2.5" data-path="r-basics.html"><a href="r-basics.html#variable-names"><i class="fa fa-check"></i><b>1.2.5</b> Variable names</a></li>
+<li class="chapter" data-level="1.2.6" data-path="r-basics.html"><a href="r-basics.html#reusing-scripts"><i class="fa fa-check"></i><b>1.2.6</b> Reusing scripts</a></li>
+<li class="chapter" data-level="1.2.7" data-path="r-basics.html"><a href="r-basics.html#commenting-your-code"><i class="fa fa-check"></i><b>1.2.7</b> Commenting your code</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="r-basics.html"><a href="r-basics.html#data-types"><i class="fa fa-check"></i><b>1.3</b> Data types</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="r-basics.html"><a href="r-basics.html#data-frames"><i class="fa fa-check"></i><b>1.3.1</b> Data frames</a></li>
+<li class="chapter" data-level="1.3.2" data-path="r-basics.html"><a href="r-basics.html#examining-an-object"><i class="fa fa-check"></i><b>1.3.2</b> Examining an object</a></li>
+<li class="chapter" data-level="1.3.3" data-path="r-basics.html"><a href="r-basics.html#the-accessor"><i class="fa fa-check"></i><b>1.3.3</b> The accessor: <code>$</code></a></li>
+<li class="chapter" data-level="1.3.4" data-path="r-basics.html"><a href="r-basics.html#vectors-numerics-characters-and-logical"><i class="fa fa-check"></i><b>1.3.4</b> Vectors: numerics, characters, and logical</a></li>
+<li class="chapter" data-level="1.3.5" data-path="r-basics.html"><a href="r-basics.html#factors"><i class="fa fa-check"></i><b>1.3.5</b> Factors</a></li>
+<li class="chapter" data-level="1.3.6" data-path="r-basics.html"><a href="r-basics.html#lists"><i class="fa fa-check"></i><b>1.3.6</b> Lists</a></li>
+<li class="chapter" data-level="1.3.7" data-path="r-basics.html"><a href="r-basics.html#matrices"><i class="fa fa-check"></i><b>1.3.7</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="r-basics.html"><a href="r-basics.html#vectors"><i class="fa fa-check"></i><b>1.4</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="r-basics.html"><a href="r-basics.html#creating-vectors"><i class="fa fa-check"></i><b>1.4.1</b> Creating vectors</a></li>
+<li class="chapter" data-level="1.4.2" data-path="r-basics.html"><a href="r-basics.html#names"><i class="fa fa-check"></i><b>1.4.2</b> Names</a></li>
+<li class="chapter" data-level="1.4.3" data-path="r-basics.html"><a href="r-basics.html#sequences"><i class="fa fa-check"></i><b>1.4.3</b> Sequences</a></li>
+<li class="chapter" data-level="1.4.4" data-path="r-basics.html"><a href="r-basics.html#subsetting"><i class="fa fa-check"></i><b>1.4.4</b> Subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="r-basics.html"><a href="r-basics.html#coercion"><i class="fa fa-check"></i><b>1.5</b> Coercion</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="r-basics.html"><a href="r-basics.html#not-availables-na"><i class="fa fa-check"></i><b>1.5.1</b> Not availables (NA)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="r-basics.html"><a href="r-basics.html#sorting"><i class="fa fa-check"></i><b>1.6</b> Sorting</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="r-basics.html"><a href="r-basics.html#sort"><i class="fa fa-check"></i><b>1.6.1</b> <code>sort</code></a></li>
+<li class="chapter" data-level="1.6.2" data-path="r-basics.html"><a href="r-basics.html#order"><i class="fa fa-check"></i><b>1.6.2</b> <code>order</code></a></li>
+<li class="chapter" data-level="1.6.3" data-path="r-basics.html"><a href="r-basics.html#max-and-which.max"><i class="fa fa-check"></i><b>1.6.3</b> <code>max</code> and <code>which.max</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="r-basics.html"><a href="r-basics.html#rank"><i class="fa fa-check"></i><b>1.6.4</b> <code>rank</code></a></li>
+<li class="chapter" data-level="1.6.5" data-path="r-basics.html"><a href="r-basics.html#beware-of-recycling"><i class="fa fa-check"></i><b>1.6.5</b> Beware of recycling</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="r-basics.html"><a href="r-basics.html#vector-arithmetics"><i class="fa fa-check"></i><b>1.7</b> Vector arithmetics</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="r-basics.html"><a href="r-basics.html#rescaling-a-vector"><i class="fa fa-check"></i><b>1.7.1</b> Rescaling a vector</a></li>
+<li class="chapter" data-level="1.7.2" data-path="r-basics.html"><a href="r-basics.html#two-vectors"><i class="fa fa-check"></i><b>1.7.2</b> Two vectors</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="r-basics.html"><a href="r-basics.html#indexing"><i class="fa fa-check"></i><b>1.8</b> Indexing</a>
+<ul>
+<li class="chapter" data-level="1.8.1" data-path="r-basics.html"><a href="r-basics.html#subsetting-with-logicals"><i class="fa fa-check"></i><b>1.8.1</b> Subsetting with logicals</a></li>
+<li class="chapter" data-level="1.8.2" data-path="r-basics.html"><a href="r-basics.html#logical-operators"><i class="fa fa-check"></i><b>1.8.2</b> Logical operators</a></li>
+<li class="chapter" data-level="1.8.3" data-path="r-basics.html"><a href="r-basics.html#which"><i class="fa fa-check"></i><b>1.8.3</b> <code>which</code></a></li>
+<li class="chapter" data-level="1.8.4" data-path="r-basics.html"><a href="r-basics.html#match"><i class="fa fa-check"></i><b>1.8.4</b> <code>match</code></a></li>
+<li class="chapter" data-level="1.8.5" data-path="r-basics.html"><a href="r-basics.html#in"><i class="fa fa-check"></i><b>1.8.5</b> <code>%in%</code></a></li>
+</ul></li>
+<li class="chapter" data-level="1.9" data-path="r-basics.html"><a href="r-basics.html#r-programming"><i class="fa fa-check"></i><b>1.9</b> R programming</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>2</b> Data wrangling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-wrangling.html"><a href="data-wrangling.html#data.tables"><i class="fa fa-check"></i><b>2.1</b> Data.tables</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-wrangling.html"><a href="data-wrangling.html#overview"><i class="fa fa-check"></i><b>2.1.1</b> Overview</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-and-loading-tables"><i class="fa fa-check"></i><b>2.1.2</b> Creating and loading tables</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-wrangling.html"><a href="data-wrangling.html#inspecting-tables"><i class="fa fa-check"></i><b>2.1.3</b> Inspecting tables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-wrangling.html"><a href="data-wrangling.html#row-subsetting"><i class="fa fa-check"></i><b>2.2</b> Row subsetting</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-wrangling.html"><a href="data-wrangling.html#subsetting-rows-by-indices"><i class="fa fa-check"></i><b>2.2.1</b> Subsetting rows by indices</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-wrangling.html"><a href="data-wrangling.html#subsetting-rows-by-logical-conditions"><i class="fa fa-check"></i><b>2.2.2</b> Subsetting rows by logical conditions</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-wrangling.html"><a href="data-wrangling.html#column-operations"><i class="fa fa-check"></i><b>2.3</b> Column operations</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="data-wrangling.html"><a href="data-wrangling.html#working-with-columns"><i class="fa fa-check"></i><b>2.3.1</b> Working with columns</a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-wrangling.html"><a href="data-wrangling.html#column-operations-1"><i class="fa fa-check"></i><b>2.3.2</b> Column operations</a></li>
+<li class="chapter" data-level="2.3.3" data-path="data-wrangling.html"><a href="data-wrangling.html#advanced-commands-apply-over-columns"><i class="fa fa-check"></i><b>2.3.3</b> Advanced commands: *apply() over columns</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="data-wrangling.html"><a href="data-wrangling.html#the-by-option"><i class="fa fa-check"></i><b>2.4</b> The ‘by’ option</a></li>
+<li class="chapter" data-level="2.5" data-path="data-wrangling.html"><a href="data-wrangling.html#counting-occurences-with-.n"><i class="fa fa-check"></i><b>2.5</b> Counting occurences with <code>.N</code></a></li>
+<li class="chapter" data-level="2.6" data-path="data-wrangling.html"><a href="data-wrangling.html#extending-tables"><i class="fa fa-check"></i><b>2.6</b> Extending tables</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-new-columns-the-command"><i class="fa fa-check"></i><b>2.6.1</b> Creating new columns (the := command)</a></li>
+<li class="chapter" data-level="2.6.2" data-path="data-wrangling.html"><a href="data-wrangling.html#advanced-multiple-assignments"><i class="fa fa-check"></i><b>2.6.2</b> Advanced: Multiple assignments</a></li>
+<li class="chapter" data-level="2.6.3" data-path="data-wrangling.html"><a href="data-wrangling.html#copying-tables"><i class="fa fa-check"></i><b>2.6.3</b> Copying tables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summary"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
+<li class="chapter" data-level="2.8" data-path="data-wrangling.html"><a href="data-wrangling.html#data.table-resources"><i class="fa fa-check"></i><b>2.8</b> Data.table resources</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html"><i class="fa fa-check"></i><b>3</b> Tidy data and combining tables</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#motivation"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#datasets-used-in-this-chapter"><i class="fa fa-check"></i><b>3.1.2</b> Datasets used in this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-and-untidy-data"><i class="fa fa-check"></i><b>3.2</b> Tidy and untidy data</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#definition-of-tidy-data"><i class="fa fa-check"></i><b>3.2.1</b> Definition of tidy data</a></li>
+<li class="chapter" data-level="3.2.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advantages-of-tidy-data"><i class="fa fa-check"></i><b>3.2.2</b> Advantages of tidy data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#common-signs-of-untidy-datasets"><i class="fa fa-check"></i><b>3.2.3</b> Common signs of untidy datasets</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidying-up-datasets"><i class="fa fa-check"></i><b>3.3</b> Tidying up datasets</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#melting-wide-to-long"><i class="fa fa-check"></i><b>3.3.1</b> Melting (wide to long)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#casting-long-to-wide"><i class="fa fa-check"></i><b>3.3.2</b> Casting (long to wide)</a></li>
+<li class="chapter" data-level="3.3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#separating-columns"><i class="fa fa-check"></i><b>3.3.3</b> Separating columns</a></li>
+<li class="chapter" data-level="3.3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.3.4</b> Uniting columns</a></li>
+<li class="chapter" data-level="3.3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.3.5</b> Advanced: Columns containing sets of values</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.4</b> Concatenating tables</a></li>
+<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.5</b> Merging tables</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.5.1</b> Inner merge</a></li>
+<li class="chapter" data-level="3.5.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.5.2</b> Outer (full) merge</a></li>
+<li class="chapter" data-level="3.5.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.5.3</b> Left merge</a></li>
+<li class="chapter" data-level="3.5.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.5.4</b> Right merge</a></li>
+<li class="chapter" data-level="3.5.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.5.5</b> Merging by several columns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.6</b> Tidy representations are not unique</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.6.1</b> Alternative tidy forms of a table</a></li>
+<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.6.2</b> On multiple types of observational units in the same table</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.7</b> Summary</a></li>
+<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.8</b> Tidy data resources</a></li>
+</ul></li>
+<li class="part"><span><b>II Look</b></span></li>
+<li class="chapter" data-level="4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html"><i class="fa fa-check"></i><b>4</b> Low dimensional visualizations</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#why-plotting"><i class="fa fa-check"></i><b>4.1</b> Why plotting?</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plot-vs-stat"><i class="fa fa-check"></i><b>4.1.1</b> Plotting versus summary statistics</a></li>
+<li class="chapter" data-level="4.1.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plot-debug"><i class="fa fa-check"></i><b>4.1.2</b> Plotting helps finding bugs in the data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#grammar-of-graphics"><i class="fa fa-check"></i><b>4.2</b> Grammar of graphics</a></li>
+<li class="chapter" data-level="4.3" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#components-of-the-layered-grammar"><i class="fa fa-check"></i><b>4.3</b> Components of the layered grammar</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#components-of-the-grammar-of-graphics"><i class="fa fa-check"></i><b>4.3.1</b> Components of the grammar of graphics</a></li>
+<li class="chapter" data-level="4.3.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#defining-the-data-and-layers"><i class="fa fa-check"></i><b>4.3.2</b> Defining the data and layers</a></li>
+<li class="chapter" data-level="4.3.3" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#mapping-of-aesthetics"><i class="fa fa-check"></i><b>4.3.3</b> Mapping of aesthetics</a></li>
+<li class="chapter" data-level="4.3.4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#facets-axes-and-labels"><i class="fa fa-check"></i><b>4.3.4</b> Facets, axes and labels</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#different-types-of-one--and-two-dimensional-plots"><i class="fa fa-check"></i><b>4.4</b> Different types of one- and two-dimensional plots</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plots-for-one-single-continuous-variable"><i class="fa fa-check"></i><b>4.4.1</b> Plots for one single continuous variable</a></li>
+<li class="chapter" data-level="4.4.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plots-for-two-variables-one-continuous-one-discrete"><i class="fa fa-check"></i><b>4.4.2</b> Plots for two variables: one continuous, one discrete</a></li>
+<li class="chapter" data-level="4.4.3" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plots-for-two-continuos-variables"><i class="fa fa-check"></i><b>4.4.3</b> Plots for two continuos variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#further-plots-for-low-dimensional-data"><i class="fa fa-check"></i><b>4.5</b> Further plots for low dimensional data</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plot-matrix"><i class="fa fa-check"></i><b>4.5.1</b> Plot matrix</a></li>
+<li class="chapter" data-level="4.5.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#correlation-plot"><i class="fa fa-check"></i><b>4.5.2</b> Correlation plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+<li class="chapter" data-level="4.7" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#resources"><i class="fa fa-check"></i><b>4.7</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html"><i class="fa fa-check"></i><b>5</b> High dimensional visualizations</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#notations"><i class="fa fa-check"></i><b>5.1</b> Notations</a></li>
+<li class="chapter" data-level="5.2" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#data-matrix-preparation"><i class="fa fa-check"></i><b>5.2</b> Data matrix preparation</a></li>
+<li class="chapter" data-level="5.3" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#heatmaps"><i class="fa fa-check"></i><b>5.3</b> Heatmaps</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#centering-and-scaling-variables"><i class="fa fa-check"></i><b>5.3.1</b> Centering and scaling variables</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#clustering"><i class="fa fa-check"></i><b>5.4</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#k-means-clustering"><i class="fa fa-check"></i><b>5.4.1</b> K-Means clustering</a></li>
+<li class="chapter" data-level="5.4.2" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#hclust"><i class="fa fa-check"></i><b>5.4.2</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="5.4.3" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#comparing-clusterings-with-the-rand-index"><i class="fa fa-check"></i><b>5.4.3</b> Comparing clusterings with the Rand index</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#dimensionality-reduction-with-pca"><i class="fa fa-check"></i><b>5.5</b> Dimensionality reduction with PCA</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#a-minimal-pca-from-2d-to-1d"><i class="fa fa-check"></i><b>5.5.1</b> A minimal PCA: From 2D to 1D</a></li>
+<li class="chapter" data-level="5.5.2" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#pca-in-higher-dimensions"><i class="fa fa-check"></i><b>5.5.2</b> PCA in higher dimensions</a></li>
+<li class="chapter" data-level="5.5.3" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#pca-in-r"><i class="fa fa-check"></i><b>5.5.3</b> PCA in R</a></li>
+<li class="chapter" data-level="5.5.4" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#plotting-pca-results-in-r"><i class="fa fa-check"></i><b>5.5.4</b> Plotting PCA results in R</a></li>
+<li class="chapter" data-level="5.5.5" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#pca-summary"><i class="fa fa-check"></i><b>5.5.5</b> PCA summary</a></li>
+<li class="chapter" data-level="5.5.6" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#nonlinear-dimension-reduction"><i class="fa fa-check"></i><b>5.5.6</b> Nonlinear dimension reduction</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#discussion"><i class="fa fa-check"></i><b>5.6</b> Discussion</a></li>
+<li class="chapter" data-level="5.7" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#summary-3"><i class="fa fa-check"></i><b>5.7</b> Summary</a></li>
+<li class="chapter" data-level="5.8" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#resources-1"><i class="fa fa-check"></i><b>5.8</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html"><i class="fa fa-check"></i><b>6</b> Graphically supported hypotheses</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#descriptive-vs.-associative-plots"><i class="fa fa-check"></i><b>6.1</b> Descriptive vs. associative plots</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#descriptive-plots"><i class="fa fa-check"></i><b>6.1.1</b> Descriptive plots</a></li>
+<li class="chapter" data-level="6.1.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#associative-plots"><i class="fa fa-check"></i><b>6.1.2</b> Associative plots</a></li>
+<li class="chapter" data-level="6.1.3" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#correctly-using-descriptive-and-demonstrative-plots"><i class="fa fa-check"></i><b>6.1.3</b> Correctly using descriptive and demonstrative plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#correlation-and-causation"><i class="fa fa-check"></i><b>6.2</b> Correlation and causation</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#the-association-is-not-statistically-supported"><i class="fa fa-check"></i><b>6.2.1</b> The association is not statistically supported</a></li>
+<li class="chapter" data-level="6.2.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#reversing-cause-and-effect"><i class="fa fa-check"></i><b>6.2.2</b> Reversing cause and effect</a></li>
+<li class="chapter" data-level="6.2.3" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#the-association-is-induced-by-a-third-variable"><i class="fa fa-check"></i><b>6.2.3</b> The association is induced by a third variable</a></li>
+<li class="chapter" data-level="6.2.4" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#simpsons-paradox"><i class="fa fa-check"></i><b>6.2.4</b> Simpson’s paradox</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#data-presentation-as-story-telling"><i class="fa fa-check"></i><b>6.3</b> Data presentation as story telling</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#what-is-a-story"><i class="fa fa-check"></i><b>6.3.1</b> What is a story?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#presentation-structure"><i class="fa fa-check"></i><b>6.3.2</b> Presentation structure</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#guidelines-for-coloring-in-data-visualization"><i class="fa fa-check"></i><b>6.4</b> Guidelines for coloring in data visualization</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#color-coding-in-r"><i class="fa fa-check"></i><b>6.4.1</b> Color coding in R</a></li>
+<li class="chapter" data-level="6.4.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#general-rules-for-color-coding"><i class="fa fa-check"></i><b>6.4.2</b> General rules for color coding</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#general-dos-and-donts-in-data-visualization"><i class="fa fa-check"></i><b>6.5</b> General do’s and don’ts in data visualization</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#dos"><i class="fa fa-check"></i><b>6.5.1</b> Do’s</a></li>
+<li class="chapter" data-level="6.5.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#donts"><i class="fa fa-check"></i><b>6.5.2</b> don’ts</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#summary-4"><i class="fa fa-check"></i><b>6.6</b> Summary</a></li>
+<li class="chapter" data-level="6.7" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#resources-2"><i class="fa fa-check"></i><b>6.7</b> Resources</a></li>
+</ul></li>
+<li class="part"><span><b>III Conclude</b></span></li>
+<li class="chapter" data-level="7" data-path="resampling-stat.html"><a href="resampling-stat.html"><i class="fa fa-check"></i><b>7</b> Resampling-based Statistical Assessment</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="resampling-stat.html"><a href="resampling-stat.html#yeast-dataset"><i class="fa fa-check"></i><b>7.1</b> The yeast dataset</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="resampling-stat.html"><a href="resampling-stat.html#the-experiment"><i class="fa fa-check"></i><b>7.1.1</b> The experiment</a></li>
+<li class="chapter" data-level="7.1.2" data-path="resampling-stat.html"><a href="resampling-stat.html#genotype"><i class="fa fa-check"></i><b>7.1.2</b> Genotype</a></li>
+<li class="chapter" data-level="7.1.3" data-path="resampling-stat.html"><a href="resampling-stat.html#growth-rates"><i class="fa fa-check"></i><b>7.1.3</b> Growth rates</a></li>
+<li class="chapter" data-level="7.1.4" data-path="resampling-stat.html"><a href="resampling-stat.html#genotype-growth-rate-association-in-maltose-at-a-specific-marker"><i class="fa fa-check"></i><b>7.1.4</b> Genotype-growth rate association in maltose at a specific marker</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="resampling-stat.html"><a href="resampling-stat.html#statistical-hypothesis-testing"><i class="fa fa-check"></i><b>7.2</b> Statistical hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="resampling-stat.html"><a href="resampling-stat.html#permut-test-build-up"><i class="fa fa-check"></i><b>7.2.1</b> Permutation testing: An intuitive build-up</a></li>
+<li class="chapter" data-level="7.2.2" data-path="resampling-stat.html"><a href="resampling-stat.html#concepts-of-statistical-hypothesis-testing"><i class="fa fa-check"></i><b>7.2.2</b> Concepts of Statistical Hypothesis Testing</a></li>
+<li class="chapter" data-level="7.2.3" data-path="resampling-stat.html"><a href="resampling-stat.html#permutation-testing-formally"><i class="fa fa-check"></i><b>7.2.3</b> Permutation testing, formally</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="resampling-stat.html"><a href="resampling-stat.html#confidence-intervals-quantifying-uncertainty-in-parameter-estimates"><i class="fa fa-check"></i><b>7.3</b> Confidence intervals: Quantifying uncertainty in parameter estimates</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="resampling-stat.html"><a href="resampling-stat.html#repeating-experiments-to-quantify-uncertainty"><i class="fa fa-check"></i><b>7.3.1</b> Repeating experiments to quantify uncertainty</a></li>
+<li class="chapter" data-level="7.3.2" data-path="resampling-stat.html"><a href="resampling-stat.html#simulating-repeated-experiments"><i class="fa fa-check"></i><b>7.3.2</b> Simulating repeated experiments</a></li>
+<li class="chapter" data-level="7.3.3" data-path="resampling-stat.html"><a href="resampling-stat.html#quantifying-uncertainty-using-the-case-resampling-bootstrap"><i class="fa fa-check"></i><b>7.3.3</b> Quantifying uncertainty using the case resampling bootstrap</a></li>
+<li class="chapter" data-level="7.3.4" data-path="resampling-stat.html"><a href="resampling-stat.html#confidence-intervals-formal-definition"><i class="fa fa-check"></i><b>7.3.4</b> Confidence Intervals: Formal definition</a></li>
+<li class="chapter" data-level="7.3.5" data-path="resampling-stat.html"><a href="resampling-stat.html#visualizing-the-formal-definition-of-confidence-intervals"><i class="fa fa-check"></i><b>7.3.5</b> Visualizing the formal definition of Confidence Intervals</a></li>
+<li class="chapter" data-level="7.3.6" data-path="resampling-stat.html"><a href="resampling-stat.html#hypothesis-testing-with-the-confidence-interval"><i class="fa fa-check"></i><b>7.3.6</b> Hypothesis testing with the Confidence Interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="resampling-stat.html"><a href="resampling-stat.html#discussion-1"><i class="fa fa-check"></i><b>7.4</b> Discussion</a></li>
+<li class="chapter" data-level="7.5" data-path="resampling-stat.html"><a href="resampling-stat.html#conclusion"><i class="fa fa-check"></i><b>7.5</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="analytical-stat.html"><a href="analytical-stat.html"><i class="fa fa-check"></i><b>8</b> Analytical Statistical Assessment</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="analytical-stat.html"><a href="analytical-stat.html#motivation-hypothesis-testing-in-large-datasets"><i class="fa fa-check"></i><b>8.1</b> Motivation: Hypothesis testing in large datasets</a></li>
+<li class="chapter" data-level="8.2" data-path="analytical-stat.html"><a href="analytical-stat.html#the-binomial-test-testing-hypotheses-for-a-single-binary-variable"><i class="fa fa-check"></i><b>8.2</b> The Binomial Test: testing hypotheses for a single binary variable</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="analytical-stat.html"><a href="analytical-stat.html#abstraction-tossing-a-coin"><i class="fa fa-check"></i><b>8.2.1</b> Abstraction: Tossing a coin</a></li>
+<li class="chapter" data-level="8.2.2" data-path="analytical-stat.html"><a href="analytical-stat.html#computing-a-binomial-test-with-r"><i class="fa fa-check"></i><b>8.2.2</b> Computing a binomial test with R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="analytical-stat.html"><a href="analytical-stat.html#fisher-test"><i class="fa fa-check"></i><b>8.3</b> Fisher’s exact test: Testing the association between two binary variables</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="analytical-stat.html"><a href="analytical-stat.html#permutation-testing-and-the-hypergeometric-distribution"><i class="fa fa-check"></i><b>8.3.1</b> Permutation testing and the hypergeometric distribution</a></li>
+<li class="chapter" data-level="8.3.2" data-path="analytical-stat.html"><a href="analytical-stat.html#fishers-exact-test"><i class="fa fa-check"></i><b>8.3.2</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="8.3.3" data-path="analytical-stat.html"><a href="analytical-stat.html#fishers-exact-test-in-r"><i class="fa fa-check"></i><b>8.3.3</b> Fisher’s exact test in R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="analytical-stat.html"><a href="analytical-stat.html#testing-the-association-between-one-quantitative-and-one-binary-variable"><i class="fa fa-check"></i><b>8.4</b> Testing the association between one quantitative and one binary variable</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="analytical-stat.html"><a href="analytical-stat.html#the-t-test"><i class="fa fa-check"></i><b>8.4.1</b> The t-test</a></li>
+<li class="chapter" data-level="8.4.2" data-path="analytical-stat.html"><a href="analytical-stat.html#wilcoxon-rank-sum-test-an-alternative-to-the-t-test-for-non-gaussian-data"><i class="fa fa-check"></i><b>8.4.2</b> Wilcoxon rank-sum test: An alternative to the t-test for non-Gaussian data</a></li>
+<li class="chapter" data-level="8.4.3" data-path="analytical-stat.html"><a href="analytical-stat.html#why-bother-with-the-wilcoxon-rank-sum-test"><i class="fa fa-check"></i><b>8.4.3</b> Why bother with the Wilcoxon rank-sum test?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="analytical-stat.html"><a href="analytical-stat.html#association-between-two-quantitative-variables"><i class="fa fa-check"></i><b>8.5</b> Association between two quantitative variables</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="analytical-stat.html"><a href="analytical-stat.html#the-pearson-correlation-test"><i class="fa fa-check"></i><b>8.5.1</b> The Pearson correlation test</a></li>
+<li class="chapter" data-level="8.5.2" data-path="analytical-stat.html"><a href="analytical-stat.html#the-spearman-rank-correlation-test"><i class="fa fa-check"></i><b>8.5.2</b> The Spearman rank correlation test</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="analytical-stat.html"><a href="analytical-stat.html#testing-associations-of-two-variables-overview"><i class="fa fa-check"></i><b>8.6</b> Testing associations of two variables: Overview</a></li>
+<li class="chapter" data-level="8.7" data-path="analytical-stat.html"><a href="analytical-stat.html#assessing-distributional-assumptions-with-q-q-plots"><i class="fa fa-check"></i><b>8.7</b> Assessing distributional assumptions with Q-Q Plots</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="analytical-stat.html"><a href="analytical-stat.html#limitations-of-histograms"><i class="fa fa-check"></i><b>8.7.1</b> Limitations of Histograms</a></li>
+<li class="chapter" data-level="8.7.2" data-path="analytical-stat.html"><a href="analytical-stat.html#q-q-plots-comparing-empirical-to-theoretical-quantiles"><i class="fa fa-check"></i><b>8.7.2</b> Q-Q plots: Comparing empirical to theoretical quantiles</a></li>
+<li class="chapter" data-level="8.7.3" data-path="analytical-stat.html"><a href="analytical-stat.html#typical-q-q-plots"><i class="fa fa-check"></i><b>8.7.3</b> Typical Q-Q plots</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="analytical-stat.html"><a href="analytical-stat.html#analytical-conf-int"><i class="fa fa-check"></i><b>8.8</b> Analytical Confidence intervals</a>
+<ul>
+<li class="chapter" data-level="8.8.1" data-path="analytical-stat.html"><a href="analytical-stat.html#binomial-case"><i class="fa fa-check"></i><b>8.8.1</b> Binomial case</a></li>
+<li class="chapter" data-level="8.8.2" data-path="analytical-stat.html"><a href="analytical-stat.html#confidence-intervals-in-r"><i class="fa fa-check"></i><b>8.8.2</b> Confidence intervals in R</a></li>
+<li class="chapter" data-level="8.8.3" data-path="analytical-stat.html"><a href="analytical-stat.html#advanced-a-note-on-overlapping-confidence-intervals"><i class="fa fa-check"></i><b>8.8.3</b> Advanced: A note on overlapping confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="8.9" data-path="analytical-stat.html"><a href="analytical-stat.html#discussion-2"><i class="fa fa-check"></i><b>8.9</b> Discussion</a></li>
+<li class="chapter" data-level="8.10" data-path="analytical-stat.html"><a href="analytical-stat.html#conclusion-1"><i class="fa fa-check"></i><b>8.10</b> Conclusion</a></li>
+<li class="chapter" data-level="8.11" data-path="analytical-stat.html"><a href="analytical-stat.html#resources-3"><i class="fa fa-check"></i><b>8.11</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="big-data-stat.html"><a href="big-data-stat.html"><i class="fa fa-check"></i><b>9</b> Statistical Assessments for Big Data</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="big-data-stat.html"><a href="big-data-stat.html#motivation-statistical-significance-in-a-big-data-context"><i class="fa fa-check"></i><b>9.1</b> Motivation: Statistical Significance in a Big Data context</a></li>
+<li class="chapter" data-level="9.2" data-path="big-data-stat.html"><a href="big-data-stat.html#effect-size-actually-important-or-just-significant"><i class="fa fa-check"></i><b>9.2</b> Effect Size: Actually important or just significant?</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="big-data-stat.html"><a href="big-data-stat.html#the-relationship-of-sample-size-and-significance"><i class="fa fa-check"></i><b>9.2.1</b> The relationship of sample size and significance</a></li>
+<li class="chapter" data-level="9.2.2" data-path="big-data-stat.html"><a href="big-data-stat.html#report-p-value-effect-size-and-plot"><i class="fa fa-check"></i><b>9.2.2</b> Report P-value, effect size, and plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="big-data-stat.html"><a href="big-data-stat.html#multiple-testing"><i class="fa fa-check"></i><b>9.3</b> Multiple Testing</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="big-data-stat.html"><a href="big-data-stat.html#multiple-testing-in-real-life-p-hacking-and-fishing-expeditions"><i class="fa fa-check"></i><b>9.3.1</b> Multiple testing in real life: p-Hacking and fishing expeditions</a></li>
+<li class="chapter" data-level="9.3.2" data-path="big-data-stat.html"><a href="big-data-stat.html#the-land-of-counterfeit-fake-coins"><i class="fa fa-check"></i><b>9.3.2</b> The Land of Counterfeit (fake) coins</a></li>
+<li class="chapter" data-level="9.3.3" data-path="big-data-stat.html"><a href="big-data-stat.html#simulation"><i class="fa fa-check"></i><b>9.3.3</b> Simulation</a></li>
+<li class="chapter" data-level="9.3.4" data-path="big-data-stat.html"><a href="big-data-stat.html#nominal-p-values"><i class="fa fa-check"></i><b>9.3.4</b> Nominal p-values</a></li>
+<li class="chapter" data-level="9.3.5" data-path="big-data-stat.html"><a href="big-data-stat.html#family-wise-error-rate"><i class="fa fa-check"></i><b>9.3.5</b> Family-wise error rate</a></li>
+<li class="chapter" data-level="9.3.6" data-path="big-data-stat.html"><a href="big-data-stat.html#false-discovery-rate"><i class="fa fa-check"></i><b>9.3.6</b> False Discovery Rate</a></li>
+<li class="chapter" data-level="9.3.7" data-path="big-data-stat.html"><a href="big-data-stat.html#overview-figure"><i class="fa fa-check"></i><b>9.3.7</b> Overview figure</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="big-data-stat.html"><a href="big-data-stat.html#conclusions"><i class="fa fa-check"></i><b>9.4</b> Conclusions</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="big-data-stat.html"><a href="big-data-stat.html#to-remember"><i class="fa fa-check"></i><b>9.4.1</b> To remember</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="big-data-stat.html"><a href="big-data-stat.html#references"><i class="fa fa-check"></i><b>9.5</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#motivation-and-overview"><i class="fa fa-check"></i><b>10.1</b> Motivation and overview</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#testing-conditional-dependence"><i class="fa fa-check"></i><b>10.1.1</b> Testing conditional dependence</a></li>
+<li class="chapter" data-level="10.1.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#linear-regression"><i class="fa fa-check"></i><b>10.1.2</b> Linear regression</a></li>
+<li class="chapter" data-level="10.1.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#limitations"><i class="fa fa-check"></i><b>10.1.3</b> Limitations</a></li>
+<li class="chapter" data-level="10.1.4" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#applications"><i class="fa fa-check"></i><b>10.1.4</b> Applications</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#univariate-regression"><i class="fa fa-check"></i><b>10.2</b> Univariate regression</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#galtons-height-dataset"><i class="fa fa-check"></i><b>10.2.1</b> Galton’s height dataset</a></li>
+<li class="chapter" data-level="10.2.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#ML-LSE"><i class="fa fa-check"></i><b>10.2.2</b> Maximum likelihood and least squares estimates</a></li>
+<li class="chapter" data-level="10.2.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#interpretation-of-the-fitted-coefficients"><i class="fa fa-check"></i><b>10.2.3</b> Interpretation of the fitted coefficients</a></li>
+<li class="chapter" data-level="10.2.4" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#predicted-values-are-random-variables"><i class="fa fa-check"></i><b>10.2.4</b> Predicted values are random variables</a></li>
+<li class="chapter" data-level="10.2.5" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#explained-variance"><i class="fa fa-check"></i><b>10.2.5</b> Explained variance</a></li>
+<li class="chapter" data-level="10.2.6" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#testing-the-relationship-between-y-and-x"><i class="fa fa-check"></i><b>10.2.6</b> Testing the relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#multivariate-regression"><i class="fa fa-check"></i><b>10.3</b> Multivariate regression</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#a-multivariate-example-the-baseball-dataset"><i class="fa fa-check"></i><b>10.3.1</b> A multivariate example: The baseball dataset</a></li>
+<li class="chapter" data-level="10.3.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#fitting-multivariate-regression"><i class="fa fa-check"></i><b>10.3.2</b> Fitting multivariate regression</a></li>
+<li class="chapter" data-level="10.3.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#testing-sets-of-parameters"><i class="fa fa-check"></i><b>10.3.3</b> Testing sets of parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#lin-reg-diagnostic"><i class="fa fa-check"></i><b>10.4</b> Diagnostic plots</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#assessing-non-linearity-with-residual-plot"><i class="fa fa-check"></i><b>10.4.1</b> Assessing non-linearity with residual plot</a></li>
+<li class="chapter" data-level="10.4.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#when-error-variance-is-not-constant-heteroscedascity"><i class="fa fa-check"></i><b>10.4.2</b> When error variance is not constant: Heteroscedascity</a></li>
+<li class="chapter" data-level="10.4.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#gaussianity-q-q-plot-of-the-residuals"><i class="fa fa-check"></i><b>10.4.3</b> Gaussianity: Q-Q-plot of the residuals</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#conclusions-1"><i class="fa fa-check"></i><b>10.5</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="chap-log-reg.html"><a href="chap-log-reg.html"><i class="fa fa-check"></i><b>11</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#a-univariate-example-predicting-sex-given-the-height"><i class="fa fa-check"></i><b>11.1</b> A univariate example: predicting sex given the height</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#from-linear-regression-to-logistic-regression"><i class="fa fa-check"></i><b>11.1.1</b> From linear regression to logistic regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#ML-CE"><i class="fa fa-check"></i><b>11.2</b> Maximum likelihood estimates and the cross-entropy criterion</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-log-reg.html"><a href="chap-log-reg.html#logistic-regression-as-a-generalized-linear-model"><i class="fa fa-check"></i><b>11.3</b> Logistic regression as a generalized linear model</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#logistic-regression-with-r"><i class="fa fa-check"></i><b>11.3.1</b> Logistic regression with R</a></li>
+<li class="chapter" data-level="11.3.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#overview-plot-of-the-univariate-example"><i class="fa fa-check"></i><b>11.3.2</b> Overview plot of the univariate example</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="chap-log-reg.html"><a href="chap-log-reg.html#interpreting-a-logistic-regression-fit"><i class="fa fa-check"></i><b>11.4</b> Interpreting a logistic regression fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#predicted-odds"><i class="fa fa-check"></i><b>11.4.1</b> Predicted odds</a></li>
+<li class="chapter" data-level="11.4.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#coefficients-of-the-logistic-regression"><i class="fa fa-check"></i><b>11.4.2</b> Coefficients of the logistic regression</a></li>
+<li class="chapter" data-level="11.4.3" data-path="chap-log-reg.html"><a href="chap-log-reg.html#effects-on-probabilities"><i class="fa fa-check"></i><b>11.4.3</b> Effects on probabilities</a></li>
+<li class="chapter" data-level="11.4.4" data-path="chap-log-reg.html"><a href="chap-log-reg.html#class-imbalance"><i class="fa fa-check"></i><b>11.4.4</b> Class imbalance</a></li>
+<li class="chapter" data-level="11.4.5" data-path="chap-log-reg.html"><a href="chap-log-reg.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>11.4.5</b> Multiple Logistic regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="chap-log-reg.html"><a href="chap-log-reg.html#assessing-the-performance-of-a-classifier"><i class="fa fa-check"></i><b>11.5</b> Assessing the performance of a classifier</a>
+<ul>
+<li class="chapter" data-level="11.5.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#classification-with-logistic-regression"><i class="fa fa-check"></i><b>11.5.1</b> Classification with logistic regression</a></li>
+<li class="chapter" data-level="11.5.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#confusion-matrix"><i class="fa fa-check"></i><b>11.5.2</b> Confusion Matrix</a></li>
+<li class="chapter" data-level="11.5.3" data-path="chap-log-reg.html"><a href="chap-log-reg.html#classification-performance-metrics"><i class="fa fa-check"></i><b>11.5.3</b> Classification performance metrics</a></li>
+<li class="chapter" data-level="11.5.4" data-path="chap-log-reg.html"><a href="chap-log-reg.html#choosing-a-classification-cutoff"><i class="fa fa-check"></i><b>11.5.4</b> Choosing a classification cutoff</a></li>
+<li class="chapter" data-level="11.5.5" data-path="chap-log-reg.html"><a href="chap-log-reg.html#roc-curve"><i class="fa fa-check"></i><b>11.5.5</b> ROC curve</a></li>
+<li class="chapter" data-level="11.5.6" data-path="chap-log-reg.html"><a href="chap-log-reg.html#precision-recall-curve"><i class="fa fa-check"></i><b>11.5.6</b> Precision Recall curve</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="chap-log-reg.html"><a href="chap-log-reg.html#conclusions-2"><i class="fa fa-check"></i><b>11.6</b> Conclusions</a>
+<ul>
+<li class="chapter" data-level="11.6.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#to-remember-1"><i class="fa fa-check"></i><b>11.6.1</b> To remember</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>12</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="supervised-learning.html"><a href="supervised-learning.html#introduction-3"><i class="fa fa-check"></i><b>12.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#motivation-2"><i class="fa fa-check"></i><b>12.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="12.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#supervised-learning-vs.-unsupervised-learning"><i class="fa fa-check"></i><b>12.1.2</b> Supervised learning vs. unsupervised learning</a></li>
+<li class="chapter" data-level="12.1.3" data-path="supervised-learning.html"><a href="supervised-learning.html#notation"><i class="fa fa-check"></i><b>12.1.3</b> Notation</a></li>
+<li class="chapter" data-level="12.1.4" data-path="supervised-learning.html"><a href="supervised-learning.html#basic-approach-in-supervised-machine-learning"><i class="fa fa-check"></i><b>12.1.4</b> Basic approach in supervised machine learning</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="supervised-learning.html"><a href="supervised-learning.html#over--and-under-fitting"><i class="fa fa-check"></i><b>12.2</b> Over- and Under-fitting</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="supervised-learning.html"><a href="supervised-learning.html#example-polynomial-curve-fitting"><i class="fa fa-check"></i><b>12.2.1</b> Example: polynomial curve fitting</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="supervised-learning.html"><a href="supervised-learning.html#splitting-the-dataset-for-performance-assessment"><i class="fa fa-check"></i><b>12.3</b> Splitting the dataset for performance assessment</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="supervised-learning.html"><a href="supervised-learning.html#over-fitting-to-the-training-dataset"><i class="fa fa-check"></i><b>12.3.1</b> Over-fitting to the training dataset</a></li>
+<li class="chapter" data-level="12.3.2" data-path="supervised-learning.html"><a href="supervised-learning.html#cross-validation"><i class="fa fa-check"></i><b>12.3.2</b> Cross-validation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forests-as-alternative-models"><i class="fa fa-check"></i><b>12.4</b> Random Forests as alternative models</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="supervised-learning.html"><a href="supervised-learning.html#the-basics-of-decision-trees"><i class="fa fa-check"></i><b>12.4.1</b> The basics of decision trees</a></li>
+<li class="chapter" data-level="12.4.2" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forests-for-classification-and-regression-tasks"><i class="fa fa-check"></i><b>12.4.2</b> Random Forests for classification and regression tasks</a></li>
+<li class="chapter" data-level="12.4.3" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forests-in-r"><i class="fa fa-check"></i><b>12.4.3</b> Random Forests in R</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="supervised-learning.html"><a href="supervised-learning.html#conclusion-2"><i class="fa fa-check"></i><b>12.5</b> Conclusion</a></li>
+<li class="chapter" data-level="12.6" data-path="supervised-learning.html"><a href="supervised-learning.html#resources-4"><i class="fa fa-check"></i><b>12.6</b> Resources</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>A</b> Importing data</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="importing-data.html"><a href="importing-data.html#paths-and-the-working-directory"><i class="fa fa-check"></i><b>A.1</b> Paths and the working directory</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="importing-data.html"><a href="importing-data.html#the-filesystem"><i class="fa fa-check"></i><b>A.1.1</b> The filesystem</a></li>
+<li class="chapter" data-level="A.1.2" data-path="importing-data.html"><a href="importing-data.html#relative-and-full-paths"><i class="fa fa-check"></i><b>A.1.2</b> Relative and full paths</a></li>
+<li class="chapter" data-level="A.1.3" data-path="importing-data.html"><a href="importing-data.html#the-working-directory"><i class="fa fa-check"></i><b>A.1.3</b> The working directory</a></li>
+<li class="chapter" data-level="A.1.4" data-path="importing-data.html"><a href="importing-data.html#generating-path-names"><i class="fa fa-check"></i><b>A.1.4</b> Generating path names</a></li>
+<li class="chapter" data-level="A.1.5" data-path="importing-data.html"><a href="importing-data.html#copying-files-using-paths"><i class="fa fa-check"></i><b>A.1.5</b> Copying files using paths</a></li>
+</ul></li>
+<li class="chapter" data-level="A.2" data-path="importing-data.html"><a href="importing-data.html#the-readr-and-readxl-packages"><i class="fa fa-check"></i><b>A.2</b> The readr and readxl packages</a>
+<ul>
+<li class="chapter" data-level="A.2.1" data-path="importing-data.html"><a href="importing-data.html#readr"><i class="fa fa-check"></i><b>A.2.1</b> readr</a></li>
+<li class="chapter" data-level="A.2.2" data-path="importing-data.html"><a href="importing-data.html#readxl"><i class="fa fa-check"></i><b>A.2.2</b> readxl</a></li>
+</ul></li>
+<li class="chapter" data-level="A.3" data-path="importing-data.html"><a href="importing-data.html#exercises"><i class="fa fa-check"></i><b>A.3</b> Exercises</a></li>
+<li class="chapter" data-level="A.4" data-path="importing-data.html"><a href="importing-data.html#downloading-files"><i class="fa fa-check"></i><b>A.4</b> Downloading files</a></li>
+<li class="chapter" data-level="A.5" data-path="importing-data.html"><a href="importing-data.html#r-base-importing-functions"><i class="fa fa-check"></i><b>A.5</b> R-base importing functions</a>
+<ul>
+<li><a href="importing-data.html#scan"><code>scan</code></a></li>
+</ul></li>
+<li class="chapter" data-level="A.6" data-path="importing-data.html"><a href="importing-data.html#text-versus-binary-files"><i class="fa fa-check"></i><b>A.6</b> Text versus binary files</a></li>
+<li class="chapter" data-level="A.7" data-path="importing-data.html"><a href="importing-data.html#unicode-versus-ascii"><i class="fa fa-check"></i><b>A.7</b> Unicode versus ASCII</a></li>
+<li class="chapter" data-level="A.8" data-path="importing-data.html"><a href="importing-data.html#organizing-data-with-spreadsheets"><i class="fa fa-check"></i><b>A.8</b> Organizing data with spreadsheets</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html"><i class="fa fa-check"></i><b>B</b> R programming</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#conditionals"><i class="fa fa-check"></i><b>B.1</b> Conditional expressions</a></li>
+<li class="chapter" data-level="B.2" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#defining-functions"><i class="fa fa-check"></i><b>B.2</b> Defining functions</a></li>
+<li class="chapter" data-level="B.3" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#namespaces"><i class="fa fa-check"></i><b>B.3</b> Namespaces</a></li>
+<li class="chapter" data-level="B.4" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#for-loops"><i class="fa fa-check"></i><b>B.4</b> For-loops</a></li>
+<li class="chapter" data-level="B.5" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#vectorization"><i class="fa fa-check"></i><b>B.5</b> Vectorization and functionals</a></li>
+<li class="chapter" data-level="B.6" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#r-markdown"><i class="fa fa-check"></i><b>B.6</b> R Markdown</a></li>
+<li class="chapter" data-level="B.7" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#resources-5"><i class="fa fa-check"></i><b>B.7</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html"><i class="fa fa-check"></i><b>C</b> Additonal plotting tools</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#plotting-themes"><i class="fa fa-check"></i><b>C.1</b> Plotting themes</a></li>
+<li class="chapter" data-level="C.2" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#axes"><i class="fa fa-check"></i><b>C.2</b> Axes</a>
+<ul>
+<li class="chapter" data-level="C.2.1" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#axis-elements"><i class="fa fa-check"></i><b>C.2.1</b> Axis elements</a></li>
+</ul></li>
+<li class="chapter" data-level="C.3" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#plot-title"><i class="fa fa-check"></i><b>C.3</b> Plot title</a></li>
+<li class="chapter" data-level="C.4" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#legend"><i class="fa fa-check"></i><b>C.4</b> Legend</a></li>
+<li class="chapter" data-level="C.5" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#interactive-plots"><i class="fa fa-check"></i><b>C.5</b> Interactive plots</a></li>
+</ul></li>
+<li class="chapter" data-level="D" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html"><i class="fa fa-check"></i><b>D</b> Probabilities</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#probability-conditional-probability-and-dependence"><i class="fa fa-check"></i><b>D.1</b> Probability, conditional probability, and dependence</a></li>
+<li class="chapter" data-level="D.2" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#expected-value-variance-and-covariance"><i class="fa fa-check"></i><b>D.2</b> Expected value, variance, and covariance</a></li>
+<li class="chapter" data-level="D.3" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#sample-estimates"><i class="fa fa-check"></i><b>D.3</b> Sample estimates</a></li>
+<li class="chapter" data-level="D.4" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#appendix-lin-reg"><i class="fa fa-check"></i><b>D.4</b> Linear regression</a></li>
+<li class="chapter" data-level="D.5" data-path="appendix-probabilities.html"><a href="appendix-probabilities.html#resources-6"><i class="fa fa-check"></i><b>D.5</b> Resources</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="./">Julien Gagneur, TUM</a></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis and Visualization in R (IN2339)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="analytical-stat" class="section level1" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Analytical Statistical Assessment</h1>
+<p>In the last chapter we discussed how trends in data can arise by chance, leading us to wrong conclusions. We saw that statistical hypothesis testing can help to guard us from being fooled by randomness in this way. We developed the permutation test as an empirical way to perform hypothesis tests.</p>
+<p>While permutation testing is very general and requires few assumptions, it has its limitations, as we will see shortly. In this chapter, we will therefore discuss a more analytical approach to testing. We will see several classical tests, such as the binomial test and the t-test. These tests often make stronger assumptions about the underlying data. Thus, it is important to understand when they can and cannot be used. We will discuss the quantile-quantile plot (Q-Q plot) as a method to check some of these assumptions.</p>
+<p>In the last chapter we also touched on the topic of confidence intervals, which help us quantify the uncertainty of our estimates, and also developed an empirical way to compute them. In this chapter, we will briefly describe how to compute them analytically.</p>
+<div id="motivation-hypothesis-testing-in-large-datasets" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> Motivation: Hypothesis testing in large datasets</h2>
+<p>We have already discussed how to test specific hypotheses, for instance considering the association between a genetic marker and growth rate in the yeast dataset (See Chapter <a href="resampling-stat.html#resampling-stat">7</a>). However, in the era of big data, we often do not restrict ourselves to testing just one single hypothesis. Molecular biologists can nowadays measure RNA abundance of all genes of a cell population. So what if we test the association of the RNA abundance of all ~8,000 yeast genes with every single genetic markers? For 1,000 genetic markers, this means we will have to do more than 8 million tests!</p>
+<p>Doing this many tests can lead to misleading results. Let us assume, for the sake of argument, that our null hypothesis is always true and there is never an association between RNA abundance and markers. If we reject this null hypothesis every time we observe <span class="math inline">\(P\leq 0.05\)</span>, we will falsely reject the null hypothesis in roughly 5% of the tests we do. With 8 million tests, we will then falsely reject the null hypothesis 400,000 times.</p>
+<p>This issue is called <strong>multiple testing</strong> and strategies to deal with this problem will be discussed in detail in Chapter <a href="big-data-stat.html#big-data-stat">9</a>. For now, it suffices to say that when we do many tests, we will usually require far lower <span class="math inline">\(P\)</span>-values to reject the null hypothesis, to guard against the problem described above.</p>
+<p>With permutation testing, we estimated <span class="math inline">\(P\)</span>-values using <span class="math inline">\(P=\frac{r+1}{m+1}\)</span>, where <span class="math inline">\(m\)</span> is the number of permutations (Equation <a href="resampling-stat.html#eq:permut-p-val">(7.1)</a>). It follows that, with this method, the <span class="math inline">\(P\)</span>-values we can compute will never be smaller than <span class="math inline">\(\frac{1}{m+1}\)</span>. If we now say that we will only reject the null hypothesis if, for example, <span class="math inline">\(P\leq 0.001\)</span>, then we will need at least <span class="math inline">\(m=1,000\)</span> permutations, otherwise our test simply cannot reject the null hypothesis, regardless of the true associations in the data. Since we are doing 8 million tests, this means we will end up doing more than 8 billion permutations. Hence, permutation testing can become very costly in terms of computing power and time. We thus require more scalable ways to estimate <span class="math inline">\(P\)</span>-values for large datasets. This Chapter provides methods for which <span class="math inline">\(P\)</span>-values are computed from the observed test statistics directly.</p>
+</div>
+<div id="the-binomial-test-testing-hypotheses-for-a-single-binary-variable" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> The Binomial Test: testing hypotheses for a single binary variable</h2>
+<p>The first test we will look at is the binomial test. We use it when we want to test hypotheses concerning one binary variable.</p>
+<div id="abstraction-tossing-a-coin" class="section level3" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Abstraction: Tossing a coin</h3>
+<p>To develop the binomial test, we consider an abstract example, namely testing whether a coin is biased.</p>
+<p>We first introduce some notation. Let:</p>
+<ul>
+<li><span class="math inline">\(n\)</span>: the total number of independent random tosses of the coin.</li>
+<li><span class="math inline">\(X_i\)</span>: the value of the i-th toss, with <span class="math inline">\(X_i=1\)</span> if the result is head and <span class="math inline">\(X_i=0\)</span> if it is tail.</li>
+<li><span class="math inline">\(\mu = E(X_i) = p(X_i=1)\)</span>: the probability of getting a head.</li>
+</ul>
+<p>We assume the <span class="math inline">\(X_i\)</span> to be i.i.d.</p>
+<p>As we will see again and again in this chapter, to develop a statistical test we require three ingredients:</p>
+<ul>
+<li>A null hypothesis <span class="math inline">\(H_0\)</span> (and a suitable alternative hypothesis <span class="math inline">\(H_1\)</span>, either one or two-sided)</li>
+<li>A test statistic <span class="math inline">\(T\)</span></li>
+<li>The distribution of this test statistic under the null hypothesis, <span class="math inline">\(p(T|H_0)\)</span></li>
+</ul>
+<p>(Note that in permutation testing the sampling procedure simulated the distribution of our test statistic under the null hypothesis.)</p>
+<p>To test whether a coin is biased, our null hypothesis is that the coin is fair:</p>
+<p><span class="math inline">\(H_0: \mu=0.5\)</span></p>
+<p>And our alternative is that it is biased (either towards heads or tails):</p>
+<p><span class="math inline">\(H_1: \mu\neq0.5\)</span></p>
+<p>As test statistic, we will use the total number of heads, i.e. <span class="math inline">\(T=\sum_i X_i\)</span>.</p>
+<div id="a-single-coin-toss" class="section level4" number="8.2.1.1">
+<h4><span class="header-section-number">8.2.1.1</span> A single coin toss</h4>
+<p>Now assume, for the sake of argument, we toss the coin only once (<span class="math inline">\(n=1\)</span>) and get a head (<span class="math inline">\(T_\text{obs}=1\)</span>). What is the two-sided <span class="math inline">\(P\)</span>-value in this case?</p>
+<p>In this scenario, there are of course only 2 possible outcomes. Either we get one head or we get one tail. Under the null hypothesis, both outcomes are equally likely. Therefore, the distribution of the test statistic under the null hypothesis is given by:</p>
+<p><span class="math display">\[p(T = 0 | H_0) = 0.5 = p(T = 1 | H_0)\]</span>
+The two-sided <span class="math inline">\(P\)</span>-value is then given by:</p>
+<p><span class="math display">\[P = 2\min \{p(T \leq T_\text{obs}| H_0), p(T \geq T_\text{obs}| H_0) \}\]</span></p>
+<p><span class="math display">\[= 2\times0.5\]</span></p>
+<p><span class="math display">\[= 1\]</span></p>
+<p>Thus, if we only performed a single coin toss, the data cannot provide sufficient evidence for rejecting the null hypothesis in a two-sided test. This, of course, does not allow us to conclude that the null hypothesis is correct. In particular, we cannot write that “<span class="math inline">\(p(H_0) = p(\mu=0.5) = 1\)</span>.” After all, we could have generated the same data with a coin that has heads on both sides, for which the null hypothesis clearly does not hold. Another way to look at it, is to state that the data does not provide sufficient evidence to conclude that the coin is biased.</p>
+</div>
+<div id="tossing-the-coin-several-times" class="section level4" number="8.2.1.2">
+<h4><span class="header-section-number">8.2.1.2</span> Tossing the coin several times</h4>
+<p>Now assume we toss the coin <span class="math inline">\(n \gt 1\)</span> times and observe <span class="math inline">\(T_\text{obs}\)</span> heads. What is the distribution of the test statistic under the null hypothesis now?</p>
+<p>We can easily simulate data under this assumption in R by sampling with replacement from a vector <code>c(0, 1)</code>. The probability for each outcome can be provided with the <code>prob</code> argument. Here is one such simulation of <span class="math inline">\(n=10\)</span> trials under the null hypothesis <span class="math inline">\(\mu=0.5\)</span>.</p>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="analytical-stat.html#cb513-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set.seed is optional</span></span>
+<span id="cb513-2"><a href="analytical-stat.html#cb513-2" aria-hidden="true" tabindex="-1"></a><span class="co"># we just pick an arbitrary seed of the random number generator to ensure reproducibility</span></span>
+<span id="cb513-3"><a href="analytical-stat.html#cb513-3" aria-hidden="true" tabindex="-1"></a><span class="co"># See https://en.wikipedia.org/wiki/Random_number_generation</span></span>
+<span id="cb513-4"><a href="analytical-stat.html#cb513-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)  </span>
+<span id="cb513-5"><a href="analytical-stat.html#cb513-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb513-6"><a href="analytical-stat.html#cb513-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), n, <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb513-7"><a href="analytical-stat.html#cb513-7" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>##  [1] 0 1 1 1 1 0 1 0 1 1</code></pre>
+<p>Our test statistic <span class="math inline">\(T\)</span> is the sum of heads:</p>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="analytical-stat.html#cb515-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">sum</span>(x)</span>
+<span id="cb515-2"><a href="analytical-stat.html#cb515-2" aria-hidden="true" tabindex="-1"></a>t</span></code></pre></div>
+<pre><code>## [1] 7</code></pre>
+<p>The probability of observing <span class="math inline">\(T\)</span> heads after tossing a coin <span class="math inline">\(n\)</span> times is given by the binomial distribution, which is the binomial coefficient, i.e. the number of possible sequences of events with the same total number of heads, times the probability of a given sequence, which is itself the product of the probability of each individual realization (i.i.d. assumption):</p>
+<p><span class="math display">\[p(T|n, \mu) = \binom{n}{T}\mu^T(1-\mu)^{n-T}\]</span></p>
+<p>Hence, assuming the null distribution is true, we get that:</p>
+<p><span class="math display">\[p(T|n, \mu=0.5) = \binom{n}{T}0.5^n\]</span></p>
+<p>This is implemented in R with the function <code>dbinom</code><a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>. The probability to have observed exactly 7 heads is therefore:</p>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="analytical-stat.html#cb517-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="at">x=</span>t, <span class="at">size=</span>n, <span class="at">prob=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1171875</code></pre>
+<p>We recall that the <span class="math inline">\(P\)</span>-value is defined as the probability, under the null hypothesis, of observing a test statistic as or more extreme as the one we actually observed. Since we just want to know <em>whether</em> the coin is biased, and do not care in which direction, we need a two sided p-value. This is given by (Figure <a href="analytical-stat.html#fig:binom-test">8.1</a>):</p>
+<p><span class="math display" id="eq:p-val-binom">\[\begin{align}
+P &amp;= 2\min \{p(T \leq T_\text{obs}| H_0), p(T \geq T_\text{obs}| H_0) \}\\
+
+&amp;= 2\min\{\sum_{T \leq T_\text{obs}}\binom{n}{T}0.5^n, \sum_{T \geq T_\text{obs}}\binom{n}{T}0.5^n \}
+\tag{8.1}
+\end{align}\]</span></p>
+<div class="figure"><span id="fig:binom-test"></span>
+<img src="dataviz_book_files/figure-html/binom-test-1.png" alt="Two-sided p-value for the coin tossing example. The two-sided p-value equals to the sum of the probabilities (total red area) under the null hypothesis of the realizations equal or more extreme than the observed one (vertical line)." width="480" />
+<p class="caption">
+Figure 8.1: Two-sided p-value for the coin tossing example. The two-sided p-value equals to the sum of the probabilities (total red area) under the null hypothesis of the realizations equal or more extreme than the observed one (vertical line).
+</p>
+</div>
+<p>To apply the formula <a href="analytical-stat.html#eq:p-val-binom">(8.1)</a>, one can compute the smaller of the two terms which is here <span class="math inline">\(\sum_{T \geq 7}\binom{10}{T}0.5^{10}\)</span>, and corresponds to the right tail marked in red in Figure <a href="analytical-stat.html#fig:binom-test">8.1</a>. This is <span class="math inline">\(1- \sum_{T \leq 6}\binom{10}{T}0.5^{10}\)</span> and is obtained in R with:</p>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="analytical-stat.html#cb519-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pbinom</span>(<span class="at">q=</span>t<span class="dv">-1</span>, <span class="at">size=</span>n, <span class="at">prob=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<pre><code>## [1] 0.171875</code></pre>
+<p>Hence the two-sided p-value is twice this value, yielding:</p>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="analytical-stat.html#cb521-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">pbinom</span>(<span class="at">q=</span>t<span class="dv">-1</span>, <span class="at">size=</span>n, <span class="at">prob=</span><span class="fl">0.5</span>))</span></code></pre></div>
+<pre><code>## [1] 0.34375</code></pre>
+<p>Altogether we have <span class="math inline">\(P=\)</span> 0.34375. We do not reject the null hypothesis that the coin is fair at a significance level of 0.05.</p>
+</div>
+</div>
+<div id="computing-a-binomial-test-with-r" class="section level3" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> Computing a binomial test with R</h3>
+<p>In actual applications, we use the <code>binom.test</code> function of R. For the example above, we do:</p>
+<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="analytical-stat.html#cb523-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(t, n, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;two.sided&quot;</span>) )</span></code></pre></div>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  t and n
+## number of successes = 7, number of trials = 10,
+## p-value = 0.3438
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.3475471 0.9332605
+## sample estimates:
+## probability of success 
+##                    0.7</code></pre>
+<p>We see that the function has three parameters, which correspond to <span class="math inline">\(T_{obs}\)</span>, <span class="math inline">\(n\)</span> and the <span class="math inline">\(\mu\)</span> under <span class="math inline">\(H_0\)</span> respectively (R calls the last one <span class="math inline">\(p\)</span>). Additionally, we can specify whether we want a two-sided or one-sided test using the “alternative” option. The options are “two.sided,” “greater” and “less.”</p>
+<p>We also see that the function returns an object, which summarizes the test that was performed. If we want to just get the <span class="math inline">\(P\)</span>-value, we do:</p>
+<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="analytical-stat.html#cb525-1" aria-hidden="true" tabindex="-1"></a>tst <span class="ot">&lt;-</span> <span class="fu">binom.test</span>(t, n, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">&quot;two.sided&quot;</span>) )</span>
+<span id="cb525-2"><a href="analytical-stat.html#cb525-2" aria-hidden="true" tabindex="-1"></a>tst<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>## [1] 0.34375</code></pre>
+<p>Note that <code>binom.test</code> also returns sample estimates of the probability of success and confidence intervals. Section <a href="analytical-stat.html#analytical-conf-int">8.8</a> provides explanations.</p>
+</div>
+</div>
+<div id="fisher-test" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> Fisher’s exact test: Testing the association between two binary variables</h2>
+<!-- I changed the example here (old example: "does genotype at marker 5091 significantly associate with genotype at marker 5211") because without the case study I think it is not clear what underlying scientific question we would need to be asking that this test would be the answer -->
+<p>Suppose we are trying to determine whether people who smoke are more likely to develop severe symptoms if they contract a respiratory virus than non-smokers. For this we collect data from <span class="math inline">\(n=110\)</span> randomly sampled patients.</p>
+<p>Assume we receive the following table as a result:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Severe
+</th>
+<th style="text-align:right;">
+Mild
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Smoker
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-smoker
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+70
+</td>
+</tr>
+</tbody>
+</table>
+<p>We see that 30 of the patients were smokers, whereas 80 were non-smokers. We further observe that only <span class="math inline">\(\frac{1}{8}\)</span>th of non-smokers developed severe symptoms, whereas <span class="math inline">\(\frac{1}{3}\)</span>rd of the smokers did. The <strong>odds</strong> are 1:2 (10 severe versus 20 mild) for infected smokers to develop severe symptoms against 1:7 (10 severe versus 70 mild) for non-smokers. Hence, these data suggests that there is relationship between smoking and developing severe symptoms, with odds about 3.5 times higher for smokers than for non-smokers.</p>
+<p>Once again, we need to make sure that these results are statistically significant. We cannot use the binomial test, because now we are not just considering one binary variable, but rather we are investigating the relationship between two binary variables.<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a></p>
+<div id="permutation-testing-and-the-hypergeometric-distribution" class="section level3" number="8.3.1">
+<h3><span class="header-section-number">8.3.1</span> Permutation testing and the hypergeometric distribution</h3>
+<p>It is enlightening to approach first this problem with permutation testing (See Chapter <a href="resampling-stat.html#resampling-stat">7</a>). To this end, one shall first consider the underlying, not aggregated, dataset of individual cases. Such tidy dataset, where one row is one patient and each column one variable, would have the following structure:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Patient
+</th>
+<th style="text-align:left;">
+Smoker
+</th>
+<th style="text-align:left;">
+Symptoms
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+patient_1
+</td>
+<td style="text-align:left;">
+no
+</td>
+<td style="text-align:left;">
+mild
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+patient_2
+</td>
+<td style="text-align:left;">
+yes
+</td>
+<td style="text-align:left;">
+severe
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+patient_3
+</td>
+<td style="text-align:left;">
+no
+</td>
+<td style="text-align:left;">
+severe
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+patient_4
+</td>
+<td style="text-align:left;">
+yes
+</td>
+<td style="text-align:left;">
+severe
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+patient_5
+</td>
+<td style="text-align:left;">
+yes
+</td>
+<td style="text-align:left;">
+mild
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+…
+</td>
+<td style="text-align:left;">
+…
+</td>
+<td style="text-align:left;">
+…
+</td>
+</tr>
+</tbody>
+</table>
+<p>For permutation testing, the null hypothesis is the independence of the Smoker and the Symptoms variables. With permutation testing, data under the null hypothesis are simulated by permuting values in one column (say “Symptoms”) keeping the order of the other column (say “Smoker”) fixed. For each permutation, we get a different 2x2 <em>contingency table</em> which we will denote as:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Severe
+</th>
+<th style="text-align:left;">
+Mild
+</th>
+<th style="text-align:left;">
+Row total
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Smoker
+</td>
+<td style="text-align:left;">
+a
+</td>
+<td style="text-align:left;">
+b
+</td>
+<td style="text-align:left;">
+a + b
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-smoker
+</td>
+<td style="text-align:left;">
+c
+</td>
+<td style="text-align:left;">
+d
+</td>
+<td style="text-align:left;">
+c + d
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Column total
+</td>
+<td style="text-align:left;">
+a + c
+</td>
+<td style="text-align:left;">
+b + d
+</td>
+<td style="text-align:left;">
+n = a + b + c + d
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note that any such permutation keeps the size of the dataset, the total number of smokers as well as the total number of patients with severe symptoms constant. We say that these permutations keep the margins (row and column totals) of the contingency table constant.</p>
+<!-- To determine our test statistic we make the assumption that the column and row totals, also called the "margins", of our table are fixed. That means that we do not consider $n$, $a+b$, $b+d$, $a+b$ and $c+d$ as random variables, but instead take these quantities as given (we "condition" on them). Note that this assumption is often violated in practice, as in the example above where we randomly sampled patients rather than sampling a fixed amount from each subgroup. But Fisher's exact test is nevertheless applied because we usually assume that the margin totals do not contain information about the relationship of interest.  -->
+<p>Consequently, one cell in the 2x2 contingency table suffices to characterize the entire table because all other counts can then be derived using the margins. Therefore, we can use any cell in the table as test statistic, but we usually use <span class="math inline">\(a\)</span>, i.e. the upper left corner.</p>
+<p>The good news is that the distribution of <span class="math inline">\(a\)</span> under the null hypothesis (i.e. its frequency among all possible distinct permutations) can be exactly computed. It is given by the hypergeometric distribution:<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a></p>
+<p><span class="math display">\[p(k=a|H_0) = \frac{(a+b)!(c+d)!(a+c)!(b+d)!}{a!b!c!d!n!}\]</span></p>
+<!-- not so useful, and would need re-plotting for notation consistency and showing relevant values (small N and a) -->
+<!-- The shape of this distribution, for different values of the parameters, is illustrated in Figure \@ref(fig:hypergeom). -->
+<!-- ```{r hypergeom, out.width = "250px", echo=FALSE, fig.cap="Hypergeometric distribution. Source: https://en.wikipedia.org/wiki/Hypergeometric_distribution".} -->
+<!-- knitr::include_graphics("assets/img/lec11-stat-testing-II/lec11-HypergeometricPDF.png") -->
+<!-- ``` -->
+</div>
+<div id="fishers-exact-test" class="section level3" number="8.3.2">
+<h3><span class="header-section-number">8.3.2</span> Fisher’s exact test</h3>
+<p>Using the hypergeometric distribution, we can now derive <span class="math inline">\(P\)</span>-values, in the same way as we did before, namely by summing the probability of observing a test statistic as, or more, extreme as the one we observed. So, to compute the one-sided <span class="math inline">\(P\)</span>-value, we would use:</p>
+<p><span class="math display">\[P = \sum_{i \geq a}p(k=i|H_0)\]</span></p>
+<p>This is called Fisher’s exact test.</p>
+<p>For our application purposes, we do not need to know the formula of the hypergeometric distribution, nor how it is derived. However, it is important to know that a formula exists and what the underlying assumptions are, i.e. that the margins of the 2x2 contingency table are considered to be fixed. That means that we do not consider <span class="math inline">\(n\)</span>, <span class="math inline">\(a+b\)</span>, <span class="math inline">\(b+d\)</span>, <span class="math inline">\(a+b\)</span> and <span class="math inline">\(c+d\)</span> as random variables, but instead take these quantities as given (we “condition” on them). Note that this assumption is often violated in practice, as in the example above where we randomly sampled patients rather than sampling a fixed amount from each subgroup. But Fisher’s exact test is nevertheless applied as an exact instance of permutation testing.</p>
+<p>There are alternatives to Fisher’s exact test that do not need all margins fixed assumptions. One is the formerly popular Chi-squared test, which is based on large number approximations. It is rarely needed nowadays, as Fisher’s exact test is exact and fast to compute. Another approach is based on logistic regression and will be addressed in a later Chapter.</p>
+</div>
+<div id="fishers-exact-test-in-r" class="section level3" number="8.3.3">
+<h3><span class="header-section-number">8.3.3</span> Fisher’s exact test in R</h3>
+<p>In R, we can perform Fisher’s exact test using <code>fisher.test</code>. This requires a contingency table as input (See the base R function <code>table</code> to create them). For our contingency table, we get:</p>
+<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="analytical-stat.html#cb527-1" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">=</span> <span class="fu">data.table</span>(</span>
+<span id="cb527-2"><a href="analytical-stat.html#cb527-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">severe =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">10</span>),</span>
+<span id="cb527-3"><a href="analytical-stat.html#cb527-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mild =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">70</span>)</span>
+<span id="cb527-4"><a href="analytical-stat.html#cb527-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb527-5"><a href="analytical-stat.html#cb527-5" aria-hidden="true" tabindex="-1"></a>tst <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(tbl,  <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span>
+<span id="cb527-6"><a href="analytical-stat.html#cb527-6" aria-hidden="true" tabindex="-1"></a>tst</span></code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  tbl
+## p-value = 0.01481
+## alternative hypothesis: true odds ratio is greater than 1
+## 95 percent confidence interval:
+##  1.316358      Inf
+## sample estimates:
+## odds ratio 
+##   3.453224</code></pre>
+<p>The one-sided p-value is 0.0148095. At the level <span class="math inline">\(\alpha=0.05\)</span>, one would therefore reject the null hypothesis of independence of symptom severity and smoking status.</p>
+<p>As for the binomial test, the p-value can be extracted with <code>$p.value</code>. The function <code>fisher.test</code> also returns an estimate of the odds ratio and its confidence interval. The estimate of the odds ratio is based on a estimation procedure robust for low counts, giving close yet slightly different estimates than the sample odds ratio (we obtained 3.5 at the start of Section <a href="analytical-stat.html#fisher-test">8.3</a>).</p>
+</div>
+</div>
+<div id="testing-the-association-between-one-quantitative-and-one-binary-variable" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Testing the association between one quantitative and one binary variable</h2>
+<p>We asked earlier on the yeast dataset (Section <a href="resampling-stat.html#yeast-dataset">7.1</a>) whether the genotype at marker 5211 significantly associates with growth rates in Maltose media. We saw that yeast strains which have the wild isolate genotype seemed to generally grow faster than those which had the lab strain genotype at this particular marker:</p>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="analytical-stat.html#cb529-1" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/eqtl/genotype.txt&quot;</span>)</span>
+<span id="cb529-2"><a href="analytical-stat.html#cb529-2" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> genotype <span class="sc">%&gt;%</span> </span>
+<span id="cb529-3"><a href="analytical-stat.html#cb529-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">id.vars =</span> <span class="st">&#39;strain&#39;</span>, <span class="at">variable.name =</span> <span class="st">&#39;marker&#39;</span>, <span class="at">value.name =</span> <span class="st">&#39;genotype&#39;</span>)</span>
+<span id="cb529-4"><a href="analytical-stat.html#cb529-4" aria-hidden="true" tabindex="-1"></a>marker <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/eqtl/marker.txt&quot;</span>)</span>
+<span id="cb529-5"><a href="analytical-stat.html#cb529-5" aria-hidden="true" tabindex="-1"></a>growth <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/eqtl/growth.txt&quot;</span>)</span>
+<span id="cb529-6"><a href="analytical-stat.html#cb529-6" aria-hidden="true" tabindex="-1"></a>growth <span class="ot">&lt;-</span> growth <span class="sc">%&gt;%</span> <span class="fu">melt</span>(<span class="at">id.vars =</span> <span class="st">&quot;strain&quot;</span>, <span class="at">variable.name =</span> <span class="st">&#39;media&#39;</span>, <span class="at">value.name =</span> <span class="st">&#39;growth_rate&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="analytical-stat.html#cb530-1" aria-hidden="true" tabindex="-1"></a>mk <span class="ot">&lt;-</span> marker[chrom <span class="sc">==</span> <span class="st">&quot;chr07&quot;</span> <span class="sc">&amp;</span> start <span class="sc">==</span> <span class="dv">1069229</span>, id]</span>
+<span id="cb530-2"><a href="analytical-stat.html#cb530-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb530-3"><a href="analytical-stat.html#cb530-3" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
+<span id="cb530-4"><a href="analytical-stat.html#cb530-4" aria-hidden="true" tabindex="-1"></a>  growth[media <span class="sc">==</span> <span class="st">&#39;YPMalt&#39;</span>],</span>
+<span id="cb530-5"><a href="analytical-stat.html#cb530-5" aria-hidden="true" tabindex="-1"></a>  genotype[marker <span class="sc">==</span> mk, .(strain, genotype)],</span>
+<span id="cb530-6"><a href="analytical-stat.html#cb530-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">&#39;strain&#39;</span></span>
+<span id="cb530-7"><a href="analytical-stat.html#cb530-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb530-8"><a href="analytical-stat.html#cb530-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb530-9"><a href="analytical-stat.html#cb530-9" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> dt<span class="sc">%&gt;%</span> </span>
+<span id="cb530-10"><a href="analytical-stat.html#cb530-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(genotype, growth_rate)) <span class="sc">+</span></span>
+<span id="cb530-11"><a href="analytical-stat.html#cb530-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb530-12"><a href="analytical-stat.html#cb530-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">paste0</span>(<span class="st">&quot;Genotype at &quot;</span>, mk)) <span class="sc">+</span> </span>
+<span id="cb530-13"><a href="analytical-stat.html#cb530-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Growth rate in Maltose [Generations/day]&quot;</span>) <span class="sc">+</span></span>
+<span id="cb530-14"><a href="analytical-stat.html#cb530-14" aria-hidden="true" tabindex="-1"></a>  mytheme</span>
+<span id="cb530-15"><a href="analytical-stat.html#cb530-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb530-16"><a href="analytical-stat.html#cb530-16" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-333-1.png" width="384" /></p>
+<p>Here we are evaluating the association between a binary variable (the genotype at marker 5211) and a quantitative variable (the growth rate in Maltose media). This scenario does not fit the tests we have seen previously. We have to develop a new one.</p>
+<p>To formalize this problem, we first note that the binary variable splits the quantitative data into two groups. Let <span class="math inline">\(X = x_1, ..., x_{n_x}\)</span> be the quantitative data of the first group (i.e. the growth rates of yeast strains with lab strain genotype), and <span class="math inline">\(Y = y_1, ..., y_{n_y}\)</span> be the quantitative data of the second group (i.e. the growth rates of yeast strains with wild isolate genotype).</p>
+<p>To develop a test, we again need a null hypothesis, a test statistic and a distribution of the test statistic under the null hypothesis. For this problem, we will consider two different tests.</p>
+<div id="the-t-test" class="section level3" number="8.4.1">
+<h3><span class="header-section-number">8.4.1</span> The t-test</h3>
+<p>The first test statistic we will look at is Student’s <span class="math inline">\(t\)</span>, defined as:</p>
+<p><span class="math display" id="eq:t-stat">\[\begin{align}
+t = c\frac{\bar x -\bar y}{s}
+\tag{8.2}
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\bar{y}\)</span> are the sample means of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> respectively, <span class="math inline">\(s\)</span> is the pooled standard deviation, and <span class="math inline">\(c\)</span> is a constant that depends on the sample size of each group. In details:</p>
+<p><span class="math display">\[\begin{align}
+\bar x &amp;= \frac{1}{n_x}\sum_i x_i \\
+\bar y &amp;= \frac{1}{n_y}\sum_i y_i \\
+s_p &amp;= \sqrt \frac{\sum_i (x_i-\bar x )^2 + \sum_i (y_i-\bar y )^2}{n_x + n_y -2} \\
+c &amp;= \sqrt{\frac{n_xn_y}{n_x+n_y}}
+\end{align}\]</span></p>
+<p>While the details can always be looked up, understanding Equation <a href="analytical-stat.html#eq:t-stat">(8.2)</a> is useful. Intuitively, the <span class="math inline">\(t\)</span>-statistic compares, up to the constant <span class="math inline">\(c\)</span>, the “signal” of group difference, namely the estimated difference of the means of the two groups, to the “noise,” i.e. how uncertain we are about our estimate of this difference. This “noise” in our estimate is itself the ratio of the typical variations within the groups (<span class="math inline">\(s\)</span>) over a term capturing the sample size (<span class="math inline">\(c\)</span>). One can thus interpret it as a signal-to-noise ratio. If the <span class="math inline">\(t\)</span>-statistic is large, then we see a clear difference in means. By contrast, if the <span class="math inline">\(t\)</span>-statistic is small, then the difference in means is not large compared to the noise. Larger sample size (more data) or larger between-group differences compared to within-group differences lead to larger <span class="math inline">\(t\)</span>-statistics.</p>
+<div id="students-t-distribution" class="section level4" number="8.4.1.1">
+<h4><span class="header-section-number">8.4.1.1</span> Student’s t-distribution</h4>
+<p>Before we can derive the distribution of this test statistic under the null hypothesis, we need to make some additional assumptions about the data, namely:</p>
+<ul>
+<li>All observations <span class="math inline">\(x_1, ..., x_{n_x}, y_1, ..., y_{n_y}\)</span> are independent of each other</li>
+<li>we assume that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> both follow Gaussian distributions</li>
+<li><span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have the same unknown variance</li>
+</ul>
+<p>A consequence of these assumptions is that our null hypothesis simplifies. If both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are Gaussian with the same variance, the only way the two groups can differ is if the Gaussians have different means. Therefore, the null hypothesis is that the expectations are equal:</p>
+<p><span class="math inline">\(H_0: \operatorname{E}(X) = \operatorname{E}(Y)\)</span></p>
+<p>Under <span class="math inline">\(H_0\)</span>, our test statistic <span class="math inline">\(t\)</span> follows a Student’s t-distribution with <span class="math inline">\(\nu = n_x + n_y -2\)</span> degrees of freedom (the degrees of freedom <span class="math inline">\(\nu\)</span> is the parameter of Student’s t-distribution). Figure <a href="analytical-stat.html#fig:student-distrib">8.2</a> shows the shape of Student’s <span class="math inline">\(t\)</span>-distribution for different degrees of freedom <span class="math inline">\(\nu\)</span>.</p>
+<div class="figure"><span id="fig:student-distrib"></span>
+<img src="assets/img/lec11-stat-testing-II/lec11-Student_t_pdf.svg.png" alt="Student's t-distribution for various degrees of freedom. Source: https://en.wikipedia.org/wiki/Student%27s_t-distribution" width="162" />
+<p class="caption">
+Figure 8.2: Student’s t-distribution for various degrees of freedom. Source: <a href="https://en.wikipedia.org/wiki/Student%27s_t-distribution" class="uri">https://en.wikipedia.org/wiki/Student%27s_t-distribution</a>
+</p>
+</div>
+<p>We can make two observations. Firstly, the distribution of the <span class="math inline">\(t\)</span>-statistic under <span class="math inline">\(H_0\)</span> does not depend on the (unknown) variance. Secondly, Student’s <span class="math inline">\(t\)</span>-distribution has heavier tails than the Gaussian. This intuitively comes from the fact that, while the numerator of the <span class="math inline">\(t\)</span>-statistic is normally distributed, the estimate of the standard deviation in the denominator is noisy. The smaller the sample size <span class="math inline">\(n\)</span>, the noisier the estimate. Hence, the smaller the degrees of freedom, the heavier the tails. For infinite degrees of freedom, Student’s <span class="math inline">\(t\)</span>-distribution equals the normal distribution.</p>
+</div>
+<div id="students-t-test-in-r" class="section level4" number="8.4.1.2">
+<h4><span class="header-section-number">8.4.1.2</span> Student’s t-test in R</h4>
+<p>In R we can perform a t-test using the t.test function. Since in the basic Student’s t-test we assume equal variances, we have to set the argument <code>var.equal</code> to True. One can extract the values for each group and perform the test. Rather than manually extracting the two groups, we use the formula syntax (<code>growth_rate ~ genotype</code>) and let the <code>t.test</code> function do it for us:</p>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="analytical-stat.html#cb531-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(growth_rate <span class="sc">~</span> genotype, <span class="at">data=</span>dt, <span class="at">var.equal=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  growth_rate by genotype
+## t = -10.77, df = 152, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.406400 -1.660387
+## sample estimates:
+##   mean in group Lab strain mean in group Wild isolate 
+##                   5.763086                   7.796480</code></pre>
+<p>Note that the function reports the <span class="math inline">\(t\)</span>-statistic and the degrees of freedom, the confidence intervals for the difference of the means, in addition to the <span class="math inline">\(p\)</span>-value. Note also that the function helpfully reminds us what null hypothesis we are testing against.</p>
+</div>
+<div id="unequal-variance-welchs-test-in-r" class="section level4" number="8.4.1.3">
+<h4><span class="header-section-number">8.4.1.3</span> Unequal variance (Welch’s test) in R</h4>
+<p>In practice, we generally do not assume equal variances. This is called Welch’s test and slightly changes the degrees of freedom. This test is performed in R by default if we do not set <code>var.equal</code> to True.</p>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="analytical-stat.html#cb533-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(growth_rate <span class="sc">~</span> genotype, <span class="at">data=</span>dt)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  growth_rate by genotype
+## t = -10.805, df = 152, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.405189 -1.661599
+## sample estimates:
+##   mean in group Lab strain mean in group Wild isolate 
+##                   5.763086                   7.796480</code></pre>
+</div>
+</div>
+<div id="wilcoxon-rank-sum-test-an-alternative-to-the-t-test-for-non-gaussian-data" class="section level3" number="8.4.2">
+<h3><span class="header-section-number">8.4.2</span> Wilcoxon rank-sum test: An alternative to the t-test for non-Gaussian data</h3>
+<div id="assumptions" class="section level4" number="8.4.2.1">
+<h4><span class="header-section-number">8.4.2.1</span> Assumptions</h4>
+<p>As we saw, the <span class="math inline">\(t\)</span>-test assumes the data follows a specific distribution, namely a Gaussian. There are many situations where this is reasonable, but in general we cannot guarantee that this assumption holds. Using the <span class="math inline">\(t\)</span>-test if the data is not normal can lead to wrong conclusions.</p>
+<p>The Wilcoxon Rank-Sum test is a popular alternative to the t-test. It makes very few assumptions about the data, namely that:</p>
+<ul>
+<li>All observations <span class="math inline">\(x_1, ..., x_{n_x}, y_1, ..., y_{n_y}\)</span> are independent of each other</li>
+<li>The responses are ordinal, i.e. we can rank them</li>
+</ul>
+<p>Specifically, we assume that under the null hypothesis <span class="math inline">\(H_0\)</span>, the probability of an observation from the population X exceeding an observation from the second population Y equals the probability of an observation from Y exceeding an observation from X:</p>
+<p><span class="math display">\[H_0: p(X &gt; Y) = p(Y &gt; X)\]</span></p>
+<p>In other words, if we randomly take observations <span class="math inline">\(x\in X\)</span> and <span class="math inline">\(y \in Y\)</span>, we would expect that <span class="math inline">\(x &gt; y\)</span> occurs as often as <span class="math inline">\(y &gt; x\)</span> (ignoring ties).</p>
+<p>A stronger null hypothesis commonly used is “The distributions of both populations are equal” which implies the previous hypothesis.</p>
+<p>For a two-sided test, the alternative hypothesis is “the probability of an observation from the population X exceeding an observation from the second population Y is different from the probability of an observation from Y exceeding an observation from X: <span class="math inline">\(p(X &gt; Y) \neq p(Y &gt; X)\)</span>.” The alternative may also be stated in terms of a one-sided test, for example: <span class="math inline">\(p(X &gt; Y) &gt; p(Y &gt; X)\)</span>. This would mean that if we randomly take observations <span class="math inline">\(x\in X\)</span> and <span class="math inline">\(y \in Y\)</span>, we would expect that <span class="math inline">\(x &gt; y\)</span> occurs more often than <span class="math inline">\(y &gt; x\)</span>.</p>
+</div>
+<div id="the-mann-whitney-u-statistic-and-the-wilcoxon-rank-sum-test" class="section level4" number="8.4.2.2">
+<h4><span class="header-section-number">8.4.2.2</span> The Mann-Whitney U statistic and the Wilcoxon rank-sum test</h4>
+<p>Consider first that we rank all observed values (and ignore ties), e.g.:
+<span class="math display">\[ x_5 &lt; y_{10} &lt; y_{12} &lt; y_3 &lt; x_4 &lt; x_{17} &lt; ... \]</span></p>
+<p>The idea of the the Wilcoxon rank-sum test is that under the null hypothesis, the <span class="math inline">\(x_i\)</span>’s and <span class="math inline">\(y_i\)</span>’s should be well interleaved in this ranking. In contrast, if say <span class="math inline">\(X\)</span> tend to be smaller than <span class="math inline">\(Y\)</span>, then the <span class="math inline">\(x_i\)</span>’s will get lower ranks. The test statistics is therefore based on the sum of the ranks of the realizations of one the two variables.</p>
+<p>Specifically, we define the quantity <span class="math inline">\(U_x\)</span> as:</p>
+<p><span class="math display">\[U_x = R_x -\frac{n_x(n_x+1)}{2}\]</span></p>
+<p>where <span class="math inline">\(R_x\)</span> is the sum of the ranks of the <span class="math inline">\(x_i\)</span>’s. In the example above, <span class="math inline">\(R_x = 1 + 5 + 6 + ...\)</span> , and <span class="math inline">\(n_x\)</span> is the number of observations of set <span class="math inline">\(X\)</span>. The term <span class="math inline">\(\frac{n_x(n_x+1)}{2}\)</span> (this is the famous Gauss sum) is a constant so that <span class="math inline">\(U_x = 0\)</span> when all the first values are from <span class="math inline">\(X\)</span>.</p>
+<p><span class="math inline">\(U_y\)</span> is defined analogously.</p>
+<p>The Mann-Whitney U statistic is defined as:</p>
+<p><span class="math display">\[U= \min\{U_x, U_y\}\]</span></p>
+<p>P-values are then based on the distribution of Mann-Whitney U statistic under the null hypothesis. It combines tabulated values for small sample sizes and Central Limit Theorem approximation for large sample sizes (exploiting that the expectation and the variance of <span class="math inline">\(U\)</span> under the null can be analytically derived.)<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a></p>
+<!-- Under the null hypothesis, it can be shown that: -->
+<!-- $$\operatorname{E}(U) = \frac{n_x n_y}{2}$$ -->
+<!-- The intuition behind this is as follows. It is clear that, whatever $R_x$ and $R_y$ are, it will always be the case that $R_x + R_y = \frac{(n_x+n_y)(n_x+n_y+)}{2}$ (this is again the Gauss sum). It follows that $U_x + U_y = n_xn_y$. As we stated before, under the null hypothesis the ranks are random, and thus $U_x$ and $U_y$ have on average approximately the same size. Thus, on average, $U=\frac{n_x n_y}{2}$. -->
+<!-- It can also be shown that: -->
+<!-- $$\operatorname{Var}(U) = \frac{(n_x n_y)(n_x + n_y+1)}{12}$$ -->
+<!-- As a consequence of the Central Limit Theorem, the distribution of $U$ under the null hypothesis is approximated by a Gaussian distribution. Thus, we can compute $P$-values by constructing a z-score: -->
+<!-- $$z = \frac{U - \operatorname{E}(U)}{\sqrt{\operatorname{Var}(U)}}$$ -->
+<!-- Then, for a one-sided test, we can compute the $P$-value as $P=p(Z>z)$, where $Z \sim N(0,1)$. Note that in practice, corrections are applied to account for the possibilities of ties. -->
+<!-- For small $n$, where the Central Limit Theorem need not apply, the distribution under $H_0$ is tabulated.  -->
+</div>
+<div id="wilcoxon-rank-sum-test-in-r" class="section level4" number="8.4.2.3">
+<h4><span class="header-section-number">8.4.2.3</span> Wilcoxon rank-sum test in R</h4>
+<p>In R we can perform the Wilcoxon rank-sum test using the <code>wilcox.test</code> function, whose usage is analogous to the usage of <code>t.test</code>:</p>
+<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="analytical-stat.html#cb535-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(growth_rate <span class="sc">~</span> genotype, <span class="at">data=</span>dt)</span></code></pre></div>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  growth_rate by genotype
+## W = 690, p-value = 2.264e-16
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+</div>
+<div id="why-bother-with-the-wilcoxon-rank-sum-test" class="section level3" number="8.4.3">
+<h3><span class="header-section-number">8.4.3</span> Why bother with the Wilcoxon rank-sum test?</h3>
+<!-- New section! -->
+<p>The Wilcoxon rank-sum test makes less assumptions than the <span class="math inline">\(t\)</span>-test, specifically because it does not require that the data follows a Gaussian distribution. We will now see an example to illustrate this.</p>
+<p>We construct a highly pathological example:</p>
+<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="analytical-stat.html#cb537-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb537-2"><a href="analytical-stat.html#cb537-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">10</span>)</span>
+<span id="cb537-3"><a href="analytical-stat.html#cb537-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">99</span>, <span class="dv">5</span>), <span class="dv">500</span>)</span>
+<span id="cb537-4"><a href="analytical-stat.html#cb537-4" aria-hidden="true" tabindex="-1"></a>grp_tbl <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb537-5"><a href="analytical-stat.html#cb537-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;group1&quot;</span>, <span class="st">&quot;group2&quot;</span>), <span class="at">each=</span><span class="dv">100</span>),</span>
+<span id="cb537-6"><a href="analytical-stat.html#cb537-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(x1,x2)</span>
+<span id="cb537-7"><a href="analytical-stat.html#cb537-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb537-8"><a href="analytical-stat.html#cb537-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> grp_tbl, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">color=</span>group)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">scale_x_log10</span>()</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-337-1.png" width="672" /></p>
+<p>In this example, the groups are sampled from normal distributions with a different mean. However, we add a non-normal outlier to the second group, which ensures that the overall mean looks the same.</p>
+<p>Recall that, as a consequence of assuming that the data is Gaussian, the null hypothesis of the <span class="math inline">\(t\)</span>-test is that the difference in means is zero. There is no difference in means here, so the <span class="math inline">\(t\)</span>-test cannot reject the null hypothesis:</p>
+<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="analytical-stat.html#cb538-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x1, x2)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  x1 and x2
+## t = -0.00052129, df = 99.072, p-value = 0.9996
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -9.829688  9.824525
+## sample estimates:
+## mean of x mean of y 
+##  9.863451  9.866033</code></pre>
+<p>But clearly, these groups are overall quite different, and their means only appear similar due to this one outlier. The null hypothesis of the Wilcoxon rank-sum test is not about the means. Instead, the Wilcoxon rank-sum test uses the rank distribution, and in our example most observations of the second group will rank above the observations of the first. The one outlier will not affect the ranking much. Thus, the Wilcoxon rank-sum test will reject here:</p>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="analytical-stat.html#cb540-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(x1, x2)</span></code></pre></div>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  x1 and x2
+## W = 9900, p-value &lt; 2.2e-16
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>This is a rather synthetic example, but the underlying point is very general: if we are unsure whether the distributional assumption is met, a test like the Wilcoxon rank-sum test will generally be more robust than a test making distributional assumptions like the <span class="math inline">\(t\)</span>-test. But do note that there is a flip side to this: if the data is indeed Gaussian, then the t-test will be more powerful (i.e. more sensitive in detecting violations of the null hypothesis) than the more generally applicable Wilcoxon rank-sum test.</p>
+</div>
+</div>
+<div id="association-between-two-quantitative-variables" class="section level2" number="8.5">
+<h2><span class="header-section-number">8.5</span> Association between two quantitative variables</h2>
+<p>The last scenario we will consider in this chapter concerns the dependence between two quantitative variables. That is, we assume we have quantitative data in the form of tuples <span class="math inline">\((X,Y)\)</span> : <span class="math inline">\((x_1,y_1),...,(x_n,y_n)\)</span> and we want to see if knowing one of the values in such a tuple gives us information about the other one.</p>
+<p>As a visual example, we consider a synthetic dataset, namely Anscombe’s first dataset<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>:</p>
+<p><img src="dataviz_book_files/figure-html/lecture-02-340-1.png" width="400" /></p>
+<p>Looking at the plot above, it sure seems that there is a positive relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> in this data. Specifically, if we know that <span class="math inline">\(x_i\)</span> is relatively high, it seems that we can usually assume that <span class="math inline">\(y_i\)</span> will be high too (and vice-versa). But once again, we need a test to prevent us from being fooled by randomness.</p>
+<p>This means we again need null and alternative hypotheses, a test statistic and a distribution of the test statistic under the null hypothesis.</p>
+<p>We will consider two different tests which are based on different notions of the concept of correlation.</p>
+<div id="the-pearson-correlation-test" class="section level3" number="8.5.1">
+<h3><span class="header-section-number">8.5.1</span> The Pearson correlation test</h3>
+<p>An important property is that when two variables (X,Y) form a bivariate Gaussian distribution,<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> their independence is equivalent to their population Pearson correlation coefficient <span class="math inline">\(\rho_{X,Y}\)</span> equals 0 (See Appendix <a href="appendix-probabilities.html#appendix-probabilities">D</a>). This motivates for a Hypothesis test, called the Pearson correlation coefficient test.</p>
+<div id="pearsons-correlation-coefficient" class="section level4" number="8.5.1.1">
+<h4><span class="header-section-number">8.5.1.1</span> Pearson’s correlation coefficient</h4>
+<p>The Pearson correlation coefficient test is based on the sample estimate of the population Pearson correlation coefficient, defined as:</p>
+<p><span class="math display" id="eq:pearson-r">\[\begin{align}
+r =\frac{\sum ^n _{i=1}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum ^n _{i=1}(x_i - \bar{x})^2} \sqrt{\sum ^n _{i=1}(y_i - \bar{y})^2}}
+\tag{8.3}
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(\bar{x}=\frac{1}{n}\sum_{i=1}^n x_i\)</span> is the sample mean, and analogously for <span class="math inline">\(\bar{y}\)</span>.</p>
+<p>Let us look at the components of this. The numerator compares the deviation of the <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> to their respective means. Terms of the sum are positive if both <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> vary in the same direction (larger or lesser) compared to their mean and negative otherwise. Hence, the numerator is largely positive when deviations from the means agree in direction, largely negative when they are opposite, and about 0 when deviations are independent of each other. More formally, the numerator is proportional to the sample covariance (See Appendix <a href="appendix-probabilities.html#appendix-probabilities">D</a>). The terms in the denominator is proportional to the individual sample standard deviations of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> (See Appendix <a href="appendix-probabilities.html#appendix-probabilities">D</a>). Hence, <span class="math inline">\(r\)</span> compares how much the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> vary together to the product of how much they vary individually.</p>
+<p>The Pearson correlation coefficient is symmetric. Moreover, it is invariant to affine transformations of the variables. It ranges from -1 to 1, where:</p>
+<ul>
+<li><span class="math inline">\(r=1\)</span> implies that x and y are perfectly linearly related with a positive slope</li>
+<li><span class="math inline">\(r=-1\)</span> implies that that x and y are perfectly linearly related with a negative slope</li>
+</ul>
+</div>
+<div id="the-test" class="section level4" number="8.5.1.2">
+<h4><span class="header-section-number">8.5.1.2</span> The test</h4>
+<p>The assumptions of the Pearson correlation test are:</p>
+<ul>
+<li><span class="math inline">\((X,Y)\)</span> is a bivariate Gaussian distribution</li>
+<li>The observations <span class="math inline">\((X_i,Y_i)\)</span> are i.i.d.</li>
+</ul>
+<p>The null hypothesis is that the two variables are statistically independent, which under the above assumptions amounts to state that:</p>
+<p><span class="math display">\[H_0: \rho_{(X,Y)} = 0\]</span></p>
+<p>The test statistic is given by:</p>
+<p><span class="math display">\[t = r\sqrt{\frac{n-2}{1 - r^2}}\]</span></p>
+<p>Under <span class="math inline">\(H_0\)</span>, the test statistic <span class="math inline">\(t\)</span> defined above follows a Student’s <span class="math inline">\(t\)</span>-distribution with degrees of freedom <span class="math inline">\(n-2\)</span>.</p>
+<p>In R, we can use cor.test with method=“pearson” to perform a Pearson correlation test.</p>
+<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="analytical-stat.html#cb542-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(anscombe<span class="sc">$</span>x1, anscombe<span class="sc">$</span>y1, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  anscombe$x1 and anscombe$y1
+## t = 4.2415, df = 9, p-value = 0.00217
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.4243912 0.9506933
+## sample estimates:
+##       cor 
+## 0.8164205</code></pre>
+</div>
+</div>
+<div id="the-spearman-rank-correlation-test" class="section level3" number="8.5.2">
+<h3><span class="header-section-number">8.5.2</span> The Spearman rank correlation test</h3>
+<div id="motivation-1" class="section level4" number="8.5.2.1">
+<h4><span class="header-section-number">8.5.2.1</span> Motivation</h4>
+<p>Pearson’s correlation captures linear relationship between variables, which is quite restrictive. For instance, if one of the variables is in log-scale or quadratic scale, then the linear relationship is lost. Here is a constructed example:</p>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="analytical-stat.html#cb544-1" aria-hidden="true" tabindex="-1"></a>x_vec <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.55</span>,<span class="fl">1.55</span>,<span class="fl">0.05</span>)</span>
+<span id="cb544-2"><a href="analytical-stat.html#cb544-2" aria-hidden="true" tabindex="-1"></a>tan_x <span class="ot">&lt;-</span> <span class="fu">tan</span>(x_vec)</span>
+<span id="cb544-3"><a href="analytical-stat.html#cb544-3" aria-hidden="true" tabindex="-1"></a>dt_tan <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">x =</span> x_vec, <span class="at">tan_x =</span> tan_x)</span>
+<span id="cb544-4"><a href="analytical-stat.html#cb544-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dt_tan, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>tan_x)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-342-1.png" width="384" /></p>
+<p>These two constructed variables relate exactly to each other by a monotonic relationship (the tangent function).<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a> However their Pearson correlation is modest:</p>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="analytical-stat.html#cb545-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x_vec, tan_x, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 0.5643079</code></pre>
+<p>Conversely Pearson’ correlation can be excessively large in presence of outliers. Anscombe’s quartet provides an example:</p>
+<p><img src="dataviz_book_files/figure-html/lecture-02-344-1.png" width="384" /></p>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="analytical-stat.html#cb547-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(anscombe<span class="sc">$</span>x4, anscombe<span class="sc">$</span>y4, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  anscombe$x4 and anscombe$y4
+## t = 4.243, df = 9, p-value = 0.002165
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.4246394 0.9507224
+## sample estimates:
+##       cor 
+## 0.8165214</code></pre>
+<p>We see there is a high Pearson correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. Furthermore, if we use a significance level <span class="math inline">\(\alpha = 0.05\)</span>, we reject the null hypothesis that <span class="math inline">\(H_0:r=0\)</span> and conclude there is a statistically significant association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. The plot however tells us this is driven by a single outlier.<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> The data is probably not Gaussian.</p>
+</div>
+<div id="spearmans-correlation-coefficient" class="section level4" number="8.5.2.2">
+<h4><span class="header-section-number">8.5.2.2</span> Spearman’s correlation coefficient</h4>
+<p>Spearman’s correlation (or rank-correlation, denoted <span class="math inline">\(\rho\)</span>) addresses those issues by computing the correlation not on the original scale but on rank-transformed values. To compute <span class="math inline">\(\rho\)</span>, we rank the variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> separately, yielding rankings such as:</p>
+<p><span class="math display">\[x_7&lt;x_3&lt;x_5&lt;x_1&lt;...\]</span></p>
+<p>and</p>
+<p><span class="math display">\[y_3&lt;y_5&lt;y_7&lt;y_2&lt;...\]</span></p>
+<p>We then compute the position of each data point in the ranking, yielding the transformed dataset:</p>
+<p><span class="math display">\[\operatorname{rank}_x(X),\operatorname{rank}_y(Y)=(\operatorname{rank}_x(x_1), \operatorname{rank}_y(y_1)),...,(\operatorname{rank}_x(x_n),\operatorname{rank}_y(y_n))\]</span></p>
+<p>For the rankings above, we would have for example that <span class="math inline">\((rank_x(x_7),rank_y(y_7)) = (1,3)\)</span>.</p>
+<p>Spearman’s <span class="math inline">\(\rho\)</span> is then computed as the Pearson correlation of the rank-transformed data.</p>
+<p>In R we can compute it using:</p>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="analytical-stat.html#cb549-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">rank</span>(anscombe<span class="sc">$</span>x4), <span class="fu">rank</span>(anscombe<span class="sc">$</span>y4), <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 0.5</code></pre>
+<p>Or more directly, by specifying method=“spearman.”</p>
+<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="analytical-stat.html#cb551-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(anscombe<span class="sc">$</span>x4, anscombe<span class="sc">$</span>y4, <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 0.5</code></pre>
+<!-- The advantage of the Spearman correlation over the Pearson correlation is that the Spearman correlation also allows for non-linear relationships between the variables, as long as the relationship is monotonic. -->
+<!-- Let us look at an example: -->
+<!-- ```{r, echo=TRUE} -->
+<!-- x_vec <- seq(-1.55,1.55,0.05) -->
+<!-- tan_x <- tan(x_vec) -->
+<!-- dt_tan <- data.table(x = x_vec, tan_x = tan_x) -->
+<!-- ggplot(data=dt_tan, aes(x=x, y=tan_x)) + geom_point() -->
+<!-- ``` -->
+<!-- ```{r, echo=TRUE} -->
+<!-- cor(x_vec, tan_x, method="pearson") -->
+<!-- cor(x_vec, tan_x, method="spearman") -->
+<!-- ``` -->
+<!-- Obviously, these two variables are positively related. However, the relationship is not linear, and because of this, the Pearson correlation is only about 0.56. By contrast, because the relationship is perfectly monotonic increasing, the ranks of $X$ and $Y$ always agree, and thus the Spearman correlation is 1. -->
+</div>
+<div id="the-test-1" class="section level4" number="8.5.2.3">
+<h4><span class="header-section-number">8.5.2.3</span> The test</h4>
+<p>Based on the Spearman correlation, we can also define a test for the relationship between two variables.</p>
+<p>This test does not make distributional assumptions.</p>
+<p>The null hypothesis is:</p>
+<p><span class="math inline">\(H_0\)</span>: The population rank-correlation is 0.</p>
+<p>R implements a statistical test based on tabulated exact permutations for small sample sizes and approximations for larger sample sizes.</p>
+<p>Applied to the Anscombe’s dataset we get:</p>
+<!-- As noted above, the Spearman correlation is simply a Pearson correlation of the ranks. Thus, we can do the same t-test we did for the Pearson correlation also for the Spearman correlation. This is what R will do for large $n$ or if we set exact=FALSE: -->
+<!-- ```{r, echo=TRUE} -->
+<!-- cor.test(rank(anscombe[,1]), rank(anscombe[,5]), method="pearson") -->
+<!-- cor.test(anscombe[,1], anscombe[,5], method="spearman", exact=FALSE) -->
+<!-- ``` -->
+<!-- For small $n$, R will use an exact test. -->
+<!-- ```{r lecture-11-9-3, echo=TRUE} -->
+<!-- cor.test(anscombe[,1], anscombe[,5], method="spearman") -->
+<!-- ``` -->
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="analytical-stat.html#cb553-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(anscombe<span class="sc">$</span>x4, anscombe<span class="sc">$</span>y4, <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in cor.test.default(anscombe$x4, anscombe$y4, method
+## = &quot;spearman&quot;): Cannot compute exact p-value with ties</code></pre>
+<pre><code>## 
+##  Spearman&#39;s rank correlation rho
+## 
+## data:  anscombe$x4 and anscombe$y4
+## S = 110, p-value = 0.1173
+## alternative hypothesis: true rho is not equal to 0
+## sample estimates:
+## rho 
+## 0.5</code></pre>
+<p>We see that the Spearman test would not reject, which makes sense, as the rank is less likely to be mislead by the outlier data point.<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a> Generally, the Spearman test is less powerful than Pearson when the data is actually Gaussian, but it is more robust to outliers and captures monotonic, yet non-linear, relationships. In practice, the Spearman test is often used.</p>
+<!-- ### The Spearman test is more robust to outliers -->
+<!-- Imagine we are confronted with the following result of a Pearson test: -->
+<!-- ```{r, echo=TRUE} -->
+<!-- cor.test(anscombe[,4], anscombe[,8], method="pearson") -->
+<!-- ``` -->
+<!-- We see there is a high correlation between $X$ and $Y$. Furthermore, if we use a significance level $\alpha = 0.05$, we reject the null hypothesis that $H_0:r=0$ and conclude there is a statistically significant association between $X$ and $Y$. Right? -->
+<!-- Well, we can plot the data: -->
+<!-- ```{r, echo=FALSE, fig.width=4} -->
+<!-- ggplot(anscombe, aes(x4, y4)) + geom_point(size=4) + theme(text=element_text(size = 30)) + labs(x= "X", y="Y") + mytheme -->
+<!-- ``` -->
+<!-- Looking at the plot, it seems that our "association" between the variables is heavily driven by the rather strange structure of this data. If we see data like this, we should ask whether the assumptions of the test we are using are met. In this case, we should worry that: -->
+<!-- * The Gaussian assumption of the Pearson test is false -->
+<!-- * The point in the upper left corner is an outlier -->
+<!-- * $X$ is not truly a quantitative variable -->
+<!-- To address the first point, we can do a Spearman test instead: -->
+<!-- ```{r, echo=TRUE} -->
+<!-- cor.test(anscombe[,4], anscombe[,8], method="spearman") -->
+<!-- ``` -->
+<!-- We see that the Spearman test would not reject, which makes sense, as the rank is less likely to be mislead by outliers. -->
+<!-- This being said, the test rightfully warns of the large number of ties, so in this case the Spearman $P$-value may not be the last word on the matter either. With data like this, we should always take a step back and think carefully whether it can really answer the questions we are trying to ask of it. -->
+</div>
+</div>
+</div>
+<div id="testing-associations-of-two-variables-overview" class="section level2" number="8.6">
+<h2><span class="header-section-number">8.6</span> Testing associations of two variables: Overview</h2>
+<p>Figure <a href="analytical-stat.html#fig:two-variable-tests">8.3</a> summarizes the different tests we have seen for the association of two variables, together with the typical companion plots:</p>
+<div class="figure"><span id="fig:two-variable-tests"></span>
+<img src="assets/img/lec11-stat-testing-II/lec11-common-stat-tests.png" alt="Overview of two-variable tests" width="750px" />
+<p class="caption">
+Figure 8.3: Overview of two-variable tests
+</p>
+</div>
+</div>
+<div id="assessing-distributional-assumptions-with-q-q-plots" class="section level2" number="8.7">
+<h2><span class="header-section-number">8.7</span> Assessing distributional assumptions with Q-Q Plots</h2>
+<p>As we saw in this chapter, several tests assume that the data follows a particular distribution. We will now explore a plot which we can use to check whether such an assumption is reasonable.</p>
+<div id="limitations-of-histograms" class="section level3" number="8.7.1">
+<h3><span class="header-section-number">8.7.1</span> Limitations of Histograms</h3>
+<p>We already know a plot which can be used to visualize distributions, namely the histogram. We might think that it could be used to check distributional assumptions. However, this is somewhat complicated by the difficulty of choosing the right bin size. Consider, for example, the following histogram, visualizing a sample taken from a uniform distribution on the interval 0 to 1.:</p>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="analytical-stat.html#cb556-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">50</span>) <span class="do">## uniformly distributed data points</span></span>
+<span id="cb556-2"><a href="analytical-stat.html#cb556-2" aria-hidden="true" tabindex="-1"></a><span class="co"># qplot is a quick plotting function</span></span>
+<span id="cb556-3"><a href="analytical-stat.html#cb556-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(x, <span class="at">geom=</span><span class="st">&quot;histogram&quot;</span>) </span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+## `binwidth`.</code></pre>
+<p><img src="dataviz_book_files/figure-html/lecture-02-348-1.png" width="384" /></p>
+<p>Just looking at the histogram, it is hard to see that the underlying data comes from the uniform distribution.</p>
+</div>
+<div id="q-q-plots-comparing-empirical-to-theoretical-quantiles" class="section level3" number="8.7.2">
+<h3><span class="header-section-number">8.7.2</span> Q-Q plots: Comparing empirical to theoretical quantiles</h3>
+<p>What could be a better approach here? One thing we can do is look at the quantiles.</p>
+<p>The basic idea here is as follows: if the data actually follows a uniform distribution on the interval 0 to 1, then we expect 10% of the data in the interval [0,0.1], 20% in the interval [0,0.2], and so on…</p>
+<p>We can now compute whether our data conforms to this expectation. We get that:</p>
+<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="analytical-stat.html#cb558-1" aria-hidden="true" tabindex="-1"></a>dec <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.1</span>))</span>
+<span id="cb558-2"><a href="analytical-stat.html#cb558-2" aria-hidden="true" tabindex="-1"></a>dec</span></code></pre></div>
+<pre><code>##         0%        10%        20%        30%        40% 
+## 0.02503686 0.09677631 0.14369892 0.29974460 0.36662386 
+##        50%        60%        70%        80%        90% 
+## 0.50953583 0.63289259 0.68685499 0.85694255 0.90948354 
+##       100% 
+## 0.99981636</code></pre>
+<p>Here we implicitly chose to always make jumps of <span class="math inline">\(10\%\)</span>. These quantiles are therefore called deciles.</p>
+<p>We can make a scatter plot which compares the expected and the theoretical deciles:</p>
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="analytical-stat.html#cb560-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb560-2"><a href="analytical-stat.html#cb560-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.table</span>(</span>
+<span id="cb560-3"><a href="analytical-stat.html#cb560-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.1</span>),</span>
+<span id="cb560-4"><a href="analytical-stat.html#cb560-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span>dec</span>
+<span id="cb560-5"><a href="analytical-stat.html#cb560-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb560-6"><a href="analytical-stat.html#cb560-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(x,y)</span>
+<span id="cb560-7"><a href="analytical-stat.html#cb560-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb560-8"><a href="analytical-stat.html#cb560-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb560-9"><a href="analytical-stat.html#cb560-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Deciles of the uniform distribution&quot;</span>) <span class="sc">+</span></span>
+<span id="cb560-10"><a href="analytical-stat.html#cb560-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Deciles of the dataset&quot;</span>) <span class="sc">+</span></span>
+<span id="cb560-11"><a href="analytical-stat.html#cb560-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept=</span><span class="dv">0</span>,<span class="at">slope=</span><span class="dv">1</span>) <span class="do">## diagonal y=x</span></span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-350-1.png" width="384" /></p>
+<p>We see that they match quite well.</p>
+<p>For a finite sample we can estimate the quantile for every data point. One way is to use as expected quantile <span class="math inline">\((r-0.5)/N\)</span> (Hazen, 1914), where <span class="math inline">\(r\)</span> is the rank of the data point. The R function <code>ppoints</code> gives more accurate values.</p>
+<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="analytical-stat.html#cb561-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb561-2"><a href="analytical-stat.html#cb561-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.table</span>(</span>
+<span id="cb561-3"><a href="analytical-stat.html#cb561-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="fu">ppoints</span>(<span class="fu">length</span>(x)),</span>
+<span id="cb561-4"><a href="analytical-stat.html#cb561-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="fu">sort</span>(x)</span>
+<span id="cb561-5"><a href="analytical-stat.html#cb561-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb561-6"><a href="analytical-stat.html#cb561-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(x,y)</span>
+<span id="cb561-7"><a href="analytical-stat.html#cb561-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb561-8"><a href="analytical-stat.html#cb561-8" aria-hidden="true" tabindex="-1"></a><span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb561-9"><a href="analytical-stat.html#cb561-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Quantiles of the uniform distribution&quot;</span>) <span class="sc">+</span></span>
+<span id="cb561-10"><a href="analytical-stat.html#cb561-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Quantiles of the dataset&quot;</span>) <span class="sc">+</span></span>
+<span id="cb561-11"><a href="analytical-stat.html#cb561-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept=</span><span class="dv">0</span>,<span class="at">slope=</span><span class="dv">1</span>) <span class="do">## diagonal y=x</span></span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-351-1.png" width="384" /></p>
+<p>This is called a Q-Q plot, which is short for Quantile-Quantile plot. When the distribution matches the data, as above, the points should be close the diagonal.</p>
+<p>Let us now recall the example we used to justify the Wilcoxon test. There we added an extreme outlier to a gaussian, which mislead the <span class="math inline">\(t\)</span>-test. Can we discover, using a Q-Q plot, that this data violates an assumption of normality?</p>
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="analytical-stat.html#cb562-1" aria-hidden="true" tabindex="-1"></a>group_qq <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">99</span>, <span class="dv">0</span>), <span class="dv">100</span>)</span>
+<span id="cb562-2"><a href="analytical-stat.html#cb562-2" aria-hidden="true" tabindex="-1"></a>qq_tbl <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">sample =</span> group_qq)</span>
+<span id="cb562-3"><a href="analytical-stat.html#cb562-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> qq_tbl, <span class="fu">aes</span>(<span class="at">sample =</span> sample)) <span class="sc">+</span> <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>()</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-352-1.png" width="384" /></p>
+<p>Our artificially injected outlier shows up very clearly in the Q-Q plot as a strong deviation from what we expect from a normal distribution.</p>
+</div>
+<div id="typical-q-q-plots" class="section level3" number="8.7.3">
+<h3><span class="header-section-number">8.7.3</span> Typical Q-Q plots</h3>
+<!-- --- -->
+<!-- ## Q-Q plot examples -->
+<!-- ```{r, echo=FALSE, warning=FALSE, fig.width=10, fig.height=6, out.width="870px"} -->
+<!-- library(ggplot2) -->
+<!-- library(patchwork) -->
+<!-- library(data.table) -->
+<!-- n <- 1000 -->
+<!-- q <- qnorm(ppoints(n)) -->
+<!-- vals <- data.table( -->
+<!--   qn = qnorm(ppoints(n)), -->
+<!--   "Normal / H0" = sort(rnorm(n)), -->
+<!--   "Shift"  = sort(rnorm(n, mean=5)), -->
+<!--   "Broad"  = sort(rnorm(n, sd=2)), -->
+<!--   "Narrow" = sort(rnorm(n, sd=0.5)), -->
+<!--   "NBinom" = sort(rnbinom(n, mu=100, size=2)/100) -->
+<!-- ) -->
+<!-- ggvals <- melt(vals, id.vars = "qn") -->
+<!-- gg_qq <- ggplot(ggvals, aes(qn, value)) +  -->
+<!--   geom_point() +  -->
+<!--   geom_abline(col="firebrick") +  -->
+<!--   xlab("Theoretical quantile") +  -->
+<!--   ylab("Observed quantile") +  -->
+<!--   facet_wrap("variable", nrow=1) +  -->
+<!--   ggtitle("Q-Q plots") -->
+<!-- gg_hist <- ggplot(ggvals, aes(value)) +  -->
+<!--   geom_histogram(bins=20) + -->
+<!--   xlab("Observed value") +  -->
+<!--   geom_vline(xintercept=0, col="firebrick", linetype=2) +  -->
+<!--   facet_wrap("variable", nrow=1) + -->
+<!--   ggtitle("Histograms") -->
+<!-- patchwork::wrap_plots(gg_hist, gg_qq, ncol=1) -->
+<!-- ``` -->
+<p>Figure <a href="analytical-stat.html#fig:qq-plot-examples">8.4</a> give more examples. We assume here the Normal distribution (Gaussian with mean 0 and variance 1) as reference theoretical distribution. These plots show how different violations of the distributional assumption translate to different deviations from the diagonal in a Q-Q plot.</p>
+<div class="figure"><span id="fig:qq-plot-examples"></span>
+<img src="assets/img/lec11-QQ-plots.png" alt="Examples of Q-Q plots. The theoretical distribution is in each case the Normal distribution (Gaussian with mean 0 and variance 1). The upper row shows histograms of some observations, the lower row shows the matching Q-Q plots. The vertical red dashed line marks the theoretical mean (0, top row) and the red lines the y=x diagonal (bottom row)." width="900px" />
+<p class="caption">
+Figure 8.4: Examples of Q-Q plots. The theoretical distribution is in each case the Normal distribution (Gaussian with mean 0 and variance 1). The upper row shows histograms of some observations, the lower row shows the matching Q-Q plots. The vertical red dashed line marks the theoretical mean (0, top row) and the red lines the y=x diagonal (bottom row).
+</p>
+</div>
+<p>The middle three plots show what happens when one particular aspect of the distributional assumption is incorrect. The second from the left shows what happens if the data has a mean higher than we expected, but otherwise follows the distribution. The middle one shows what happens if the data has fatter tails (i.e. more outliers) than we expected - this occurs frequently in practice. The second from the right shows what happens if the distribution is narrower than expected. The last plot shows a combination of these phenomena. There the data come from a non-negative asymmetric distribution.<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a> The Q-Q plot shows a lack of low values (capped at 0) and an excess of high values.</p>
+</div>
+</div>
+<div id="analytical-conf-int" class="section level2" number="8.8">
+<h2><span class="header-section-number">8.8</span> Analytical Confidence intervals</h2>
+<p>Remember the definition of confidence intervals:
+A <strong>confidence interval</strong> of confidence level <span class="math inline">\(1-\alpha\)</span> for a parameter <span class="math inline">\(\theta\)</span> is an interval, which would the data generation process be repeated, would contain the parameter with probability <span class="math inline">\(1-\alpha\)</span>.</p>
+<p>For instance, a 95% confidence interval for the expectation <span class="math inline">\(\mu\)</span>, would be an interval <span class="math inline">\([a, b]\)</span> such that:</p>
+<p><span class="math display">\[
+p(a \leq \mu \leq b) = 0.95
+\]</span></p>
+<p>Remember also that here, <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are random, <span class="math inline">\(\mu\)</span> is not!</p>
+<p>We have seen how to approximate confidence intervals using the case-resampling bootstrap in the previous chapter. But, confidence intervals can also be computed analytically under some assumptions. We will see this in detail for the binomial case first.</p>
+<div id="binomial-case" class="section level3" number="8.8.1">
+<h3><span class="header-section-number">8.8.1</span> Binomial case</h3>
+<p>We use the same setup as previously:</p>
+<ul>
+<li>We make <span class="math inline">\(N\)</span> independent random tosses of a coin.</li>
+<li><span class="math inline">\(X_i\)</span> : the value of the i-th toss. <span class="math inline">\(X_i=1\)</span> for head <span class="math inline">\(X_i=0\)</span> for tail.</li>
+<li><span class="math inline">\(\mu = E(X_i) = p(X_i=1)\)</span> the probability of getting a head (same for all tosses).</li>
+</ul>
+<p>The sample mean is then given by:</p>
+<p><span class="math display">\[
+\bar X = \frac{1}{N}\sum_i X_i
+\]</span></p>
+<p>And the estimated standard deviation is given by:</p>
+<p><span class="math display">\[
+\hat{\mbox{SE}}(\bar{X}) = \sqrt{\frac{\bar X (1 - \bar X)}{N}}
+\]</span></p>
+<p>We want to know the probability that the interval <span class="math inline">\([\bar{X} - \hat{\mbox{SE}}(\bar{X}), \bar{X} + \hat{\mbox{SE}}(\bar{X})]\)</span> contains the true proportion <span class="math inline">\(\mu\)</span>. (And do not forget that <span class="math inline">\(\bar{X}\)</span> and <span class="math inline">\(\hat{\mbox{SE}}\)</span> are random variables, whereas <span class="math inline">\(\mu\)</span> is not!)</p>
+<!-- I belabored that point in the previous lecture -->
+<!-- # ```{r} -->
+<!-- # mu <- 0.45 -->
+<!-- # N <- 1000 -->
+<!-- # ``` -->
+<!-- # And note that the interval here: -->
+<!-- # ```{r} -->
+<!-- # x <- sample(c(0, 1), size = N, replace = TRUE, prob = c(1-mu, mu)) -->
+<!-- # x_hat <- mean(x) -->
+<!-- # se_hat <- sqrt(x_hat * (1 - x_hat) / N) -->
+<!-- # c(x_hat - se_hat, x_hat + se_hat) -->
+<!-- # ``` -->
+<!-- # is different from this one: -->
+<!-- # ```{r} -->
+<!-- # x <- sample(c(0,1), size=N, replace=TRUE, prob=c(1-mu, mu)) -->
+<!-- # x_hat <- mean(x) -->
+<!-- # se_hat <- sqrt(x_hat * (1 - x_hat) / N) -->
+<!-- # c(x_hat - se_hat, x_hat + se_hat) -->
+<!-- # ``` -->
+<p>To determine the probability that the interval includes <span class="math inline">\(\mu\)</span>, we need to compute this:
+<span class="math display">\[
+p\left(\bar{X} - \hat{\mbox{SE}}(\bar{X}) \leq \mu \leq \bar{X} + \hat{\mbox{SE}}(\bar{X})\right)
+\]</span></p>
+<p>By subtracting and dividing the same quantities in all parts of the equation, we
+get that the above is equivalent to:</p>
+<p><span class="math display">\[
+p\left(-1 \leq \frac{\bar{X}- \mu}{\hat{\mbox{SE}}(\bar{X})} \leq  1\right)
+\]</span></p>
+<div id="normal-approximation-interval-using-the-central-limit-theorem" class="section level4" number="8.8.1.1">
+<h4><span class="header-section-number">8.8.1.1</span> Normal approximation interval using the Central Limit Theorem</h4>
+<p>The Central Limit Theorem implies that the sample mean distributes for large <span class="math inline">\(N\)</span> as a Normal distribution with mean <span class="math inline">\(E(X)\)</span> and variance <span class="math inline">\(\operatorname{Var}(X)/N\)</span>:</p>
+<p><span class="math display">\[
+p( \bar X ) = N (\mu, \operatorname{Var}(X)/N)
+\]</span>
+It is known that <span class="math inline">\(\operatorname{Var}(X_i) = \mu(1-\mu)\)</span> (this is because the underlying data is bernoulli).</p>
+<p>Hence,
+<span class="math display">\[
+p\left(-1 \leq \frac{\bar{X}- \mu}{\hat{\mbox{SE}}(\bar{X})} \leq  1\right) = p\left(-1 \leq Z \leq  1\right)
+\]</span></p>
+<p>where Z is normally distributed with mean 0 and variance 1.</p>
+<p>This can be computed in R using the cumulative distribution function of the normal distribution:</p>
+<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="analytical-stat.html#cb563-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">1</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.6826895</code></pre>
+<p>proving that we have approximately 68% probability.</p>
+</div>
+<div id="defining-the-interval-for-a-predefined-confidence-level" class="section level4" number="8.8.1.2">
+<h4><span class="header-section-number">8.8.1.2</span> Defining the interval for a predefined confidence level</h4>
+<p>If we want to have a larger probability, say 99%, we need to multiply by whatever <code>z</code> satisfies the following:</p>
+<p><span class="math display">\[
+\mbox{Pr}\left(-z \leq Z \leq  z\right) = 0.99
+\]</span></p>
+<p>This is obtained using the quantile function of the normal distribution. In R, using:</p>
+<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="analytical-stat.html#cb565-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.995</span>)</span>
+<span id="cb565-2"><a href="analytical-stat.html#cb565-2" aria-hidden="true" tabindex="-1"></a>z</span></code></pre></div>
+<pre><code>## [1] 2.575829</code></pre>
+<p>will achieve this because by definition <code>pnorm(qnorm(0.995))</code> is 0.995 and by symmetry <code>pnorm(1-qnorm(0.995))</code> is 1 - 0.995. As a consequence, we have that:</p>
+<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb567-1"><a href="analytical-stat.html#cb567-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(z) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span>z)</span></code></pre></div>
+<pre><code>## [1] 0.99</code></pre>
+<p>is <code>0.995 - 0.005 = 0.99</code>.</p>
+</div>
+<div id="boundaries-of-equi-tailed-95-confidence-interval" class="section level4" number="8.8.1.3">
+<h4><span class="header-section-number">8.8.1.3</span> Boundaries of equi-tailed 95% confidence interval</h4>
+<p>We can use this approach for any confidence level <span class="math inline">\(1-\alpha\)</span>.</p>
+<p>To obtain an equi-tailed confidence interval of level <span class="math inline">\(1-\alpha\)</span> we set <code>z = qnorm(1 - alpha/2)</code> because <span class="math inline">\((1 - \alpha/2) - \alpha/2 = 1 - \alpha\)</span>.</p>
+<p>For <span class="math inline">\(\alpha=0.05\)</span>, <span class="math inline">\(1-\alpha/2 = 0.975\)</span> and we get the typically used 1.96 factor:</p>
+<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="analytical-stat.html#cb569-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.975</span>)</span></code></pre></div>
+<pre><code>## [1] 1.959964</code></pre>
+</div>
+</div>
+<div id="confidence-intervals-in-r" class="section level3" number="8.8.2">
+<h3><span class="header-section-number">8.8.2</span> Confidence intervals in R</h3>
+<p>Most statistical tests in R provide confidence intervals for the relevant statistics. This is reported as part of the returned test object. For example, for the binomial test we get:</p>
+<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="analytical-stat.html#cb571-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fl">0.45</span></span>
+<span id="cb571-2"><a href="analytical-stat.html#cb571-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb571-3"><a href="analytical-stat.html#cb571-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">size =</span> N, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">-</span>mu, mu))</span>
+<span id="cb571-4"><a href="analytical-stat.html#cb571-4" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="fu">sum</span>(x), <span class="fu">length</span>(x))</span></code></pre></div>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  sum(x) and length(x)
+## number of successes = 421, number of trials = 1000,
+## p-value = 6.537e-07
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.3901707 0.4522958
+## sample estimates:
+## probability of success 
+##                  0.421</code></pre>
+<p>You can see that the binom.test function automatically gives us a 95 percent confidence interval. It is reported in the conf.int slot. So we can extract it using:</p>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="analytical-stat.html#cb573-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="fu">sum</span>(x), <span class="fu">length</span>(x))<span class="sc">$</span>conf.int</span></code></pre></div>
+<pre><code>## [1] 0.3901707 0.4522958
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p>We can set the confidence level with the <code>conf.level</code> parameter. So if we want a <span class="math inline">\(99\%\)</span> interval, we do:</p>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="analytical-stat.html#cb575-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="fu">sum</span>(x), <span class="fu">length</span>(x), <span class="at">conf.level=</span><span class="fl">0.99</span>)<span class="sc">$</span>conf.int</span></code></pre></div>
+<pre><code>## [1] 0.3807435 0.4620192
+## attr(,&quot;conf.level&quot;)
+## [1] 0.99</code></pre>
+<p>For some tests, you first need to set conf.int to TRUE to recieve a confidence interval:</p>
+<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="analytical-stat.html#cb577-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(growth_rate <span class="sc">~</span> genotype, <span class="at">data=</span>dt, <span class="at">conf.int=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  growth_rate by genotype
+## W = 690, p-value = 2.264e-16
+## alternative hypothesis: true location shift is not equal to 0
+## 95 percent confidence interval:
+##  -2.537024 -1.753245
+## sample estimates:
+## difference in location 
+##              -2.134131</code></pre>
+<p>Sometimes R will use more accurate estimations than the Normal approximation we have just described. Details can usually be found in the documentation.</p>
+</div>
+<div id="advanced-a-note-on-overlapping-confidence-intervals" class="section level3" number="8.8.3">
+<h3><span class="header-section-number">8.8.3</span> Advanced: A note on overlapping confidence intervals</h3>
+<p>Consider again a scenario where we are comparing two groups, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, in terms of their means, <span class="math inline">\(\bar{X}\)</span> and <span class="math inline">\(\bar{Y}\)</span>. Assume, for simplicity, that:</p>
+<p><span class="math display">\[X \sim N(\mu_x, \sigma^2)\]</span></p>
+<p><span class="math display">\[Y \sim N(\mu_y, \sigma^2)\]</span></p>
+<p>with <span class="math inline">\(\sigma^2\)</span> known. Assume further that we have samples of each group of size <span class="math inline">\(n_y=n_x=n\)</span>. We then know that:</p>
+<p><span class="math display">\[\bar{x} \sim N(\mu_x, \frac{\sigma^2}{n})\]</span></p>
+<p><span class="math display">\[\bar{y} \sim N(\mu_y, \frac{\sigma^2}{n})\]</span></p>
+<p>We can now construct two analytical <span class="math inline">\(95\%\)</span> confidence intervals, one for each mean. We use the same procedure as previously. We set up an interval:</p>
+<p><span class="math display">\[
+\mbox{Pr}\left(\bar{x}-z\frac{\sigma}{\sqrt{n}} \leq \mu_x\leq  \bar{x}+z\frac{\sigma}{\sqrt{n}}\right) = 0.95
+\]</span>
+And rearrange to get:</p>
+<p><span class="math display">\[
+\mbox{Pr}\left(-z \leq \frac{\bar{x} - \mu_x}{\frac{\sigma}{\sqrt{n}}} \leq  z\right) = \mbox{Pr}\left(-z \leq Z \leq  z\right) = 0.95
+\]</span></p>
+<p>As before, <span class="math inline">\(Z \sim N(0,1)\)</span> and thus we get <span class="math inline">\(z \approx 1.96\)</span>.</p>
+<p>We round <span class="math inline">\(1.96 \approx 2\)</span>, to make the math nicer, yielding us the intervals:</p>
+<p><span class="math display">\[\bar{x} \pm 2\frac{\sigma}{\sqrt{n}}\]</span>
+<span class="math display">\[\bar{y} \pm 2\frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>Now assume we want to test the null hypothesis that the true mean difference is zero. In the literature it is quite common practice to say that we reject this null hypothesis if and only if the two confidence intervals do not overlap.</p>
+<p>It is important to note that this is <em>not</em> the same as constructing a <span class="math inline">\(95%\)</span> confidence interval for the difference in means <span class="math inline">\(\bar{x} - \bar{y}\)</span> and rejecting if and only if that interval does not include zero. The difference comes from how we add standard errors.</p>
+<p>In our overlap test, we would reject whenever <span class="math inline">\(\bar{y} + 2\frac{\sigma}{\sqrt{n}} &lt; \bar{x} - 2\frac{\sigma}{\sqrt{n}}\)</span> (assuming <span class="math inline">\(\bar{y} &lt; \bar{x}\)</span>). We can rearrange to get that we reject whenever:</p>
+<p><span class="math display">\[4\frac{\sigma}{\sqrt{n}} &lt; \bar{x} - \bar{y}\]</span>
+Now let us construct a confidence interval for <span class="math inline">\(\bar{x} - \bar{y}\)</span>. A basic property of normal random variables tells us that:</p>
+<p><span class="math display">\[\bar{x} - \bar{y} \sim N\left(\mu_x-\mu_y,2\frac{\sigma^2}{n}\right)\]</span></p>
+<p>Thus the correct confidence interval for <span class="math inline">\(\bar{x} - \bar{y}\)</span> is (using again <span class="math inline">\(1.96 \approx 2\)</span>):</p>
+<p><span class="math display">\[(\bar{x} - \bar{y}) \pm 2\sqrt{2}\frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>Thus we reject whenever:</p>
+<p><span class="math display">\[2\sqrt{2}\frac{\sigma}{\sqrt{n}} &lt; \bar{x}-\bar{y}\]</span></p>
+<p>Now <span class="math inline">\(2\sqrt{2} &lt; 4\)</span>, thus this will reject more often than the “overlap” test. in other words, the overlap test is too conservative.</p>
+<p>Nevertheless, this sort of overlap test is very often used in the literature. When you see it being used, or when you use it yourself, keep in mind that it generally will fail to reject more often than the confidence level indicates.</p>
+</div>
+</div>
+<div id="discussion-2" class="section level2" number="8.9">
+<h2><span class="header-section-number">8.9</span> Discussion</h2>
+<p>In the last chapter, we saw Permutation-based testing, which is very general: we can use it to test for any ad hoc statistics such as mean difference, median difference and so on. However, in the beginning of this chapter, we saw that Permutation-based testing is computationally intensive and not always appropriate in the context of big data. This is why we discussed a number of analytical tests which can serve as alternatives, to compute <span class="math inline">\(P\)</span>-values and confidence intervals.</p>
+<p>Some of tests are parametric, i.e. they assume some parameterized function for the data distribution, leading to the null hypothesis is be based on the parameters (for instance that two groups distribute according to the Gaussian distribution and that the means of the two groups are equal).
+We saw that for many scenarios, non-parametric tests exist that do not make little assumptions on the distribution functions. Examples of such non-parametric tests are the Fisher, the Wilcoxon rank-sum test, and the Spearman rank-correlation test. In general, these should be preferred to their parametric counterparts, unless we have good reason to believe that the more restrictive assumptions of the parametric test are met. We can check distributional assumptions using Q-Q plots.</p>
+<p>The two-variable tests we discussed assess in some ways the dependencies between variables. By themselves, they cannot tell whether these relationships are causal and, if so, what the direction of causality is (See Chapter <a href="graph-supported-hypos.html#graph-supported-hypos">6</a>). For instance, we may be tempted to conclude from the viral infection example that smoking is a cause of severe symptoms, but that study design unfortunately cannot guarantee this. People who smoke could, for example, on average be older, have a less healthy diet, or have other risk-factors, compared to non-smokers. In other words, there could be confounding variables not taken into account here.</p>
+</div>
+<div id="conclusion-1" class="section level2" number="8.10">
+<h2><span class="header-section-number">8.10</span> Conclusion</h2>
+<p>By now you should know:</p>
+<ul>
+<li>the assumptions of the binomial test and how to apply it.</li>
+<li>how to recognize and apply all the 2-variable tests in Figure <a href="analytical-stat.html#fig:two-variable-tests">8.3</a></li>
+<li>Interpret a Q-Q plot</li>
+</ul>
+<p>In applications, always report:</p>
+<ul>
+<li>a significance assessment (<span class="math inline">\(P\)</span>-value or confidence interval)</li>
+<li>a plot showing the effect assessed</li>
+<li>(if relevant) a Q-Q plot showing that the distributional assumptions of the test are met</li>
+</ul>
+</div>
+<div id="resources-3" class="section level2" number="8.11">
+<h2><span class="header-section-number">8.11</span> Resources</h2>
+<p>The Testing Chapter of Modern Statistics for Modern Biology, by Holmes and Huber.</p>
+<p>An online version is available at:
+<a href="https://www.huber.embl.de/msmb/" class="uri">https://www.huber.embl.de/msmb/</a></p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="14">
+<li id="fn14"><p>R typically provides 4 functions per distribution starting with the letters r, d, p, and q and standing for random draws (rbinom, rnorm,…), density or probability mass (dbinom, dnorm,…), cumulative distribution (pbinom, pnorm,…), and quantile (qbinom, qnorm,…)<a href="analytical-stat.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>It would also not be ideal to use the binomial test on the smoker data by fixing the probability under the null to the probability estimated on the non-smokers, because that probability would be a noisy estimate<a href="analytical-stat.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>More details at <a href="https://en.wikipedia.org/wiki/Hypergeometric_distribution" class="uri">https://en.wikipedia.org/wiki/Hypergeometric_distribution</a><a href="analytical-stat.html#fnref16" class="footnote-back">↩︎</a></p></li>
+<li id="fn17"><p><a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test" class="uri">https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test</a><a href="analytical-stat.html#fnref17" class="footnote-back">↩︎</a></p></li>
+<li id="fn18"><p><a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet" class="uri">https://en.wikipedia.org/wiki/Anscombe%27s_quartet</a><a href="analytical-stat.html#fnref18" class="footnote-back">↩︎</a></p></li>
+<li id="fn19"><p><a href="https://en.wikipedia.org/wiki/Multivariate_normal_distribution" class="uri">https://en.wikipedia.org/wiki/Multivariate_normal_distribution</a><a href="analytical-stat.html#fnref19" class="footnote-back">↩︎</a></p></li>
+<li id="fn20"><p>In some cases, we may also be interested in non-monotonic data (e.g. a U-shaped relationship). In this case, both Pearson and Spearman correlations will fail and we have to use more complex measures, such as the distance correlation (<a href="https://en.wikipedia.org/wiki/Distance_correlation" class="uri">https://en.wikipedia.org/wiki/Distance_correlation</a>) or an information-theoretic measure such as mutual information.<a href="analytical-stat.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<li id="fn21"><p>always give a plot along with your stats!<a href="analytical-stat.html#fnref21" class="footnote-back">↩︎</a></p></li>
+<li id="fn22"><p>This being said, the test rightfully warns of the large number of ties, so in this case the Spearman <span class="math inline">\(P\)</span>-value may not be the last word on the matter either. With data like this, we should always take a step back and think carefully whether it can really answer the questions we are trying to ask of it.<a href="analytical-stat.html#fnref22" class="footnote-back">↩︎</a></p></li>
+<li id="fn23"><p>simulated with the Negative binomial distribution <code>rnbinom(n, mu=100, size=2)/100</code>.<a href="analytical-stat.html#fnref23" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="resampling-stat.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="big-data-stat.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": {},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

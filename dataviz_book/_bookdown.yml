@@ -1,5 +1,5 @@
 book_filename: "dataviz_book"
-output_dir: "docs"
+output_dir: "../docs"
 #output_dir: "/s/public_webshare/project/dataviz_script"
 #output_dir: "/localdata/dataviz_script"
 delete_merged_file: true
@@ -30,6 +30,6 @@ rmd_files: [
   "../appendix01_Data-Importing/script/appendix_01.Rmd",
   "../appendix02_R_Basics/script/appendix_02.Rmd",
   "../appendix03_Plotting/script/appendix_03.Rmd",
-  # "../appendix04_Probabilities/script/appendix_04.Rmd"
+  "../appendix04_Probabilities/script/appendix_04.Rmd"
 ]
 before_chapter_script: "_common.R"

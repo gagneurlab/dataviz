@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Data Analysis and Visualization in R (IN2339)</title>
+  <title>D Probabilities | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Data Analysis and Visualization in R (IN2339)" />
+  <meta property="og:title" content="D Probabilities | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Data Analysis and Visualization in R (IN2339)" />
+  <meta name="twitter:title" content="D Probabilities | Data Analysis and Visualization in R (IN2339)" />
   
   <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="additonal-plotting-tools.html"/>
 
-<link rel="next" href="acknowledgments.html"/>
 <script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -627,24 +627,215 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Data Analysis and Visualization in R (IN2339)</h1>
-<h2 class="subtitle"><em>A practical introduction to Data Science</em></h2>
-<p class="author"><em>Chair of Computational Molecular Medicine</em></p>
-<p class="date"><em>2021-03-15</em></p>
+<div id="appendix-probabilities" class="section level1" number="16">
+<h1><span class="header-section-number">D</span> Probabilities</h1>
+<p>This Appendix covers basic definitions and results of probabilities. It does not aim to replace a lecture on probabilities.</p>
+<div id="probability-conditional-probability-and-dependence" class="section level2" number="16.1">
+<h2><span class="header-section-number">D.1</span> Probability, conditional probability, and dependence</h2>
+<p>We indistinguishably denote <span class="math inline">\(p(a)\)</span>:</p>
+<ul>
+<li>the probability of a logical event <span class="math inline">\(A\)</span> to occur</li>
+<li>the probability of a discrete random variable <span class="math inline">\(A\)</span> to take the value <span class="math inline">\(a\)</span></li>
+<li>the probability mass density of a continuous random variable <span class="math inline">\(A\)</span> at the value <span class="math inline">\(a\)</span></li>
+</ul>
+<p>The <strong>joint probability</strong> of two events to occur (two random variables to take particular values) is denoted <span class="math inline">\(p(a,b)\)</span>.</p>
+<!-- The probability of either event $a$ or $b$ occur, denoted $p(a \vee b)$, equals to: -->
+<!-- \begin{align} -->
+<!-- p(a \vee b) = p(a) + p(b) - p(a,b) -->
+<!-- \end{align} -->
+<p>The <strong>conditional probability</strong> of an event <span class="math inline">\(a\)</span> given that <span class="math inline">\(b\)</span> occurs, denoted <span class="math inline">\(p(a|b)\)</span> and said “probability of a given b,” is defined as:</p>
+<p><span class="math display">\[\begin{align}
+p(a|b):=\frac{p(a,b)}{p(b)}
+\end{align}\]</span></p>
+<p>The random variables <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are <strong>independent</strong>, denoted <span class="math inline">\(a \perp b\)</span>, if and only if
+<span class="math display">\[\begin{align}
+p(a,b) = p(a)p(b)
+\end{align}\]</span>
+This equivalent to say that <span class="math inline">\(p(a|b) = p(a)\)</span> and that <span class="math inline">\(p(b|a) = p(b)\)</span>.</p>
+<p>Otherwise, the random variables <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are dependent, denoted <span class="math inline">\(a \not\perp b\)</span>.</p>
+<!-- It follows the Bayes theorem: -->
+<!-- \begin{align} -->
+<!-- p(b|a)=\frac{p(a|b)p(b)}{p(a)} -->
+<!-- \end{align} -->
+<!-- These results are easy to recollect from an ensemblist point of view. Consider the union and intersection sets in Figure \ref{fig:probs}. -->
+<!-- ```{r, out.width = "200px", echo=FALSE, fig.cap="\\label{fig:probs}Probability basics - Ensemblist point of view"} -->
+<!-- knitr::include_graphics("../assets/img/lec02-probs-fundamentals.png") -->
+<!-- ``` -->
+<p>These results generalize to discrete random variables and to probability densities of continuous random variables.</p>
+<!-- ## Boole's inequality -->
+<!-- Assume we are rolling a six-sided die exactly once. Let $X$ be the result. $X$ can take any value $1,2,...,6$. -->
+<!-- Let $A$ be the event that we roll a number smaller than 5, so $X<5$. Let $B$ be the event that we roll a number bigger than 3, so $X>3$. -->
+<!-- It is easy to see that: -->
+<!-- $p(A) = p(X<5) = p(X \in \{1,2,3,4\}) = \frac{4}{6}$, -->
+<!-- $p(B) = p(X>3) = p(X \in \{4,5,6\}) = \frac{3}{6}$ -->
+<!-- Thus $p(A) + p(B) = \frac{7}{6}$ -->
+<!-- Now we ask: what is the probability of $A \cup B$, i.e. what is the probability that $A$ happens or $B$ happens (or both ^[recall that *or* in math generally means "one or the other or both"])? It is easy to see that, whatever we roll, the result will always be either smaller than 5, or bigger than 3, or both. More formally: -->
+<!-- $p(A \cup B) = p(X<5 \textrm{ or } X>3) = p(X \in \{1,2,3,4,5,6\}) = 1$ -->
+<!-- We see that $p(A \cup B) \leq p(A) + p(B)$. This is because $A$ and $B$ can happen at the same time. Looking again at the formulas: -->
+<!-- $p(A) + p(B) = p(X \in \{1,2,3,4\}) + p(X \in \{4,5,6\})$ -->
+<!-- We see that we count the event that we roll a 4 twice. To get an expression for $p(A \cup B)$ using $p(A)$ and $p(B)$ we thus need to subtract away this double counting: -->
+<!-- $p(A \cup B) = p(X \in \{1,2,3,4\}) + p(X \in \{4,5,6\}) - p(X = 4) = p(A) + p(B) - p(A \cap B)$ -->
+<!-- Where $A \cap B$ refers to both $A$ and $B$ occurring, i.e. when we roll a 4.  -->
+<!-- It follows also that, when two events are mutually exclusive (i.e. they cannot happen at the same time), then $p(A \cap B)=0$ and thus: -->
+<!-- $p(A \cup B) = p(A) + p(B)$ -->
+<!-- The observations we just made also generalize if we are considering many events. Specifically, if we have events $E_1, ..., E_m$, then: -->
+<!-- $p\left\{ \bigcup_{i=1}^{m}\left(E_i \right) \right\} \leq\sum_{i=1}^{m}\left\{p\left(E_i\right)\right\}$ -->
+<!-- This is called Boole's inequality. -->
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p>This is the lecture script of the module Data Analysis and Visualization in R (IN2339).</p>
-<p>This work is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a></p>
+<div id="expected-value-variance-and-covariance" class="section level2" number="16.2">
+<h2><span class="header-section-number">D.2</span> Expected value, variance, and covariance</h2>
+<p>If <span class="math inline">\(X\)</span> is a random variable with a probability density function <span class="math inline">\(p(x)\)</span>, then the <strong>expected value</strong> is defined as the sum (for discrete random variables) or integral (for univariate continuous random variables):<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a>
+<span class="math display">\[\operatorname{E}[X] = \int x p(x)\, dx\]</span></p>
+<p>The <strong>variance</strong> is defined as:</p>
+<p><span class="math display">\[\operatorname{Var}[X]=\operatorname{E}[(X - \operatorname{E}[X])^2]\]</span>
+The <strong>standard deviation</strong> is the squared root of the variance:</p>
+<p><span class="math display">\[\operatorname{SD}(X) = \sqrt{\operatorname{Var}(X)}\]</span></p>
+<p>The <strong>covariance</strong> of two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is defined as:</p>
+<p><span class="math display">\[\operatorname{Cov}[(X,Y)]=\operatorname{E}[(X - \operatorname{E}[X])(Y - \operatorname{E}[Y])]\]</span>
+The <strong>Pearson correlation coefficient</strong> <span class="math inline">\(\rho_{X,Y}\)</span> of two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is defined as:</p>
+<p><span class="math display">\[\rho_{X,Y} = \frac{\operatorname{Cov}[(X,Y)]}{\operatorname{SD}[X]\operatorname{SD}[Y]}\]</span></p>
+<p>The expected value of multidimensional random variables is defined per component. That is,</p>
+<p><span class="math display">\[\operatorname{E}[(X_1,\ldots,X_n)]=(\operatorname{E}[X_1],\ldots,\operatorname{E}[X_n])\]</span></p>
+<p>The <strong>covariance matrix</strong> of a multidimensional random variables <span class="math inline">\(X\)</span> is the matrix of all pairwise covariances, i.e. with <span class="math inline">\((i,j)\)</span>-th element being:</p>
+<p><span class="math display">\[(\textbf{Cov}[X])_{i,j}=\operatorname{Cov}[(X_i,X_j)]\]</span></p>
+</div>
+<div id="sample-estimates" class="section level2" number="16.3">
+<h2><span class="header-section-number">D.3</span> Sample estimates</h2>
+<p>Let <span class="math inline">\(\{x_1,...,x_n\}\)</span> a finite sample of size <span class="math inline">\(n\)</span> of independent realizations of a random variable <span class="math inline">\(X\)</span>. Considered as random variables, the <span class="math inline">\(x_i\)</span> are independently and identically distributed (i.i.d.).</p>
+<p>The <strong>sample mean</strong>, often denoted <span class="math inline">\(\bar x\)</span>, is defined as:</p>
+<p><span class="math display">\[\bar x = \frac{1}{n}\sum_i x_i\]</span>
+The sample mean is an unbiased estimator of the expected value. That is, <span class="math inline">\(\operatorname{E}[\bar x] = \operatorname{E}[X]\)</span>.</p>
+<p>The <strong>sample variance</strong> is defined as:</p>
+<p><span class="math display">\[\sigma^2_x = \frac{1}{n}\sum_i (x_i-\bar x)^2\]</span>
+The sample variance is not an unbiased estimator of the variance. Therefore, one often uses the <strong>unbiased sample variance</strong>, defined as:</p>
+<p><span class="math display">\[s_x^2 = \frac{1}{n-1}\sum_i (x_i-\bar x)^2\]</span>
+for which <span class="math inline">\(\operatorname{E}[s^2_x] = \operatorname{Var}[X]\)</span> holds.</p>
+<p>The <strong>sample standard deviation</strong> and the <strong>unbiased sample standard deviation</strong> are defined as the squared root of their variance counterparts.</p>
+</div>
+<div id="appendix-lin-reg" class="section level2" number="16.4">
+<h2><span class="header-section-number">D.4</span> Linear regression</h2>
+<p>This is the proof for the univariate linear regression estimates.</p>
+<p>For a data set <span class="math inline">\((x, y)_i\)</span> with <span class="math inline">\(i \in \{1 \dots N\}\)</span> the univariate linear model is defined as
+<span class="math display">\[y_i = \alpha + \beta x_i + \epsilon_i\]</span>
+with free parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> and a random error
+<span class="math inline">\(\epsilon_i \sim N(0, \sigma^2)\)</span> that is i.i.d. (independently and identically distributed).</p>
+<p>The normal distribution is defined as
+<span class="math display">\[N(\epsilon | 0, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{\epsilon^2}{2 \sigma^2}) .\]</span></p>
+<p>The assumption that the errors <span class="math inline">\(\epsilon_i\)</span> are independent and identically distributed allows us to factorize the Likelihood of the data under the linear model as
+<span class="math display">\[L(\alpha, \beta, \sigma^2) = \prod_{i=1}^{N} N(\epsilon_i | 0, \sigma^2) ,\]</span>
+using the fact that the probability of independent events is the product of the probabilities of each individual event.</p>
+<p>We are interested in finding the parameters <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span> that best model our data. This can be achieved by finding the parameters that maximize the likelihood of our data. As maximizing the likelihood is equivalent to maximizing the log likelihood and as the log likelihood is easier to handle, we will use the log likelihood in the following.</p>
+<p>The log likelihood of our data is defined as follows:</p>
+<p><span class="math display">\[\begin{align}
+\log(L(\alpha, \beta, \sigma^2)) &amp; = \log( \prod_{i=1}^{N} N(\epsilon_i | 0, \sigma^2) ) \\
+&amp; = \sum_{i=1}^{N} \log( N(y_i - (\alpha + \beta x_i) | 0, \sigma^2) ) \\
+&amp; =  - 0.5 N \log(2 \pi \sigma^2) + \sum_{i=1}^{N} - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2} .
+\end{align}\]</span></p>
+<!-- - $$\log(L(\alpha, \beta, \sigma^2)) = \sum_{i=1}^{N} [- 0.5 \log(\pi \sigma^2) - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2}]$$ -->
+<!-- $$\log(L(\alpha, \beta, \sigma^2)) = - 0.5 N \log(2 \pi \sigma^2) + \sum_{i=1}^{N} - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2} .$$ -->
+<p>We can maximize a quadratic function by computing its gradient and setting it to zero, this yields:
+<span class="math display">\[\hat{\alpha} = \bar{y} - \hat{\beta} \bar{x}\]</span>
+<span class="math display">\[\hat{\beta} = \frac{\sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^N (x_i - \bar{x})^2}\]</span>
+<span class="math display">\[\hat{\sigma}^2 = \frac{1}{N} \sum_{i=1}^N (y_i - (\hat{\alpha} + \hat{\beta}x_i)^2)\]</span></p>
+<p>with means denoted by <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\bar{y}\)</span>.</p>
+</div>
+<div id="resources-6" class="section level2" number="16.5">
+<h2><span class="header-section-number">D.5</span> Resources</h2>
+<p>The chapters on probability and random variables of Rafael Irizzary’s book Introduction to Data Science Chapters gives related primer material [<a href="https://rafalab.github.io/dsbook/" class="uri">https://rafalab.github.io/dsbook/</a>].</p>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-davison_hinkley_1997" class="csl-entry">
+Davison, A. C., and D. V. Hinkley. 1997. <em>Bootstrap Methods and Their Application</em>. Cambridge Series in Statistical and Probabilistic Mathematics. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511802843">https://doi.org/10.1017/CBO9780511802843</a>.
+</div>
+<div id="ref-gagneur2013" class="csl-entry">
+Gagneur, Julien, Oliver Stegle, Chenchen Zhu, Petra Jakob, Manu M. Tekkedil, Raeka S. Aiyar, Ann-Kathrin Schuon, Dana Pe’er, and Lars M. Steinmetz. 2013. <span>“Genotype-Environment Interactions Reveal Causal Pathways That Mediate Genetic Effects on Phenotype.”</span> <em>PLOS Genetics</em> 9 (9): 1–10. <a href="https://doi.org/10.1371/journal.pgen.1003803">https://doi.org/10.1371/journal.pgen.1003803</a>.
+</div>
+<div id="ref-Phipson2010" class="csl-entry">
+Phipson, Belinda, and Gordon K Smyth. 2010. <span>“Permutation p-Values Should Never Be Zero: Calculating Exact p-Values When Permutations Are Randomly Drawn.”</span> <em>Statistical Applications in Genetics and Molecular Biology</em> 9 (1). https://doi.org/<a href="https://doi.org/10.2202/1544-6115.1585">https://doi.org/10.2202/1544-6115.1585</a>.
+</div>
+<div id="ref-Wasserstein2016" class="csl-entry">
+Wasserstein, Ronald L., and Nicole A. Lazar. 2016. <span>“The ASA Statement on p-Values: Context, Process, and Purpose.”</span> <em>The American Statistician</em> 70 (2): 129–33. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a>.
+</div>
+<div id="ref-Wickham2014" class="csl-entry">
+Wickham, Hadley. 2014. <span>“Tidy Data.”</span> <em>Journal of Statistical Software, Articles</em> 59 (10): 1–23. <a href="https://doi.org/10.18637/jss.v059.i10">https://doi.org/10.18637/jss.v059.i10</a>.
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="54">
+<li id="fn54"><p>This lose definition suffices for our purposes. Correct mathematical definitions of the expected value are involved. See <a href="https://en.wikipedia.org/wiki/Expected_value" class="uri">https://en.wikipedia.org/wiki/Expected_value</a><a href="appendix-probabilities.html#fnref54" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="additonal-plotting-tools.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="acknowledgments.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
