@@ -23,9 +23,9 @@ rmd_files: [
   "../topic07_Statistical-Testing-I/script/script_07.Rmd",
   "../topic08_Statistical-Testing-II/script/script_08.Rmd",
   "../topic09_Statistical-Testing-III/script/script_09.Rmd",
-  # "../topic10_LinearRegression/script/script_10.Rmd",
-  # "../topic11_LogisticRegression/script/script_11.Rmd",
-  # "../topic12_SupervisedLearning/script/script_12.Rmd",
+  "../topic10_LinearRegression/script/script_10.Rmd",
+  "../topic11_LogisticRegression/script/script_11.Rmd",
+  "../topic12_SupervisedLearning/script/script_12.Rmd",
 
   "../appendix01_Data-Importing/script/appendix_01.Rmd",
   "../appendix02_R_Basics/script/appendix_02.Rmd",

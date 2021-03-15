@@ -781,7 +781,7 @@ To assess this hypothesis, we first create a data table called <code>dt</code> t
 <div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="resampling-stat.html#cb484-1" aria-hidden="true" tabindex="-1"></a>LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code></pre></div>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot;</code></pre>
 <div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="resampling-stat.html#cb486-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span></code></pre></div>
-<pre><code>## [1] &quot;F&quot; &quot;D&quot; &quot;C&quot; &quot;H&quot; &quot;B&quot; &quot;A&quot; &quot;E&quot; &quot;G&quot;</code></pre>
+<pre><code>## [1] &quot;B&quot; &quot;F&quot; &quot;E&quot; &quot;G&quot; &quot;C&quot; &quot;H&quot; &quot;D&quot; &quot;A&quot;</code></pre>
 <p>We now shuffle the genotype column. To keep the original data safe, we work on <code>dt_permuted</code>, a copy of the table <code>dt</code>.</p>
 <div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="resampling-stat.html#cb488-1" aria-hidden="true" tabindex="-1"></a>dt_permuted <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt)</span>
 <span id="cb488-2"><a href="resampling-stat.html#cb488-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0</span>) <span class="co"># the seed of the random number generator</span></span>

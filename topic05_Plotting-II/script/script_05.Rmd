@@ -635,4 +635,3 @@ https://www.statlearning.com/
 Advanced (PCA proofs):
 C. Bishop, Pattern Recognition and Machine Learning. https://www.microsoft.com/en-us/research/people/cmbishop/prml-book/
 
-Exceptionally, on these topics, the Introduction to Data Science book by R. Irizarry is not great.

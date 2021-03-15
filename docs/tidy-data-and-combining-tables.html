@@ -1027,10 +1027,10 @@ The drawing above visualizes the operation performed above.</p>
 <div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="tidy-data-and-combining-tables.html#cb333-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">p_id =</span> <span class="fu">c</span>(<span class="st">&quot;G008&quot;</span>, <span class="st">&quot;F027&quot;</span>, <span class="st">&quot;L051&quot;</span>), </span>
 <span id="cb333-2"><a href="tidy-data-and-combining-tables.html#cb333-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">value =</span> <span class="fu">rnorm</span>(<span class="dv">3</span>)) </span>
 <span id="cb333-3"><a href="tidy-data-and-combining-tables.html#cb333-3" aria-hidden="true" tabindex="-1"></a>dt1</span></code></pre></div>
-<pre><code>##    p_id     value
-## 1: G008  0.657590
-## 2: F027  1.688338
-## 3: L051 -1.345227</code></pre>
+<pre><code>##    p_id      value
+## 1: G008 -0.6405673
+## 2: F027 -0.1199374
+## 3: L051 -0.5686047</code></pre>
 <div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="tidy-data-and-combining-tables.html#cb335-1" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">p_id =</span> <span class="fu">c</span>(<span class="st">&quot;G008&quot;</span>, <span class="st">&quot;F027&quot;</span>, <span class="st">&quot;U093&quot;</span>), </span>
 <span id="cb335-2"><a href="tidy-data-and-combining-tables.html#cb335-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">country =</span> <span class="fu">c</span>(<span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;USA&quot;</span>)) </span>
 <span id="cb335-3"><a href="tidy-data-and-combining-tables.html#cb335-3" aria-hidden="true" tabindex="-1"></a>dt2</span></code></pre></div>
@@ -1044,15 +1044,15 @@ The drawing above visualizes the operation performed above.</p>
 <div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="tidy-data-and-combining-tables.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inner merge, default one, all = FALSE</span></span>
 <span id="cb337-2"><a href="tidy-data-and-combining-tables.html#cb337-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb337-3"><a href="tidy-data-and-combining-tables.html#cb337-3" aria-hidden="true" tabindex="-1"></a>m   </span></code></pre></div>
-<pre><code>##    p_id    value country
-## 1: F027 1.688338  France
-## 2: G008 0.657590 Germany</code></pre>
+<pre><code>##    p_id      value country
+## 1: F027 -0.1199374  France
+## 2: G008 -0.6405673 Germany</code></pre>
 <p>Note that the row order got changed after the merging. To prevent this and, therefore, to keep the original ordering we can use the argument <code>sort</code> and set it to <code>FALSE</code>:</p>
 <div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="tidy-data-and-combining-tables.html#cb339-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">FALSE</span>, <span class="at">sort =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb339-2"><a href="tidy-data-and-combining-tables.html#cb339-2" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
-<pre><code>##    p_id    value country
-## 1: G008 0.657590 Germany
-## 2: F027 1.688338  France</code></pre>
+<pre><code>##    p_id      value country
+## 1: G008 -0.6405673 Germany
+## 2: F027 -0.1199374  France</code></pre>
 <p>Note that the row order got changed after the merging.</p>
 </div>
 <div id="outer-full-merge" class="section level3" number="3.5.2">
@@ -1060,31 +1060,31 @@ The drawing above visualizes the operation performed above.</p>
 <p>An outer merge returns all rows and columns from <code>x</code> and <code>y</code>. If there are no matching values, it yields missing values (<code>NA</code>):</p>
 <div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="tidy-data-and-combining-tables.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outer (full) merge, all = TRUE</span></span>
 <span id="cb341-2"><a href="tidy-data-and-combining-tables.html#cb341-2" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>##    p_id     value country
-## 1: F027  1.688338  France
-## 2: G008  0.657590 Germany
-## 3: L051 -1.345227    &lt;NA&gt;
-## 4: U093        NA     USA</code></pre>
+<pre><code>##    p_id      value country
+## 1: F027 -0.1199374  France
+## 2: G008 -0.6405673 Germany
+## 3: L051 -0.5686047    &lt;NA&gt;
+## 4: U093         NA     USA</code></pre>
 </div>
 <div id="left-merge" class="section level3" number="3.5.3">
 <h3><span class="header-section-number">3.5.3</span> Left merge</h3>
 <p>Returns all rows from <code>x</code>, even if they have no matching row in <code>y</code>. Rows from <code>x</code> with no matching in <code>y</code> lead to missing values (<code>NA</code>).</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="tidy-data-and-combining-tables.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Left merge, all.x = TRUE</span></span>
 <span id="cb343-2"><a href="tidy-data-and-combining-tables.html#cb343-2" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>##    p_id     value country
-## 1: F027  1.688338  France
-## 2: G008  0.657590 Germany
-## 3: L051 -1.345227    &lt;NA&gt;</code></pre>
+<pre><code>##    p_id      value country
+## 1: F027 -0.1199374  France
+## 2: G008 -0.6405673 Germany
+## 3: L051 -0.5686047    &lt;NA&gt;</code></pre>
 </div>
 <div id="right-merge" class="section level3" number="3.5.4">
 <h3><span class="header-section-number">3.5.4</span> Right merge</h3>
 <p>Returns all rows from <code>y</code>, even if they have no matching row in <code>x</code>. Rows from <code>y</code> with no matching in <code>x</code> lead to missing values (<code>NA</code>).</p>
 <div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="tidy-data-and-combining-tables.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Right, all.y = TRUE</span></span>
 <span id="cb345-2"><a href="tidy-data-and-combining-tables.html#cb345-2" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all.y =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>##    p_id    value country
-## 1: F027 1.688338  France
-## 2: G008 0.657590 Germany
-## 3: U093       NA     USA</code></pre>
+<pre><code>##    p_id      value country
+## 1: F027 -0.1199374  France
+## 2: G008 -0.6405673 Germany
+## 3: U093         NA     USA</code></pre>
 </div>
 <div id="merging-by-several-columns" class="section level3" number="3.5.5">
 <h3><span class="header-section-number">3.5.5</span> Merging by several columns</h3>
