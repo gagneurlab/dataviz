@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 Logistic Regression | Data Analysis and Visualization in R (IN2339)</title>
+  <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 Logistic Regression | Data Analysis and Visualization in R (IN2339)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Logistic Regression | Data Analysis and Visualization in R (IN2339)" />
+  
+  <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  
+
+<meta name="author" content="Chair of Computational Molecular Medicine" />
+
+
+<meta name="date" content="2021-03-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chap-lin-reg.html"/>
+<link rel="next" href="supervised-learning.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data Analysis and Visualization in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i>Acknowledgments</a></li>
+<li class="chapter" data-level="" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#data-science-what-and-why"><i class="fa fa-check"></i>Data Science: What and why?</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#what-you-will-learn-and-not-learn"><i class="fa fa-check"></i>What you will learn and not learn</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#the-r-language"><i class="fa fa-check"></i>The R language</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#course-overview"><i class="fa fa-check"></i>Course overview</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#complementary-reading"><i class="fa fa-check"></i>Complementary reading</a></li>
+</ul></li>
+<li class="part"><span><b>I Get</b></span></li>
+<li class="chapter" data-level="1" data-path="r-basics.html"><a href="r-basics.html"><i class="fa fa-check"></i><b>1</b> R basics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="r-basics.html"><a href="r-basics.html#rstudio"><i class="fa fa-check"></i><b>1.1</b> Rstudio</a></li>
+<li class="chapter" data-level="1.2" data-path="r-basics.html"><a href="r-basics.html#first-steps-with-r"><i class="fa fa-check"></i><b>1.2</b> First steps with R</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="r-basics.html"><a href="r-basics.html#objects"><i class="fa fa-check"></i><b>1.2.1</b> Objects</a></li>
+<li class="chapter" data-level="1.2.2" data-path="r-basics.html"><a href="r-basics.html#the-workspace"><i class="fa fa-check"></i><b>1.2.2</b> The workspace</a></li>
+<li class="chapter" data-level="1.2.3" data-path="r-basics.html"><a href="r-basics.html#functions"><i class="fa fa-check"></i><b>1.2.3</b> Functions</a></li>
+<li class="chapter" data-level="1.2.4" data-path="r-basics.html"><a href="r-basics.html#other-prebuilt-objects"><i class="fa fa-check"></i><b>1.2.4</b> Other prebuilt objects</a></li>
+<li class="chapter" data-level="1.2.5" data-path="r-basics.html"><a href="r-basics.html#variable-names"><i class="fa fa-check"></i><b>1.2.5</b> Variable names</a></li>
+<li class="chapter" data-level="1.2.6" data-path="r-basics.html"><a href="r-basics.html#reusing-scripts"><i class="fa fa-check"></i><b>1.2.6</b> Reusing scripts</a></li>
+<li class="chapter" data-level="1.2.7" data-path="r-basics.html"><a href="r-basics.html#commenting-your-code"><i class="fa fa-check"></i><b>1.2.7</b> Commenting your code</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="r-basics.html"><a href="r-basics.html#data-types"><i class="fa fa-check"></i><b>1.3</b> Data types</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="r-basics.html"><a href="r-basics.html#data-frames"><i class="fa fa-check"></i><b>1.3.1</b> Data frames</a></li>
+<li class="chapter" data-level="1.3.2" data-path="r-basics.html"><a href="r-basics.html#examining-an-object"><i class="fa fa-check"></i><b>1.3.2</b> Examining an object</a></li>
+<li class="chapter" data-level="1.3.3" data-path="r-basics.html"><a href="r-basics.html#the-accessor"><i class="fa fa-check"></i><b>1.3.3</b> The accessor: <code>$</code></a></li>
+<li class="chapter" data-level="1.3.4" data-path="r-basics.html"><a href="r-basics.html#vectors-numerics-characters-and-logical"><i class="fa fa-check"></i><b>1.3.4</b> Vectors: numerics, characters, and logical</a></li>
+<li class="chapter" data-level="1.3.5" data-path="r-basics.html"><a href="r-basics.html#factors"><i class="fa fa-check"></i><b>1.3.5</b> Factors</a></li>
+<li class="chapter" data-level="1.3.6" data-path="r-basics.html"><a href="r-basics.html#lists"><i class="fa fa-check"></i><b>1.3.6</b> Lists</a></li>
+<li class="chapter" data-level="1.3.7" data-path="r-basics.html"><a href="r-basics.html#matrices"><i class="fa fa-check"></i><b>1.3.7</b> Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="r-basics.html"><a href="r-basics.html#vectors"><i class="fa fa-check"></i><b>1.4</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="r-basics.html"><a href="r-basics.html#creating-vectors"><i class="fa fa-check"></i><b>1.4.1</b> Creating vectors</a></li>
+<li class="chapter" data-level="1.4.2" data-path="r-basics.html"><a href="r-basics.html#names"><i class="fa fa-check"></i><b>1.4.2</b> Names</a></li>
+<li class="chapter" data-level="1.4.3" data-path="r-basics.html"><a href="r-basics.html#sequences"><i class="fa fa-check"></i><b>1.4.3</b> Sequences</a></li>
+<li class="chapter" data-level="1.4.4" data-path="r-basics.html"><a href="r-basics.html#subsetting"><i class="fa fa-check"></i><b>1.4.4</b> Subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="r-basics.html"><a href="r-basics.html#coercion"><i class="fa fa-check"></i><b>1.5</b> Coercion</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="r-basics.html"><a href="r-basics.html#not-availables-na"><i class="fa fa-check"></i><b>1.5.1</b> Not availables (NA)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="r-basics.html"><a href="r-basics.html#sorting"><i class="fa fa-check"></i><b>1.6</b> Sorting</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="r-basics.html"><a href="r-basics.html#sort"><i class="fa fa-check"></i><b>1.6.1</b> <code>sort</code></a></li>
+<li class="chapter" data-level="1.6.2" data-path="r-basics.html"><a href="r-basics.html#order"><i class="fa fa-check"></i><b>1.6.2</b> <code>order</code></a></li>
+<li class="chapter" data-level="1.6.3" data-path="r-basics.html"><a href="r-basics.html#max-and-which.max"><i class="fa fa-check"></i><b>1.6.3</b> <code>max</code> and <code>which.max</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="r-basics.html"><a href="r-basics.html#rank"><i class="fa fa-check"></i><b>1.6.4</b> <code>rank</code></a></li>
+<li class="chapter" data-level="1.6.5" data-path="r-basics.html"><a href="r-basics.html#beware-of-recycling"><i class="fa fa-check"></i><b>1.6.5</b> Beware of recycling</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="r-basics.html"><a href="r-basics.html#vector-arithmetics"><i class="fa fa-check"></i><b>1.7</b> Vector arithmetics</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="r-basics.html"><a href="r-basics.html#rescaling-a-vector"><i class="fa fa-check"></i><b>1.7.1</b> Rescaling a vector</a></li>
+<li class="chapter" data-level="1.7.2" data-path="r-basics.html"><a href="r-basics.html#two-vectors"><i class="fa fa-check"></i><b>1.7.2</b> Two vectors</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="r-basics.html"><a href="r-basics.html#indexing"><i class="fa fa-check"></i><b>1.8</b> Indexing</a>
+<ul>
+<li class="chapter" data-level="1.8.1" data-path="r-basics.html"><a href="r-basics.html#subsetting-with-logicals"><i class="fa fa-check"></i><b>1.8.1</b> Subsetting with logicals</a></li>
+<li class="chapter" data-level="1.8.2" data-path="r-basics.html"><a href="r-basics.html#logical-operators"><i class="fa fa-check"></i><b>1.8.2</b> Logical operators</a></li>
+<li class="chapter" data-level="1.8.3" data-path="r-basics.html"><a href="r-basics.html#which"><i class="fa fa-check"></i><b>1.8.3</b> <code>which</code></a></li>
+<li class="chapter" data-level="1.8.4" data-path="r-basics.html"><a href="r-basics.html#match"><i class="fa fa-check"></i><b>1.8.4</b> <code>match</code></a></li>
+<li class="chapter" data-level="1.8.5" data-path="r-basics.html"><a href="r-basics.html#in"><i class="fa fa-check"></i><b>1.8.5</b> <code>%in%</code></a></li>
+</ul></li>
+<li class="chapter" data-level="1.9" data-path="r-basics.html"><a href="r-basics.html#r-programming"><i class="fa fa-check"></i><b>1.9</b> R programming</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>2</b> Data wrangling</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-wrangling.html"><a href="data-wrangling.html#data.tables"><i class="fa fa-check"></i><b>2.1</b> Data.tables</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-wrangling.html"><a href="data-wrangling.html#overview"><i class="fa fa-check"></i><b>2.1.1</b> Overview</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-and-loading-tables"><i class="fa fa-check"></i><b>2.1.2</b> Creating and loading tables</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-wrangling.html"><a href="data-wrangling.html#inspecting-tables"><i class="fa fa-check"></i><b>2.1.3</b> Inspecting tables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-wrangling.html"><a href="data-wrangling.html#row-subsetting"><i class="fa fa-check"></i><b>2.2</b> Row subsetting</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-wrangling.html"><a href="data-wrangling.html#subsetting-rows-by-indices"><i class="fa fa-check"></i><b>2.2.1</b> Subsetting rows by indices</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-wrangling.html"><a href="data-wrangling.html#subsetting-rows-by-logical-conditions"><i class="fa fa-check"></i><b>2.2.2</b> Subsetting rows by logical conditions</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-wrangling.html"><a href="data-wrangling.html#column-operations"><i class="fa fa-check"></i><b>2.3</b> Column operations</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="data-wrangling.html"><a href="data-wrangling.html#working-with-columns"><i class="fa fa-check"></i><b>2.3.1</b> Working with columns</a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-wrangling.html"><a href="data-wrangling.html#column-operations-1"><i class="fa fa-check"></i><b>2.3.2</b> Column operations</a></li>
+<li class="chapter" data-level="2.3.3" data-path="data-wrangling.html"><a href="data-wrangling.html#advanced-commands-apply-over-columns"><i class="fa fa-check"></i><b>2.3.3</b> Advanced commands: *apply() over columns</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="data-wrangling.html"><a href="data-wrangling.html#the-by-option"><i class="fa fa-check"></i><b>2.4</b> The ‘by’ option</a></li>
+<li class="chapter" data-level="2.5" data-path="data-wrangling.html"><a href="data-wrangling.html#counting-occurences-with-.n"><i class="fa fa-check"></i><b>2.5</b> Counting occurences with <code>.N</code></a></li>
+<li class="chapter" data-level="2.6" data-path="data-wrangling.html"><a href="data-wrangling.html#extending-tables"><i class="fa fa-check"></i><b>2.6</b> Extending tables</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-new-columns-the-command"><i class="fa fa-check"></i><b>2.6.1</b> Creating new columns (the := command)</a></li>
+<li class="chapter" data-level="2.6.2" data-path="data-wrangling.html"><a href="data-wrangling.html#advanced-multiple-assignments"><i class="fa fa-check"></i><b>2.6.2</b> Advanced: Multiple assignments</a></li>
+<li class="chapter" data-level="2.6.3" data-path="data-wrangling.html"><a href="data-wrangling.html#copying-tables"><i class="fa fa-check"></i><b>2.6.3</b> Copying tables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summary"><i class="fa fa-check"></i><b>2.7</b> Summary</a></li>
+<li class="chapter" data-level="2.8" data-path="data-wrangling.html"><a href="data-wrangling.html#data.table-resources"><i class="fa fa-check"></i><b>2.8</b> Data.table resources</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html"><i class="fa fa-check"></i><b>3</b> Tidy data and combining tables</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#motivation"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#datasets-used-in-this-chapter"><i class="fa fa-check"></i><b>3.1.2</b> Datasets used in this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-and-untidy-data"><i class="fa fa-check"></i><b>3.2</b> Tidy and untidy data</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#definition-of-tidy-data"><i class="fa fa-check"></i><b>3.2.1</b> Definition of tidy data</a></li>
+<li class="chapter" data-level="3.2.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advantages-of-tidy-data"><i class="fa fa-check"></i><b>3.2.2</b> Advantages of tidy data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#common-signs-of-untidy-datasets"><i class="fa fa-check"></i><b>3.2.3</b> Common signs of untidy datasets</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidying-up-datasets"><i class="fa fa-check"></i><b>3.3</b> Tidying up datasets</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#melting-wide-to-long"><i class="fa fa-check"></i><b>3.3.1</b> Melting (wide to long)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#casting-long-to-wide"><i class="fa fa-check"></i><b>3.3.2</b> Casting (long to wide)</a></li>
+<li class="chapter" data-level="3.3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#separating-columns"><i class="fa fa-check"></i><b>3.3.3</b> Separating columns</a></li>
+<li class="chapter" data-level="3.3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.3.4</b> Uniting columns</a></li>
+<li class="chapter" data-level="3.3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.3.5</b> Advanced: Columns containing sets of values</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.4</b> Concatenating tables</a></li>
+<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.5</b> Merging tables</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.5.1</b> Inner merge</a></li>
+<li class="chapter" data-level="3.5.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.5.2</b> Outer (full) merge</a></li>
+<li class="chapter" data-level="3.5.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.5.3</b> Left merge</a></li>
+<li class="chapter" data-level="3.5.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.5.4</b> Right merge</a></li>
+<li class="chapter" data-level="3.5.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.5.5</b> Merging by several columns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.6</b> Tidy representations are not unique</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.6.1</b> Alternative tidy forms of a table</a></li>
+<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.6.2</b> On multiple types of observational units in the same table</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.7</b> Summary</a></li>
+<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.8</b> Tidy data resources</a></li>
+</ul></li>
+<li class="part"><span><b>II Look</b></span></li>
+<li class="chapter" data-level="4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html"><i class="fa fa-check"></i><b>4</b> Low dimensional visualizations</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#why-plotting"><i class="fa fa-check"></i><b>4.1</b> Why plotting?</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plot-vs-stat"><i class="fa fa-check"></i><b>4.1.1</b> Plotting versus summary statistics</a></li>
+<li class="chapter" data-level="4.1.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plot-debug"><i class="fa fa-check"></i><b>4.1.2</b> Plotting helps finding bugs in the data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#grammar-of-graphics"><i class="fa fa-check"></i><b>4.2</b> Grammar of graphics</a></li>
+<li class="chapter" data-level="4.3" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#components-of-the-layered-grammar"><i class="fa fa-check"></i><b>4.3</b> Components of the layered grammar</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#components-of-the-grammar-of-graphics"><i class="fa fa-check"></i><b>4.3.1</b> Components of the grammar of graphics</a></li>
+<li class="chapter" data-level="4.3.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#defining-the-data-and-layers"><i class="fa fa-check"></i><b>4.3.2</b> Defining the data and layers</a></li>
+<li class="chapter" data-level="4.3.3" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#mapping-of-aesthetics"><i class="fa fa-check"></i><b>4.3.3</b> Mapping of aesthetics</a></li>
+<li class="chapter" data-level="4.3.4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#facets-axes-and-labels"><i class="fa fa-check"></i><b>4.3.4</b> Facets, axes and labels</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#different-types-of-one--and-two-dimensional-plots"><i class="fa fa-check"></i><b>4.4</b> Different types of one- and two-dimensional plots</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plots-for-one-single-continuous-variable"><i class="fa fa-check"></i><b>4.4.1</b> Plots for one single continuous variable</a></li>
+<li class="chapter" data-level="4.4.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plots-for-two-variables-one-continuous-one-discrete"><i class="fa fa-check"></i><b>4.4.2</b> Plots for two variables: one continuous, one discrete</a></li>
+<li class="chapter" data-level="4.4.3" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plots-for-two-continuos-variables"><i class="fa fa-check"></i><b>4.4.3</b> Plots for two continuos variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#further-plots-for-low-dimensional-data"><i class="fa fa-check"></i><b>4.5</b> Further plots for low dimensional data</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#plot-matrix"><i class="fa fa-check"></i><b>4.5.1</b> Plot matrix</a></li>
+<li class="chapter" data-level="4.5.2" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#correlation-plot"><i class="fa fa-check"></i><b>4.5.2</b> Correlation plot</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#summary-2"><i class="fa fa-check"></i><b>4.6</b> Summary</a></li>
+<li class="chapter" data-level="4.7" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html#resources"><i class="fa fa-check"></i><b>4.7</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html"><i class="fa fa-check"></i><b>5</b> High dimensional visualizations</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#notations"><i class="fa fa-check"></i><b>5.1</b> Notations</a></li>
+<li class="chapter" data-level="5.2" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#data-matrix-preparation"><i class="fa fa-check"></i><b>5.2</b> Data matrix preparation</a></li>
+<li class="chapter" data-level="5.3" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#heatmaps"><i class="fa fa-check"></i><b>5.3</b> Heatmaps</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#centering-and-scaling-variables"><i class="fa fa-check"></i><b>5.3.1</b> Centering and scaling variables</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#clustering"><i class="fa fa-check"></i><b>5.4</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#k-means-clustering"><i class="fa fa-check"></i><b>5.4.1</b> K-Means clustering</a></li>
+<li class="chapter" data-level="5.4.2" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#hclust"><i class="fa fa-check"></i><b>5.4.2</b> Hierarchical clustering</a></li>
+<li class="chapter" data-level="5.4.3" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#comparing-clusterings-with-the-rand-index"><i class="fa fa-check"></i><b>5.4.3</b> Comparing clusterings with the Rand index</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#dimensionality-reduction-with-pca"><i class="fa fa-check"></i><b>5.5</b> Dimensionality reduction with PCA</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#a-minimal-pca-from-2d-to-1d"><i class="fa fa-check"></i><b>5.5.1</b> A minimal PCA: From 2D to 1D</a></li>
+<li class="chapter" data-level="5.5.2" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#pca-in-higher-dimensions"><i class="fa fa-check"></i><b>5.5.2</b> PCA in higher dimensions</a></li>
+<li class="chapter" data-level="5.5.3" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#pca-in-r"><i class="fa fa-check"></i><b>5.5.3</b> PCA in R</a></li>
+<li class="chapter" data-level="5.5.4" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#plotting-pca-results-in-r"><i class="fa fa-check"></i><b>5.5.4</b> Plotting PCA results in R</a></li>
+<li class="chapter" data-level="5.5.5" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#pca-summary"><i class="fa fa-check"></i><b>5.5.5</b> PCA summary</a></li>
+<li class="chapter" data-level="5.5.6" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#nonlinear-dimension-reduction"><i class="fa fa-check"></i><b>5.5.6</b> Nonlinear dimension reduction</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#discussion"><i class="fa fa-check"></i><b>5.6</b> Discussion</a></li>
+<li class="chapter" data-level="5.7" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#summary-3"><i class="fa fa-check"></i><b>5.7</b> Summary</a></li>
+<li class="chapter" data-level="5.8" data-path="high-dimensional-visualizations.html"><a href="high-dimensional-visualizations.html#resources-1"><i class="fa fa-check"></i><b>5.8</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html"><i class="fa fa-check"></i><b>6</b> Graphically supported hypotheses</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#descriptive-vs.-associative-plots"><i class="fa fa-check"></i><b>6.1</b> Descriptive vs. associative plots</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#descriptive-plots"><i class="fa fa-check"></i><b>6.1.1</b> Descriptive plots</a></li>
+<li class="chapter" data-level="6.1.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#associative-plots"><i class="fa fa-check"></i><b>6.1.2</b> Associative plots</a></li>
+<li class="chapter" data-level="6.1.3" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#correctly-using-descriptive-and-demonstrative-plots"><i class="fa fa-check"></i><b>6.1.3</b> Correctly using descriptive and demonstrative plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#correlation-and-causation"><i class="fa fa-check"></i><b>6.2</b> Correlation and causation</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#the-association-is-not-statistically-supported"><i class="fa fa-check"></i><b>6.2.1</b> The association is not statistically supported</a></li>
+<li class="chapter" data-level="6.2.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#reversing-cause-and-effect"><i class="fa fa-check"></i><b>6.2.2</b> Reversing cause and effect</a></li>
+<li class="chapter" data-level="6.2.3" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#the-association-is-induced-by-a-third-variable"><i class="fa fa-check"></i><b>6.2.3</b> The association is induced by a third variable</a></li>
+<li class="chapter" data-level="6.2.4" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#simpsons-paradox"><i class="fa fa-check"></i><b>6.2.4</b> Simpson’s paradox</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#data-presentation-as-story-telling"><i class="fa fa-check"></i><b>6.3</b> Data presentation as story telling</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#what-is-a-story"><i class="fa fa-check"></i><b>6.3.1</b> What is a story?</a></li>
+<li class="chapter" data-level="6.3.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#presentation-structure"><i class="fa fa-check"></i><b>6.3.2</b> Presentation structure</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#guidelines-for-coloring-in-data-visualization"><i class="fa fa-check"></i><b>6.4</b> Guidelines for coloring in data visualization</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#color-coding-in-r"><i class="fa fa-check"></i><b>6.4.1</b> Color coding in R</a></li>
+<li class="chapter" data-level="6.4.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#general-rules-for-color-coding"><i class="fa fa-check"></i><b>6.4.2</b> General rules for color coding</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#general-dos-and-donts-in-data-visualization"><i class="fa fa-check"></i><b>6.5</b> General do’s and don’ts in data visualization</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#dos"><i class="fa fa-check"></i><b>6.5.1</b> Do’s</a></li>
+<li class="chapter" data-level="6.5.2" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#donts"><i class="fa fa-check"></i><b>6.5.2</b> don’ts</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#summary-4"><i class="fa fa-check"></i><b>6.6</b> Summary</a></li>
+<li class="chapter" data-level="6.7" data-path="graph-supported-hypos.html"><a href="graph-supported-hypos.html#resources-2"><i class="fa fa-check"></i><b>6.7</b> Resources</a></li>
+</ul></li>
+<li class="part"><span><b>III Conclude</b></span></li>
+<li class="chapter" data-level="7" data-path="resampling-stat.html"><a href="resampling-stat.html"><i class="fa fa-check"></i><b>7</b> Resampling-based Statistical Assessment</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="resampling-stat.html"><a href="resampling-stat.html#yeast-dataset"><i class="fa fa-check"></i><b>7.1</b> The yeast dataset</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="resampling-stat.html"><a href="resampling-stat.html#the-experiment"><i class="fa fa-check"></i><b>7.1.1</b> The experiment</a></li>
+<li class="chapter" data-level="7.1.2" data-path="resampling-stat.html"><a href="resampling-stat.html#genotype"><i class="fa fa-check"></i><b>7.1.2</b> Genotype</a></li>
+<li class="chapter" data-level="7.1.3" data-path="resampling-stat.html"><a href="resampling-stat.html#growth-rates"><i class="fa fa-check"></i><b>7.1.3</b> Growth rates</a></li>
+<li class="chapter" data-level="7.1.4" data-path="resampling-stat.html"><a href="resampling-stat.html#genotype-growth-rate-association-in-maltose-at-a-specific-marker"><i class="fa fa-check"></i><b>7.1.4</b> Genotype-growth rate association in maltose at a specific marker</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="resampling-stat.html"><a href="resampling-stat.html#statistical-hypothesis-testing"><i class="fa fa-check"></i><b>7.2</b> Statistical hypothesis testing</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="resampling-stat.html"><a href="resampling-stat.html#permut-test-build-up"><i class="fa fa-check"></i><b>7.2.1</b> Permutation testing: An intuitive build-up</a></li>
+<li class="chapter" data-level="7.2.2" data-path="resampling-stat.html"><a href="resampling-stat.html#concepts-of-statistical-hypothesis-testing"><i class="fa fa-check"></i><b>7.2.2</b> Concepts of Statistical Hypothesis Testing</a></li>
+<li class="chapter" data-level="7.2.3" data-path="resampling-stat.html"><a href="resampling-stat.html#permutation-testing-formally"><i class="fa fa-check"></i><b>7.2.3</b> Permutation testing, formally</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="resampling-stat.html"><a href="resampling-stat.html#confidence-intervals-quantifying-uncertainty-in-parameter-estimates"><i class="fa fa-check"></i><b>7.3</b> Confidence intervals: Quantifying uncertainty in parameter estimates</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="resampling-stat.html"><a href="resampling-stat.html#repeating-experiments-to-quantify-uncertainty"><i class="fa fa-check"></i><b>7.3.1</b> Repeating experiments to quantify uncertainty</a></li>
+<li class="chapter" data-level="7.3.2" data-path="resampling-stat.html"><a href="resampling-stat.html#simulating-repeated-experiments"><i class="fa fa-check"></i><b>7.3.2</b> Simulating repeated experiments</a></li>
+<li class="chapter" data-level="7.3.3" data-path="resampling-stat.html"><a href="resampling-stat.html#quantifying-uncertainty-using-the-case-resampling-bootstrap"><i class="fa fa-check"></i><b>7.3.3</b> Quantifying uncertainty using the case resampling bootstrap</a></li>
+<li class="chapter" data-level="7.3.4" data-path="resampling-stat.html"><a href="resampling-stat.html#confidence-intervals-formal-definition"><i class="fa fa-check"></i><b>7.3.4</b> Confidence Intervals: Formal definition</a></li>
+<li class="chapter" data-level="7.3.5" data-path="resampling-stat.html"><a href="resampling-stat.html#visualizing-the-formal-definition-of-confidence-intervals"><i class="fa fa-check"></i><b>7.3.5</b> Visualizing the formal definition of Confidence Intervals</a></li>
+<li class="chapter" data-level="7.3.6" data-path="resampling-stat.html"><a href="resampling-stat.html#hypothesis-testing-with-the-confidence-interval"><i class="fa fa-check"></i><b>7.3.6</b> Hypothesis testing with the Confidence Interval</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="resampling-stat.html"><a href="resampling-stat.html#discussion-1"><i class="fa fa-check"></i><b>7.4</b> Discussion</a></li>
+<li class="chapter" data-level="7.5" data-path="resampling-stat.html"><a href="resampling-stat.html#conclusion"><i class="fa fa-check"></i><b>7.5</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="analytical-stat.html"><a href="analytical-stat.html"><i class="fa fa-check"></i><b>8</b> Analytical Statistical Assessment</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="analytical-stat.html"><a href="analytical-stat.html#motivation-hypothesis-testing-in-large-datasets"><i class="fa fa-check"></i><b>8.1</b> Motivation: Hypothesis testing in large datasets</a></li>
+<li class="chapter" data-level="8.2" data-path="analytical-stat.html"><a href="analytical-stat.html#the-binomial-test-testing-hypotheses-for-a-single-binary-variable"><i class="fa fa-check"></i><b>8.2</b> The Binomial Test: testing hypotheses for a single binary variable</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="analytical-stat.html"><a href="analytical-stat.html#abstraction-tossing-a-coin"><i class="fa fa-check"></i><b>8.2.1</b> Abstraction: Tossing a coin</a></li>
+<li class="chapter" data-level="8.2.2" data-path="analytical-stat.html"><a href="analytical-stat.html#computing-a-binomial-test-with-r"><i class="fa fa-check"></i><b>8.2.2</b> Computing a binomial test with R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="analytical-stat.html"><a href="analytical-stat.html#fisher-test"><i class="fa fa-check"></i><b>8.3</b> Fisher’s exact test: Testing the association between two binary variables</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="analytical-stat.html"><a href="analytical-stat.html#permutation-testing-and-the-hypergeometric-distribution"><i class="fa fa-check"></i><b>8.3.1</b> Permutation testing and the hypergeometric distribution</a></li>
+<li class="chapter" data-level="8.3.2" data-path="analytical-stat.html"><a href="analytical-stat.html#fishers-exact-test"><i class="fa fa-check"></i><b>8.3.2</b> Fisher’s exact test</a></li>
+<li class="chapter" data-level="8.3.3" data-path="analytical-stat.html"><a href="analytical-stat.html#fishers-exact-test-in-r"><i class="fa fa-check"></i><b>8.3.3</b> Fisher’s exact test in R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="analytical-stat.html"><a href="analytical-stat.html#testing-the-association-between-one-quantitative-and-one-binary-variable"><i class="fa fa-check"></i><b>8.4</b> Testing the association between one quantitative and one binary variable</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="analytical-stat.html"><a href="analytical-stat.html#the-t-test"><i class="fa fa-check"></i><b>8.4.1</b> The t-test</a></li>
+<li class="chapter" data-level="8.4.2" data-path="analytical-stat.html"><a href="analytical-stat.html#wilcoxon-rank-sum-test-an-alternative-to-the-t-test-for-non-gaussian-data"><i class="fa fa-check"></i><b>8.4.2</b> Wilcoxon rank-sum test: An alternative to the t-test for non-Gaussian data</a></li>
+<li class="chapter" data-level="8.4.3" data-path="analytical-stat.html"><a href="analytical-stat.html#why-bother-with-the-wilcoxon-rank-sum-test"><i class="fa fa-check"></i><b>8.4.3</b> Why bother with the Wilcoxon rank-sum test?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="analytical-stat.html"><a href="analytical-stat.html#association-between-two-quantitative-variables"><i class="fa fa-check"></i><b>8.5</b> Association between two quantitative variables</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="analytical-stat.html"><a href="analytical-stat.html#the-pearson-correlation-test"><i class="fa fa-check"></i><b>8.5.1</b> The Pearson correlation test</a></li>
+<li class="chapter" data-level="8.5.2" data-path="analytical-stat.html"><a href="analytical-stat.html#the-spearman-rank-correlation-test"><i class="fa fa-check"></i><b>8.5.2</b> The Spearman rank correlation test</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="analytical-stat.html"><a href="analytical-stat.html#testing-associations-of-two-variables-overview"><i class="fa fa-check"></i><b>8.6</b> Testing associations of two variables: Overview</a></li>
+<li class="chapter" data-level="8.7" data-path="analytical-stat.html"><a href="analytical-stat.html#assessing-distributional-assumptions-with-q-q-plots"><i class="fa fa-check"></i><b>8.7</b> Assessing distributional assumptions with Q-Q Plots</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="analytical-stat.html"><a href="analytical-stat.html#limitations-of-histograms"><i class="fa fa-check"></i><b>8.7.1</b> Limitations of Histograms</a></li>
+<li class="chapter" data-level="8.7.2" data-path="analytical-stat.html"><a href="analytical-stat.html#q-q-plots-comparing-empirical-to-theoretical-quantiles"><i class="fa fa-check"></i><b>8.7.2</b> Q-Q plots: Comparing empirical to theoretical quantiles</a></li>
+<li class="chapter" data-level="8.7.3" data-path="analytical-stat.html"><a href="analytical-stat.html#typical-q-q-plots"><i class="fa fa-check"></i><b>8.7.3</b> Typical Q-Q plots</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="analytical-stat.html"><a href="analytical-stat.html#analytical-conf-int"><i class="fa fa-check"></i><b>8.8</b> Analytical Confidence intervals</a>
+<ul>
+<li class="chapter" data-level="8.8.1" data-path="analytical-stat.html"><a href="analytical-stat.html#binomial-case"><i class="fa fa-check"></i><b>8.8.1</b> Binomial case</a></li>
+<li class="chapter" data-level="8.8.2" data-path="analytical-stat.html"><a href="analytical-stat.html#confidence-intervals-in-r"><i class="fa fa-check"></i><b>8.8.2</b> Confidence intervals in R</a></li>
+<li class="chapter" data-level="8.8.3" data-path="analytical-stat.html"><a href="analytical-stat.html#advanced-a-note-on-overlapping-confidence-intervals"><i class="fa fa-check"></i><b>8.8.3</b> Advanced: A note on overlapping confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="8.9" data-path="analytical-stat.html"><a href="analytical-stat.html#discussion-2"><i class="fa fa-check"></i><b>8.9</b> Discussion</a></li>
+<li class="chapter" data-level="8.10" data-path="analytical-stat.html"><a href="analytical-stat.html#conclusion-1"><i class="fa fa-check"></i><b>8.10</b> Conclusion</a></li>
+<li class="chapter" data-level="8.11" data-path="analytical-stat.html"><a href="analytical-stat.html#resources-3"><i class="fa fa-check"></i><b>8.11</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="big-data-stat.html"><a href="big-data-stat.html"><i class="fa fa-check"></i><b>9</b> Statistical Assessments for Big Data</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="big-data-stat.html"><a href="big-data-stat.html#motivation-statistical-significance-in-a-big-data-context"><i class="fa fa-check"></i><b>9.1</b> Motivation: Statistical Significance in a Big Data context</a></li>
+<li class="chapter" data-level="9.2" data-path="big-data-stat.html"><a href="big-data-stat.html#effect-size-actually-important-or-just-significant"><i class="fa fa-check"></i><b>9.2</b> Effect Size: Actually important or just significant?</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="big-data-stat.html"><a href="big-data-stat.html#the-relationship-of-sample-size-and-significance"><i class="fa fa-check"></i><b>9.2.1</b> The relationship of sample size and significance</a></li>
+<li class="chapter" data-level="9.2.2" data-path="big-data-stat.html"><a href="big-data-stat.html#report-p-value-effect-size-and-plot"><i class="fa fa-check"></i><b>9.2.2</b> Report P-value, effect size, and plot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="big-data-stat.html"><a href="big-data-stat.html#multiple-testing"><i class="fa fa-check"></i><b>9.3</b> Multiple Testing</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="big-data-stat.html"><a href="big-data-stat.html#multiple-testing-in-real-life-p-hacking-and-fishing-expeditions"><i class="fa fa-check"></i><b>9.3.1</b> Multiple testing in real life: p-Hacking and fishing expeditions</a></li>
+<li class="chapter" data-level="9.3.2" data-path="big-data-stat.html"><a href="big-data-stat.html#the-land-of-counterfeit-fake-coins"><i class="fa fa-check"></i><b>9.3.2</b> The Land of Counterfeit (fake) coins</a></li>
+<li class="chapter" data-level="9.3.3" data-path="big-data-stat.html"><a href="big-data-stat.html#simulation"><i class="fa fa-check"></i><b>9.3.3</b> Simulation</a></li>
+<li class="chapter" data-level="9.3.4" data-path="big-data-stat.html"><a href="big-data-stat.html#nominal-p-values"><i class="fa fa-check"></i><b>9.3.4</b> Nominal p-values</a></li>
+<li class="chapter" data-level="9.3.5" data-path="big-data-stat.html"><a href="big-data-stat.html#family-wise-error-rate"><i class="fa fa-check"></i><b>9.3.5</b> Family-wise error rate</a></li>
+<li class="chapter" data-level="9.3.6" data-path="big-data-stat.html"><a href="big-data-stat.html#false-discovery-rate"><i class="fa fa-check"></i><b>9.3.6</b> False Discovery Rate</a></li>
+<li class="chapter" data-level="9.3.7" data-path="big-data-stat.html"><a href="big-data-stat.html#overview-figure"><i class="fa fa-check"></i><b>9.3.7</b> Overview figure</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="big-data-stat.html"><a href="big-data-stat.html#conclusions"><i class="fa fa-check"></i><b>9.4</b> Conclusions</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="big-data-stat.html"><a href="big-data-stat.html#to-remember"><i class="fa fa-check"></i><b>9.4.1</b> To remember</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="big-data-stat.html"><a href="big-data-stat.html#references"><i class="fa fa-check"></i><b>9.5</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#motivation-and-overview"><i class="fa fa-check"></i><b>10.1</b> Motivation and overview</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#testing-conditional-dependence"><i class="fa fa-check"></i><b>10.1.1</b> Testing conditional dependence</a></li>
+<li class="chapter" data-level="10.1.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#linear-regression"><i class="fa fa-check"></i><b>10.1.2</b> Linear regression</a></li>
+<li class="chapter" data-level="10.1.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#limitations"><i class="fa fa-check"></i><b>10.1.3</b> Limitations</a></li>
+<li class="chapter" data-level="10.1.4" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#applications"><i class="fa fa-check"></i><b>10.1.4</b> Applications</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#univariate-regression"><i class="fa fa-check"></i><b>10.2</b> Univariate regression</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#galtons-height-dataset"><i class="fa fa-check"></i><b>10.2.1</b> Galton’s height dataset</a></li>
+<li class="chapter" data-level="10.2.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#ML-LSE"><i class="fa fa-check"></i><b>10.2.2</b> Maximum likelihood and least squares estimates</a></li>
+<li class="chapter" data-level="10.2.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#interpretation-of-the-fitted-coefficients"><i class="fa fa-check"></i><b>10.2.3</b> Interpretation of the fitted coefficients</a></li>
+<li class="chapter" data-level="10.2.4" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#predicted-values-are-random-variables"><i class="fa fa-check"></i><b>10.2.4</b> Predicted values are random variables</a></li>
+<li class="chapter" data-level="10.2.5" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#explained-variance"><i class="fa fa-check"></i><b>10.2.5</b> Explained variance</a></li>
+<li class="chapter" data-level="10.2.6" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#testing-the-relationship-between-y-and-x"><i class="fa fa-check"></i><b>10.2.6</b> Testing the relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#multivariate-regression"><i class="fa fa-check"></i><b>10.3</b> Multivariate regression</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#a-multivariate-example-the-baseball-dataset"><i class="fa fa-check"></i><b>10.3.1</b> A multivariate example: The baseball dataset</a></li>
+<li class="chapter" data-level="10.3.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#fitting-multivariate-regression"><i class="fa fa-check"></i><b>10.3.2</b> Fitting multivariate regression</a></li>
+<li class="chapter" data-level="10.3.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#testing-sets-of-parameters"><i class="fa fa-check"></i><b>10.3.3</b> Testing sets of parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#lin-reg-diagnostic"><i class="fa fa-check"></i><b>10.4</b> Diagnostic plots</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#assessing-non-linearity-with-residual-plot"><i class="fa fa-check"></i><b>10.4.1</b> Assessing non-linearity with residual plot</a></li>
+<li class="chapter" data-level="10.4.2" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#when-error-variance-is-not-constant-heteroscedascity"><i class="fa fa-check"></i><b>10.4.2</b> When error variance is not constant: Heteroscedascity</a></li>
+<li class="chapter" data-level="10.4.3" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#gaussianity-q-q-plot-of-the-residuals"><i class="fa fa-check"></i><b>10.4.3</b> Gaussianity: Q-Q-plot of the residuals</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="chap-lin-reg.html"><a href="chap-lin-reg.html#conclusions-1"><i class="fa fa-check"></i><b>10.5</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="chap-log-reg.html"><a href="chap-log-reg.html"><i class="fa fa-check"></i><b>11</b> Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#a-univariate-example-predicting-sex-given-the-height"><i class="fa fa-check"></i><b>11.1</b> A univariate example: predicting sex given the height</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#from-linear-regression-to-logistic-regression"><i class="fa fa-check"></i><b>11.1.1</b> From linear regression to logistic regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#ML-CE"><i class="fa fa-check"></i><b>11.2</b> Maximum likelihood estimates and the cross-entropy criterion</a></li>
+<li class="chapter" data-level="11.3" data-path="chap-log-reg.html"><a href="chap-log-reg.html#logistic-regression-as-a-generalized-linear-model"><i class="fa fa-check"></i><b>11.3</b> Logistic regression as a generalized linear model</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#logistic-regression-with-r"><i class="fa fa-check"></i><b>11.3.1</b> Logistic regression with R</a></li>
+<li class="chapter" data-level="11.3.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#overview-plot-of-the-univariate-example"><i class="fa fa-check"></i><b>11.3.2</b> Overview plot of the univariate example</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="chap-log-reg.html"><a href="chap-log-reg.html#interpreting-a-logistic-regression-fit"><i class="fa fa-check"></i><b>11.4</b> Interpreting a logistic regression fit</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#predicted-odds"><i class="fa fa-check"></i><b>11.4.1</b> Predicted odds</a></li>
+<li class="chapter" data-level="11.4.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#coefficients-of-the-logistic-regression"><i class="fa fa-check"></i><b>11.4.2</b> Coefficients of the logistic regression</a></li>
+<li class="chapter" data-level="11.4.3" data-path="chap-log-reg.html"><a href="chap-log-reg.html#effects-on-probabilities"><i class="fa fa-check"></i><b>11.4.3</b> Effects on probabilities</a></li>
+<li class="chapter" data-level="11.4.4" data-path="chap-log-reg.html"><a href="chap-log-reg.html#class-imbalance"><i class="fa fa-check"></i><b>11.4.4</b> Class imbalance</a></li>
+<li class="chapter" data-level="11.4.5" data-path="chap-log-reg.html"><a href="chap-log-reg.html#multiple-logistic-regression"><i class="fa fa-check"></i><b>11.4.5</b> Multiple Logistic regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="chap-log-reg.html"><a href="chap-log-reg.html#assessing-the-performance-of-a-classifier"><i class="fa fa-check"></i><b>11.5</b> Assessing the performance of a classifier</a>
+<ul>
+<li class="chapter" data-level="11.5.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#classification-with-logistic-regression"><i class="fa fa-check"></i><b>11.5.1</b> Classification with logistic regression</a></li>
+<li class="chapter" data-level="11.5.2" data-path="chap-log-reg.html"><a href="chap-log-reg.html#confusion-matrix"><i class="fa fa-check"></i><b>11.5.2</b> Confusion Matrix</a></li>
+<li class="chapter" data-level="11.5.3" data-path="chap-log-reg.html"><a href="chap-log-reg.html#classification-performance-metrics"><i class="fa fa-check"></i><b>11.5.3</b> Classification performance metrics</a></li>
+<li class="chapter" data-level="11.5.4" data-path="chap-log-reg.html"><a href="chap-log-reg.html#choosing-a-classification-cutoff"><i class="fa fa-check"></i><b>11.5.4</b> Choosing a classification cutoff</a></li>
+<li class="chapter" data-level="11.5.5" data-path="chap-log-reg.html"><a href="chap-log-reg.html#roc-curve"><i class="fa fa-check"></i><b>11.5.5</b> ROC curve</a></li>
+<li class="chapter" data-level="11.5.6" data-path="chap-log-reg.html"><a href="chap-log-reg.html#precision-recall-curve"><i class="fa fa-check"></i><b>11.5.6</b> Precision Recall curve</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="chap-log-reg.html"><a href="chap-log-reg.html#conclusions-2"><i class="fa fa-check"></i><b>11.6</b> Conclusions</a>
+<ul>
+<li class="chapter" data-level="11.6.1" data-path="chap-log-reg.html"><a href="chap-log-reg.html#to-remember-1"><i class="fa fa-check"></i><b>11.6.1</b> To remember</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>12</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="supervised-learning.html"><a href="supervised-learning.html#introduction-3"><i class="fa fa-check"></i><b>12.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#motivation-2"><i class="fa fa-check"></i><b>12.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="12.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#supervised-learning-vs.-unsupervised-learning"><i class="fa fa-check"></i><b>12.1.2</b> Supervised learning vs. unsupervised learning</a></li>
+<li class="chapter" data-level="12.1.3" data-path="supervised-learning.html"><a href="supervised-learning.html#notation"><i class="fa fa-check"></i><b>12.1.3</b> Notation</a></li>
+<li class="chapter" data-level="12.1.4" data-path="supervised-learning.html"><a href="supervised-learning.html#basic-approach-in-supervised-machine-learning"><i class="fa fa-check"></i><b>12.1.4</b> Basic approach in supervised machine learning</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="supervised-learning.html"><a href="supervised-learning.html#over--and-under-fitting"><i class="fa fa-check"></i><b>12.2</b> Over- and Under-fitting</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="supervised-learning.html"><a href="supervised-learning.html#example-polynomial-curve-fitting"><i class="fa fa-check"></i><b>12.2.1</b> Example: polynomial curve fitting</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="supervised-learning.html"><a href="supervised-learning.html#splitting-the-dataset-for-performance-assessment"><i class="fa fa-check"></i><b>12.3</b> Splitting the dataset for performance assessment</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="supervised-learning.html"><a href="supervised-learning.html#over-fitting-to-the-training-dataset"><i class="fa fa-check"></i><b>12.3.1</b> Over-fitting to the training dataset</a></li>
+<li class="chapter" data-level="12.3.2" data-path="supervised-learning.html"><a href="supervised-learning.html#cross-validation"><i class="fa fa-check"></i><b>12.3.2</b> Cross-validation</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forests-as-alternative-models"><i class="fa fa-check"></i><b>12.4</b> Random Forests as alternative models</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="supervised-learning.html"><a href="supervised-learning.html#the-basics-of-decision-trees"><i class="fa fa-check"></i><b>12.4.1</b> The basics of decision trees</a></li>
+<li class="chapter" data-level="12.4.2" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forests-for-classification-and-regression-tasks"><i class="fa fa-check"></i><b>12.4.2</b> Random Forests for classification and regression tasks</a></li>
+<li class="chapter" data-level="12.4.3" data-path="supervised-learning.html"><a href="supervised-learning.html#random-forests-in-r"><i class="fa fa-check"></i><b>12.4.3</b> Random Forests in R</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="supervised-learning.html"><a href="supervised-learning.html#conclusion-2"><i class="fa fa-check"></i><b>12.5</b> Conclusion</a></li>
+<li class="chapter" data-level="12.6" data-path="supervised-learning.html"><a href="supervised-learning.html#resources-4"><i class="fa fa-check"></i><b>12.6</b> Resources</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="importing-data.html"><a href="importing-data.html"><i class="fa fa-check"></i><b>A</b> Importing data</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="importing-data.html"><a href="importing-data.html#paths-and-the-working-directory"><i class="fa fa-check"></i><b>A.1</b> Paths and the working directory</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="importing-data.html"><a href="importing-data.html#the-filesystem"><i class="fa fa-check"></i><b>A.1.1</b> The filesystem</a></li>
+<li class="chapter" data-level="A.1.2" data-path="importing-data.html"><a href="importing-data.html#relative-and-full-paths"><i class="fa fa-check"></i><b>A.1.2</b> Relative and full paths</a></li>
+<li class="chapter" data-level="A.1.3" data-path="importing-data.html"><a href="importing-data.html#the-working-directory"><i class="fa fa-check"></i><b>A.1.3</b> The working directory</a></li>
+<li class="chapter" data-level="A.1.4" data-path="importing-data.html"><a href="importing-data.html#generating-path-names"><i class="fa fa-check"></i><b>A.1.4</b> Generating path names</a></li>
+<li class="chapter" data-level="A.1.5" data-path="importing-data.html"><a href="importing-data.html#copying-files-using-paths"><i class="fa fa-check"></i><b>A.1.5</b> Copying files using paths</a></li>
+</ul></li>
+<li class="chapter" data-level="A.2" data-path="importing-data.html"><a href="importing-data.html#the-readr-and-readxl-packages"><i class="fa fa-check"></i><b>A.2</b> The readr and readxl packages</a>
+<ul>
+<li class="chapter" data-level="A.2.1" data-path="importing-data.html"><a href="importing-data.html#readr"><i class="fa fa-check"></i><b>A.2.1</b> readr</a></li>
+<li class="chapter" data-level="A.2.2" data-path="importing-data.html"><a href="importing-data.html#readxl"><i class="fa fa-check"></i><b>A.2.2</b> readxl</a></li>
+</ul></li>
+<li class="chapter" data-level="A.3" data-path="importing-data.html"><a href="importing-data.html#exercises"><i class="fa fa-check"></i><b>A.3</b> Exercises</a></li>
+<li class="chapter" data-level="A.4" data-path="importing-data.html"><a href="importing-data.html#downloading-files"><i class="fa fa-check"></i><b>A.4</b> Downloading files</a></li>
+<li class="chapter" data-level="A.5" data-path="importing-data.html"><a href="importing-data.html#r-base-importing-functions"><i class="fa fa-check"></i><b>A.5</b> R-base importing functions</a>
+<ul>
+<li><a href="importing-data.html#scan"><code>scan</code></a></li>
+</ul></li>
+<li class="chapter" data-level="A.6" data-path="importing-data.html"><a href="importing-data.html#text-versus-binary-files"><i class="fa fa-check"></i><b>A.6</b> Text versus binary files</a></li>
+<li class="chapter" data-level="A.7" data-path="importing-data.html"><a href="importing-data.html#unicode-versus-ascii"><i class="fa fa-check"></i><b>A.7</b> Unicode versus ASCII</a></li>
+<li class="chapter" data-level="A.8" data-path="importing-data.html"><a href="importing-data.html#organizing-data-with-spreadsheets"><i class="fa fa-check"></i><b>A.8</b> Organizing data with spreadsheets</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html"><i class="fa fa-check"></i><b>B</b> R programming</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#conditionals"><i class="fa fa-check"></i><b>B.1</b> Conditional expressions</a></li>
+<li class="chapter" data-level="B.2" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#defining-functions"><i class="fa fa-check"></i><b>B.2</b> Defining functions</a></li>
+<li class="chapter" data-level="B.3" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#namespaces"><i class="fa fa-check"></i><b>B.3</b> Namespaces</a></li>
+<li class="chapter" data-level="B.4" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#for-loops"><i class="fa fa-check"></i><b>B.4</b> For-loops</a></li>
+<li class="chapter" data-level="B.5" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#vectorization"><i class="fa fa-check"></i><b>B.5</b> Vectorization and functionals</a></li>
+<li class="chapter" data-level="B.6" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#r-markdown"><i class="fa fa-check"></i><b>B.6</b> R Markdown</a></li>
+<li class="chapter" data-level="B.7" data-path="appendix-r-programming.html"><a href="appendix-r-programming.html#resources-5"><i class="fa fa-check"></i><b>B.7</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html"><i class="fa fa-check"></i><b>C</b> Additonal plotting tools</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#plotting-themes"><i class="fa fa-check"></i><b>C.1</b> Plotting themes</a></li>
+<li class="chapter" data-level="C.2" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#axes"><i class="fa fa-check"></i><b>C.2</b> Axes</a>
+<ul>
+<li class="chapter" data-level="C.2.1" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#axis-elements"><i class="fa fa-check"></i><b>C.2.1</b> Axis elements</a></li>
+</ul></li>
+<li class="chapter" data-level="C.3" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#plot-title"><i class="fa fa-check"></i><b>C.3</b> Plot title</a></li>
+<li class="chapter" data-level="C.4" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#legend"><i class="fa fa-check"></i><b>C.4</b> Legend</a></li>
+<li class="chapter" data-level="C.5" data-path="additonal-plotting-tools.html"><a href="additonal-plotting-tools.html#interactive-plots"><i class="fa fa-check"></i><b>C.5</b> Interactive plots</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="./">Julien Gagneur, TUM</a></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis and Visualization in R (IN2339)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chap-log-reg" class="section level1" number="11">
+<h1><span class="header-section-number">Chapter 11</span> Logistic Regression</h1>
+<p>In the previous Chapter, we described linear regression to predict a quantitative response <span class="math inline">\(y\)</span> using explanatory variables <span class="math inline">\(x_1,...,x_p\)</span>.</p>
+<p>However, in many applications the response <span class="math inline">\(y\)</span> is a category. Examples of prediction tasks where the response is categorical include:</p>
+<ul>
+<li>diagnostic (to have a disease or not)</li>
+<li>spam email, not spam email</li>
+<li>handwritten digit recognition (0,1,…,9)</li>
+<li>speech recognition (words)</li>
+</ul>
+<p>Those prediction tasks for which the response is a category are called <em>classification</em> tasks.
+A special type of <em>classification</em>, with exactly two categories, is called <em>binary classification</em>.
+This chapter focuses on <em>binary classification</em>, where we encode <span class="math inline">\(y \in \{0, 1\}\)</span> the two categories.</p>
+<div id="a-univariate-example-predicting-sex-given-the-height" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> A univariate example: predicting sex given the height</h2>
+<p>The students of this course have provided us with data on their heights, sex and height of their parents.
+A first classification task could be to predict the student’s sex given the student’s height.</p>
+<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb653-1"><a href="chap-log-reg.html#cb653-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb653-2"><a href="chap-log-reg.html#cb653-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb653-3"><a href="chap-log-reg.html#cb653-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb653-4"><a href="chap-log-reg.html#cb653-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb653-5"><a href="chap-log-reg.html#cb653-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb653-6"><a href="chap-log-reg.html#cb653-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb653-7"><a href="chap-log-reg.html#cb653-7" aria-hidden="true" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/height.csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb653-8"><a href="chap-log-reg.html#cb653-8" aria-hidden="true" tabindex="-1"></a>  .[, sex<span class="sc">:</span><span class="er">=</span><span class="fu">as.factor</span>(<span class="fu">toupper</span>(sex))]</span>
+<span id="cb653-9"><a href="chap-log-reg.html#cb653-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(heights)</span></code></pre></div>
+<pre><code>##    height sex mother father
+## 1:    197   M    175    191
+## 2:    196   M    163    192
+## 3:    195   M    171    185
+## 4:    195   M    168    191
+## 5:    194   M    164    189
+## 6:    192   M    168    197</code></pre>
+<p>We can attempt to do so using linear regression. If we assign a 1 for the male category and a 0 for the female category, then we can fit a linear regression whose prediction gives us a value for the category and whose input is the height of the student.
+Let us plot the predicted linear regression line and the (height, sex) pairs.</p>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb655-1"><a href="chap-log-reg.html#cb655-1" aria-hidden="true" tabindex="-1"></a>heights[, y<span class="sc">:</span><span class="er">=</span><span class="fu">as.numeric</span>(sex <span class="sc">==</span> <span class="st">&quot;M&quot;</span>)]</span>
+<span id="cb655-2"><a href="chap-log-reg.html#cb655-2" aria-hidden="true" tabindex="-1"></a>lm_fit0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>height, <span class="at">data=</span>heights)</span>
+<span id="cb655-3"><a href="chap-log-reg.html#cb655-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(heights, <span class="fu">aes</span>(height, y)) <span class="sc">+</span> </span>
+<span id="cb655-4"><a href="chap-log-reg.html#cb655-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb655-5"><a href="chap-log-reg.html#cb655-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> lm_fit0<span class="sc">$</span>coef[<span class="dv">1</span>], <span class="at">slope =</span> lm_fit0<span class="sc">$</span>coef[<span class="dv">2</span>], <span class="at">col=</span><span class="st">&quot;grey&quot;</span>) <span class="sc">+</span></span>
+<span id="cb655-6"><a href="chap-log-reg.html#cb655-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">1.5</span>))</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-412-1.png" width="384" /></p>
+<p>Looking at the figure, we realize that linear regression is not appropriate for this classification task. While <span class="math inline">\(y\)</span> is only defined for the two classes 0 and 1, the regression line does not make that assumption.</p>
+<p>We need to step back and consider a different modeling approach for categorical responses.
+Instead of modeling the response category directly, we could model the proportion of males per height. The following code does exactly this using 2-cm bins to stratify height:</p>
+<div class="sourceCode" id="cb656"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb656-1"><a href="chap-log-reg.html#cb656-1" aria-hidden="true" tabindex="-1"></a>heights[, height_bins <span class="sc">:</span><span class="er">=</span> <span class="fu">cut</span>(height, <span class="at">breaks=</span><span class="fu">seq</span>(<span class="fu">min</span>(height)<span class="sc">-</span><span class="dv">1</span>, <span class="fu">max</span>(height), <span class="dv">2</span>))]</span>
+<span id="cb656-2"><a href="chap-log-reg.html#cb656-2" aria-hidden="true" tabindex="-1"></a>heights[, mean_height_bins <span class="sc">:</span><span class="er">=</span> <span class="fu">mean</span>(height), by<span class="ot">=</span>height_bins]</span>
+<span id="cb656-3"><a href="chap-log-reg.html#cb656-3" aria-hidden="true" tabindex="-1"></a>props <span class="ot">&lt;-</span> heights[, prop<span class="sc">:</span><span class="er">=</span><span class="fu">mean</span>(sex<span class="sc">==</span><span class="st">&quot;M&quot;</span>), by<span class="ot">=</span>height_bins]</span>
+<span id="cb656-4"><a href="chap-log-reg.html#cb656-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb656-5"><a href="chap-log-reg.html#cb656-5" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(prop <span class="sc">~</span> height, <span class="at">data=</span>props)</span>
+<span id="cb656-6"><a href="chap-log-reg.html#cb656-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb656-7"><a href="chap-log-reg.html#cb656-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(props, <span class="fu">aes</span>(mean_height_bins, prop)) <span class="sc">+</span></span>
+<span id="cb656-8"><a href="chap-log-reg.html#cb656-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb656-9"><a href="chap-log-reg.html#cb656-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Height (cm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb656-10"><a href="chap-log-reg.html#cb656-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of men&quot;</span>) <span class="sc">+</span></span>
+<span id="cb656-11"><a href="chap-log-reg.html#cb656-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> lm_fit<span class="sc">$</span>coef[<span class="dv">1</span>], <span class="at">slope =</span> lm_fit<span class="sc">$</span>coef[<span class="dv">2</span>], <span class="at">col=</span><span class="st">&quot;grey&quot;</span>)  <span class="sc">+</span></span>
+<span id="cb656-12"><a href="chap-log-reg.html#cb656-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">1.5</span>))</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-413-1.png" width="384" /></p>
+<p>Modeling the proportion of classes rather than the classes themselves already looks a lot better.
+However, we still have the problem that the predictions can be outside of the [0,1] interval where the proportions are not defined.<br />
+Furthermore, the relationship seems to smoothly bend in an S-shape fashion between bins with only females for short heights, and bins with only males for tall heights. This S-shape is not well captured with a linear fit.</p>
+<p>Let us now consider another scale for the response, in search for some better linear relationship. Instead of looking at the probabilities of male per stratum, let us consider the odds. The <em>odds</em> for a binary variable <span class="math inline">\(y\)</span> are defined as <span class="math inline">\(\frac{P(y)}{1-P(y)}\)</span>. We have introduced this concept when defining the Fisher’s test <a href="analytical-stat.html#fisher-test">8.3</a>.</p>
+<p>We can estimate the overall population odds easily using the table of males and females:</p>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb657-1"><a href="chap-log-reg.html#cb657-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(heights<span class="sc">$</span>sex)</span></code></pre></div>
+<pre><code>## 
+##   F   M 
+## 122 131</code></pre>
+<p>If we take as an estimate for <span class="math inline">\(p(\text{male})\)</span> the frequency of males in our dataset then, the odds for a student to be a male is simply estimated as the male to female ratio:</p>
+<p><span class="math inline">\(\text{Population odds} \simeq \text{male:female} = 131 / 122 = 1.07\)</span>.</p>
+<p>To investigate how the odds depend on height we can estimate them for each height stratum:</p>
+<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb659-1"><a href="chap-log-reg.html#cb659-1" aria-hidden="true" tabindex="-1"></a>heights[, odds <span class="sc">:</span><span class="er">=</span> <span class="fu">sum</span>(y<span class="sc">==</span><span class="dv">1</span>)<span class="sc">/</span><span class="fu">sum</span>(y<span class="sc">==</span><span class="dv">0</span>), by<span class="ot">=</span>height_bins]</span></code></pre></div>
+<p>Plotting the odds in logarithmic scale suggests a linear relationship with height (Figure <a href="chap-log-reg.html#fig:odds-vs-height">11.1</a>).
+Note that the odds are poorly estimated for high and low values of height, as there are no males in the low strata (division by 0) and no females in the high strata. Hence, we shall ignore the most extreme bins for now.</p>
+<div class="sourceCode" id="cb660"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb660-1"><a href="chap-log-reg.html#cb660-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb660-2"><a href="chap-log-reg.html#cb660-2" aria-hidden="true" tabindex="-1"></a>breaks <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb660-3"><a href="chap-log-reg.html#cb660-3" aria-hidden="true" tabindex="-1"></a>minor_breaks <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="dv">21</span>)<span class="sc">*</span>(<span class="dv">10</span><span class="sc">^</span><span class="fu">rep</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each=</span><span class="dv">9</span>))</span>
+<span id="cb660-4"><a href="chap-log-reg.html#cb660-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb660-5"><a href="chap-log-reg.html#cb660-5" aria-hidden="true" tabindex="-1"></a>p_log_odds <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(props, <span class="fu">aes</span>(mean_height_bins, odds,</span>
+<span id="cb660-6"><a href="chap-log-reg.html#cb660-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color=</span>(<span class="sc">!</span>(odds<span class="sc">==</span><span class="dv">0</span> <span class="sc">|</span> <span class="fu">is.infinite</span>(odds))))) <span class="sc">+</span></span>
+<span id="cb660-7"><a href="chap-log-reg.html#cb660-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb660-8"><a href="chap-log-reg.html#cb660-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Height (cm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb660-9"><a href="chap-log-reg.html#cb660-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Male:Female&quot;</span>) <span class="sc">+</span></span>
+<span id="cb660-10"><a href="chap-log-reg.html#cb660-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_log10</span>(<span class="at">breaks=</span>breaks, <span class="at">minor_breaks =</span>minor_breaks) <span class="sc">+</span> </span>
+<span id="cb660-11"><a href="chap-log-reg.html#cb660-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotation_logticks</span>(<span class="at">side=</span><span class="st">&quot;l&quot;</span>) <span class="sc">+</span></span>
+<span id="cb660-12"><a href="chap-log-reg.html#cb660-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#999999&quot;</span>,<span class="st">&quot;#000000&quot;</span>)) <span class="sc">+</span>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb660-13"><a href="chap-log-reg.html#cb660-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb660-14"><a href="chap-log-reg.html#cb660-14" aria-hidden="true" tabindex="-1"></a>p_log_odds</span></code></pre></div>
+<div class="figure"><span id="fig:odds-vs-height"></span>
+<img src="dataviz_book_files/figure-html/odds-vs-height-1.png" alt="Odds male:female versus height (logaritmic y-scale). The grey halved dots indicate censored bins which have either 0 males or 0 females leading to infinite log-odds estimates." width="384" />
+<p class="caption">
+Figure 11.1: Odds male:female versus height (logaritmic y-scale). The grey halved dots indicate censored bins which have either 0 males or 0 females leading to infinite log-odds estimates.
+</p>
+</div>
+<p>These observations indicate that, approximately<a href="#fn39" class="footnote-ref" id="fnref39"><sup>39</sup></a>:</p>
+<p><span class="math display" id="eq:logit-odd-lm">\[\begin{align}
+\log\left(\frac{p(\text{male})}{1-p(\text{male})}\right) \simeq \beta_0 + \beta_1 \text{height}
+\tag{11.1}
+\end{align}\]</span></p>
+<p>This makes apparent a useful function for classification tasks, called the <em>logit</em> function, which is defined as :
+<span class="math display">\[
+\operatorname{logit}(z) = \log(\frac{z}{1-z}), z\in(0,1).
+\]</span></p>
+<p>Its reverse function, called the <em>logistic</em> function or <em>sigmoid</em> function is equally often used and important. The sigmoid function is denoted <span class="math inline">\(\sigma (z)\)</span> and it is defined as:</p>
+<p><span class="math display">\[\sigma (z) = \frac{1}{1+e^{-z}}, z\in \mathbb{R}.\]</span></p>
+<p>The sigmoid function is named so due to its S-shaped graph (Figure <a href="chap-log-reg.html#fig:sigmoid">11.2</a>). It is symmetric and maps real numbers to the <span class="math inline">\((0,1)\)</span> interval. It is often found in statistics and in physics, as it can describe a variety of naturally occurring phenomena.</p>
+<div class="sourceCode" id="cb661"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb661-1"><a href="chap-log-reg.html#cb661-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">z=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">length.out=</span><span class="dv">1000</span>))</span>
+<span id="cb661-2"><a href="chap-log-reg.html#cb661-2" aria-hidden="true" tabindex="-1"></a>df[,y<span class="sc">:</span><span class="er">=</span><span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>z))]</span>
+<span id="cb661-3"><a href="chap-log-reg.html#cb661-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(z, y)) <span class="sc">+</span></span>
+<span id="cb661-4"><a href="chap-log-reg.html#cb661-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb661-5"><a href="chap-log-reg.html#cb661-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;z&quot;</span>) <span class="sc">+</span></span>
+<span id="cb661-6"><a href="chap-log-reg.html#cb661-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">sigma</span>(z)) ) </span></code></pre></div>
+<div class="figure"><span id="fig:sigmoid"></span>
+<img src="dataviz_book_files/figure-html/sigmoid-1.png" alt="The logistic or sigmoid function" width="288" />
+<p class="caption">
+Figure 11.2: The logistic or sigmoid function
+</p>
+</div>
+<p>Hence, we found a linear relationship! We could in principle make predictions given height of log-odds and, passing them through the sigmoid, of probabilities of being a male. However, the approach we laid down is not satisfactory. It requires some arbitrary binning. We are not able to make use of the data in the most extreme bins which have either no male or no female. Also the log-odds of some bins are better estimated than others. Estimating odds of say 0.5 by observing 1 males and 2 females is not as precise as if we observe 100 males and 200 females. This uncertainty is not factored in with our approach. We need to step back to theory.</p>
+<div id="from-linear-regression-to-logistic-regression" class="section level3" number="11.1.1">
+<h3><span class="header-section-number">11.1.1</span> From linear regression to logistic regression</h3>
+<p>Remember that in Section <a href="chap-lin-reg.html#ML-LSE">10.2.2</a>, we mentioned that linear regression can be derived equivalently with the least squares criterion or with the maximum likelihood criterion. It turns out that it is the maximum likelihood criterion that will allow us to derive a principled way to model the classification problem. To see this, we start from the likelihood of the linear regression model and will adapt it to our new problem. This was (Section <a href="chap-lin-reg.html#ML-LSE">10.2.2</a>):</p>
+<p><span class="math display" id="eq:linreg-model">\[\begin{equation}
+\begin{aligned}
+p(\mathbf y| \mathbf X) &amp;= \prod_i p(y_i | \mathbf x_i) \mbox{ conditional independence} \\
+p(y_i | \mathbf x_i) &amp;= N(y_i | \mu_i, \sigma^2) \\
+\mu_i &amp;= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} 
+\end{aligned}
+\tag{11.2}
+\end{equation}\]</span></p>
+<p>Hence, linear regression models <span class="math inline">\(\mu_i := E(y_i|x_{i1},...x_{ip})\)</span>, the <em>expectation</em> of the outcome <em>conditioned</em> on the features, in particular, such expectation is obtained as a linear combination of the features.</p>
+<p>Rather than predicting an unbounded continuous outcome given some features, the classification problem can be approached by predicting the probability of a class given some features (ex. predicting the probability of the student being male given that the height is 160 cm).
+Modeling a probability with a linear function is not ideal because we can make predictions &lt;0 or &gt;1. Logistic regression addresses this problem by using the logistic function discussed above, which maps linear combinations of features to the (0,1) interval.</p>
+<p>A logistic regression models the data:</p>
+<p><span class="math display" id="eq:logreg-model">\[\begin{equation}
+\begin{aligned}
+p(\mathbf y| \mathbf X) &amp;= \prod_i p(y_i | x_i) \mbox{ conditional independence} \\
+p(y_i | \mathbf x_i) &amp;= B(y_i | 1,\mu_i)
+\\
+\mu_i:= \operatorname{E}[y_i|\mathbf x_i] &amp;= \sigma(\beta_0 + \sum_{j=1}^p \beta_j x_{ij}) 
+\end{aligned}
+\tag{11.3}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(B(\mathbf y_i | 1, \mu_i)\)</span> stands for the binomial distribution for 1 trial and probability <span class="math inline">\(\mu_i\)</span>, which in this particular case, where the number of trials is one, is also called a Bernoulli distribution. The Bernoulli distribution is a discrete distribution where there are two possible outcomes: failure (<span class="math inline">\(y=0\)</span>) or success (<span class="math inline">\(y=1\)</span>) (ex. 1 trial of tossing a coin: heads or tails). The success occurs with probability <span class="math inline">\(\mu\)</span> and failure occurs with probability <span class="math inline">\(1-\mu\)</span>.</p>
+<p>In the case of logistic regression, the probability <span class="math inline">\(\mu\)</span> is the expectation of the success class (y=1) conditioned on the features, <span class="math inline">\(\operatorname{E}(y_i=1|x_{i1}, ..., x_{ip}) = \mu_i\)</span>.</p>
+<p>We can alternatively write an equivalent expression to the latter by using the
+inverse function of the sigmoid, the <em>logit</em> function:</p>
+<p><span class="math display">\[\begin{align}
+\eta_i:= \operatorname{logit}(\mu_i) = \beta_0 + \sum_{j=1}^p \beta_j x_{ij} 
+\end{align}\]</span></p>
+</div>
+</div>
+<div id="ML-CE" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> Maximum likelihood estimates and the cross-entropy criterion</h2>
+<p>As for linear regression, we estimate the parameters of the model using the maximum likelihood criterion. Plugging the binomial probability<a href="#fn40" class="footnote-ref" id="fnref40"><sup>40</sup></a>
+and taking the logarithm, we obtain:</p>
+<p><span class="math display">\[\begin{align}
+\arg \max_{\boldsymbol\beta}\prod_i p(y_i|x_i, \boldsymbol\beta) &amp;= \arg \max_{\boldsymbol\beta}\sum_i \log(B(y_i|1, \mu_i(x_i, \boldsymbol\beta)))\\
+&amp;= \arg \min_{\boldsymbol\beta} - \sum_i (y_i\log( \mu_i(x_i, \boldsymbol\beta)) + (1-y_i)\log(1- \mu_i(x_i, \boldsymbol\beta)) 
+\end{align}\]</span></p>
+<p>The term:
+<span class="math display">\[- \sum_i (y_i\log( \mu_i) + (1-y_i)\log(1- \mu_i)\]</span>
+is called the <em>cross-entropy</em> between the model predictions (the predicted probabilities <span class="math inline">\(\mu_i\)</span>) and the observations <span class="math inline">\(y_i\)</span>.</p>
+<p>Hence, maximum likelihood leads to a different minimization objective for classification than for linear regression. For classification, we are not minimizing the squared errors but the cross-entropy.</p>
+<p>These minimization objectives are employed by a wide variety of models. Modern neural networks, which model complex non-linear relationships between input and output, also typically use cross-entropy to optimize their parameters for classification tasks and typically use the least squares criterion when it comes to quantitative predictions.</p>
+<p>It turns out that there is no analytical solution to the maximum likelihood estimates of a logistic regression. Instead, algorithms are employed that numerically minimize cross-entropy until reaching parameter values that cannot be optimized further. For logistic regression, such algorithms are pretty fast and robust due to good mathematical properties of the problem which apply in typical real-life datasets.</p>
+</div>
+<div id="logistic-regression-as-a-generalized-linear-model" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> Logistic regression as a generalized linear model</h2>
+<p>Generalized linear models (GLM) generalize linear regression by allowing the linear model to be related to the response variable via a <em>link</em> function and by allowing the magnitude of the variance of each measurement to be a function of its predicted value.</p>
+<p>As we have seen in the special case of the logistic regression, which is an instance of a GLM, we changed the linear regression by applying a transformation to the linear combination of the features in order to use it for another type of predictions.</p>
+<ul>
+<li>Logistic regression is one instance of generalized linear models, which all exploit the same idea:
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>A probability distribution from the exponential family</li>
+</ol>
+<ul>
+<li>Logistic regression: Bernoulli</li>
+</ul></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>A linear predictor <span class="math inline">\(\eta = \mathbf{X}\boldsymbol{\beta}\)</span><br />
+</li>
+</ol>
+<ul>
+<li>Logistic regression: <span class="math inline">\(\operatorname{logit}(\mu_i) = \eta_i = \beta_0 + \sum_{j=1}^p \beta_j x_{ij}\)</span></li>
+</ul></li>
+<li><ol start="3" style="list-style-type: decimal">
+<li>A link function <span class="math inline">\(g\)</span> such that <span class="math inline">\(\text{E}(y) = \mu = g^{-1}(\eta)\)</span></li>
+</ol>
+<ul>
+<li>Logistic regression: <span class="math inline">\(g=\operatorname{logit}\)</span> and <span class="math inline">\(g^{-1}=\operatorname{sigmoid}\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>The inverse of the link function is called the <em>activation</em> function, which in logistic regression is the logistic function.</p>
+<p>Other popular examples of GLMs include Poisson regression<a href="#fn41" class="footnote-ref" id="fnref41"><sup>41</sup></a> and Gamma regression.</p>
+<div id="logistic-regression-with-r" class="section level3" number="11.3.1">
+<h3><span class="header-section-number">11.3.1</span> Logistic regression with R</h3>
+<p>To fit a logistic regression to our data we can use the function <code>glm</code>, which stands for generalized linear model, with the parameters below. The fitted model can be applied to data (seen or unseen) using <code>predict()</code>. By default it returns the linear predictor <span class="math inline">\(\eta\)</span>, or in logistic regression, the logit of the predicted probabilities. Use <code>type='response'</code> to have the predicted probabilities on the natural scale:</p>
+<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb662-1"><a href="chap-log-reg.html#cb662-1" aria-hidden="true" tabindex="-1"></a>logistic_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> height, <span class="at">data=</span>heights, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb662-2"><a href="chap-log-reg.html#cb662-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb662-3"><a href="chap-log-reg.html#cb662-3" aria-hidden="true" tabindex="-1"></a>heights[, mu_hat <span class="sc">:</span><span class="er">=</span> <span class="fu">predict</span>(logistic_fit, heights, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)]</span>
+<span id="cb662-4"><a href="chap-log-reg.html#cb662-4" aria-hidden="true" tabindex="-1"></a>heights</span></code></pre></div>
+<pre><code>##      height sex mother father y height_bins
+##   1:    197   M    175    191 1   (195,197]
+##   2:    196   M    163    192 1   (195,197]
+##   3:    195   M    171    185 1   (193,195]
+##   4:    195   M    168    191 1   (193,195]
+##   5:    194   M    164    189 1   (193,195]
+##  ---                                       
+## 249:    152   F    150    165 0   (151,153]
+## 250:    172   F    165    188 0   (171,173]
+## 251:    154   F    155    165 0   (153,155]
+## 252:    178   M    169    174 1   (177,179]
+## 253:    175   F    171    189 0   (173,175]
+##      mean_height_bins      prop     odds       mu_hat
+##   1:         196.5000 1.0000000      Inf 0.9996635228
+##   2:         196.5000 1.0000000      Inf 0.9995264608
+##   3:         194.6667 1.0000000      Inf 0.9993336047
+##   4:         194.6667 1.0000000      Inf 0.9993336047
+##   5:         194.6667 1.0000000      Inf 0.9990622786
+##  ---                                                 
+## 249:         152.6667 0.0000000 0.000000 0.0006193516
+## 250:         172.5263 0.4736842 0.900000 0.3660058183
+## 251:         154.5000 0.0000000 0.000000 0.0012262897
+## 252:         178.3478 0.7826087 3.600000 0.8178215789
+## 253:         174.4286 0.5714286 1.333333 0.6168344547</code></pre>
+<p>Here are the predicted values using logistic regression (red) compared to a linear regression of the proportions (black).
+Overall, logistic regression fits better to our data and fixes the issue of having predictions outside the [0,1] interval.</p>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb664-1"><a href="chap-log-reg.html#cb664-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(props, <span class="fu">aes</span>(mean_height_bins, prop)) <span class="sc">+</span></span>
+<span id="cb664-2"><a href="chap-log-reg.html#cb664-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb664-3"><a href="chap-log-reg.html#cb664-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Height (cm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb664-4"><a href="chap-log-reg.html#cb664-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proportion of men&quot;</span>) <span class="sc">+</span></span>
+<span id="cb664-5"><a href="chap-log-reg.html#cb664-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> lm_fit<span class="sc">$</span>coef[<span class="dv">1</span>], <span class="at">slope =</span> lm_fit<span class="sc">$</span>coef[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb664-6"><a href="chap-log-reg.html#cb664-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(height, mu_hat), <span class="at">col=</span><span class="st">&#39;darkred&#39;</span>) <span class="sc">+</span></span>
+<span id="cb664-7"><a href="chap-log-reg.html#cb664-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">1.5</span>))</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-417-1.png" width="384" /></p>
+</div>
+<div id="overview-plot-of-the-univariate-example" class="section level3" number="11.3.2">
+<h3><span class="header-section-number">11.3.2</span> Overview plot of the univariate example</h3>
+<p>We finish this section, for didactic purposes, with an overview plot (Figure <a href="chap-log-reg.html#fig:sex-from-height-overview">11.3</a>) from the raw data down to the logistic fit.</p>
+<div class="sourceCode" id="cb665"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb665-1"><a href="chap-log-reg.html#cb665-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb665-2"><a href="chap-log-reg.html#cb665-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb665-3"><a href="chap-log-reg.html#cb665-3" aria-hidden="true" tabindex="-1"></a>ys <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb665-4"><a href="chap-log-reg.html#cb665-4" aria-hidden="true" tabindex="-1"></a>p_hist_male <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(heights[sex<span class="sc">==</span><span class="st">&#39;M&#39;</span>], <span class="fu">aes</span>(height)) <span class="sc">+</span> </span>
+<span id="cb665-5"><a href="chap-log-reg.html#cb665-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span>   </span>
+<span id="cb665-6"><a href="chap-log-reg.html#cb665-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">150</span>,<span class="dv">200</span>)) <span class="sc">+</span></span>
+<span id="cb665-7"><a href="chap-log-reg.html#cb665-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(height)),<span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>, <span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb665-8"><a href="chap-log-reg.html#cb665-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> ys), <span class="at">axis.title.x=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
+<span id="cb665-9"><a href="chap-log-reg.html#cb665-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Number of Males&quot;</span>) </span>
+<span id="cb665-10"><a href="chap-log-reg.html#cb665-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb665-11"><a href="chap-log-reg.html#cb665-11" aria-hidden="true" tabindex="-1"></a>p_hist_female <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(heights[sex<span class="sc">==</span><span class="st">&#39;F&#39;</span>], <span class="fu">aes</span>(height)) <span class="sc">+</span> </span>
+<span id="cb665-12"><a href="chap-log-reg.html#cb665-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
+<span id="cb665-13"><a href="chap-log-reg.html#cb665-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">150</span>,<span class="dv">200</span>)) <span class="sc">+</span></span>
+<span id="cb665-14"><a href="chap-log-reg.html#cb665-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(height)),<span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>, <span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb665-15"><a href="chap-log-reg.html#cb665-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> ys), <span class="at">axis.title.x=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
+<span id="cb665-16"><a href="chap-log-reg.html#cb665-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Number of Females&quot;</span>) </span>
+<span id="cb665-17"><a href="chap-log-reg.html#cb665-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb665-18"><a href="chap-log-reg.html#cb665-18" aria-hidden="true" tabindex="-1"></a>p_fit_male <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(props, <span class="fu">aes</span>(mean_height_bins, prop)) <span class="sc">+</span></span>
+<span id="cb665-19"><a href="chap-log-reg.html#cb665-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb665-20"><a href="chap-log-reg.html#cb665-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Estimated P(Male)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb665-21"><a href="chap-log-reg.html#cb665-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(height, mu_hat), <span class="at">col=</span><span class="st">&#39;darkred&#39;</span>) <span class="sc">+</span></span>
+<span id="cb665-22"><a href="chap-log-reg.html#cb665-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> ys), <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))<span class="sc">+</span></span>
+<span id="cb665-23"><a href="chap-log-reg.html#cb665-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">150</span>,<span class="dv">200</span>))</span>
+<span id="cb665-24"><a href="chap-log-reg.html#cb665-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb665-25"><a href="chap-log-reg.html#cb665-25" aria-hidden="true" tabindex="-1"></a>p_log_odds <span class="ot">&lt;-</span> p_log_odds <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">150</span>,<span class="dv">200</span>)) <span class="sc">+</span></span>
+<span id="cb665-26"><a href="chap-log-reg.html#cb665-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> ys), <span class="at">axis.title.x=</span><span class="fu">element_blank</span>())</span>
+<span id="cb665-27"><a href="chap-log-reg.html#cb665-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb665-28"><a href="chap-log-reg.html#cb665-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb665-29"><a href="chap-log-reg.html#cb665-29" aria-hidden="true" tabindex="-1"></a>p_hist_male <span class="sc">/</span> p_hist_female <span class="sc">/</span> p_log_odds <span class="sc">/</span> p_fit_male</span></code></pre></div>
+<div class="figure"><span id="fig:sex-from-height-overview"></span>
+<img src="dataviz_book_files/figure-html/sex-from-height-overview-1.png" alt="Overview of predicting sex from height. From top to bottom: distribution of heights for i) males and ii) females, iii) Male to female ratio in log-scale, and iv) proprotion of males (dots) along with logistic regression fit (red curve). Note that while 2-cm bins are used throughout the plot for visualization purposes, the logistic regression fit in contrast is performed on the raw data, i.e. sex (0/1) versus height." width="768" />
+<p class="caption">
+Figure 11.3: Overview of predicting sex from height. From top to bottom: distribution of heights for i) males and ii) females, iii) Male to female ratio in log-scale, and iv) proprotion of males (dots) along with logistic regression fit (red curve). Note that while 2-cm bins are used throughout the plot for visualization purposes, the logistic regression fit in contrast is performed on the raw data, i.e. sex (0/1) versus height.
+</p>
+</div>
+</div>
+</div>
+<div id="interpreting-a-logistic-regression-fit" class="section level2" number="11.4">
+<h2><span class="header-section-number">11.4</span> Interpreting a logistic regression fit</h2>
+<div id="predicted-odds" class="section level3" number="11.4.1">
+<h3><span class="header-section-number">11.4.1</span> Predicted odds</h3>
+<p>In logistic regression, the logit of the predicted response/probability for a certain input is the predicted log odds for the positive class (y=1) on that input.
+For example, for a height of 178 cm the log odds is:</p>
+<div class="sourceCode" id="cb666"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb666-1"><a href="chap-log-reg.html#cb666-1" aria-hidden="true" tabindex="-1"></a>log_odds_178 <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic_fit,<span class="fu">data.table</span>(<span class="at">height=</span><span class="dv">178</span>))</span>
+<span id="cb666-2"><a href="chap-log-reg.html#cb666-2" aria-hidden="true" tabindex="-1"></a>log_odds_178</span></code></pre></div>
+<pre><code>##        1 
+## 1.501658</code></pre>
+<p>To get the odds we can exponentiate this number. The obtained result means that the odds for someone to be a male (positive class) at height 178 cm is:</p>
+<div class="sourceCode" id="cb668"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb668-1"><a href="chap-log-reg.html#cb668-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(log_odds_178)</span></code></pre></div>
+<pre><code>##        1 
+## 4.489124</code></pre>
+</div>
+<div id="coefficients-of-the-logistic-regression" class="section level3" number="11.4.2">
+<h3><span class="header-section-number">11.4.2</span> Coefficients of the logistic regression</h3>
+<p>The <span class="math inline">\(\beta\)</span> values from logistic regression are log odds ratios associated with an increase by one unit of the corresponding explanatory variable. Odds ratios can thus be obtained by applying exp().</p>
+<div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb670-1"><a href="chap-log-reg.html#cb670-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(logistic_fit)</span></code></pre></div>
+<pre><code>## (Intercept)      height 
+## -59.3461056   0.3418414</code></pre>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb672-1"><a href="chap-log-reg.html#cb672-1" aria-hidden="true" tabindex="-1"></a>OR_height <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">coef</span>(logistic_fit)[<span class="dv">2</span>])</span>
+<span id="cb672-2"><a href="chap-log-reg.html#cb672-2" aria-hidden="true" tabindex="-1"></a>OR_height</span></code></pre></div>
+<pre><code>##   height 
+## 1.407537</code></pre>
+<p>As we have seen, in logistic regression the log odds is predicted as a linear combination of the features, where the coefficients are log odds ratios.
+Therefore, in our example of predicting sex from height, increasing the height by <span class="math inline">\(h\)</span> centimeters changes the log odds by <span class="math inline">\(h \times0.342\)</span>, or equivalently, it multiplies the odds by <span class="math inline">\(e^{h\times 0.342} = 1.408^h\)</span>.</p>
+</div>
+<div id="effects-on-probabilities" class="section level3" number="11.4.3">
+<h3><span class="header-section-number">11.4.3</span> Effects on probabilities</h3>
+<p>One important difference between linear regression and logistic regression is that for the latter, the relationship between input and predicted value is not linear. A drastic example is shown in Figure <a href="chap-log-reg.html#fig:log-increase">11.4</a>, where increases of 5 cm produce different increases in the probability for male depending on the starting point.</p>
+<p>If we start at odds 1:1, the probability is 0.5, and our corresponding height can be obtained by solving the equation for height on:
+<span class="math display">\[
+\text{log}(\text{odds}) = \beta_0 + \beta_1 \text{height}
+\]</span></p>
+<p>where <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are the coefficients of the logistic regression.
+This gives us a height value of 173.6 cm. Note that the point of steepest increase in the logistic curve corresponds to the predicted probability of 0.5.<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a></p>
+<pre><code>## (Intercept) 
+##    173.6072</code></pre>
+<p>An increase in 5 cm leads as to a probability of:</p>
+<div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb675-1"><a href="chap-log-reg.html#cb675-1" aria-hidden="true" tabindex="-1"></a>prob_5 <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic_fit, <span class="fu">data.table</span>(<span class="at">height =</span><span class="fl">173.6</span><span class="sc">+</span><span class="dv">5</span>), <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb675-2"><a href="chap-log-reg.html#cb675-2" aria-hidden="true" tabindex="-1"></a>prob_5</span></code></pre></div>
+<pre><code>##         1 
+## 0.8464159</code></pre>
+<p>If we increase 5 cm again, then we will have a predicted probability for male of:</p>
+<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb677-1"><a href="chap-log-reg.html#cb677-1" aria-hidden="true" tabindex="-1"></a>prob_10 <span class="ot">&lt;-</span> <span class="fu">predict</span>(logistic_fit, <span class="fu">data.table</span>(<span class="at">height =</span><span class="fl">173.6</span><span class="sc">+</span><span class="dv">10</span>), <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb677-2"><a href="chap-log-reg.html#cb677-2" aria-hidden="true" tabindex="-1"></a>prob_10</span></code></pre></div>
+<pre><code>##         1 
+## 0.9681999</code></pre>
+<p>An increase in height from 173.6 cm to 178.6 cm increases the estimated probability by 0.35, while an increase in height from 178.6 cm to 183.6 cm increases the estimated probability by 0.12.</p>
+<div class="figure"><span id="fig:log-increase"></span>
+<img src="dataviz_book_files/figure-html/log-increase-1.png" alt="Estimated probability given the same 5 cm increase in height on different points of the logistic curve." width="384" />
+<p class="caption">
+Figure 11.4: Estimated probability given the same 5 cm increase in height on different points of the logistic curve.
+</p>
+</div>
+</div>
+<div id="class-imbalance" class="section level3" number="11.4.4">
+<h3><span class="header-section-number">11.4.4</span> Class imbalance</h3>
+<p>Now we turn to a situation of <em>class imbalance</em>, which refers to having one class with substantially more instances than the other.
+Let’s create a class imbalanced heights dataset with ~20% males and ~80% females.</p>
+<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb679-1"><a href="chap-log-reg.html#cb679-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb679-2"><a href="chap-log-reg.html#cb679-2" aria-hidden="true" tabindex="-1"></a>imbalanced_heights <span class="ot">&lt;-</span> heights[<span class="sc">-</span><span class="fu">sample</span>(<span class="fu">which</span>(sex<span class="sc">==</span><span class="st">&quot;M&quot;</span>), <span class="dv">100</span>)]</span>
+<span id="cb679-3"><a href="chap-log-reg.html#cb679-3" aria-hidden="true" tabindex="-1"></a>imbalanced_heights[, <span class="fu">table</span>(sex)]</span></code></pre></div>
+<pre><code>## sex
+##   F   M 
+## 122  31</code></pre>
+<p>Now let’s fit a logistic regression, similar to previous steps:</p>
+<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb681-1"><a href="chap-log-reg.html#cb681-1" aria-hidden="true" tabindex="-1"></a>logistic_fit_imbalanced <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> height, <span class="at">data=</span>imbalanced_heights, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb681-2"><a href="chap-log-reg.html#cb681-2" aria-hidden="true" tabindex="-1"></a>logistic_fit_imbalanced</span></code></pre></div>
+<pre><code>## 
+## Call:  glm(formula = y ~ height, family = &quot;binomial&quot;, data = imbalanced_heights)
+## 
+## Coefficients:
+## (Intercept)       height  
+##    -64.9762       0.3652  
+## 
+## Degrees of Freedom: 152 Total (i.e. Null);  151 Residual
+## Null Deviance:       154.2 
+## Residual Deviance: 72.43     AIC: 76.43</code></pre>
+<p>Now we can plot our logistic fit to the imbalanced dataset and compare it to our previous logistic fit obtained in the balanced dataset.</p>
+<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb683-1"><a href="chap-log-reg.html#cb683-1" aria-hidden="true" tabindex="-1"></a>imbalanced_props <span class="ot">&lt;-</span> imbalanced_heights[, prop<span class="sc">:</span><span class="er">=</span><span class="fu">mean</span>(sex<span class="sc">==</span><span class="st">&quot;M&quot;</span>), by<span class="ot">=</span>height]</span>
+<span id="cb683-2"><a href="chap-log-reg.html#cb683-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb683-3"><a href="chap-log-reg.html#cb683-3" aria-hidden="true" tabindex="-1"></a>imbalanced_props[, mu_hat <span class="sc">:</span><span class="er">=</span> <span class="fu">predict</span>(logistic_fit_imbalanced, imbalanced_props, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)]</span>
+<span id="cb683-4"><a href="chap-log-reg.html#cb683-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb683-5"><a href="chap-log-reg.html#cb683-5" aria-hidden="true" tabindex="-1"></a>imbalanced_props[, dataset<span class="sc">:</span><span class="er">=</span><span class="st">&quot;imbalanced&quot;</span>]</span>
+<span id="cb683-6"><a href="chap-log-reg.html#cb683-6" aria-hidden="true" tabindex="-1"></a>props[, dataset<span class="sc">:</span><span class="er">=</span><span class="st">&quot;balanced&quot;</span>]</span>
+<span id="cb683-7"><a href="chap-log-reg.html#cb683-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb683-8"><a href="chap-log-reg.html#cb683-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(imbalanced_props, props, <span class="at">fill=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb683-9"><a href="chap-log-reg.html#cb683-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(height, mu_hat, <span class="at">color=</span>dataset)) <span class="sc">+</span></span>
+<span id="cb683-10"><a href="chap-log-reg.html#cb683-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb683-11"><a href="chap-log-reg.html#cb683-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Height (cm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb683-12"><a href="chap-log-reg.html#cb683-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Predicted probability&quot;</span>)</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-426-1.png" width="384" /></p>
+<p>The logistic fit on the imbalanced dataset looks different. In particular, the curve has been shifted to the right. The predicted probability of being male for a given height is lower compared to the balanced logistic fit.
+Let’s look at the logit of the predicted response and compare it to the previous balanced dataset.</p>
+<div class="sourceCode" id="cb684"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb684-1"><a href="chap-log-reg.html#cb684-1" aria-hidden="true" tabindex="-1"></a>imbalanced_props[, logistic_logit <span class="sc">:</span><span class="er">=</span> <span class="fu">predict</span>(logistic_fit_imbalanced, imbalanced_props)]</span>
+<span id="cb684-2"><a href="chap-log-reg.html#cb684-2" aria-hidden="true" tabindex="-1"></a>props[, logistic_logit<span class="sc">:</span><span class="er">=</span><span class="fu">predict</span>(logistic_fit, props)]</span>
+<span id="cb684-3"><a href="chap-log-reg.html#cb684-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb684-4"><a href="chap-log-reg.html#cb684-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(imbalanced_props, props, <span class="at">fill=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb684-5"><a href="chap-log-reg.html#cb684-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(height, logistic_logit, <span class="at">color=</span>dataset)) <span class="sc">+</span></span>
+<span id="cb684-6"><a href="chap-log-reg.html#cb684-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb684-7"><a href="chap-log-reg.html#cb684-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Height (cm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb684-8"><a href="chap-log-reg.html#cb684-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Predicted log odds (logit)&quot;</span>)</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-427-1.png" width="384" /></p>
+<p>As seen from this figure, the intercept of the logistic regression is now lower and the lines are nearly parallel.
+This means that the estimated log odds for male in the imbalanced logistic fit are generally lower. Indeed, if we have lower quantities of males for each value of height in general, then the odds for male will be overall lower for all heights.</p>
+<p>Why can the effect of class imbalance be seen on the intercept? While the proportion among males in each stratum are independent of the number of males, the ratios of males over females scales with the overall number of males. Hence, The odds male:female per stratum proportionally change when the overall population odds change. In a log scale this translates into an added constant and thus a vertical shift. In other words, changes in class imbalance affects the intercept <span class="math inline">\(\beta_0\)</span> of a logistic regression by adding a constant.<a href="#fn43" class="footnote-ref" id="fnref43"><sup>43</sup></a></p>
+<!-- If we denote $x$ as our feature (height) and $y$ as the class (male/female) then using Bayes theorem we can write:  -->
+<!-- $$ -->
+<!-- \begin{align} -->
+<!-- P(y|x) =\frac{P(x|y) \cdot P(y)}{\sum_{y} P(x|y) \cdot P(y)}. -->
+<!-- \end{align} -->
+<!-- $$ -->
+<!-- Note that $P(x|y)$ is independent of class imbalance. If we estimate the probability of $y=1$ as the frequency of the positive class, $\pi_1$ and the probability of $y=0$ as the frequency of the negative class, $\pi_0 = 1-\pi_1$ then we can write: -->
+<!-- $$ -->
+<!-- \begin{align} -->
+<!-- P(y=1|x) = \frac{P(x|y=1) \cdot \pi_1} {P(x|y=1) \cdot \pi_1 + P(x|y=0) \cdot \pi_0} -->
+<!-- \end{align} -->
+<!-- $$ -->
+<!-- Remmember that in logistic regression $\text{logit}(P(y=1|x))$ is estimated as a linear combination of $x$. The logit of $P(y=1|x)$ can be written as: -->
+<!-- $$ -->
+<!-- \begin{align} -->
+<!-- \text{logit}(P(y=1|x)) = \text{log} \left( \frac{P(y=1|x)}{1 - P(y=1|x)} \right) = \text{log} \left(  \frac{P(y=1|x)}{P(y=0|x)} \right) -->
+<!-- \end{align} -->
+<!-- $$ -->
+<!-- By replacing $P(y=1|x)$ and $P(y=0|x)$ as in equation @\ref we get: -->
+<!-- $$ -->
+<!-- \begin{align} -->
+<!-- \text{logit}(P(y=1|x)) = \text{log} \left(  \frac{P(x=1|y)}{P(x=0|y)} \right) + \text{log} \left(  \frac{\pi_1}{\pi_0} \right) = \beta_1x + \beta_0 -->
+<!-- \end{align} -->
+<!-- $$ -->
+<!-- where $\beta_0$ is the intercept of logistic regression and $\beta_1$ the coefficient. The term $\text{log}  \left(  \frac{P(x=1|y)}{P(x=0|y)} \right)$ only depends on the feature $x$, while the term $\text{log} \left(  \frac{\pi_1}{\pi_0} \right) = \text{log} \left(  \frac{\pi_1}{1-\pi_1} \right)$, which is the the log odds for the positive class, only depends on the class imbalance, and is captured by the intercept. -->
+</div>
+<div id="multiple-logistic-regression" class="section level3" number="11.4.5">
+<h3><span class="header-section-number">11.4.5</span> Multiple Logistic regression</h3>
+<p>We have been performing logistic regression with one variable as input to predict one class. However, in our formulation of logistic regression we allowed a set of features to predict the probability of the class.
+In multiple logistic regression there can be several input variables.
+We can use multiple logistic regression to predict the student’s sex given the heights of the student and of the student’s parents.</p>
+<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb685-1"><a href="chap-log-reg.html#cb685-1" aria-hidden="true" tabindex="-1"></a>multi_logistic_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> height <span class="sc">+</span> mother <span class="sc">+</span> father, <span class="at">data=</span>heights, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb685-2"><a href="chap-log-reg.html#cb685-2" aria-hidden="true" tabindex="-1"></a>multi_logistic_fit</span></code></pre></div>
+<pre><code>## 
+## Call:  glm(formula = y ~ height + mother + father, family = &quot;binomial&quot;, 
+##     data = heights)
+## 
+## Coefficients:
+## (Intercept)       height       mother       father  
+##    -37.4913       0.7307      -0.2899      -0.2360  
+## 
+## Degrees of Freedom: 252 Total (i.e. Null);  249 Residual
+## Null Deviance:       350.4 
+## Residual Deviance: 83.05     AIC: 91.05</code></pre>
+<p>Similarly to the previous univariate logistic fit, an increase in the student’s height increases the odds for male. Furthermore, this model gives negative coefficients to the height of the mother and of the father. This makes sense: the taller either parent, the taller the children. It is therefore more likely that a tall person is a female, if the parents are tall.</p>
+<p>Is this model, which integrates the heights of the parent, doing a better job at predicting sex than the simpler model we first developed? And if so by how much? We will see now ways to answer these questions.</p>
+</div>
+</div>
+<div id="assessing-the-performance-of-a-classifier" class="section level2" number="11.5">
+<h2><span class="header-section-number">11.5</span> Assessing the performance of a classifier</h2>
+<div id="classification-with-logistic-regression" class="section level3" number="11.5.1">
+<h3><span class="header-section-number">11.5.1</span> Classification with logistic regression</h3>
+<p>Logistic regression predicts a probability, therefore it conveys some uncertainty in the prediction. Classification implies that we attribute one class per instance, and not a probability.</p>
+<p>Hard classification is usually performed by the following simple rule:
+If <span class="math inline">\(\mu&gt;0.5\)</span> (or equivalently <span class="math inline">\(\eta&gt;0\)</span>), predict class 1, else predict class 0.</p>
+<p>Let’s follow this rule for the previous multiple logistic regression by using the function <code>round</code>. Moreover, let’s inspect the predictions of the classes male (0) and female (1) by computing a contingency table between the predicted and true classes:</p>
+<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb687-1"><a href="chap-log-reg.html#cb687-1" aria-hidden="true" tabindex="-1"></a>heights[, y_multi_pred <span class="sc">:</span><span class="er">=</span> <span class="fu">round</span>(<span class="fu">predict</span>(multi_logistic_fit, heights, <span class="at">type=</span><span class="st">&quot;response&quot;</span>))]</span>
+<span id="cb687-2"><a href="chap-log-reg.html#cb687-2" aria-hidden="true" tabindex="-1"></a>heights[, <span class="fu">table</span>(y, y_multi_pred)]</span></code></pre></div>
+<pre><code>##    y_multi_pred
+## y     0   1
+##   0 113   9
+##   1  10 121</code></pre>
+<p>10 males where predicted as female (false negative) and 9 females were predicted as male (false positive).</p>
+</div>
+<div id="confusion-matrix" class="section level3" number="11.5.2">
+<h3><span class="header-section-number">11.5.2</span> Confusion Matrix</h3>
+<p>The previous table is also termed confusion matrix. The following figure depicts the structure of a confusion matrix:</p>
+<p><img src="assets/img/lec13_confusion_matrix.png" width="475px" /></p>
+<p>Such matrix allows us to access the quality of the classifications. A classifier should maximize true positives (TP) and true negatives (TN), and minimize false negatives (FN) and false positives (FP)</p>
+</div>
+<div id="classification-performance-metrics" class="section level3" number="11.5.3">
+<h3><span class="header-section-number">11.5.3</span> Classification performance metrics</h3>
+<p>From the confusion matrix, various quality metrics have been defined. Moreover, depending on the application domain, the same quantities are referred to with different names.<a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a> We focus here on three metrics:</p>
+<ul>
+<li>The <em>sensitivity</em> refers to the fraction of actual positives that is predicted to be positive:</li>
+</ul>
+<p><span class="math inline">\(\text {Sensitivity}=\frac{T P}{P}=\frac{T P}{T P+F N}\)</span></p>
+<p>The sensitivity is also referred to as “recall,” “true positive rate,” or “power.”</p>
+<ul>
+<li>The <em>specificity</em> refers to the fraction of actual negatives that is predicted to be negative:</li>
+</ul>
+<p><span class="math inline">\(\text { Specificity }=\frac{T N}{N}=\frac{T N}{T N+F P}\)</span></p>
+<p>The specificity is also known as “true negative rate” or
+“sensitivity of the negative class”</p>
+<ul>
+<li>The <em>precision</em> refers to the fraction of predicted positives that are indeed positives:</li>
+</ul>
+<p><span class="math inline">\(\text { Precision }=\frac{T P}{T P+F P}\)</span></p>
+<p>The precision is also called the positive predictive value. Note that, in the hypothesis testing context, we discussed a related concept, the false discovery rate (FDR). The FDR relates to the precision as follows:</p>
+<p><span class="math inline">\(\mathrm{FDR}=\mathrm{E}\left[\frac{F P}{T P+F P}\right]=\mathrm{E}\left[1-\frac{T P}{T P+F P}\right]=1-\mathrm{E}[\mathrm{Precision}]\)</span></p>
+</div>
+<div id="choosing-a-classification-cutoff" class="section level3" number="11.5.4">
+<h3><span class="header-section-number">11.5.4</span> Choosing a classification cutoff</h3>
+<p>Many classification methods do not directly assign a class, but rather output a quantitative score. For instance, the logistic regression predicts a probability. Other methods may output a real number that is not aimed to represent a probability yet for which the larger, the more likely the class is positive. This would be the case if we had insisted in using linear regression as we first attempted at the start of this Chapter, but it is also the case if we use the logit instead of the predicted probability in logistic regression or for modern classifiers like support-vector machines.<a href="#fn45" class="footnote-ref" id="fnref45"><sup>45</sup></a></p>
+<p>Hence, we typically need to set a <em>cutoff</em> above which we classify as “positive.” Previously we defined our cutoff at <span class="math inline">\(\mu=0.5\)</span> or <span class="math inline">\(\operatorname{logit}(\mu)=0\)</span>, but it was an arbitrary decision, we could have chosen a different one. The choice of the cutoff influences the performance metrics.</p>
+<p>Let’s go back to the example of predicting the sex of the student given its height and consider the logits of the logistic regression as scores. If the logistic regression predictions are somewhat informative, we expect the distribution of the scores for the negative and positive classes to be to some extent separated. Indeed, as depicted in Figure (<a href="chap-log-reg.html#fig:class-cutoff">11.5</a>), most students can be correctly separated in male or female given its score. However, a certain amount of students from different sexes have overlapping scores.</p>
+<!--```{r out.width = "555px", echo=FALSE}
+ggplot(heights, aes(logistic_logit, fill=sex)) +
+  geom_histogram(position='identity', bins=32, alpha=0.7, color="black") +
+  geom_vline(aes(xintercept=3.5), color="black", linetype="dashed", size=0.5) +
+  labs(x="Predicted Log Odds")
+  
+```
+<img src="dataviz_book_files/figure-html/lecture-02-431-1.png" width="555px" />
+-->
+<div class="figure"><span id="fig:class-cutoff"></span>
+<img src="assets/img/lec13_heights_cutoff.png" alt="When informative, a classifier score separates to some extent the positive from the negative class. Such can be seen in the logistic regression model for sex prediction given height. The choice of a classification cutoff leads to various types of correct and incorrect predictions." width="475px" />
+<p class="caption">
+Figure 11.5: When informative, a classifier score separates to some extent the positive from the negative class. Such can be seen in the logistic regression model for sex prediction given height. The choice of a classification cutoff leads to various types of correct and incorrect predictions.
+</p>
+</div>
+<p>As seen from the previous figure, picking a cutoff at a certain value like the one in the dashed line, will produce classifications which are false positives or false negatives.</p>
+<p>Now imagine we move our cutoff in the way of the next figure:</p>
+<div class="figure"><span id="fig:lecture-02-432"></span>
+<img src="assets/img/lec13_heights_cutoff_fn.png" alt="Setting a classification cutoff is always a trade-off between sensitivity and specificity." width="475px" />
+<p class="caption">
+Figure 11.6: Setting a classification cutoff is always a trade-off between sensitivity and specificity.
+</p>
+</div>
+<p>Now, every female student is classified as such (True negative (TP)), however some male students are classified as female (False negative (FN)). Choosing the cutoff is a trade-off between sensitivity and specificity. How the trade-off is made is problem-dependent.</p>
+</div>
+<div id="roc-curve" class="section level3" number="11.5.5">
+<h3><span class="header-section-number">11.5.5</span> ROC curve</h3>
+<p>The receiver operating characteristic curve or ROC curve is a way of
+evaluating the quality of a binary classifier at different cutoffs.</p>
+<p>It describes on the x axis the false positive rate (1-specificity),
+<span class="math inline">\(\mathrm{FPR}=\frac{\mathrm{FP}}{\mathrm{N}}=\frac{\mathrm{FP}}{\mathrm{FP}+\mathrm{TN}}\)</span> and on the y axis the true positive rate (sensitivity),
+<span class="math inline">\(\mathrm{TPR}=\frac{\mathrm{TP}}{\mathrm{P}}=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}}\)</span></p>
+<p>Let’s plot the ROC curve for the univariate logistic regression model we fitted on heights and the ROC curve. As comparisons we look also at a random classifier (i.e. a model that outputs random values for probabilities of positive class).
+To do this we use <code>geom_roc</code> which comes from the plotROC package.</p>
+<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb689-1"><a href="chap-log-reg.html#cb689-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotROC)</span>
+<span id="cb689-2"><a href="chap-log-reg.html#cb689-2" aria-hidden="true" tabindex="-1"></a>heights[, random_scores<span class="sc">:</span><span class="er">=</span><span class="fu">runif</span>(.N)]</span>
+<span id="cb689-3"><a href="chap-log-reg.html#cb689-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb689-4"><a href="chap-log-reg.html#cb689-4" aria-hidden="true" tabindex="-1"></a>heights_melted <span class="ot">&lt;-</span> heights[, .(y, mu_hat, random_scores)] <span class="sc">%&gt;%</span> </span>
+<span id="cb689-5"><a href="chap-log-reg.html#cb689-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">id.vars=</span><span class="st">&quot;y&quot;</span>, <span class="at">variable.name =</span> <span class="st">&quot;logistic_fit&quot;</span>, <span class="at">value.name=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb689-6"><a href="chap-log-reg.html#cb689-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb689-7"><a href="chap-log-reg.html#cb689-7" aria-hidden="true" tabindex="-1"></a>ggroc <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(heights_melted, <span class="fu">aes</span>(<span class="at">d=</span>y, <span class="at">m=</span>response, <span class="at">color=</span>logistic_fit)) <span class="sc">+</span></span>
+<span id="cb689-8"><a href="chap-log-reg.html#cb689-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_roc</span>() <span class="sc">+</span></span>
+<span id="cb689-9"><a href="chap-log-reg.html#cb689-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">&quot;Logistic fit&quot;</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Univariate&quot;</span>, <span class="st">&quot;Random&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb689-10"><a href="chap-log-reg.html#cb689-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_abline</span>()</span>
+<span id="cb689-11"><a href="chap-log-reg.html#cb689-11" aria-hidden="true" tabindex="-1"></a>ggroc</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-433-1.png" width="480" /></p>
+<p>The points along the lines represent the cutoff value. If all instances are classified as positive (cutoff=0) then the false positive rate is 1 and so is the true positive rate. On the other hand, if all instances are classified as negative (cutoff=1) then, the false positive rate is 0 and so is the true positive rate.<a href="#fn46" class="footnote-ref" id="fnref46"><sup>46</sup></a>
+A random classifier has a ROC curve which always approximates a diagonal, such can be seen in the previous figure as the close to diagonal line, while the other curve is the ROC for the logistic prediction.<a href="#fn47" class="footnote-ref" id="fnref47"><sup>47</sup></a>
+Now let’s compare the ROC curve on the univariate logistic regression against the one on the multiple logistic regression:</p>
+<div class="sourceCode" id="cb690"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb690-1"><a href="chap-log-reg.html#cb690-1" aria-hidden="true" tabindex="-1"></a>heights[, multi_logistic_mu_hat <span class="sc">:</span><span class="er">=</span> <span class="fu">predict</span>(multi_logistic_fit, heights, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)]</span>
+<span id="cb690-2"><a href="chap-log-reg.html#cb690-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb690-3"><a href="chap-log-reg.html#cb690-3" aria-hidden="true" tabindex="-1"></a>heights_melted <span class="ot">&lt;-</span> heights[, .(y, mu_hat, multi_logistic_mu_hat)] <span class="sc">%&gt;%</span> </span>
+<span id="cb690-4"><a href="chap-log-reg.html#cb690-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">id.vars=</span><span class="st">&quot;y&quot;</span>, <span class="at">variable.name =</span> <span class="st">&quot;logistic_fit&quot;</span>, <span class="at">value.name=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb690-5"><a href="chap-log-reg.html#cb690-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb690-6"><a href="chap-log-reg.html#cb690-6" aria-hidden="true" tabindex="-1"></a>ggroc <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(heights_melted, <span class="fu">aes</span>(<span class="at">d=</span>y, <span class="at">m=</span>response, <span class="at">color=</span>logistic_fit)) <span class="sc">+</span></span>
+<span id="cb690-7"><a href="chap-log-reg.html#cb690-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_roc</span>() <span class="sc">+</span></span>
+<span id="cb690-8"><a href="chap-log-reg.html#cb690-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale_color_discrete</span>(<span class="at">name =</span> <span class="st">&quot;Logistic fit&quot;</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Univariate&quot;</span>, <span class="st">&quot;Multivariate&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb690-9"><a href="chap-log-reg.html#cb690-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_abline</span>()</span>
+<span id="cb690-10"><a href="chap-log-reg.html#cb690-10" aria-hidden="true" tabindex="-1"></a>ggroc</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-434-1.png" width="480" /></p>
+<p>We can see that for lower values of false positive rates, the true positive rate is higher on the multiple logistic regression model. Such suggests this model has a better performance.
+Classification performance can also be measured by the AUC (area under the ROC curve). An AUC of 1 means that the model is perfectly able to distinguish between the positive and negative classes. An AUC of 0.5, which corresponds to the AUC of a ROC curve which is a diagonal line, means the classifier model is no better than random classification.</p>
+<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb691-1"><a href="chap-log-reg.html#cb691-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_auc</span>(ggroc)</span></code></pre></div>
+<pre><code>##   PANEL group       AUC
+## 1     1     1 0.9313290
+## 2     1     2 0.9833563</code></pre>
+<p>The AUC for the multiple logistic regression is ~0.983, indicating a better classification performance compared to the univariate logistic regression (AUC=~0.931), which only takes the height of the student to predict its sex.</p>
+</div>
+<div id="precision-recall-curve" class="section level3" number="11.5.6">
+<h3><span class="header-section-number">11.5.6</span> Precision Recall curve</h3>
+<p>Let’s compute the ROC curve and its AUC on the logistic regression on the imbalanced dataset.</p>
+<div class="sourceCode" id="cb693"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb693-1"><a href="chap-log-reg.html#cb693-1" aria-hidden="true" tabindex="-1"></a>imbalanced_heights[, mu_hat<span class="sc">:</span><span class="er">=</span><span class="fu">predict</span>(logistic_fit_imbalanced, imbalanced_heights, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)]</span>
+<span id="cb693-2"><a href="chap-log-reg.html#cb693-2" aria-hidden="true" tabindex="-1"></a>ggroc<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(imbalanced_heights, <span class="fu">aes</span>(<span class="at">d=</span>y, <span class="at">m=</span>mu_hat)) <span class="sc">+</span></span>
+<span id="cb693-3"><a href="chap-log-reg.html#cb693-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_roc</span>(<span class="at">n.cuts=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb693-4"><a href="chap-log-reg.html#cb693-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_abline</span>()</span>
+<span id="cb693-5"><a href="chap-log-reg.html#cb693-5" aria-hidden="true" tabindex="-1"></a>ggroc</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-436-1.png" width="384" /></p>
+<div class="sourceCode" id="cb694"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb694-1"><a href="chap-log-reg.html#cb694-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calc_auc</span>(ggroc)[<span class="st">&quot;AUC&quot;</span>]</span></code></pre></div>
+<pre><code>##         AUC
+## 1 0.9435484</code></pre>
+<p>From its AUC value, the performance of this model seems similar to the model on the balanced dataset.
+Let’s inspect such performances using a Precision Recall curve, which, for different cutoffs plots the precision (<span class="math inline">\(\frac{T P}{T P+F P}\)</span>) against the recall (<span class="math inline">\(\frac{T P}{P}\)</span>). To plot a precision recall curve we can use the package PRROC.</p>
+<div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb696-1"><a href="chap-log-reg.html#cb696-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRROC)</span>
+<span id="cb696-2"><a href="chap-log-reg.html#cb696-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb696-3"><a href="chap-log-reg.html#cb696-3" aria-hidden="true" tabindex="-1"></a>PRROC_obj <span class="ot">&lt;-</span> <span class="fu">pr.curve</span>(<span class="at">scores.class0 =</span> imbalanced_heights<span class="sc">$</span>mu_hat, <span class="at">weights.class0=</span>imbalanced_heights<span class="sc">$</span>y,</span>
+<span id="cb696-4"><a href="chap-log-reg.html#cb696-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">curve=</span><span class="cn">TRUE</span>)</span>
+<span id="cb696-5"><a href="chap-log-reg.html#cb696-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PRROC_obj, <span class="at">auc.main=</span><span class="cn">FALSE</span> , <span class="at">color=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-437-1.png" width="384" /></p>
+<p>Now let’s plot the precision recall curve of the logistic regression model on the balanced dataset:</p>
+<div class="sourceCode" id="cb697"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb697-1"><a href="chap-log-reg.html#cb697-1" aria-hidden="true" tabindex="-1"></a>PRROC_obj <span class="ot">&lt;-</span> <span class="fu">pr.curve</span>(<span class="at">scores.class0 =</span> heights<span class="sc">$</span>mu_hat, <span class="at">weights.class0=</span>heights<span class="sc">$</span>y,</span>
+<span id="cb697-2"><a href="chap-log-reg.html#cb697-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">curve=</span><span class="cn">TRUE</span>)</span>
+<span id="cb697-3"><a href="chap-log-reg.html#cb697-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(PRROC_obj, <span class="at">auc.main=</span><span class="cn">FALSE</span> , <span class="at">color=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/lecture-02-438-1.png" width="384" /></p>
+<p>Although the ROC curves of both models look similar, the precision recall curves look different.
+Because the dataset is imbalanced for the female (negative class), the corresponding logistic regression model provides lower precisions for the same recall, meaning that such model is worse at classifying males. The PR curves is hence used in very imbalanced situations in which the positive class is strongly under-represented. These are “finding a needle in a haystack” situations, such as detecting a rare disease or retrieving a relevant web page among billions of web pages across the web. Then, the precision-recall curves emphasizes better the performance of the model among the top scoring predictions than the ROC curve.</p>
+</div>
+</div>
+<div id="conclusions-2" class="section level2" number="11.6">
+<h2><span class="header-section-number">11.6</span> Conclusions</h2>
+<div id="to-remember-1" class="section level3" number="11.6.1">
+<h3><span class="header-section-number">11.6.1</span> To remember</h3>
+<p>Now you should be able to:</p>
+<ul>
+<li>define and identify classification problems</li>
+<li>know the modeling assumption of logistic regression</li>
+<li>know the criterion of minimal cross-entropy</li>
+<li>fit a logistic regression in R, extract coefficients and predictions</li>
+<li>interpret coefficients of logistic regression fits</li>
+<li>know the definitions of TP, TN, FP, FN</li>
+<li>know the definitions of sensitivity, specificity, and precision</li>
+<li>know what a ROC curve is</li>
+<li>know how to compare performance of classifiers using a ROC curve</li>
+<li>know what a PR curve is</li>
+<li>know how to compare performance of classifiers using a PR curve</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="39">
+<li id="fn39"><p>It turns out that Equation <a href="chap-log-reg.html#eq:logit-odd-lm">(11.1)</a> is exact assuming that the distribution of the height for either sex is Gaussian and that both have the same variance. A good theoretical exercise is to prove it. As a hint use Bayes theorem. Moreover, these assumptions seem to hold in our data. Check it. Hint: use qqnorm(), qqline() and the sd() functions.<a href="chap-log-reg.html#fnref39" class="footnote-back">↩︎</a></p></li>
+<li id="fn40"><p><span class="math inline">\(B(y_i|1,\mu_i) = {1 \choose y_i}\mu_i^{y_i}(1-\mu_i)^{(1-y_i)}\)</span><a href="chap-log-reg.html#fnref40" class="footnote-back">↩︎</a></p></li>
+<li id="fn41"><p>Used for instance to model football scores. See, e.g. <a href="http://opisthokonta.net/?p=276" class="uri">http://opisthokonta.net/?p=276</a><a href="chap-log-reg.html#fnref41" class="footnote-back">↩︎</a></p></li>
+<li id="fn42"><p> How can you find the height corresponding to probability=0.5? Can you prove this is the point of steepest increase?<a href="chap-log-reg.html#fnref42" class="footnote-back">↩︎</a></p></li>
+<li id="fn43"><p>A formal proofs can be made using Bayes theorem.<a href="chap-log-reg.html#fnref43" class="footnote-back">↩︎</a></p></li>
+<li id="fn44"><p>In doubt, wikipedia provides a comprehensive overview on classifier performance metrics
+<a href="https://en.wikipedia.org/wiki/Sensitivity_and_specificity" class="uri">https://en.wikipedia.org/wiki/Sensitivity_and_specificity</a><a href="chap-log-reg.html#fnref44" class="footnote-back">↩︎</a></p></li>
+<li id="fn45"><p><a href="https://en.wikipedia.org/wiki/Support-vector_machine" class="uri">https://en.wikipedia.org/wiki/Support-vector_machine</a><a href="chap-log-reg.html#fnref45" class="footnote-back">↩︎</a></p></li>
+<li id="fn46"><p>How would the ROC curve look like if we took plain height as a predictive score and not the logistic regression prediction?<a href="chap-log-reg.html#fnref46" class="footnote-back">↩︎</a></p></li>
+<li id="fn47"><p>Can you prove why?<a href="chap-log-reg.html#fnref47" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chap-lin-reg.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="supervised-learning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": {},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

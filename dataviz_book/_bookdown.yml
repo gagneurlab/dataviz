@@ -1,5 +1,5 @@
 book_filename: "dataviz_book"
-output_dir: "../docs"
+output_dir: "docs"
 #output_dir: "/s/public_webshare/project/dataviz_script"
 #output_dir: "/localdata/dataviz_script"
 delete_merged_file: true
@@ -16,20 +16,20 @@ rmd_files: [
   "../topic00_Introduction/script/script_00.Rmd",
   "../topic01_R_Basics/script/script_01.Rmd",
   "../topic02_Data_Wrangling/script/script_02.Rmd",
-  # "../topic03_Tidy_Data/script/script_03.Rmd",
-  # "../topic04_Plotting-I/script/script_04.Rmd",
-  # "../topic05_Plotting-II/script/script_05.Rmd",
-  # "../topic06_Plotting-III/script/script_06.Rmd",
-  # "../topic07_Statistical-Testing-I/script/script_07.Rmd",
-  # "../topic08_Statistical-Testing-II/script/script_08.Rmd",
-  # "../topic09_Statistical-Testing-III/script/script_09.Rmd",
-  # "../topic10_LinearRegression/script/script_10.Rmd",
-  #  "../topic11_LogisticRegression/script/script_11.Rmd",
-  #  "../topic12_SupervisedLearning/script/script_12.Rmd",
-  #  
-  # "../appendix01_Data-Importing/script/appendix_01.Rmd",
-  # "../appendix02_R_Basics/script/appendix_02.Rmd",
-  # "../appendix03_Plotting/script/appendix_03.Rmd",
-  # # "../appendix04_Probabilities/script/appendix_04.Rmd"
+  "../topic03_Tidy_Data/script/script_03.Rmd",
+  "../topic04_Plotting-I/script/script_04.Rmd",
+  "../topic05_Plotting-II/script/script_05.Rmd",
+  "../topic06_Plotting-III/script/script_06.Rmd",
+  "../topic07_Statistical-Testing-I/script/script_07.Rmd",
+  "../topic08_Statistical-Testing-II/script/script_08.Rmd",
+  "../topic09_Statistical-Testing-III/script/script_09.Rmd",
+  "../topic10_LinearRegression/script/script_10.Rmd",
+   "../topic11_LogisticRegression/script/script_11.Rmd",
+   "../topic12_SupervisedLearning/script/script_12.Rmd",
+
+  "../appendix01_Data-Importing/script/appendix_01.Rmd",
+  "../appendix02_R_Basics/script/appendix_02.Rmd",
+  "../appendix03_Plotting/script/appendix_03.Rmd",
+  # "../appendix04_Probabilities/script/appendix_04.Rmd"
 ]
 before_chapter_script: "_common.R"
