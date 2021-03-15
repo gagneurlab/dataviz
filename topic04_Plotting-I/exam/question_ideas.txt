@@ -1,3 +1,0 @@
-Idea:
-
-show scatter plot. which boxplot is the correct boxplot for the given dataset? show different boxplots as options
