@@ -1,0 +1,744 @@
+\newcommand{\bs}{\boldsymbol} 
+\newcommand{\m}{\mathbf}
+
+\newcommand{\w}{\m w} 
+\newcommand{\x}{\m x}
+\newcommand{\y}{\m y}
+
+\newcommand{\X}{\m X} 
+\newcommand{\I}{\m I} 
+
+\newcommand{\E}{\operatorname{E}} 
+\newcommand{\Var}{\operatorname{Var}} 
+
+# Linear Regression {#chap-lin-reg}
+
+## Motivation and overview
+
+### Testing conditional dependence
+
+Up to this point, we have focused on testing associations between pairs of variables. However, in data science applications, it is very common to study three or more variables jointly. 
+
+For pairs of variables, say $x$ and $y$, one variable may be considered as the explanatory variable (let us take $x$) and the other the response variable ($y$). Asking whether $y$ depends on $x$ amounts to ask whether the conditional distribution of $y$ given $x$ varies when $x$ varies. For instance, one may state that body height depends on sex by showing that the distribution of body heights is not same among males than among females. In general statistical terms, testing for independence can be expressed as the null hypothesis: 
+
+\begin{align}
+H_0: p(y|x) = p(y).
+(\#eq:H0-uni-cond-indep)
+\end{align}
+
+Let us assume now we are considering multiple explanatory variables $x_1, ...,x_p$ and a response variable $y$. We are still interested in the association of one particular explanatory variable, say $x_j$ with the response variable $y$ but shall take into consideration all the other explanatory variables. In other words, we would like to know whether $y$ depends on $x_j$ _everything else being the same_. For instance, we may observe that drinking coffee positively correlates with lung cancer, but, neither among smokers, nor among non-smokers, drinking coffee associates with lung cancer. In this example, everything else being same (i.e. for same smoking status), there is no association between lung cancer and drinking coffee. In this thought experiment, the association found in the overall population probably comes from the fact that smokers tend to be coffee drinkers. 
+Generally, we ask whether the conditional distribution of $y$ given all explanatory variables varies when $x_j$ alone varies. Hence, to move beyond pairs of variables, we need a strategy to assess null hypotheses such as: 
+
+
+\begin{align}
+H_0:  p(y|x_1,...,x_j,...x_p) = p(y|x_1,...,x_{j-1}, x_{j+1},...x_p)
+(\#eq:H0-cond-indep)
+\end{align}
+
+
+Considered so generally, i.e. for any type of variable $y$ and for any number and types of explanatory variables $x_1,...,x_p$, the null hypothesis in Equation \@ref(eq:H0-cond-indep) is impractical because:
+
+1. We need to be able to deal with any type of distribution: Gaussian, Binomial, Poisson, but also mixtures, or even distributions that are not functionally parameterized. 
+
+2. We need to be able to condition on continuous variables. Conditioning on categorical variables leads to obvious stratification of the data. However, how shall we deal with continuous ones? Shall we do some binning? Based on what criteria? Could the binning strategy affect the results?
+
+3. Even when all variables are categorical, there is a combinatorial explosion of strata, as each stratum gets further split by every new added variables (say by smoking status, and further by sex, and further by diabetes,...). For instance, there are $2^p$ different strata for $p$ binary variables. This combinatorial explosion makes the analysis difficult. Moreover the statistical power, which is driven by the number of samples in each stratum, gets drastically reduced.
+
+### Linear regression
+This Chapter introduces linear regression as an effective way to deal with these three issues. Linear regression addresses these three issues by making the following assumptions:
+
+* The conditional distribution $p(y | x_1,...,x_p)$ is a Gaussian distribution whose variance is independent of $x_1,...x_p$, simplifying greatly issue number 1.
+
+* The conditional expectation of $y$ is a simple linear combinations of the explanatory variables, that is:
+
+\begin{align}
+\E[y|x_1,...,x_p] = \beta_0 + \beta_1 x_1+...\beta_p x_p
+(\#eq:E-linreg)
+\end{align}
+
+We can think of Equation \@ref(eq:E-linreg) as a simple score for which explanatory variables contribute in a weighted fashion and independently of each other to variations in the expected value of the response.
+For instance, one could model the expected body height of an adult as ^[this is a guessed formula for the sake of the explanation. You will build your own model on true data in the exercise and see why the 0.5 coefficients is probably not correct.]:
+
+$$\begin{align}
+\E[\text{height}| \text{sex}, \text{mother}, \text{father}] = &165 + 15 \times \text{sex} +0.5\times(\text{mother} -165) \\
+&+ 0.5\times(\text{father} -180),
+\end{align}$$
+
+where sex is 1 for male and 0 for female, and mother and father designate each parent's body height. 
+
+The linear model in Equation \@ref(eq:E-linreg), can deal with continuous as well as discrete explanatory variables, solving the issue number 2. Moreover, because Equation \@ref(eq:E-linreg) models independent additive contributions of the explanatory variables, it has just one parameter per explanatory variable. The effects of the explanatory variables do not depend on the value of the other variables. These effects do not change between strata. Hence, linear regression does not suffer from a combinatorial explosion of strata (issue number 3).
+
+### Limitations
+These assumptions of linear regression makes the task easier, but how limiting are they?
+
+The Gaussian assumption is limiting. We cannot deal with binary response variables for instance. The next chapter will address such cases.
+
+The assumption that variance is independent of the strata, if violated, can be a problem for fitting this model as well as for statistical testing. We show how to diagnose such issue in Section \@ref(lin-reg-diagnostic).
+
+The assumption of additivity in Equation \@ref(eq:E-linreg) seems more limiting than it actually is. First, there are many real-life situations where additivity of the effects of the explanatory variables turns out to be reasonable. Moreover, there is always the possibility to pre-compute non-linear transformations of explanatory variables and include them to the model. For instance this model of expected body weight is a valid linear model with respect to body height cubed -- it just needs the cube to be pre-computed^[The popular deep neural networks are able, with enough data, to automatically learn these transformations. Nevertheless, their final operation (so-called last layer), is typically a linear combination as in Equation \@ref(eq:E-linreg)]:
+
+$$\E[\text{weight}| \text{height}] = \beta_0 + \beta_1\text{height} ^3$$
+All in all, linear regression turns out to be in practice often reasonable. 
+
+### Applications
+Linear regression can be used for various purposes:
+
+* To **test conditional dependence**. This is done by testing the null hypothesis:
+$$H_0: \beta_j=0.$$
+
+* To **estimate the effects of one variable on the response variable**. This is done by providing an estimate of the coefficient $\beta_j$. 
+
+* To **predict** the value of the response variable given values of the explanatory variables. The predicted value is then an estimate of the conditional expectation $\E[y|x]$.
+
+* To **quantify how much variation** of a response variable can be explained by a set of explanatory variables.
+
+This Chapter explains first univariate linear regression using a historical dataset of body height. We will then go to the multivariate case using an example from baseball. Finally we will assess what is the practical impact of violations of the modeling assumptions, and how to diagnose them. A substantial part of the Chapter is based on an adaptation of Rafael Irizzary's book.
+
+## Univariate regression
+
+### Galton's height dataset
+We start with linear regression against a single variable, or univariate regression. We use the dataset from which regression was born. The example is from genetics. Francis Galton^[https://en.wikipedia.org/wiki/Francis_Galton] studied the variation and heredity of human traits. Among many other traits, Galton collected and studied height data from families to try to understand heredity^[Galton made important contributions to statistics and genetics, but he was also one of the first proponents of eugenics, a scientifically flawed philosophical movement favored by many biologists of Galton's time but with horrific historical consequences. You can read more about it here: [https://pged.org/history-eugenics-and-genetics].]. While doing this, he developed the concepts of correlation and regression, as well as a connection to pairs of data that follow a normal distribution. A very specific question Galton tried to answer was: how well can we predict a child's height based on the parents' height? 
+
+We have access to Galton's family height data through the __HistData__ package. This data records height in inches from several dozen families: mothers, fathers, daughters, and sons. To imitate Galton's analysis, we will create a dataset with the heights of fathers and a randomly selected son of each family: 
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(HistData)
+library(data.table)
+data("GaltonFamilies")
+GaltonFamilies <- as.data.table(GaltonFamilies)
+set.seed(1983)
+galton_heights <- GaltonFamilies[gender == 'male'][,.SD[sample(.N, 1L)],by = family][,.(father, childHeight)]
+setnames(galton_heights, "childHeight", "son")
+```
+
+Plotting clearly shows that the taller the father, the taller the son. 
+
+```{r, fig.height = 3, fig.width = 3, out.width="40%"}
+galton_heights %>% ggplot(aes(father, son)) + 
+  geom_point(alpha = 0.5)
+```
+
+One can visualize more concretely the conditional distributions of the son heights given the father heights by stratifying the father heights (i.e. $p(\text{son} | \text{father})$):
+
+
+```{r , fig.height = 3, fig.width = 3, out.width="40%"}
+galton_heights[, father_strata := factor(round(father))] %>% 
+  ggplot(aes(father_strata, son)) + 
+  geom_boxplot() + 
+  geom_point()
+```
+
+The centers of the groups are increasing with the father height, giving a first glimpse as how hereditary body height is.  
+
+By strata, we can estimate the conditional expectations. In our example, we end up with the following prediction for the son of a father who is 72 inches tall:
+
+```{r }
+conditional_avg <- galton_heights[round(father) == 72,
+               mean(son)]
+conditional_avg
+```
+
+Furthermore, these centers appear to follow a linear relationship. Below we plot the averages of each group. If we take into account that these averages are random variables, the data is consistent with these points following a straight line:
+
+```{r mean-son-vs-father, echo=FALSE, fig.height = 3, fig.width = 3, out.width="40%", fig.cap="Average son heights by strata of the father heights"}
+galton_heights[, father := round(father)][, .(son_conditional_avg = mean(son)), by=father] %>% 
+  ggplot(aes(father, son_conditional_avg)) + 
+  geom_point()
+```
+
+Hence this plot suggests that the linear model:
+
+$$ \E[\text{son} | \text{father}] =\beta_0 + \beta_1 \text{father}$$
+
+is reasonable. Fitting such a model would allow us to avoid doing stratifications, as we could continuously estimate the expected value of son's height. How do we estimate these coefficients? To this end, we need a bit more theory.
+
+### Maximum likelihood and least squares estimates {#ML-LSE}
+Fitting a linear regression, i.e. estimating the parameters, is based on a widely used principle called **maximum likelihood**. The maximum likelihood principle consists in choosing as parameter values those for which the data is most probable. What is the probability of our data?
+
+Here we model the probability of the heights of the sons given the heights of their fathers. Generally, we will always consider the values of the explanatory variables to be given. Furthermore we will assume that, conditioned on the values of the explanatory variable, the observations are independent. Here, this means that the height of the sons are independent given the heights of the fathers. Hence the likelihood is:
+\begin{align}
+p(\text{Data}|\beta_0,\beta_1) = \prod_i p(y_i|x_i, \beta_0, \beta_1)
+\end{align}
+
+Hence, we look for the values of the coefficients $\beta_0$ and $\beta_1$ to maximimize $\prod_i p(y_i|x_i, \beta_0, \beta_1)$.
+
+Taking the logarithm of the likelihood, which is a monotonically increasing function, does not change the value of the optimal parameters. Plugging in furthermore the density of the Gaussian ^[
+$N(x | 0, \sigma^2) = \frac{1}{\sigma\sqrt{2 \pi}} \exp(-\frac{x^2}{2 \sigma^2}).$
+] and discarding terms not affected by the values of $\beta_0$ $\beta_1$,
+we obtain that:
+
+\begin{align}
+\arg \max_{\beta_0, \beta_1}\prod_i p(y_i|x_i, \beta_0, \beta_1) &= \arg \max_{\beta_0, \beta_1}\sum_i \log(N(y_i|x_i, \beta_0, \beta_1))\\
+&= \arg \min_{\beta_0, \beta_1}\sum_i (y_i - (\beta_0 + \beta_1x_i))^2
+\end{align}
+
+The differences between the observed values and their expected values denoted $\epsilon_i = y_i - (\beta_0 + \beta_1x_i)$ are called the errors. Hence, maximizing the likelihood of this model is equivalent to minimizing the sum of the squared errors. One talks about **least squares estimates** (LSE).
+
+```{r, echo=FALSE, fig.cap="\\label{fig:linModel} Visualization of a Linear Regression model.", fig.height=5}
+knitr::include_graphics("assets/img/lec12_linear_model_geometric0.png")
+```
+
+### Interpretation of the fitted coefficients 
+Minimizing the squared errors for a linear model can be solved analytically (see Appendix \@ref(appendix-lin-reg)). We obtain that our estimated conditional expected value, denoted $\hat y$ is:
+
+\begin{align}
+\hat y= \hat \beta_0 + \hat \beta_1x \mbox{ with slope } \hat \beta_1 = \rho \frac{\sigma_y}{\sigma_x} \mbox{ and intercept } \hat \beta_0=\mu_y - \hat \beta_1 \mu_x
+(\#eq:coef-univariate)
+\end{align}
+  
+where:
+
+* $\mu_x,\mu_y$  are the means of $x$ and $y$
+* $\sigma_x,\sigma_y$  are the standard deviations of $x$ and $y$
+* $\rho = \frac{1}{n} \sum_{i=1}^n \left( \frac{x_i-\mu_x}{\sigma_x} \right)\left( \frac{y_i-\mu_y}{\sigma_y} \right)$ is the Pearson correlation coefficient between $x$ and $y$.
+
+We can rewrite this result as:
+  
+$$ 
+\hat y = \mu_y + \rho \left( \frac{x-\mu_x}{\sigma_x} \right) \sigma_y
+$$
+If there is perfect correlation, the regression line predicts an increase in the response by the same number of standard deviations. If there is 0 correlation, then we don't use $x$ at all for the prediction and simply predict the population average $\mu_y$.  For values between 0 and 1, the prediction is somewhere in between. If the correlation is negative, we predict a reduction instead of an increase. Note that if the correlation is positive but smaller than 1, our prediction of $y$ is closer to its average than $x$ to its average (in standard units). 
+
+In R, we can obtain the least squares estimates using the `lm` function:
+
+```{r}
+fit <- lm(son ~ father, data = galton_heights)
+coefficients(fit)
+```
+
+The most common way we use `lm` is by using the character `~` to let `lm` know which is the variable we are predicting (left of `~`) and which we are using to predict (right of `~`). The intercept is added automatically to the model that will be fit. 
+
+Here we add the regression line to the original data using the ggplot2 function `geom_smooth(method = "lm")` which computes and adds the linear regression line to a plot along with confidence intervals:
+  
+```{r, fig.height = 3, fig.width = 3, out.width="40%"}
+galton_heights %>% 
+  ggplot(aes(father, son)) + 
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm")
+```
+
+In our example, the correlation between sons' and fathers' heights is about 0.5. Our predicted value for the son's height $y=$ `r conditional_avg` for a 72-inch father was only `r round((conditional_avg - mean(galton_heights$son)) /sd(galton_heights$son),2)` standard deviations larger than the average son in contrast to the father's height which was `r round((72 -mean(galton_heights$father))/sd(galton_heights$father), 1)` standard deviations above average. This is why we call it _regression_: the son regresses to the average height. In fact, the title of Galton's paper was: _Regression toward mediocrity in hereditary stature_.
+
+It is a fact that children of extremely tall parents are taller than average, yet typically shorter than their parents. You can appreciate it on Figure \@ref(fig:mean-son-vs-father). Extremely tall parents have an extreme combinations of alleles, and have also benefited from environmental factors by chance, which may not repeat in the next generation. The same phenomenon, called _regression toward the mean_, happens in sport. Athletes who perform extremely well one year are certainly good (high expectation) but have also probably been lucky (a positive error) so they are more likely to perform relatively worse the next year, etc. This phenomenon is ubiquitous and can lead to  fallacies. ^[See the best seller Thinking fast and slow by Nobel prize-winning psychologist Daniel Kahneman (thank you, Lisa!) or https://en.wikipedia.org/wiki/Regression_toward_the_mean.] 
+
+
+### Predicted values are random variables 
+
+Once we fit our model, we can obtain predictions of $y$ by plugging the estimates into the regression model. For example, if the father's height is $x$, then our prediction $\hat{y}$ for the son's height is:
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x$$
+
+When we plot $\hat{y}$ versus $x$, we see the regression line.
+
+Keep in mind that the prediction $\hat{y}$ is also a random variable and mathematical theory tells us what the standard errors are. If we assume the errors are normal, or we have a large enough sample size, we can use theory to construct confidence intervals as well. In fact, the ggplot2 layer `geom_smooth(method = "lm")` that we previously used plots $\hat{y}$ and surrounds it by confidence intervals:
+
+```{r father-son-regression}
+galton_heights %>% ggplot(aes(son, father)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+The R function `predict` takes an `lm` object as input and returns the prediction. If requested, the standard errors and other information from which we can construct confidence intervals are provided:
+
+```{r father-son-predictor}
+fit <- galton_heights %>% lm(son ~ father, data = .) 
+y_hat <- predict(fit, se.fit = TRUE)
+names(y_hat)
+```
+
+
+### Explained variance
+
+Any dataset will give us estimates of the model, but how well does the model represent our data?
+To investigate this we can compute quality metrics and visually assess the model, which is explained later.
+
+Under the linear regression assumptions, the conditional standard deviation is:
+  
+$$
+  \mbox{SD}(y \mid x ) = \sigma_y \sqrt{1-\rho^2} 
+$$
+  
+  To see why this is intuitive, notice that without conditioning, $\mbox{SD}(y) = \sigma_y$, we are looking at the variability of all the sons. But once we condition, we are only looking at the variability of the sons with the same father's height (for instance all those with a 72-inch, father). This group will tend to have similar heights so the standard deviation is reduced.
+  
+  This is usually quantified in terms of proportion of variance. So we say that $X$ explains $1- (1-\rho^2)=\rho^2$ (the Pearson correlation squared) of the variance. The proportion of variance explained by the model is commonly called the _coefficient of determination_ or $R^2$. Another way of deriving $R^2$ is described in the following steps:
+
+First, we compute the model predictions:
+$$\hat{y}_i = \hat{\beta_0} + \hat{\beta_1} x_i .$$
+
+Then, we compute the _residuals_ (by comparing the predictions with the actual values)
+$$\hat{\epsilon}_i = \hat{y}_i - y_i ,$$
+
+and the _residual sum of squares_
+$$RSS = \sum_{i=1}^N \hat{\epsilon}_i^2 .$$
+
+Lastly, we can compare the _residual sum of squares_ to the total _sum of squares_ (_SS_) of $y$
+$$R^2 = 1 - \frac{\sum_{i=1}^N \hat{\epsilon}_i^2}{\sum_{i=1}^N (y_i - \bar{y})^2} = 1 - \frac{RSS}{SS} .$$
+
+It can take any value between 0 and 1, since the sum of squares represents the variation around the global mean and the residual sum of squares represents the variation around the model predictions.
+In case the model learned no variation, it learned at least the global mean. In this case the sum of squares and the residual sum of squares are equal and $R^2 = 0$.
+In case the model is perfect, the residuals are zero and hence the second term vanishes and the $R^2$ becomes 1.
+
+The $R^2$ is usually best combined with a scatter plot of $y$ against $\hat{y}$.
+
+```{r}
+
+m <- lm(son ~ father, data = galton_heights)
+r2 <- summary(m)$r.squared
+
+ggplot(galton_heights, aes(x=predict(m), y=son)) + geom_point() +
+    geom_abline(intercept=0, slope=1) +
+    geom_text(aes(x=67, y=77, 
+                  label=deparse(bquote(R^2 == .(signif(r2, 2))))
+                  ), parse=TRUE) +
+    labs(x="Predicted height", y="height") 
+```
+
+
+### Testing the relationship between $y$ and $x$
+
+The LSE is derived from the data $y_1,\dots,y_n$, which are a realization of random variables. This implies that our estimates are random variables. Using the assumption of independent Gaussian noise, we obtain the following distribution:
+
+$$ p(\hat \beta) = N(\beta, \sigma^2/ns^2_x)$$
+
+Hence, if the modeling assumptions hold, the estimates are unbiased, meaning that their expected value are the true values of the parameter $\E[\hat \beta] = \beta$. Moreover they are consistent, meaning that  for infinitely large sample size they converge to the true values.
+
+Another result allows us to build a hypothesis test, namely:
+$$p\left(\frac{\hat{\beta} - \beta}{\hat{se}(\hat{\beta})}\right) = t_{n-2}\left(\frac{\hat{\beta} - \beta}{\hat{se}(\hat{\beta})}\right)$$
+where $t_{n-2}$ denotes the student's $t$ distribution with $n-2$ degrees of freedom.
+
+
+Remember, the p-value of a statistical test is the **probability** of the value of a **test statistic** being at least as extreme as the one observed in our data **under the null hypothesis**.
+
+In our case we can formulate the null hypothesis, that $y$ does not depend on $x_i$ as follows: 
+
+* The null hypothesis for parameter $\beta_i$ is $H_0: \beta_i = 0$
+* The test statistic is $\hat{t} = \frac{\hat{\beta} - \beta_i}{\hat{se}(\hat{\beta})} = \frac{\hat{\beta}}{\hat{se}(\hat{\beta})}$
+* The probability under the null model is $P(t \geq \hat{t}), \mbox{where } t \sim t_{n-2}$
+
+To confirm a linear relationship between $y$ and $x$, we need to reject the null hypothesis at significance level $\alpha$ (= 0.05):
+
+* Accept $H_0$ if $P(|t| \geq |\hat{t}|) > \alpha$
+* Reject $H_0$ if $P(|t| \geq |\hat{t}|) \leq \alpha$
+
+Now the  question remains, how do we do this in R? Luckily the `summary(fit)` function helps us here. It reports t-statistics (`t value`) and p-values (`Pr(>|t|)`) for each estimate.
+
+
+```{r}
+  lm(son ~ father, data = galton_heights) %>% 
+  summary %>% .$coef
+```
+
+
+## Multivariate regression
+
+Since Galton's original development, regression has become one of the most widely used tools in data science. One reason for this has to do with the fact that regression permits us to find relationships between two variables taking into account the effects of other variables. This has been particularly popular in fields where randomized experiments are hard to run, such as economics and epidemiology. 
+
+When we are not able to randomly assign each individual to a treatment or control group, confounding is particularly prevalent. For example, consider estimating the effect of eating fast foods on life expectancy using data collected from a random sample of people in a jurisdiction. Fast food consumers are more likely to be smokers, drinkers, and have lower incomes. Therefore, a naive regression model may lead to an overestimate of the negative health effect of fast food. So how do we account for confounding in practice? In this section we learn how linear regression against multiple variables, or multivariate regression, can help with such situations and can be used to describe how one or more variables affect an outcome variable. 
+
+
+### A multivariate example: The baseball dataset
+
+```{r,echo=FALSE}
+img_path <- "assets/img/"
+```
+
+We will use data from baseball, leveraging a famous real application of regression which has led to improved estimations of baseball player values in the 90's ^[A lengthier case study on this dataset is given in R. Irizzarys' book.] Here we will not build a model of player value but, instead, we will focus on predicting the game scores of a team. 
+
+#### Baseball basics
+
+The goal of a baseball game is to score more runs (points) than the other team. Each team has 9 batters that have an opportunity to hit a ball with a bat in a predetermined order. After the 9th batter, the first batter bats again, then the second, and so on.
+
+Each time a batter has an opportunity to bat, the other team's _pitcher_ throws the ball and the batter tries to hit it. The batter either makes an _out_ and returns to the bench or the batter hits it. 
+
+When the batter hits the ball, the batter wants to pass as many _bases_ as possible before the opponent team catches the ball. There are four bases with the fourth one called _home plate_. Home plate is where batters start by trying to hit, so the bases form a cycle.
+
+```{r, echo = FALSE, out.width="50%"}
+## source: http://quarterlyspeedbump.com/wp-content/uploads/2012/03/Baseball_Diamond1.jpeg
+
+knitr::include_graphics(file.path(img_path,"Baseball_Diamond1.png"))
+```
+
+(Courtesy of Cburnett^[https://en.wikipedia.org/wiki/User:Cburnett]. CC BY-SA 3.0 license^[https://creativecommons.org/licenses/by-sa/3.0/deed.en].)
+<!--Source: [Wikipedia Commons](https://commons.wikimedia.org/wiki/File:Baseball_diamond_simplified.svg))-->
+
+A batter who stops at one of the intermediate three bases can resume running along the base cycle when next batters hit the ball. A batter who goes around the bases and arrives home (directly or indirectly with stops at intermediate bases), scores a **run**. 
+
+We want to understand what makes a team score well on average. Hence, the average number of runs is our response variable. 
+
+#### Home runs
+
+A **home run** happens when the batter who hits the ball goes all the way home. This happens when the ball is hit very far, giving time for the batter to perform the full run. It is very good for the score because not only the batter scores a run, but the other players of the same team who are already on the pitch standing at intermediate bases typically finish their runs too.  
+
+Not surprisingly, average home runs positively correlate with average runs:
+
+```{r runs-vs-hrs, message=FALSE, warning=FALSE}
+library(Lahman)
+Teams <- as.data.table(Teams)
+Teams_filt <- Teams[yearID %in% 1961:2001]
+Teams_filt[,c('HR_per_game','R_per_game') := list(HR/G, R/G)]%>%
+  ggplot(aes(HR_per_game, R_per_game)) + 
+  geom_point(alpha = 0.5) +
+  geom_smooth(method="lm")
+```
+
+A univariate linear regression gives the following parameter estimates:
+
+```{r lm-runs-vs-hrs, message=FALSE, warning=FALSE}
+fit_r_vs_hr <- lm(R_per_game~HR_per_game, data=Teams_filt)
+fit_r_vs_hr
+```
+So this tells us that teams that hit 1 more HR per game than the average team, score `r coef(fit_r_vs_hr)[2]` more runs per game than the average team. Given that the most common final score is a difference of a run, this can certainly lead to a large increase in wins. Not surprisingly, HR hitters are very expensive. Because we are working on a budget, we will need to find some other way to increase wins. So, in the next section, we move our attention to another possible predictive variable of runs.
+
+
+#### Base on balls
+Obviously the pitcher is encouraged to throw the ball at the batter. This is achieved thanks to the so-called **base on balls** rule stating that if the pitcher fails to throw the ball through a predefined area considered to be hittable (the strikezone), the batter is permitted to go to the first base.
+
+A base on ball is not as great as a home run but it makes the batter progress by one base so it should be rather beneficial for the score. Let us now scatter plot average runs against average base on balls:
+
+```{r runs-vs-bb}
+Teams_filt[,BB_per_game := BB/G]%>%
+  ggplot(aes(BB_per_game, R_per_game)) + 
+  geom_point(alpha = 0.5) +
+  geom_smooth(method="lm")
+```
+
+Here, again we see a clear association. If we find the regression line for predicting runs from bases on balls, we a get slope of:
+
+```{r, warning=FALSE, message=FALSE}
+get_slope <- function(x, y) cor(x, y) * sd(y) / sd(x)
+bb_slope <- Teams_filt[,.(slope = get_slope(BB_per_game, R_per_game) )] 
+bb_slope 
+```
+So does this mean that if we go and hire low salary players with many BB, and who therefore increase the number of walks per game by 2, our team will score `r round(bb_slope*2, 1)` more runs per game? 
+
+In fact, it looks like BBs and HRs are also associated:
+
+```{r bb-vs-hrs}
+Teams_filt %>%
+  ggplot(aes(HR_per_game, BB_per_game)) + 
+  geom_point(alpha = 0.5) +
+  geom_smooth(method="lm")
+```
+
+We know that HRs cause runs because, as the name "home run" implies, when a player hits a HR they are guaranteed at least one run. Could it be that HRs also cause BB and this makes it appear as if BB cause runs? 
+
+It turns out that pitchers, afraid of HRs, will sometimes avoid throwing strikes to HR hitters. As a result, HR hitters tend to have more BBs and a team with many HRs will also have more BBs. Although it may appear that BBs cause runs, it is actually the HRs that cause most of these runs. We say that BBs are _confounded_ with HRs. Nonetheless, could it be that BBs still help? To find out, we somehow have to adjust for the HR effect. Linear regression will help us parse all this out and quantify the associations. This can in turn help determine what players to recruit.
+
+#### Understanding confounding through stratification 
+We first untangle the direct from the indirect effects step-by-step by stratification to get a concrete understanding of the situation. 
+
+A first approach is to keep HRs fixed at a certain value and then examine the relationship between BB and runs. As we did when we stratified fathers by rounding to the closest inch, here we can stratify HR per game to the closest tenth. We filter out the strata with few points to avoid highly variable estimates:
+
+```{r}
+dat <- Teams_filt[,HR_strata := round(HR/G, 1)][HR_strata >= 0.4 & HR_strata <=1.2]
+```
+
+and then make a scatterplot for each strata:
+
+```{r runs-vs-bb-by-hr-strata, out.width="80%", fig.height=5}
+dat %>% 
+  ggplot(aes(BB_per_game, R_per_game)) +  
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm") +
+  facet_wrap( ~ HR_strata) 
+```
+
+Remember that the regression slope for predicting runs with BB was `r round(bb_slope, 1)`. Once we stratify by HR, these slopes are substantially reduced:
+
+```{r}
+dat[order(HR_strata),.(slope = get_slope(BB_per_game, R_per_game)), by='HR_strata'] 
+```
+
+The slopes are reduced, but they are not 0, which indicates that BBs are helpful for producing runs, just not as much as previously thought ^[One can extract data of so-called singles, i.e the number of runs reaching the first base, and find that the effects on runs are similar than for BBs, which is consistent with the intuition that BB directly contributes to runs because it brings the batter to the first base. See R. Irizzary's book.]
+
+Although our understanding of the application tells us that HR cause BB but not the other way around, we can still check if stratifying by BB makes the effect of BB go down. To do this, we use the same code except that we swap HR and BBs to get this plot:
+
+```{r runs-vs-hr-by-bb-strata, out.width="100%",echo=FALSE}
+dat <- Teams_filt[,.(BB_strata = round(BB/G,1), 
+         HR_per_game = HR/G,
+         R_per_game = R/G)][BB_strata >= 2.8 & BB_strata <= 3.9]
+dat %>% 
+  ggplot(aes(HR_per_game, R_per_game)) +  
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm") +
+  facet_wrap( ~ BB_strata) 
+```
+
+In this case, the slopes are reduced a bit, which is consistent with the fact that BB do in fact cause some runs:
+
+```{r}
+dat[order(BB_strata),.(slope = get_slope(HR_per_game, R_per_game)), by = 'BB_strata']
+```
+
+Compared to the original:
+
+
+```{r}
+hr_slope <- Teams_filt[,.(slope = get_slope(HR_per_game, R_per_game))]
+hr_slope
+```
+
+####  Data suggests additive effects
+
+It is somewhat complex to be computing regression lines for each strata. We are essentially fitting models like this:
+
+$$
+\mbox{E}[R \mid BB = x_1, \, HR = x_2] = \beta_0 + \beta_1(x_2) x_1 + \beta_2(x_1) x_2
+$$
+
+with the slopes for $x_1$ changing for different values of $x_2$ and vice versa. But is there an easier approach?
+
+If we take random variability into account, the slopes in the strata don't appear to change much. If these slopes are in fact the same, this implies that $\beta_1(x_2)$ and $\beta_2(x_1)$ are constants. This in turn implies that the expectation of runs conditioned on HR and BB can be written like this:
+
+$$
+\mbox{E}[R \mid BB = x_1, \, HR = x_2] = \beta_0 + \beta_1 x_1 + \beta_2 x_2
+$$
+
+This model suggests that if the number of HR is fixed at $x_2$, we observe a linear relationship between runs and BB with an intercept of $\beta_0 + \beta_2 x_2$. Our exploratory data analysis suggested this. The model also suggests that as the number of HR grows, the intercept growth is linear as well and determined by $\beta_1 x_1$. 
+
+In this analysis, referred to as _multivariate regression_, you will often hear people say that the BB slope $\beta_1$ is _adjusted_ for the HR effect. If the model is correct then confounding has been accounted for. But how do we estimate $\beta_1$ and $\beta_2$ from the data? For this, we need to derive some theoretical results that generalize the results from univariate linear regression.
+
+### Fitting multivariate regression
+
+For a data set $(\x_i, y_i)$ with $i \in \{1 \dots n\}$ and $\x_i$ a vector of length $p$, the multiple linear regression model is defined as:
+$$y_i = \beta_0 + \sum_{j=1}^p \beta_j x_{i,j} + \epsilon_i$$
+with free parameters $\beta_0$ and $\bs{\beta}$ and a random error
+$\epsilon_i \sim N(0, \sigma^2)$ that is i.i.d. (independently and identically  distributed).
+
+The model can be written in matrix notation
+$$ \y = \X \bs{\beta} + \bs{\epsilon} $$
+here the matrix $\X$ is of dimension $(n \times p + 1)$ where each row $i$ corresponds to the vector $\x_i$ with a 1 prepended to accommodate the intercept. The error is distributed as $\bs{\epsilon} \sim N(\mathbf{0}, \bs\Sigma)$ as a multivariate Gaussian with covariance $\bs\Sigma = \sigma^2 \I$ (i.i.d).
+
+In the same way as for the simple linear model, parameters can be estimated by finding the LSE. For multiple linear regression, we obtain
+$$\hat{\bs{\beta}} = (\X^\top\X)^{-1}\X^\top \y$$
+$$\hat{\sigma}^2 = \frac{\hat{\bs\epsilon}^\top\hat{\bs\epsilon}}{n - p} .$$
+
+As for the univariate case, we have that, under the assumptions of the model, the least squares estimates are unbiased. This means that, if the data truly originates from such a data generative model, the expected value of the estimates over repeated random realizations, equals the true underlying parameter values:
+
+$$E[\hat \beta_j] = \beta_j$$
+
+Moreover, the estimates are consistent: They converge to the true values with increasing sample sizes:
+
+$$\hat\beta_j \xrightarrow[n \to \infty]{} \beta_j$$
+
+Remarkably, this holds true even if the explanatory variables are correlated (unless perfectly correlated, in which case the parameters become not identifiable).
+
+To fit a multiple linear regression model in R, we can use the same `lm` function as for the simple linear regression, we only need to adapt the formula to include all predictor variables. Here is the application to fitting the average runs against the home runs and the bases on balls:
+
+```{r, fig.height=5, fig.width=5}
+fit <- lm(R_per_game ~ HR_per_game + BB_per_game,
+          data=Teams_filt)
+coef(fit)
+```
+
+We see that the coefficient for home runs and for bases on balls are similar to those we tediously estimated by stratifications.
+
+The object `fit` includes more information about the fit, including statistical assessments. We can use the function `summary` to extract more of this information:
+
+```{r}
+summary(fit)
+```
+
+Other useful functions to extract information from `lm` objects are
+
+* `predict` to compute the fitted values or predict response for new data
+* `resid` to compute the residuals
+
+To understand the statistical assessments included in the summary we need to remember that the LSE are random variables. Mathematical statistics gives us some ideas of the distribution of these random variables.
+
+
+### Testing sets of parameters 
+#### Nested models
+Hypothesis testing can be done on individual coefficients of a multivariate regression, with an appropriate t-test just as in the univariate case.
+But testing individual parameters may not suffice. Sometimes, we are interested in testing an entire set of variables. We then compare so-called **nested models**. We compare a full model $\Omega$ to a reduced model $\omega$ where model $\omega$ is a special case of the more general model $\Omega$. For multivariate regression, this typically consists of setting a set of parameters to 0 in the reduced model.
+
+Consider the following example model: $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3$
+
+For testing whether the coefficients of two explanatory variables $x_1$ and $x_2$ should be 0, one would consider:
+
+- Full model: all $\beta$'s can take any value.
+- Reduced model: $\beta_1 = \beta_2 = 0$ (only the mean $\beta_0$ and the third parameter $\beta_3$ can take any value).
+
+#### F-test and ANOVA
+The F-test can be applied to compare two nested linear regressions. It is based on comparing the fit improvements as measured by the change residual sum of squares. The idea is that the larger model, which has more parameters, always fits better to the data. With the F-test, we ask whether this improvement is significant under the null hypothesis that the smaller model is the correct one.
+
+$$F = \frac{(RSS_{\omega} - RSS_{\Omega}) / (q - p)}{RSS_{\Omega} / (n - q)} , $$
+
+where $q$ is the number of parameters in (dimension of) model $\Omega$ and $p$ the number of parameters in (dimension of) model $\omega$ and $RSS$ designates residual sums of squares.
+
+The statistic $F$ is distributed according to the F distribution with (q - p) and (n - q) degrees of freedom respectively. We reject the LRT if $F$ is larger than the critical value corresponding to the significance level. This analysis is also frequently referred to as "Analysis of Variance" or **ANOVA**.
+
+#### Example: Testing the difference of means in 3 groups {-}
+
+As an example let us consider testing whether fuel consumption of cars depend on the number of cylinders using the `mtcars` dataset: 
+
+```{r lecture12-linear-regression-mpg, echo=FALSE, fig.height=5, fig.width=5}
+data("mtcars")
+boxplot(mpg ~ factor(cyl), data=mtcars, xlab="Cylinders", ylab="Miles per Gallon")
+```
+
+In this example, we are interested in whether there is a difference in the fuel consumption of cars depending on the number of cylinders in the car.
+
+For this purpose, we will work with the following model:
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 .$$
+
+Here, $x_1$ and $x_2$ will be indicator variables:
+
+- group "6 cylinders": $x_1 = 1$
+- group "8 cylinders": $x_2 = 1$
+
+We want to test the effect of both indicators at the same time:
+
+- **H0:** $\beta_1 = \beta_2 = 0$
+- Full model: $\Omega$ is the space where all three $\beta$ can take any value.
+- Reduced model: $\omega$ is the space where only $\beta_0$ can take any value.
+
+In R, we can easily test this:
+
+```{r}
+data("mtcars")
+## for the example we need a factor
+## else it will be interpreted as number
+mtcars$cyl <- as.factor(mtcars$cyl)
+## fit the full model
+full <- lm(mpg ~ cyl, data=mtcars)
+## have a look at the model matrix
+## which is automatically created
+head(model.matrix(full))
+## fit the reduced model (only the intercept "1")
+reduced <- lm(mpg ~ 1, data=mtcars)
+```
+
+```{r}
+## compare the models
+anova(reduced, full)
+```
+
+From the result, we can see that the full model models the data significantly better than the reduced model containing only the intercept. Therefore, we can conclude that there is a difference in the means of the 3 groups.
+
+
+## Diagnostic plots {#lin-reg-diagnostic}
+
+The assumptions of a mathematical model never hold exactly in practice. The questions for the practitioners are threefold:  1) How badly are the assumptions violated on the dataset at hand? 2) What are the implications for the claimed conclusions? How can the issue be addressed?
+
+The assumptions of linear regressions are:
+
+* The expected values of the response are a linear combinations of the explanatory variables
+* Errors are identically and independently distributed.
+* Errors follow a normal distribution.
+
+We will see that two diagnostic plots will be helpful: the residual plot and the q-q plot of the residuals.
+
+### Assessing non-linearity with residual plot
+**Diagnostic plot**
+
+Non-linearity is typically revealed by noticing that the average of the residual depends on the predicted values. A smooth fit (`geom_smooth` default) on the residual plot can help spotting systematic non-linear dependencies (See Figure \@ref(fig:non-linear-qc)).
+
+```{r non-linear-qc, fig.height=6, fig.width=8, echo=FALSE,fig.cap="Detecting non-linearity. (Left). Observed value  against predictions for linear fit on data generated as y = x^3 + noise. The fitted line is shown in blue. (Right) Residual versus predicted value of the same data. A smooth fit to the residual is shown in blue. The smooth fit highlights that the errors depend on the predicted expected values, indicative of non-linearity."}
+library(patchwork)
+x <- seq(0,2.5, length.out=100); y <- rnorm(length(x), mean=x^3)
+m <- lm(y ~ x); epsilon_hat <- residuals(m)
+y_hat <- predict(m)
+p1 <- ggplot(data=NULL, aes(y_hat, y)) + geom_point() + 
+    geom_smooth(method="lm", formula=y~x) + labs(x=expression(hat(y)), y="y")
+p2 <- ggplot(data=NULL, aes(y_hat, epsilon_hat)) + geom_point() + 
+    geom_smooth(formula=y~x) + labs(x=expression(hat(y)), y="residual") +
+  geom_hline(yintercept=0)
+p1 + p2
+```
+
+**So what?**
+The implications of non-linearity depends on the application purposes:
+
+* Predictions are suboptimal. They could be improved with a more complex model. However, they may be good enough for the use case, and they would not necessarily deteriorate on unseen data.  
+
+* Explained variance is underestimated.
+
+* The i.i.d assumption is violated: The residuals depend on the predicted mean, suggesting that the errors depend on $\E[y|x]$ and therefore on each other. Therefore, statistical tests are flawed.
+
+* Conditional dependencies can be affected. To see the latter assume a model in which two variables $x$ and $y$ depend on a common cause $z$ in a non-linear fashion (eg. $y=z^2 + \epsilon$ and $x=z^2+\epsilon'$). These two variables $x$ and $y$ are independent conditioned on their common cause $z$. However, a linear regression of $y$ on $x$ and $z$ would fail to discard the contribution of $x$.  
+
+**What to do?**
+If non-linearity is revealed in the fit, one can either transform the explanatory variables or the response (eg log-transformtaion, powers, etc). Note that the appropriate transformation is difficult to know in practice and finding it likely requires trying out several options. The `formula` in R implements a few convenience functions to build such non-linear transformation on the fly while calling lm(). For instance, the R call: `model <- lm(y ~ poly(x,3))` fits a polynomial of degree 3.
+
+### When error variance is not constant: Heteroscedascity
+It happens not so rarely that the variance of the residuals is not constant across all data points. This property is called **heteroscedascity**. Heteroscedascity violates the i.i.d assumption of the errors.
+
+**Diagnostic plot**
+
+The residual plots can help spotting when error variance depends on response mean. Here is a synthetic example:
+
+```{r, fig.height=5, fig.width=5}
+x <- 1:100
+y <- rnorm(100, mean=5 * x, sd=0.1*x)
+m <- lm(y ~ x)
+ggplot(data=NULL, aes(predict(m), resid(m))) + 
+    geom_point() + geom_abline(intercept=0, slope=0) +
+    labs(x=expression(hat(y)), y="residual")
+```
+
+**So what?**
+For prediction, the problem may or not be a real issue. Indeed the fit can be driven by a few data points because the least squares errors give too much importance to the points with high noise. This is particularly a problem with low number of points in areas with large noise.
+
+As the residuals are not i.i.d., the statistical tests are flawed.
+
+**What to do?**
+
+In case of heteroscedascity, one can try to transform the response variable $y$, such as: log-transformation, square root, or variance stabilizing transformation ^[https://en.wikipedia.org/wiki/Variance-stabilizing_transformation]. 
+
+However, as before, the appropriate transformation is difficult to know in practice and finding it likely requires trying out several options. Alternatively, one can use methods with a different noise model. One possibility is to consider weighted least squares, when there is the possibility to estimate before end the relative error variances on the data. This is sometimes the case, for instance, if one has access to experimental uncertainties. Another direction is to use generalized linear models ^[https://en.wikipedia.org/wiki/Generalized_linear_model].
+
+### Gaussianity: Q-Q-plot of the residuals
+The Gaussian assumption of the errors is key to all statistical tests. An implication that the errors follow a Gaussian distribution is that the residuals also follow a Gaussian distribution.
+
+**Diagnostic plot**
+
+We use here a QQ-plot of the residuals against the normal distribution.
+
+The R default function `qqnorm()` and its companion `qqline()` generate qq-plot against a Gaussian fitted to the input vector. We do not have to worry about the mean and the standard deviation of the input vector. Here is a "good" example based on simulated data.
+
+```{r, fig.height=5, fig.width=5}
+set.seed(0)
+x <- 1:100
+y <- rnorm(100, mean=5 * x, sd=10)
+m <- lm(y ~ x)
+qqnorm(residuals(m))
+qqline(residuals(m))
+```
+
+And here is a "bad" example based on a simulated example, in which the errors are Student t-distributed with degree of freedom 1:
+
+```{r, fig.height=5, fig.width=5}
+set.seed(0)
+x <- 1:100
+y <- x + rt(20, df=1)
+m <- lm(y ~ x)
+qqnorm(residuals(m))
+qqline(residuals(m))
+```
+
+**So what?**
+If Gaussianity of the residuals is not satisifed, this means that the noise model is wrong. This can have the following practical implications:
+
+* With enough data, the regression lines might not be too severely affected the least squares estimates converge to the expected values. Applying least squares to fit and predict does not depend on the Gaussian assumption! 
+
+* Hypothesis testing can be flawed.
+
+**What to do**
+We may work with fundamentally non-Gaussian data (like Poisson distributed data, which are count data), or data with long tails and outliers. If one has an idea of what could be a better noise model, consider a generalized linear model with another distribution. Alternatively, use case resampling to estimate confidence intervals.  
+
+## Conclusions
+
+Linear models:
+
+* are a powerful and versatile tool
+* can be used to
+  * predict future data
+  * quantify explained variance
+  * assess linear relations between variables (hypothesis testing)
+  * control for confounding (multiple linear regression)
+* assumptions need to be checked (diagnostic plots)
+* can be generalized for different distributions (GLMs for classification: next lecture)
+

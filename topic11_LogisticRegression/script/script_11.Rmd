@@ -1,0 +1,696 @@
+\newcommand{\bs}{\boldsymbol} 
+\newcommand{\m}{\mathbf}
+
+\newcommand{\w}{\m w} 
+\newcommand{\x}{\m x}
+\newcommand{\y}{\m y}
+
+\newcommand{\X}{\m X} 
+\newcommand{\I}{\m I} 
+
+\newcommand{\E}{\operatorname{E}} 
+\newcommand{\Var}{\operatorname{Var}} 
+
+
+# Logistic Regression {#chap-log-reg}
+
+In the previous Chapter, we described linear regression to predict a quantitative response $y$ using explanatory variables $x_1,...,x_p$.
+
+However, in many applications the response $y$ is a category. Examples of prediction tasks where the response is categorical include:
+ 
+ * diagnostic (to have a disease or not)
+ * spam email, not spam email
+ * handwritten digit recognition (0,1,...,9)
+ * speech recognition (words)
+
+Those prediction tasks for which the response is a category are called _classification_ tasks.
+A special type of _classification_, with exactly two categories, is called _binary classification_.
+This chapter focuses on _binary classification_, where we encode $y \in \{0, 1\}$ the two categories.
+
+
+## A univariate example: predicting sex given the height
+
+The students of this course have provided us with data on their heights, sex and height of their parents.
+A first classification task could be to predict the student's sex given the student's height.
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.width = 4, fig.height=4) 
+```
+```{r, echo=TRUE, fig.width = 4}
+library(dslabs)
+library(ggplot2)
+library(magrittr)
+library(data.table)
+library(dplyr)
+
+heights <- fread("extdata/height.csv") %>% na.omit() %>%
+  .[, sex:=as.factor(toupper(sex))]
+head(heights)
+```
+
+We can attempt to do so using linear regression. If we assign a 1 for the male category and a 0 for the female category, then we can fit a linear regression whose prediction gives us a value for the category and whose input is the height of the student. 
+Let us plot the predicted linear regression line and the (height, sex) pairs.
+
+```{r, echo=TRUE}
+heights[, y:=as.numeric(sex == "M")]
+lm_fit0 <- lm(y~height, data=heights)
+ggplot(heights, aes(height, y)) + 
+  geom_point() + 
+  geom_abline(intercept = lm_fit0$coef[1], slope = lm_fit0$coef[2], col="grey") +
+  scale_y_continuous(limits=c(-0.5,1.5))
+```
+
+Looking at the figure, we realize that linear regression is not appropriate for this classification task. While $y$ is only defined for the two classes 0 and 1, the regression line does not make that assumption.
+
+We need to step back and consider a different modeling approach for categorical responses.
+Instead of modeling the response category directly, we could model the proportion of males per height. The following code does exactly this using 2-cm bins to stratify height:
+
+```{r}
+heights[, height_bins := cut(height, breaks=seq(min(height)-1, max(height), 2))]
+heights[, mean_height_bins := mean(height), by=height_bins]
+props <- heights[, prop:=mean(sex=="M"), by=height_bins]
+
+lm_fit <- lm(prop ~ height, data=props)
+
+ggplot(props, aes(mean_height_bins, prop)) +
+  geom_point() +
+  xlab("Height (cm)") +
+  ylab("Proportion of men") +
+  geom_abline(intercept = lm_fit$coef[1], slope = lm_fit$coef[2], col="grey")  +
+  scale_y_continuous(limits=c(-0.5,1.5))
+```
+
+Modeling the proportion of classes rather than the classes themselves already looks a lot better.
+However, we still have the problem that the predictions can be outside of the [0,1] interval where the proportions are not defined.  
+Furthermore, the relationship seems to smoothly bend in an S-shape fashion between bins with only females for short heights, and bins with only males for tall heights. This S-shape is not well captured with a linear fit.
+
+Let us now consider another scale for the response, in search for some better linear relationship. Instead of looking at the probabilities of male per stratum, let us consider the odds. The _odds_ for a binary variable $y$ are defined as $\frac{P(y)}{1-P(y)}$. We have introduced this concept when defining the Fisher's test \@ref(fisher-test).
+
+We can estimate the overall population odds easily using the table of males and females:
+
+```{r, echo=TRUE}
+table(heights$sex)
+```
+
+If we take as an estimate for $p(\text{male})$ the frequency of males in our dataset then, the odds for a student to be a male is simply estimated as the male to female ratio:
+
+$\text{Population odds} \simeq \text{male:female} = 131 / 122 = 1.07$.
+
+To investigate how the odds depend on height we can estimate them for each height stratum:
+
+```{r}
+heights[, odds := sum(y==1)/sum(y==0), by=height_bins]
+```
+
+Plotting the odds in logarithmic scale suggests a linear relationship with height (Figure \@ref(fig:odds-vs-height)). 
+Note that the odds are poorly estimated for high and low values of height, as there are no males in the low strata (division by 0) and no females in the high strata. Hence, we shall ignore the most extreme bins for now.
+
+```{r odds-vs-height, fig.cap="Odds male:female versus height (logaritmic y-scale). The grey halved dots indicate censored bins which have either 0 males or 0 females leading to infinite log-odds estimates."}
+library(scales)
+breaks <- 10^(-10:10)
+minor_breaks <- rep(1:9, 21)*(10^rep(-10:10, each=9))
+
+p_log_odds <- ggplot(props, aes(mean_height_bins, odds,
+                  color=(!(odds==0 | is.infinite(odds))))) +
+    geom_point() +
+    xlab("Height (cm)") +
+    ylab("Male:Female") +
+    scale_y_log10(breaks=breaks, minor_breaks =minor_breaks) + 
+    annotation_logticks(side="l") +
+    scale_color_manual(values=c("#999999","#000000")) +  theme(legend.position = "none")
+
+p_log_odds
+```
+
+These observations indicate that, approximately^[It turns out that Equation \@ref(eq:logit-odd-lm) is exact assuming that the distribution of the height for either sex is Gaussian and that both have the same variance. A good theoretical exercise is to prove it. As a hint use Bayes theorem. Moreover, these assumptions seem to hold in our data. Check it. Hint: use qqnorm(), qqline() and the sd() functions.]:
+
+\begin{align}
+\log\left(\frac{p(\text{male})}{1-p(\text{male})}\right) \simeq \beta_0 + \beta_1 \text{height}
+(\#eq:logit-odd-lm)
+\end{align}
+
+This makes apparent a useful function for classification tasks, called the _logit_ function, which is defined as :
+$$
+\operatorname{logit}(z) = \log(\frac{z}{1-z}), z\in(0,1).
+$$
+
+Its reverse function, called the _logistic_ function or _sigmoid_ function is equally often used and important. The sigmoid function is denoted  $\sigma (z)$ and it is defined as:
+
+$$\sigma (z) = \frac{1}{1+e^{-z}}, z\in \mathbb{R}.$$
+
+The sigmoid function is named so due to its S-shaped graph (Figure \@ref(fig:sigmoid)). It is symmetric and maps real numbers to the $(0,1)$ interval. It is often found in statistics and in physics, as it can describe a variety of naturally occurring phenomena. 
+
+```{r sigmoid, fig.width=3, fig.height=2,fig.cap="The logistic or sigmoid function"}
+df <- data.table(z=seq(-5,5, length.out=1000))
+df[,y:=1/(1+exp(-z))]
+ggplot(df, aes(z, y)) +
+  geom_line() +
+  xlab("z") +
+  ylab(expression(sigma(z)) ) 
+```
+
+Hence, we found a linear relationship! We could in principle make predictions given height of log-odds and, passing them through the sigmoid, of probabilities of being a male. However, the approach we laid down is not satisfactory. It requires some arbitrary binning. We are not able to make use of the data in the most extreme bins which have either no male or no female. Also the log-odds of some bins are better estimated than others. Estimating odds of say 0.5 by observing 1 males and 2 females is not as precise as if we observe 100 males and 200 females. This uncertainty is not factored in with our approach. We need to step back to theory.
+
+### From linear regression to logistic regression
+Remember that in Section \@ref(ML-LSE), we mentioned that linear regression can be derived equivalently with the least squares criterion or with the maximum likelihood criterion. It turns out that it is the maximum likelihood criterion that will allow us to derive a principled way to model the classification problem. To see this, we start from the likelihood of the linear regression model and will adapt it to our new problem. This was (Section \@ref(ML-LSE)):
+
+\begin{equation}
+\begin{aligned}
+p(\y | \X) &= \prod_i p(y_i | \x_i) \mbox{ conditional independence} \\
+p(y_i | \x_i) &= N(y_i | \mu_i, \sigma^2) \\
+\mu_i &= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} 
+\end{aligned}
+(\#eq:linreg-model)
+\end{equation}
+
+Hence, linear regression models $\mu_i := E(y_i|x_{i1},...x_{ip})$, the _expectation_ of the outcome _conditioned_ on the features, in particular, such expectation is obtained as a linear combination of the features. 
+
+Rather than predicting an unbounded continuous outcome given some features, the classification problem can be approached by predicting the probability of a class given some features (ex. predicting the probability of the student being male given that the height is 160 cm). 
+Modeling a probability with a linear function is not ideal because we can make predictions <0 or >1. Logistic regression addresses this problem by using the logistic function discussed above, which maps linear combinations of features to the (0,1) interval.
+
+A logistic regression models the data:
+
+\begin{equation}
+\begin{aligned}
+p(\y | \X) &= \prod_i p(y_i | x_i) \mbox{ conditional independence} \\
+p(y_i | \x_i) &= B(y_i | 1,\mu_i)
+\\
+\mu_i:= \E[y_i|\x_i] &= \sigma(\beta_0 + \sum_{j=1}^p \beta_j x_{ij}) 
+\end{aligned}
+(\#eq:logreg-model)
+\end{equation}
+ 
+where $B(\y_i | 1, \mu_i)$ stands for the binomial distribution for 1 trial and probability $\mu_i$, which in this particular case, where the number of trials is one, is also called a Bernoulli distribution. The Bernoulli distribution is a discrete distribution where there are two possible outcomes: failure ($y=0$) or success ($y=1$) (ex. 1 trial of tossing a coin: heads or tails). The success occurs with probability $\mu$ and failure occurs with probability $1-\mu$. 
+
+In the case of logistic regression, the probability $\mu$ is the expectation of the success class (y=1) conditioned on the features, $\E(y_i=1|x_{i1}, ..., x_{ip}) = \mu_i$.
+
+We can alternatively write an equivalent expression to the latter by using the 
+inverse function of the sigmoid, the _logit_ function:
+
+
+\begin{align}
+\eta_i:= \operatorname{logit}(\mu_i) = \beta_0 + \sum_{j=1}^p \beta_j x_{ij} 
+\end{align}
+
+
+## Maximum likelihood estimates and the cross-entropy criterion  {#ML-CE}
+
+As for linear regression, we estimate the parameters of the model using the maximum likelihood criterion. Plugging the binomial probability^[$B(y_i|1,\mu_i) =  {1 \choose y_i}\mu_i^{y_i}(1-\mu_i)^{(1-y_i)}$]
+ and taking the logarithm, we obtain:
+
+\begin{align}
+\arg \max_{\bs\beta}\prod_i p(y_i|x_i, \bs\beta) &= \arg \max_{\bs\beta}\sum_i \log(B(y_i|1, \mu_i(x_i, \bs\beta)))\\
+&= \arg \min_{\bs\beta} - \sum_i (y_i\log( \mu_i(x_i, \bs\beta)) + (1-y_i)\log(1- \mu_i(x_i, \bs\beta)) 
+\end{align}
+
+The term:
+$$- \sum_i (y_i\log( \mu_i) + (1-y_i)\log(1- \mu_i)$$
+is called the _cross-entropy_ between the model predictions (the predicted probabilities $\mu_i$) and the observations $y_i$.
+
+Hence, maximum likelihood leads to a different minimization objective for classification than for linear regression. For classification, we are not minimizing the squared errors but the cross-entropy.
+
+These minimization objectives are employed by a wide variety of models. Modern neural networks, which model complex non-linear relationships between input and output, also typically use cross-entropy to optimize their parameters for classification tasks and typically use the least squares criterion when it comes to quantitative predictions. 
+
+It turns out that there is no analytical solution to the maximum likelihood estimates of a logistic regression. Instead, algorithms are employed that numerically minimize cross-entropy until reaching parameter values that cannot be optimized further. For logistic regression, such algorithms are pretty fast and robust due to good mathematical properties of the problem which apply in typical real-life datasets. 
+
+## Logistic regression as a generalized linear model
+
+
+Generalized linear models (GLM) generalize linear regression by allowing the linear model to be related to the response variable via a _link_ function and by allowing the magnitude of the variance of each measurement to be a function of its predicted value.
+
+As we have seen in the special case of the logistic regression, which is an instance of a GLM, we changed the linear regression by applying a transformation to the linear combination of the features in order to use it for another type of predictions.
+
+* Logistic regression is one instance of generalized linear models, which all exploit the same idea:
+  * 1. A probability distribution from the exponential family 
+    * Logistic regression: Bernoulli
+  * 2. A linear predictor $\eta = \mathbf{X}\boldsymbol{\beta}$  
+    * Logistic regression: $\operatorname{logit}(\mu_i) = \eta_i = \beta_0 + \sum_{j=1}^p \beta_j x_{ij}$
+  * 3. A link function $g$ such that $\text{E}(y) = \mu = g^{-1}(\eta)$
+    * Logistic regression: $g=\operatorname{logit}$ and $g^{-1}=\operatorname{sigmoid}$
+  
+The inverse of the link function is called the _activation_ function, which in logistic regression is the logistic function. 
+
+Other popular examples of GLMs include Poisson regression ^[Used for instance to model football scores. See, e.g. http://opisthokonta.net/?p=276] and Gamma regression.
+
+
+### Logistic regression with R
+
+To fit a logistic regression to our data we can use the function `glm`, which stands for generalized linear model, with the parameters below. The fitted model can be applied to data (seen or unseen) using ```predict()```. By default it returns the linear predictor $\eta$, or in logistic regression, the logit of the predicted probabilities. Use ```type='response'``` to have the predicted probabilities on the natural scale:
+
+```{r}
+logistic_fit <- glm(y ~ height, data=heights, family = "binomial")
+
+heights[, mu_hat := predict(logistic_fit, heights, type="response")]
+heights
+```
+
+Here are the predicted values using logistic regression (red) compared to a linear regression of the proportions (black).
+Overall, logistic regression fits better to our data and fixes the issue of having predictions outside the [0,1] interval.
+
+
+```{r }
+ggplot(props, aes(mean_height_bins, prop)) +
+  geom_point() +
+  xlab("Height (cm)") +
+  ylab("Proportion of men") +
+  geom_abline(intercept = lm_fit$coef[1], slope = lm_fit$coef[2]) +
+  geom_line(aes(height, mu_hat), col='darkred') +
+  scale_y_continuous(limits=c(-0.5,1.5))
+```
+
+### Overview plot of the univariate example
+
+We finish this section, for didactic purposes, with an overview plot (Figure \@ref(fig:sex-from-height-overview)) from the raw data down to the logistic fit.
+
+```{r sex-from-height-overview, fig.width=8, fig.height=8, fig.cap="Overview of predicting sex from height. From top to bottom: distribution of heights for i) males and ii) females, iii) Male to female ratio in log-scale, and iv) proprotion of males (dots) along with logistic regression fit (red curve). Note that while 2-cm bins are used throughout the plot for visualization purposes, the logistic regression fit in contrast is performed on the raw data, i.e. sex (0/1) versus height."}
+library(patchwork)
+
+ys <- 10
+p_hist_male <- ggplot(heights[sex=='M'], aes(height)) + 
+  geom_histogram() +   
+  scale_x_continuous(limits=c(150,200)) +
+  geom_vline(aes(xintercept = median(height)),color="red", linetype="dashed", size=0.5) + 
+  theme(axis.title.y = element_text(size = ys), axis.title.x=element_blank())+
+  labs(x="Height (cm)", y="Number of Males") 
+  
+p_hist_female <- ggplot(heights[sex=='F'], aes(height)) + 
+  geom_histogram() + 
+  scale_x_continuous(limits=c(150,200)) +
+  geom_vline(aes(xintercept = median(height)),color="red", linetype="dashed", size=0.5) + 
+  theme(axis.title.y = element_text(size = ys), axis.title.x=element_blank())+
+  labs(x="Height (cm)", y="Number of Females") 
+
+p_fit_male <- ggplot(props, aes(mean_height_bins, prop)) +
+  geom_point() +
+  labs(x="Height (cm)", y="Estimated P(Male)") +
+  geom_line(aes(height, mu_hat), col='darkred') +
+  theme(axis.title.y = element_text(size = ys), axis.title.x = element_text(size = 10))+
+  scale_x_continuous(limits=c(150,200))
+
+p_log_odds <- p_log_odds + scale_x_continuous(limits=c(150,200)) +
+  theme(axis.title.y = element_text(size = ys), axis.title.x=element_blank())
+
+
+p_hist_male / p_hist_female / p_log_odds / p_fit_male
+
+
+```
+
+
+## Interpreting a logistic regression fit
+### Predicted odds
+
+In logistic regression, the logit of the predicted response/probability for a certain input is the predicted log odds for the positive class (y=1) on that input. 
+For example, for a height of 178 cm the log odds is:
+```{r, echo=TRUE}
+log_odds_178 <- predict(logistic_fit,data.table(height=178))
+log_odds_178
+```
+To get the odds we can exponentiate this number. The obtained result means that the odds for someone to be a male (positive class) at height 178 cm is:
+
+```{r, echo=TRUE}
+exp(log_odds_178)
+```
+
+### Coefficients of the logistic regression
+
+The $\beta$ values from logistic regression are log odds ratios associated with an increase by one unit of the corresponding explanatory variable. Odds ratios can thus be obtained by applying exp().
+
+```{r}
+coef(logistic_fit)
+OR_height <- exp(coef(logistic_fit)[2])
+OR_height
+```
+
+As we have seen, in logistic regression the log odds is predicted as a linear combination of the features, where the coefficients are log odds ratios. 
+Therefore, in our example of predicting sex from height, increasing the height by $h$ centimeters changes the log odds by $h \times`r round(coef(logistic_fit)[2],3)`$, or equivalently, it multiplies the odds by $e^{h\times `r round(coef(logistic_fit)[2],3)`} = `r round(OR_height,3)`^h$.
+
+
+### Effects on probabilities
+
+One important difference between linear regression and logistic regression is that for the latter, the relationship between input and predicted value is not linear. A drastic example is shown in Figure \@ref(fig:log-increase), where increases of 5 cm produce different increases in the probability for male depending on the starting point.
+
+If we start at odds 1:1, the probability is 0.5, and our corresponding height can be obtained by solving the equation for height on:
+$$
+\text{log}(\text{odds}) = \beta_0 + \beta_1 \text{height}
+$$
+
+where $\beta_0$ and $\beta_1$ are the coefficients of the logistic regression.
+This gives us a height value of 173.6 cm. Note that the point of steepest increase in the logistic curve corresponds to the predicted probability of 0.5 ^[ How can you find the height corresponding to probability=0.5? Can you prove this is the point of steepest increase?].
+
+```{r echo=FALSE}
+solve_height <- function(odds) (log(odds)-coef(logistic_fit)[1])/coef(logistic_fit)[2]
+height_p05 <- solve_height(1)
+height_p05 
+```
+
+An increase in 5 cm leads as to a probability of:
+
+```{r}
+prob_5 <- predict(logistic_fit, data.table(height =173.6+5), type="response")
+prob_5
+```
+
+If we increase 5 cm again, then we will have a predicted probability for male of:
+
+```{r}
+prob_10 <- predict(logistic_fit, data.table(height =173.6+10), type="response")
+prob_10
+```
+
+
+An increase in height from 173.6 cm to 178.6 cm increases the estimated probability by 0.35, while an increase in height from 178.6 cm to 183.6 cm increases the estimated probability by 0.12.
+
+```{r log-increase, echo=FALSE, fig.cap="Estimated probability given the same 5 cm increase in height on different points of the logistic curve."}
+transitons_dt = data.table(x=c(173.6, 178.6, 183.6), y=c(0.5, prob_5, prob_10))
+p <- ggplot(props) +
+  xlab("Height (cm)") +
+  ylab("Estimated probability for male") +
+  geom_line(aes(height, mu_hat), col='darkred') +
+  geom_point(data=transitons_dt, aes(x, y), col="blue")
+
+vec <- data.table(
+  x=transitons_dt$x[c(1,2,2,3)],
+  y=transitons_dt$y[c(1,1,2,2)],
+  xend=transitons_dt$x[c(2,2,3,3)], 
+  yend=transitons_dt$y[c(1,2,2,3)] 
+  ) 
+
+p <- p +  geom_segment(data=vec, mapping=aes(x=x, y=y, xend=xend, yend=yend), arrow=arrow(length = unit(0.1, "inches")), size=1, color="black")
+p
+```
+
+
+### Class imbalance
+
+Now we turn to a situation of _class imbalance_, which refers to having one class with substantially more instances than the other. 
+Let's create a class imbalanced heights dataset with ~20% males and ~80% females.
+
+```{r, echo=TRUE}
+set.seed(123)
+imbalanced_heights <- heights[-sample(which(sex=="M"), 100)]
+imbalanced_heights[, table(sex)]
+```
+
+Now let's fit a logistic regression, similar to previous steps:
+```{r}
+logistic_fit_imbalanced <- glm(y ~ height, data=imbalanced_heights, family = "binomial")
+logistic_fit_imbalanced
+```
+
+Now we can plot our logistic fit to the imbalanced dataset and compare it to our previous logistic fit obtained in the balanced dataset.
+
+```{r }
+imbalanced_props <- imbalanced_heights[, prop:=mean(sex=="M"), by=height]
+
+imbalanced_props[, mu_hat := predict(logistic_fit_imbalanced, imbalanced_props, type="response")]
+
+imbalanced_props[, dataset:="imbalanced"]
+props[, dataset:="balanced"]
+
+rbind(imbalanced_props, props, fill=T) %>%
+ggplot(aes(height, mu_hat, color=dataset)) +
+  geom_line() +
+  xlab("Height (cm)") +
+  ylab("Predicted probability")
+  
+  
+  
+```
+
+The logistic fit on the imbalanced dataset looks different. In particular, the curve has been shifted to the right. The predicted probability of being male for a given height is lower compared to the balanced logistic fit.
+Let's look at the logit of the predicted response and compare it to the previous balanced dataset.
+
+```{r }
+imbalanced_props[, logistic_logit := predict(logistic_fit_imbalanced, imbalanced_props)]
+props[, logistic_logit:=predict(logistic_fit, props)]
+
+rbind(imbalanced_props, props, fill=T) %>%
+ggplot(aes(height, logistic_logit, color=dataset)) +
+  geom_line() +
+  xlab("Height (cm)") +
+  ylab("Predicted log odds (logit)")
+
+```
+
+
+As seen from this figure, the intercept of the logistic regression is now lower and the lines are nearly parallel.
+This means that the estimated log odds for male in the imbalanced logistic fit are generally lower. Indeed, if we have lower quantities of males for each value of height in general, then the odds for male will be overall lower for all heights. 
+
+Why can the effect of class imbalance be seen on the intercept?  While the proportion among males in each stratum are independent of the number of males, the ratios of males over females scales with the overall number of males. Hence, The odds male:female per stratum proportionally change when the overall population odds change. In a log scale this translates into an added constant and thus a vertical shift. In other words, changes in class imbalance affects the intercept $\beta_0$ of a logistic regression by adding a constant.^[A formal proofs can be made using Bayes theorem.]
+
+<!-- If we denote $x$ as our feature (height) and $y$ as the class (male/female) then using Bayes theorem we can write:  -->
+
+<!-- $$ -->
+<!-- \begin{align} -->
+<!-- P(y|x) =\frac{P(x|y) \cdot P(y)}{\sum_{y} P(x|y) \cdot P(y)}. -->
+<!-- \end{align} -->
+<!-- $$ -->
+
+<!-- Note that $P(x|y)$ is independent of class imbalance. If we estimate the probability of $y=1$ as the frequency of the positive class, $\pi_1$ and the probability of $y=0$ as the frequency of the negative class, $\pi_0 = 1-\pi_1$ then we can write: -->
+
+<!-- $$ -->
+<!-- \begin{align} -->
+<!-- P(y=1|x) = \frac{P(x|y=1) \cdot \pi_1} {P(x|y=1) \cdot \pi_1 + P(x|y=0) \cdot \pi_0} -->
+<!-- \end{align} -->
+<!-- $$ -->
+<!-- Remmember that in logistic regression $\text{logit}(P(y=1|x))$ is estimated as a linear combination of $x$. The logit of $P(y=1|x)$ can be written as: -->
+
+<!-- $$ -->
+<!-- \begin{align} -->
+<!-- \text{logit}(P(y=1|x)) = \text{log} \left( \frac{P(y=1|x)}{1 - P(y=1|x)} \right) = \text{log} \left(  \frac{P(y=1|x)}{P(y=0|x)} \right) -->
+<!-- \end{align} -->
+<!-- $$ -->
+
+<!-- By replacing $P(y=1|x)$ and $P(y=0|x)$ as in equation @\ref we get: -->
+
+<!-- $$ -->
+<!-- \begin{align} -->
+<!-- \text{logit}(P(y=1|x)) = \text{log} \left(  \frac{P(x=1|y)}{P(x=0|y)} \right) + \text{log} \left(  \frac{\pi_1}{\pi_0} \right) = \beta_1x + \beta_0 -->
+<!-- \end{align} -->
+<!-- $$ -->
+
+<!-- where $\beta_0$ is the intercept of logistic regression and $\beta_1$ the coefficient. The term $\text{log}  \left(  \frac{P(x=1|y)}{P(x=0|y)} \right)$ only depends on the feature $x$, while the term $\text{log} \left(  \frac{\pi_1}{\pi_0} \right) = \text{log} \left(  \frac{\pi_1}{1-\pi_1} \right)$, which is the the log odds for the positive class, only depends on the class imbalance, and is captured by the intercept. -->
+
+### Multiple Logistic regression
+
+We have been performing logistic regression with one variable as input to predict one class. However, in our formulation of logistic regression we allowed a set of features to predict the probability of the class. 
+In multiple logistic regression there can be several input variables.
+We can use multiple logistic regression to predict the student's sex given the heights of the student and of the student's parents.
+
+```{r}
+multi_logistic_fit <- glm(y ~ height + mother + father, data=heights, family = "binomial")
+multi_logistic_fit
+```
+
+Similarly to the previous univariate logistic fit, an increase in the student's height increases the odds for male. Furthermore, this model gives negative coefficients to the height of the mother and of the father. This makes sense: the taller either parent, the taller the children. It is therefore more likely that a tall person is a female, if the parents are tall.  
+
+Is this model, which integrates the heights of the parent, doing a better job at predicting sex than the simpler model we first developed? And if so by how much? We will see now ways to answer these questions.
+
+## Assessing the performance of a classifier
+
+### Classification with logistic regression
+
+Logistic regression predicts a probability, therefore it conveys some uncertainty in the prediction. Classification implies that we attribute one class per instance, and not a probability.  
+
+Hard classification is usually performed by the following simple rule:
+If $\mu>0.5$ (or equivalently $\eta>0$), predict class 1, else predict class 0. 
+
+Let's follow this rule for the previous multiple logistic regression by using the function `round`. Moreover, let's inspect the predictions of the classes male (0) and female (1) by computing a contingency table between the predicted and true classes:
+
+```{r}
+heights[, y_multi_pred := round(predict(multi_logistic_fit, heights, type="response"))]
+heights[, table(y, y_multi_pred)]
+```
+
+10 males where predicted as female (false negative) and 9 females were predicted as male (false positive). 
+
+
+### Confusion Matrix
+
+The previous table is also termed confusion matrix. The following figure depicts the structure of a confusion matrix:
+
+```{r, out.width = "475px", echo=FALSE}
+knitr::include_graphics("assets/img/lec13_confusion_matrix.png")
+```
+
+Such matrix allows us to access the quality of the classifications. A classifier should maximize true positives (TP) and true negatives (TN), and minimize false negatives (FN) and false positives (FP)
+
+### Classification performance metrics
+
+From the confusion matrix, various quality metrics have been defined. Moreover, depending on the application domain, the same quantities are referred to with different names ^[In doubt, wikipedia provides a comprehensive overview on classifier performance metrics 
+https://en.wikipedia.org/wiki/Sensitivity_and_specificity]. We focus here on three metrics:
+
+* The _sensitivity_ refers to the fraction of actual positives that is predicted to be positive:
+
+$\text {Sensitivity}=\frac{T P}{P}=\frac{T P}{T P+F N}$
+ 
+The sensitivity is also referred to as “recall”, “true positive rate”, or “power”.
+
+* The _specificity_ refers to the fraction of actual negatives that is predicted to be negative:
+
+$\text { Specificity }=\frac{T N}{N}=\frac{T N}{T N+F P}$
+
+The specificity is also known as “true negative rate” or
+“sensitivity of the negative class”
+
+* The _precision_ refers to the fraction of predicted positives that are indeed positives:
+
+$\text { Precision }=\frac{T P}{T P+F P}$
+
+The precision is also called the positive predictive value. Note that, in the hypothesis testing context, we discussed a related concept, the false discovery rate (FDR). The FDR relates to the precision as follows: 
+
+$\mathrm{FDR}=\mathrm{E}\left[\frac{F P}{T P+F P}\right]=\mathrm{E}\left[1-\frac{T P}{T P+F P}\right]=1-\mathrm{E}[\mathrm{Precision}]$
+
+### Choosing a classification cutoff
+
+Many classification methods do not directly assign a class, but rather output a quantitative score. For instance, the logistic regression predicts a probability. Other methods may output a real number that is not aimed to represent a probability yet for which the larger, the more likely the class is positive. This would be the case if we had insisted in using linear regression as we first attempted at the start of this Chapter, but it is also the case if we use the logit instead of the predicted probability in logistic regression or for modern classifiers like support-vector machines ^[https://en.wikipedia.org/wiki/Support-vector_machine].  
+
+Hence, we typically need to set a _cutoff_ above which we classify as “positive”. Previously we defined our cutoff at $\mu=0.5$ or $\operatorname{logit}(\mu)=0$, but it was an arbitrary decision, we could have chosen a different one. The choice of the cutoff influences the performance metrics.
+
+Let's go back to the example of predicting the sex of the student given its height and consider the logits of the logistic regression as scores. If the logistic regression predictions are somewhat informative, we expect the distribution of the scores for the negative and positive classes to be to some extent separated. Indeed,  as depicted in Figure (\@ref(fig:class-cutoff)), most students can be correctly separated in male or female given its score. However, a certain amount of students from different sexes have overlapping scores. 
+
+<!--```{r out.width = "555px", echo=FALSE}
+ggplot(heights, aes(logistic_logit, fill=sex)) +
+  geom_histogram(position='identity', bins=32, alpha=0.7, color="black") +
+  geom_vline(aes(xintercept=3.5), color="black", linetype="dashed", size=0.5) +
+  labs(x="Predicted Log Odds")
+  
+```
+```{r out.width = "555px", echo=FALSE}
+ggplot(heights, aes(logistic_logit, fill=sex)) +
+  geom_histogram(position='identity', bins=32, alpha=0.7, color="black") +
+  geom_vline(aes(xintercept=0), color="black", linetype="dashed", size=0.5) +
+  labs(x="Predicted Log Odds")
+  
+```
+-->
+
+```{r class-cutoff, out.width = "475px", echo=FALSE, fig.cap="When informative, a classifier score separates to some extent the positive from the negative class. Such can be seen in the logistic regression model for sex prediction given height. The choice of a classification cutoff leads to various types of correct and incorrect predictions."}
+knitr::include_graphics("assets/img/lec13_heights_cutoff.png")
+```
+
+As seen from the previous figure, picking a cutoff at a certain value like the one in the dashed line, will produce classifications which are false positives or false negatives. 
+
+Now imagine we move our cutoff in the way of the next figure:
+
+```{r, out.width = "475px", echo=FALSE, fig.cap="Setting a classification cutoff is always a trade-off between sensitivity and specificity."}
+knitr::include_graphics("assets/img/lec13_heights_cutoff_fn.png")
+```
+
+Now, every female student is classified as such (True negative (TP)), however some male students are classified as female (False negative (FN)). Choosing the cutoff is a trade-off between sensitivity and specificity. How the trade-off is made is problem-dependent.
+
+
+### ROC curve
+
+The receiver operating characteristic curve or ROC curve is a way of 
+evaluating the quality of a binary classifier at different cutoffs. 
+
+It describes on the x axis the false positive rate (1-specificity), 
+$\mathrm{FPR}=\frac{\mathrm{FP}}{\mathrm{N}}=\frac{\mathrm{FP}}{\mathrm{FP}+\mathrm{TN}}$ and on the y axis the true positive rate (sensitivity),
+$\mathrm{TPR}=\frac{\mathrm{TP}}{\mathrm{P}}=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}}$
+
+Let's plot the ROC curve for the univariate logistic regression model we fitted on heights and the ROC curve. As comparisons we look also at  a random classifier (i.e. a model that outputs random values for probabilities of positive class).
+To do this we use `geom_roc` which comes from the plotROC package. 
+
+```{r, fig.width=5}
+library(plotROC)
+heights[, random_scores:=runif(.N)]
+
+heights_melted <- heights[, .(y, mu_hat, random_scores)] %>% 
+  melt(id.vars="y", variable.name = "logistic_fit", value.name="response")
+  
+ggroc <- ggplot(heights_melted, aes(d=y, m=response, color=logistic_fit)) +
+            geom_roc() +
+            scale_color_discrete(name = "Logistic fit", labels = c("Univariate", "Random")) +
+            geom_abline()
+ggroc
+```
+
+The points along the lines represent the cutoff value. If all instances are classified as positive (cutoff=0) then the false positive rate is 1 and so is the true positive rate. On the other hand, if all instances are classified as negative (cutoff=1) then, the false positive rate is 0 and so is the true positive rate.^[How would the ROC curve look like if we took plain height as a predictive score and not the logistic regression prediction?]
+A random classifier has a ROC curve which always approximates a diagonal, such can be seen in the previous figure as the close to diagonal line, while the other curve is the ROC for the logistic prediction.^[Can you prove why?] 
+Now let's compare the ROC curve on the univariate logistic regression against the one on the multiple logistic regression:
+
+```{r, fig.width=5}
+heights[, multi_logistic_mu_hat := predict(multi_logistic_fit, heights, type = "response")]
+
+heights_melted <- heights[, .(y, mu_hat, multi_logistic_mu_hat)] %>% 
+  melt(id.vars="y", variable.name = "logistic_fit", value.name="response")
+  
+ggroc <- ggplot(heights_melted, aes(d=y, m=response, color=logistic_fit)) +
+            geom_roc() +
+            scale_color_discrete(name = "Logistic fit", labels = c("Univariate", "Multivariate")) +
+            geom_abline()
+ggroc
+
+```
+
+We can see that for lower values of false positive rates, the true positive rate is higher on the multiple logistic regression model. Such suggests this model has a better performance. 
+Classification performance can also be measured by the AUC (area under the ROC curve). An AUC of 1 means that the model is perfectly able to distinguish between the positive and negative classes. An AUC of 0.5, which corresponds to the AUC of a ROC curve which is a diagonal line, means the classifier model is no better than random classification.
+```{r}
+calc_auc(ggroc)
+
+```
+
+The AUC for the multiple logistic regression is ~0.983, indicating a better classification performance compared to the univariate logistic regression (AUC=~0.931), which only takes the height of the student to predict its sex.
+
+
+### Precision Recall curve
+
+Let's compute the ROC curve and its AUC on the logistic regression on the imbalanced dataset.
+```{r}
+imbalanced_heights[, mu_hat:=predict(logistic_fit_imbalanced, imbalanced_heights, type="response")]
+ggroc<- ggplot(imbalanced_heights, aes(d=y, m=mu_hat)) +
+            geom_roc(n.cuts=0) +
+            geom_abline()
+ggroc
+calc_auc(ggroc)["AUC"]
+```
+From its AUC value, the performance of this model seems similar to the model on the balanced dataset.
+Let's inspect such performances using a Precision Recall curve, which, for different cutoffs plots the precision ($\frac{T P}{T P+F P}$) against the recall ($\frac{T P}{P}$). To plot a precision recall curve we can use the package PRROC. 
+
+```{r}
+library(PRROC)
+
+PRROC_obj <- pr.curve(scores.class0 = imbalanced_heights$mu_hat, weights.class0=imbalanced_heights$y,
+                       curve=TRUE)
+plot(PRROC_obj, auc.main=FALSE , color=2)
+
+```
+
+Now let's plot the precision recall curve of the logistic regression model on the balanced dataset:
+```{r}
+PRROC_obj <- pr.curve(scores.class0 = heights$mu_hat, weights.class0=heights$y,
+                       curve=TRUE)
+plot(PRROC_obj, auc.main=FALSE , color=2)
+
+```
+
+Although the ROC curves of both models look similar, the precision recall curves look different. 
+Because the dataset is imbalanced for the female (negative class), the corresponding logistic regression model provides lower precisions for the same recall, meaning that such model is worse at classifying males. The PR curves is hence used in very imbalanced situations in which the positive class is strongly under-represented. These are "finding a needle in a haystack" situations, such as detecting a rare disease or retrieving a relevant web page among billions of web pages across the web. Then, the precision-recall curves emphasizes better the performance of the model among the top scoring predictions than the ROC curve. 
+
+## Conclusions
+
+### To remember
+
+Now you should be able to:
+
+* define and identify classification problems 
+* know the modeling assumption of logistic regression
+* know the criterion of minimal cross-entropy
+* fit a logistic regression in R, extract coefficients and predictions
+* interpret coefficients of logistic regression fits
+* know the definitions of TP, TN, FP, FN
+* know the definitions of sensitivity, specificity, and precision
+* know what a ROC curve is
+* know how to compare performance of classifiers using a ROC curve
+* know what a PR curve is
+* know how to compare performance of classifiers using a PR curve
+
+
+
+
+
+
+
+

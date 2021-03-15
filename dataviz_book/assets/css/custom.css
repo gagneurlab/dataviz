@@ -1,0 +1,144 @@
+/* wrap text in notes and reduce font size so that everything fits. */
+.note pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+ font-size: 14px;
+ line-height: 1.3em;
+}
+
+div.modal-body pre{
+  left: -45px;
+}
+
+.pagination {
+  position: absolute;
+  bottom: -5px;
+  left:110px;
+}
+
+.pagination ul li:before {
+  content: "";
+}
+
+body {
+  font-family: "Open Sans";
+  color: #444;
+}
+
+p {
+  text-align: justify;
+  line-height: 1.5em;
+}
+/* Place Video on Top Right */
+/* FIXME: Move CSS to css/popcorn.css */
+section.video {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+
+/* Smaller code fonts in modal popup */
+.modal pre code {
+  font-size: 16px;
+}
+
+img.center {
+  display: block;
+  margin: auto auto;
+}
+
+body {
+  background-color: #000;
+}
+.quiz-option label{
+  display: inline;
+  font-size: 1em;
+}
+slide.segue h2{
+ font-family: "Open Sans Condensed";
+ font-weight: 700;
+}
+slide:not(.segue)  h2{
+ font-family: "Open Sans Condensed";
+ font-weight: 700;
+ color: darkslategray;
+}
+article p {
+  font-family: "Open Sans";
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+slides > slide > hgroup + article p {
+ margin-bottom: 0em;
+}
+
+code.r {
+  font-size: 16px;
+  font-family: "Source Code Pro", monospace;
+  color: darkred;
+}
+pre code {
+  font-weight: 500;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 5px;
+  color: #484F83;
+}
+
+#glimmer iframe {
+  width: 100%;
+}
+
+.title-slide {
+  background-color: #E6F3FF;
+  /* background-image:url(http://goo.gl/EpXln); */
+}
+
+.title-slide hgroup > h1{
+ font-family: 'Oswald', 'Helvetica', sanserif; 
+}
+
+.title-slide hgroup > h1, 
+.title-slide hgroup > h2,
+.title-slide hgroup p {
+  color: #7C7C81 ;  /* ; #EF5150*/
+}
+
+slides > slide.backdrop{background: white;}
+
+pre {
+  margin-bottom: -10px;
+  font-size: 16px;
+}
+
+table tr > td:first-child, table th {
+  font-weight: normal;
+}
+
+pre .preprocessor {
+  font-size: 16px;
+  color: #484F83;
+}
+
+pre .comment {
+  font-size: 16px;
+  color: #484F83;
+}
+
+table {
+  margin-bottom: 10px;
+}
+
+a {
+  font-size: 20px;
+}
+
+article li {
+  font-size: 20px;
+}

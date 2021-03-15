@@ -1,0 +1,56 @@
+--- 
+title: "Data Analysis and Visualization in R (IN2339)"
+author: "Chair of Computational Molecular Medicine"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+documentclass: krantz
+bibliography:
+- book.bib
+- packages.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+lot: no
+lof: no
+graphics: yes
+urlcolor: blue
+geometry: left=1.5in, right=1.5in, top=1.25in, bottom=1.25in
+description: TODO This book introduces concepts and skills that can help you tackle
+  real-world data analysis challenges. It covers concepts from probability, statistical
+  inference, linear regression and machine learning and helps you develop skills such
+  as R programming, data wrangling with dplyr, data visualization with ggplot2, file
+  organization with UNIX/Linux shell, version control with GitHub, and reproducible
+  document preparation with R markdown.
+site: bookdown::bookdown_site
+header-includes: \usepackage{float} \floatplacement{figure}{H}
+always_allow_html: yes
+subtitle: A practical introduction to Data Science
+---
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'), 'packages.bib')
+```
+
+# Preface {-}
+
+This is the lecture script of the module Data Analysis and Visualization in R (IN2339).
+
+This work is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0)
+
+# Acknowledgments {-}
+
+The script has been first put together in 2020 by Felix Brechtmann, Daniela Klaproth-Andrade, Alexander Karollus, Vangelis Theodorakis, Vicente Yepez, Ines Scheller, and Julien Gagneur.
+
+We leverage work from colleagues in designing lecture slides since 2017: Žiga Avsec, Ines Assum, Daniel Bader, Jun Cheng, Bašak Eraslan, Mathias Heinig, Jan Krumsieck, Christian Mertes, and Georg Stricker.
+
+
+# Prerequisites {-}
+Basics in probabilities are required. Chapters 13-15 ("Introduction to Statistics with R", "Probability" and "Random variables") of the Book "Introduction to Data Science" https://rafalab.github.io/dsbook/ make a good refresher. Make sure all concepts are familiar to you. Check your knowledge by trying the exercises. 
+
+
+

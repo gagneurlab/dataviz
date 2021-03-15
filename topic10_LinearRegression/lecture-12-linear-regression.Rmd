@@ -1,0 +1,740 @@
+---
+title       : Data Analysis and Visualization
+subtitle    : Linear regression
+author      : Matthias Heinig, Jan Krumsiek
+# job         : Professor Computational Biology
+biglogo     : title.jpg
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax, bootstrap, quiz]            # {mathjax, quiz, bootstrap}
+ext_widgets : {rCharts: ["libraries/highcharts", libraries/nvd3"]}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+<!-- Center image on slide --> 
+<script 
+src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script> <script 
+type='text/javascript'> $(function() { $("p:has(img)").addClass('centered'); });
+</script>
+
+<!-- setwd('./lectures/') -->
+
+<!-- START LECTURE -->
+
+## Overview: Linear regression
+
+* A simple linear model
+* Parameter estimation
+* Hypothesis testing
+* Multiple linear regression
+* Model selection
+* Diagnostic plots
+
+```{r, cache=F, echo=F, message=FALSE, warning=FALSE} 
+source("../config.R") 
+```
+
+--- 
+<div class="trasition-slide"> A simple linear model </div>
+
+--- 
+## A simple linear model
+
+A _simple linear model_ allows to study the relationship between two continuous variables 
+* one variable `x` is the _predictor_, _explanatory_ or _independent_ variable 
+* the other variable `y` is the _response_, _outcome_ or _depdentent_ variable 
+* the model is called _simple_ because we study only one predictor variable
+
+<p/>
+_Goals_ of the analysis are
+
+1. Prediction of future observations.
+2. Assessment of the effect of, or relationship between, explanatory variables on the response. 
+3. A general description of data structure.
+
+Further reading:
+<!-- http://www.stat.cmu.edu/~cshalizi/mreg/15/lectures/06/lecture-06.pdf //-->
+https://rafalab.github.io/dsbook/case-study-is-height-hereditary.html
+
+---&twocol w1:40% w2: 40% 
+## Deterministic vs statistical model
+
+*** =left 
+### Deterministic
+
+```{r lecture-12-linear-regression-1, echo=FALSE, fig.height=5, fig.width=5} 
+C = (0:10) * 10 
+F = 5/9 * C + 32 
+plot(C, F, xlab="Celsius", ylab="Fahrenheit") 
+```
+
+$$F = \frac{5}{9} C + 32$$
+
+*** =right 
+### Statistical
+
+```{r lecture-12-linear-regression-2, echo=FALSE, fig.height=5, fig.width=5} 
+skincancer = read.table("extdata/skincancer.txt", header=T) 
+plot(Mort ~ Lat, data=skincancer,
+xlab="Latitude", ylab="Mortality") 
+m = lm(Mort ~ Lat, data=skincancer) 
+abline(m)
+```
+
+$$M = `r round(coef(m)[1])` `r ifelse (coef(m)[2] > 0, "+", "-")` `r abs(round(coef(m)[2]))` L$$
+
+---
+## Model specification
+
+> For a data set $(x, y)_i$ with $i \in \{1 \dots N\}$ the simple linear model is defined as
+$$y_i = \alpha + \beta x_i + \epsilon_i$$ 
+with free parameters $\alpha$ and $\beta$ and a random error 
+$\epsilon_i \sim N(0, \sigma^2)$ that is i.i.d. (independently and indentically distributed)
+
+---
+## Model visualized
+![](assets/img/lec12_linear_model_geometric0.png)
+
+
+---
+## Model likelihood
+$$y_i = \alpha + \beta x_i + \epsilon_i$$ 
+
+The normal distribution is defined as 
+$$N(\epsilon, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{\epsilon^2}{2 \sigma^2})$$
+
+with this model we can now compute the likelihood of the data $(x, y)_i$ with $i \in \{1 \dots N\}$ as a function of 
+the model parameters $\alpha, \beta, \sigma^2$
+
+$$
+\begin{eqnarray}
+L(\alpha, \beta, \sigma^2) & = & \prod_{i=1}^{N} N(\epsilon_i, \sigma^2)\\
+& = & \prod_{i=1}^{N} N(y_i - \hat{y_i}, \sigma^2)\\
+& = & \prod_{i=1}^{N} N(y_i - (\alpha + \beta x_i), \sigma^2)\\
+\end{eqnarray}
+$$
+
+--- &radio
+## Quiz
+Which assumption allows to factorize the Likelihood of the data under the linear model
+$$y_i = \alpha + \beta x_i + \epsilon_i$$ 
+as
+$$L(\alpha, \beta, \sigma^2) = \prod_{i=1}^{N} N(\epsilon_i, \sigma^2) ?$$
+
+1. A	Independence and identical distribution of the predictors $x_i$
+
+2. B	Independence and identical distribution of the responses $y_i$
+
+3. C	_Independence and identical distribution of the errors $\epsilon_i$_
+
+
+***.hint
+The distribution of which variable was defined in the specification?
+
+***.explanation
+The predictors $x$ are not assumed to be random variables. The responses are not independent from each other if there is a relation between $x$ and $y$. So the indepence assumption is made for variable $\epsilon$.The probability of independent events is the product of the probablities of each individual event.
+
+---
+## Parameter estimation
+
+**Problem**: How do we find the best parameters of our model?
+
+**Solution**: maximize the (log) likelihood of our data
+
+<!--- $$\log(L(\alpha, \beta, \sigma^2)) = \sum_{i=1}^{N} [- 0.5 \log(\pi \sigma^2) - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2}]$$ -->
+$$\log(L(\alpha, \beta, \sigma^2)) = - 0.5 N \log(2 \pi \sigma^2) + \sum_{i=1}^{N} - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2}$$
+
+How to maximize a quadratic function?
+
+We compute gradient and set it to zero, this yields:
+$$\hat{\alpha} = \bar{y} - \hat{\beta} \bar{x}$$
+$$\hat{\beta} = \frac{\sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^N (x_i - \bar{x})^2}$$
+$$\hat{\sigma}^2 = \frac{1}{N} \sum_{i=1}^N (y_i - (\hat{\alpha} + \hat{\beta}x_i)^2)$$
+
+with means denoted by $\bar{x}$ and $\bar{y}$.
+
+
+---
+## Intuition
+
+Maximizing the likelihood is actually equivalent to minimizing the residual sum of squares (*RSS*).
+
+<img src='assets/img/lec12_linear_model_geometric0.png' width='80%'>
+
+$$RSS = \sum_{i=1}^{N} (y_i - (\alpha + \beta x_i))^2$$
+
+
+
+---
+## Geometric representation
+Maximizing the likelihood is actually equivalent to minimizing the squared distance between observation and prediction
+
+![](assets/img/lec12_linear_model_geometric1.png)
+
+
+---
+## Fit a simple linear model in R
+
+```{r lecture-12-linear-regression-3, fig.height=5, fig.width=5} 
+skincancer = read.table("extdata/skincancer.txt", header=T) 
+head(skincancer)
+m = lm(Mort ~ Lat, data=skincancer)
+coef(m)
+```
+
+Other useful functions for `lm` objects
+- `predict` compute the fitted values or predict response for new data
+- `resid` compute the residuals
+
+---
+## How well does our model fit the data?
+
+Any data set will give us estimates of the model, but how good is the model overall?
+
+* Compute model predictions
+$$\hat{y}_i = \hat{\alpha} + \hat{\beta} x_i$$
+
+* Compute the _residuals_ (compare predictions with the actual values)
+$$\hat{\epsilon}_i = \hat{y}_i - y_i$$
+
+* Compute the _residual sum of squares_
+$$RSS = \sum_{i=1}^N \hat{\epsilon}_i^2$$
+
+* Compare the residual sum of squares to the total sum squares (_SS_) of $y$
+$$R^2 = 1 - \frac{\sum_{i=1}^N \hat{\epsilon}_i^2}{\sum_{i=1}^N (y_i - \bar{y})^2} = 1 - \frac{RSS}{SS}$$
+
+$R^2$ is called the _coefficient of determination_ and represents the percentage of variance explained by the model.
+
+
+--- &radio
+## Quiz
+$$R^2 = 1 - \frac{\sum_{i=1}^N \hat{\epsilon}_i^2}{\sum_{i=1}^N (y_i - \bar{y})^2} = 1 - \frac{RSS}{SS}$$
+What is the range of values that $R^2$ can take?
+
+1. A	-infinity < R^2 < infinity
+
+2. B	0 < R^2 < infinity
+
+3. C	-infinity < R^2 < 1
+
+4. D  _0 < R^2 < 1_
+
+
+***.hint
+The model predictions are optimized to at least be as good as the global mean.
+
+***.explanation
+The sum of squares represents the variation around the global mean, the residual sum of squares represents the variation around the model predictions. The model predictions are optimized to at least be as good as the global mean.
+
+---
+## Hypothesis testing
+
+Now that we can estimate the parameters and assuming the Gaussian noise model we can ask:
+
+> Is there a linear relationship between $y$ and $x$?
+
+--- &radio
+## Quiz
+$$y = \alpha + \beta x + \epsilon$$ 
+Which expression would indicate a linear relationship?
+
+1. A	alpha = 0
+
+2. B	beta = 0
+
+3. C	alpha != 0
+
+4. D  _beta != 0_
+
+
+***.hint
+Which variable connects x and y?
+
+***.explanation
+$y = \alpha + \beta x$ therefore $\beta$ links $x$ and $y$ if $\beta \neq 0$.
+
+
+---&twocol w1:40% w2: 40% 
+## Hypothesis testing
+
+*** =left
+Using the assumption of indenpendent Gaussian noise we can derive the theretical distributions of our estimates.
+$$\hat{\beta} \sim N(\beta, \sigma^2 / N s_X^2)$$
+where $s_X^2$ is the variance of $X$.
+
+Note that the true value of $\beta$ and $\sigma^2$ are usually not known and need to be estimated. Using the estimate $\hat{\sigma}^2$ to compute the so called standard error $\hat{se}(\hat{\beta}) = \hat{\sigma}^2 / N s_X^2$ we obtain the following distribution
+$$\frac{\hat{\beta} - \beta}{\hat{se}(\hat{\beta})} \sim t_{N-2}$$
+where $t_{N-2}$ denotes the student's $t$ distribution with $N-2$ degrees of freedom.
+
+*** =right
+```{r lecture-12-linear-regression-4, echo=FALSE}
+N <-  500
+alpha <- -0.5
+beta <- 1.5
+sigma.sq <- 0.7
+fixed.x <- rnorm(N, sd=sqrt(20))
+
+sim <- function(alpha, beta, sigma.sq, x) {
+  # draw y according to the model
+  y <- rnorm(length(x), alpha + beta * x, sd = sqrt(sigma.sq))
+  m <- lm(y ~ x)
+  return(m)
+}
+
+# run the simulation 1000 times
+beta.hat <- replicate(1e4, coefficients(sim(alpha, beta, sigma.sq, fixed.x))["x"])
+hist(beta.hat,freq=FALSE, breaks=50, xlab=expression(hat(beta)),main="")
+curve(dnorm(x, beta, sd=sqrt(sigma.sq / (N * var(fixed.x)))), add=TRUE, col="blue")
+abline(v=beta, col="red")
+abline(v=mean(beta.hat), col="red", lty="dotted")
+legend("topright", legend=c(expression(hat(beta)), expression(beta)), lty=c(3, 1), col="red") 
+```
+
+---
+## Hypothesis testing: P-value
+
+The P-value of a statistical test is the **probability** of the value of a **test statistic** at least as extreme as the one observed in our data **under the null hypothesis**.
+
+In our case:
+* Null hypothesis $H_0: \beta_0 = 0$
+* test statistic is $\hat{t} = \frac{\hat{\beta} - \beta_0}{\hat{se}(\hat{\beta})} = \frac{\hat{\beta}}{\hat{se}(\hat{\beta})}$
+* probability under the null model: $P(t \geq \hat{t}) \sim t_{N-2}$
+
+To confirm a liner relation between $y$ and $x$ we need to reject the null hypothesis at significance level $\alpha (= 0.05)$:
+* Accept $H_0$ if $P(|t| \geq |\hat{t}|) > \alpha$
+* Reject $H_0$ if $P(|t| \geq |\hat{t}|) \leq \alpha$
+
+--- &radio
+## Quiz
+When would we speak of a linear relationship with $H_0: \beta = 0$ at significance level $\alpha$?
+
+1. A	Reject H0 if P(|t| >|\hat{t}|) > alpha
+
+2. B  _Reject H0 if P(|t| > |\hat{t}|) < alpha_
+
+
+***.hint
+The goal of statistical testing is to reject the null hypothesis
+
+***.explanation
+We speak of a linear relationship between $y$ and $x$ if $\beta \neq 0$. $\beta = 0$ is equivalent to $t=0$. So we need to reject the null hypothesis $\beta = 0$ under the distribution of the null model.  This is equivalent to the probability of a more extreme statistic under the null model is less than $\alpha$.
+
+---
+## Hypothesis testing in R
+
+```{r}
+m = lm(Mort ~ Lat, data=skincancer)
+summary(m)
+```
+
+
+---&twocol w1: 40% w2: 40%
+## Relation to the _classical_  t-test
+
+***=left
+### Two group t-test with equal variance
+<br/>
+<br/>
+<br/>
+- mean group 0: $\mu_0$
+- mean group 1: $\mu_1$
+- **H0**: $\mu_0 = \mu_1$
+- $t = \frac{\bar{X}_0 - \bar{X}_1}{s_p}$
+- $s_p$: pooled standard deviation
+
+***=right
+### Linear model with one indicator variable
+- $y = \alpha + \beta x$
+- group 0: $x = 0$
+- group 1: $x = 1$
+- mean group 0: $\mu_0 = \alpha$
+- mean group 1: $\mu_1 = \alpha + \beta$
+- **H0**: $\beta = 0 \Leftrightarrow \alpha = \alpha + \beta \Leftrightarrow \mu_0 = \mu_1$
+- $t = \frac{\beta}{se}$
+- $se$: standard error of $\beta$
+
+--- 
+<div class="trasition-slide"> Multiple linear regression </div>
+
+--- 
+## Multiple linear regression
+
+> For a data set $(\mathbf{x}, y)_i$ with $i \in \{1 \dots N\}$ and $\mathbf{x}$ a vector of length $p$ the multiple linear regression model is defined as
+$$y_i = \beta_0 + \sum_{j=1}^p \beta_j x_{ij} + \epsilon_i$$ 
+with free parameters $\alpha$ and $\beta$ and a random error 
+$\epsilon_i \sim N(0, \sigma^2)$ that is i.i.d. (independently and indentically  distributed)
+
+<p/>
+
+> The model can be written in matrix notation
+$$ \mathbf{y} = X \mathbf{\beta} + \mathbf{\epsilon} $$
+here the matrix $X$ is of dimension $(N \times p + 1)$ where each row corresponds to the vector $\mathbf{x}$ with a 1 prepended to accomodate the intercept. The error is distributed as $\mathbf{\epsilon} \sim N(\mathbf{0}, \Sigma)$ as a multivariate Gaussian with covariance $\Sigma = \sigma^2 I$ (i.i.d).
+
+---
+## Parameter estimation
+
+By the method of maximum likelihood (also for least squares) we obtain 
+$$\hat{\mathbf{\beta}} = (X^TX)^{-1}X^T \mathbf{y}$$
+$$\hat{\sigma}^2 = \frac{\hat{\epsilon}^T\hat{\epsilon}}{N - p}$$
+
+---
+## Nested models and hypothesis testing
+
+Example model: $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3$
+
+- General concept: **nested models**
+- Comparison of a full model $\Omega$ to a reduced model $\omega$
+- Model $\omega$ is a special case of the more general model $\Omega$
+
+Examples
+- test of individual predictor $x_1$
+  - Full model: all $\beta$ can take any value
+  - Reduced model: $\beta_1 = 0$ other $\beta$ can take any value
+- test of two predictors $x_1$ and $x_2$
+  - Full model: all $\beta$ can take any value
+  - Reduced model: $\beta_1 = \beta_2 = \beta_3 = 0$ (only the mean $\beta_0$ can take any value)
+
+---
+## Geometric representation
+Maximizing the likelihood is actually equivalent to minimizing the squared distance between observation and prediction
+
+![](assets/img/lec12_linear_model_geometric2.png)
+
+---
+## Likelihood ratio test (LRT)
+
+Define the ratio of the two maximized likehoods as test statistic and reject if the ratio is too large
+$$\frac{\max_{\beta, \sigma \in \Omega} L(\beta, \sigma)}{\max_{\beta, \sigma \in \omega} L(\beta, \sigma)}$$
+Looking at the details we find that $L(\hat{\beta}, \hat{\sigma}) \propto (\hat{\sigma^2})^{-n/2}$ , which gives us a test that rejects if
+$$\frac{\hat{\sigma}^2_{\omega}}{\hat{\sigma}^2_{\Omega}} > \mbox{a constant}$$
+is too large. This is equivalent to
+$$\frac{RSS_{\omega}}{RSS_{\Omega}} > \mbox{a constant}$$
+$$\frac{RSS_{\omega}}{RSS_{\Omega}} - 1 > \mbox{a constant} - 1$$
+$$\frac{RSS_{\omega} - RSS_{\Omega}}{RSS_{\Omega}} > \mbox{another constant}$$
+
+---
+## Distribution of the LRT
+- $q$ number of parameters in (dimension of) model $\Omega$
+- $p$ number of parameters in (dimension of) model $\omega$
+- test statistic
+
+$$F = \frac{(RSS_{\omega} - RSS_{\Omega}) / (q - p)}{RSS_{\Omega} / (n - q)}$$
+
+- $F$ is distributed according to the F distribution with (q - p) and (n - q) degrees of freedom
+- Reject the LRT if $F$ is larger that the critital value corresponding to the significance level
+
+- This analysis is also frequently referred to as "Analysis of Variance": **ANOVA**
+
+---&twocol w1:40% w2: 40%
+## Example: testing the difference of means in 3 groups
+
+***=left
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$
+
+Indicator variables
+- group "6 cylinders": $x_1 = 1$
+- group "8 cylinders": $x_2 = 1$
+
+Test the effect of both indicators at the same time
+- **H0:** $\beta_1 = \beta_2 = 0$
+- Full model: $\Omega$ is the space where all three $\beta$ can take any value
+- Reduced model: $\omega$ is the space where only $\beta_0$ can take any value
+
+
+***=right
+```{r lecture12-linear-regression-mpg, echo=FALSE, fig.height=5, fig.width=5}
+data("mtcars")
+boxplot(mpg ~ factor(cyl), data=mtcars, xlab="Cylinders", ylab="Miles per Gallon")
+```
+
+---
+## Example in R
+
+```{r}
+data("mtcars")
+## for the example we need a factor
+## else it will be interpreted as number
+mtcars$cyl <- as.factor(mtcars$cyl)
+## fit the full model
+full <- lm(mpg ~ cyl, data=mtcars)
+## have a look at the model matrix 
+## which is automatically created
+head(model.matrix(full))
+## fit the reduced model (only the intercept "1")
+reduced <- lm(mpg ~ 1, data=mtcars)
+```
+
+---
+## Example in R
+
+```{r}
+## compare the models
+anova(reduced, full)
+```
+
+---
+## Adjusting for continuous confounding variables
+- in the car example a large fuel consumption might be due to
+  - strong engine
+  - heavy cars
+- many cylinders might be used in heavy cars with strong engines?
+  - include the confounders in the reduced model
+
+```{r}
+full <- lm(mpg ~ cyl + hp + wt, data=mtcars)
+reduced <- lm(mpg ~ hp + wt, data=mtcars)
+anova(reduced, full)
+```
+
+--- 
+<div class="trasition-slide"> Model selection </div>
+
+---
+## How do we know which variables need to be in the model?
+
+- We want to explain the data in the simplest way
+- Unnecessary predictors will add noise to the estimation of other quantities that we are interested in
+- Collinearity is caused by having too many variables trying to do the same job
+
+
+- Procedures
+  - Backward Elimination
+  - Forward Selection
+- Decision to keep / drop variables based on 
+  - Hypothesis tests
+  - Information criteria (AIC, BIC)
+- All procedures are heuristics, so try out!
+
+---
+## Backward elimination
+
+1. Start with all the predictors in the model
+2. Remove the predictor with highest p-value greater than $\alpha_{crit}$
+3. Refit the model and goto 2
+4. Stop when all p-values are less than $\alpha_{crit}$
+
+---
+## Forward selection
+
+This just reverses the backward method.
+
+1. Start with no variables in the model.
+2. For all predictors not in the model, check their p-value if they are added to the model. Choose the one with lowest p-value less than $\alpha_{crit}$.
+3. Continue until no new predictors can be added.
+
+--- 
+<div class="trasition-slide"> Diagnostic plots </div>
+
+--- &radio
+## Quiz
+Which are the most important assumptions of the linear model for hypothesis testing?
+
+1. A	Relation between y and x is linear
+
+2. B	Errors (residuals) are identically and independently distributed
+
+3. C	Errors (residuals) follow a normal distribution
+
+4. D  _A, B and C_
+
+
+***.hint
+There is no hint, try to remember!
+
+***.explanation
+
+
+---
+## Diagnostic plots
+
+**How to check our assumptions graphically?**
+
+- Relation between $y$ and $x$ is linear
+- Errors (residuals) are identically and independently distributed
+- Errors (residuals) follow a normal distribution
+
+
+---&twocol w1:40% w2: 40% 
+## Relation between $y$ and $x$ is linear
+
+*** =left
+### Simple linear regression
+Scatter plot of $y$ versus $x$
+
+```{r lecture-12-linear-regression-5, fig.width=5, fig.height=5}
+plot(Mort ~ Lat, data=skincancer,
+xlab="Latitude", ylab="Mortality") 
+m = lm(Mort ~ Lat, data=skincancer) 
+abline(m, lwd=2)
+```
+
+*** =right
+### Multiple linear regression
+Scatter plot of $y$ versus $\hat{y}$
+
+```{r lecture-12-linear-regression-6, fig.width=5, fig.height=5}
+m <- lm(mpg ~ cyl + hp + wt, data=mtcars)
+plot(mpg ~ predict(m), data=mtcars)
+abline(a=0, b=1, lwd=2)
+```
+
+---
+## Residuals are identically and independently distributed
+
+
+The residuals across all data points come from the same distribution with the same parameters.
+- Normal distribution
+- Mean $\mu = 0$
+- Standard deviation $\sigma$
+
+---
+## Scatter plot of residuals $\hat{\epsilon}$ and predicted values $\hat{y}$
+
+
+```{r lecture-12-linear-regression-7, fig.height=5, fig.width=5}
+m = lm(Mort ~ Lat, data=skincancer)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+```
+
+---
+## What could go wrong?
+
+Variance not constant: **heteroscedascity**
+```{r lecture-12-linear-regression-8, fig.height=5, fig.width=5}
+x <- 1:100
+y <- rnorm(100, mean=5 * x, sd=0.1*x)
+m <- lm(y ~ x)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+```
+
+---
+## What to do when the variance is not constant?
+
+- transformation of the response $y$
+  - log transformation
+  - square root transformation
+  - variance stabilizing transformation
+
+---
+## Consequence of heteroscedascity
+
+* Hypothesis tests are invalid because standard errors of estimates are inconsistent
+
+---
+## What could go wrong?
+
+Relation between $x$ and $y$ is not linear
+```{r lecture-12-linear-regression-11, fig.height=5, fig.width=5}
+x <- 1:100
+y <- rnorm(100, mean=0.01 * x^3)
+m <- lm(y ~ x)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+```
+
+---
+## What to do when relation is not linear?
+
+- transformation of the data $x$
+  - in our example $x^3$, in practice difficult to know! Try out!
+  
+```{r lecture-12-linear-regression-12, fig.height=5, fig.width=5}
+x <- 1:100
+y <- rnorm(100, mean=0.01 * x^3)
+xt <- x^3
+m <- lm(y ~ xt)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+```  
+
+---&twocol w1:40% w2:40%
+## Consequence of non-linear relation: bad fit
+
+*** =left
+
+```{r lecture-12-linear-regression-12-1, fig.height=6, fig.width=6, echo=FALSE}
+x <- 1:100
+y <- rnorm(100, mean=0.01 * x^3)
+xt <- x^3
+m <- lm(y ~ xt)
+plot(y ~ x)
+abline(m, lwd=2)
+legend("topleft", lwd=2, legend="Linear fit")
+```  
+
+*** =right
+
+```{r lecture-12-linear-regression-12-2, fig.height=6, fig.width=6, echo=FALSE}
+x <- 1:100
+y <- rnorm(100, mean=0.01 * x^3)
+xt <- x^3
+m <- lm(y ~ xt)
+yhat <- predict(m)
+plot(y ~ x)
+lines(x, yhat, lwd=2)
+legend("topleft", lwd=2, legend="Cubic fit")
+```  
+
+
+---
+## What could go wrong?
+
+Residuals are not normal
+```{r lecture-12-linear-regression-9, fig.height=5, fig.width=5}
+x <- 1:100
+y <- rpois(100, lambda=5 * x)
+m <- lm(y ~ x)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+```
+
+---&twocol w1:40% w2:40%
+## QQ-Plot to check for normal residuals
+
+*** =left
+Normally distributed residuals
+```{r lecture-12-linear-regression-10-1, fig.height=5, fig.width=5}
+x <- 1:100
+y <- rnorm(100, mean=5 * x)
+m <- lm(y ~ x)
+qqnorm(resid(m))
+abline(a=0, b=1, lwd=2)
+```
+
+*** =right
+Poisson distributed residuals
+```{r lecture-12-linear-regression-10-2, fig.height=5, fig.width=5}
+x <- 1:100
+y <- rpois(100, lambda=x)
+m <- lm(y ~ x)
+qqnorm(resid(m))
+abline(a=0, b=1, lwd=2)
+```
+
+---
+## Consequence of non-normal residuals
+
+* Hypothesis test may not be valid
+* Unreliable error rates
+  * True type-I error (false positive) is not $\alpha$
+  * True type-II error (false negative) is not $\beta$
+* In particular problematic for small data sets
+
+
+---
+## Summary and conclusion
+Linear models 
+- are a powerful and versatile tool
+- can be used to
+  - predict future data
+  - assess linear relations between variables (hypothesis testing)
+  - describe the structure of the data (multiple linear regression)
+  - control for confounding (multiple linear regression)
+- assumptions need to be checked (diagnostic plots)
+- can be generalized for different distributions (GLMs for classification: next lecture)
+
+

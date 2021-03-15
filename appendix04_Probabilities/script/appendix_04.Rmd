@@ -1,0 +1,200 @@
+```{r include=FALSE}
+options("width"=80)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, cache=T, 
+    results="show",
+    out.width="400px", out.height="250px",
+    fig.align="center",
+    dpi=200, tidy = TRUE, tidy.opts=list(width.cutoff=80))
+
+error_hook <- knitr::knit_hooks$get("error")
+knitr::knit_hooks$set(
+  error = function(x, options) {
+    if (!is.null(n <- options$linewidth)) {
+      x = knitr:::split_lines(x)
+      if (any(nchar(x) > n))
+        x = strwrap(x, width = n)
+      x = paste(x, collapse = '\n')
+    }
+    error_hook(x, options)
+  }
+)
+```
+
+\newcommand{\Var}{\operatorname{Var}} 
+\newcommand{\Cov}{\operatorname{Cov}} 
+\newcommand{\E}{\operatorname{E}}
+
+
+# Probabilities {#appendix-probabilities}
+
+This Appendix covers basic definitions and results of probabilities. It does not aim to replace a lecture on probabilities.
+
+## Probability, conditional probability, and dependence 
+
+We indistinguishably denote $p(a)$:
+
+* the probability of a logical event $A$ to occur
+*  the probability of a discrete random variable $A$ to take the value $a$
+*  the probability mass density of a continuous random variable $A$ at the value $a$
+
+The **joint probability** of two events to occur (two random variables to take particular values) is denoted $p(a,b)$.
+
+<!-- The probability of either event $a$ or $b$ occur, denoted $p(a \vee b)$, equals to: -->
+<!-- \begin{align} -->
+<!-- p(a \vee b) = p(a) + p(b) - p(a,b) -->
+<!-- \end{align} -->
+
+The **conditional probability** of an event $a$ given that $b$ occurs, denoted $p(a|b)$ and said "probability of a given b", is defined as:
+
+\begin{align}
+p(a|b):=\frac{p(a,b)}{p(b)}
+\end{align}
+
+The random variables $a$ and $b$ are **independent**, denoted $a \perp b$, if and only if 
+\begin{align}
+p(a,b) = p(a)p(b)
+\end{align}
+This equivalent to say that $p(a|b) = p(a)$ and that $p(b|a) = p(b)$.
+
+Otherwise, the random variables $a$ and $b$ are dependent, denoted $a \not\perp b$.
+
+<!-- It follows the Bayes theorem: -->
+<!-- \begin{align} -->
+<!-- p(b|a)=\frac{p(a|b)p(b)}{p(a)} -->
+<!-- \end{align} -->
+
+<!-- These results are easy to recollect from an ensemblist point of view. Consider the union and intersection sets in Figure \ref{fig:probs}. -->
+
+<!-- ```{r, out.width = "200px", echo=FALSE, fig.cap="\\label{fig:probs}Probability basics - Ensemblist point of view"} -->
+<!-- knitr::include_graphics("../assets/img/lec02-probs-fundamentals.png") -->
+<!-- ``` -->
+
+These results generalize to discrete random variables and to probability densities of continuous random variables.
+
+<!-- ## Boole's inequality -->
+
+<!-- Assume we are rolling a six-sided die exactly once. Let $X$ be the result. $X$ can take any value $1,2,...,6$. -->
+
+<!-- Let $A$ be the event that we roll a number smaller than 5, so $X<5$. Let $B$ be the event that we roll a number bigger than 3, so $X>3$. -->
+
+<!-- It is easy to see that: -->
+
+<!-- $p(A) = p(X<5) = p(X \in \{1,2,3,4\}) = \frac{4}{6}$, -->
+
+<!-- $p(B) = p(X>3) = p(X \in \{4,5,6\}) = \frac{3}{6}$ -->
+
+<!-- Thus $p(A) + p(B) = \frac{7}{6}$ -->
+
+<!-- Now we ask: what is the probability of $A \cup B$, i.e. what is the probability that $A$ happens or $B$ happens (or both ^[recall that *or* in math generally means "one or the other or both"])? It is easy to see that, whatever we roll, the result will always be either smaller than 5, or bigger than 3, or both. More formally: -->
+
+<!-- $p(A \cup B) = p(X<5 \textrm{ or } X>3) = p(X \in \{1,2,3,4,5,6\}) = 1$ -->
+
+<!-- We see that $p(A \cup B) \leq p(A) + p(B)$. This is because $A$ and $B$ can happen at the same time. Looking again at the formulas: -->
+
+<!-- $p(A) + p(B) = p(X \in \{1,2,3,4\}) + p(X \in \{4,5,6\})$ -->
+
+<!-- We see that we count the event that we roll a 4 twice. To get an expression for $p(A \cup B)$ using $p(A)$ and $p(B)$ we thus need to subtract away this double counting: -->
+
+<!-- $p(A \cup B) = p(X \in \{1,2,3,4\}) + p(X \in \{4,5,6\}) - p(X = 4) = p(A) + p(B) - p(A \cap B)$ -->
+
+<!-- Where $A \cap B$ refers to both $A$ and $B$ occurring, i.e. when we roll a 4.  -->
+
+<!-- It follows also that, when two events are mutually exclusive (i.e. they cannot happen at the same time), then $p(A \cap B)=0$ and thus: -->
+
+<!-- $p(A \cup B) = p(A) + p(B)$ -->
+
+<!-- The observations we just made also generalize if we are considering many events. Specifically, if we have events $E_1, ..., E_m$, then: -->
+
+<!-- $p\left\{ \bigcup_{i=1}^{m}\left(E_i \right) \right\} \leq\sum_{i=1}^{m}\left\{p\left(E_i\right)\right\}$ -->
+
+<!-- This is called Boole's inequality. -->
+
+## Expected value, variance, and covariance
+
+If $X$ is a random variable with a probability density function $p(x)$, then the **expected value** is defined as the sum (for discrete random variables) or integral (for univariate continuous random variables) ^[This lose definition suffices for our purposes. Correct mathematical definitions of the expected value are involved. See https://en.wikipedia.org/wiki/Expected_value]:
+$$\operatorname{E}[X] = \int x p(x)\, dx$$
+
+
+The **variance** is defined as:
+
+$$\Var[X]=\E[(X - \E[X])^2]$$
+The **standard deviation** is the squared root of the variance:
+
+$$\operatorname{SD}(X) = \sqrt{\Var(X)}$$
+
+
+The **covariance** of two random variables $X$ and $Y$ is defined as: 
+
+$$\Cov[(X,Y)]=\E[(X - \E[X])(Y - \E[Y])]$$
+The **Pearson correlation coefficient** $\rho_{X,Y}$ of two random variables $X$ and $Y$ is defined as:
+
+$$\rho_{X,Y} = \frac{\Cov[(X,Y)]}{\operatorname{SD}[X]\operatorname{SD}[Y]}$$
+
+The expected value of multidimensional random variables is defined per component. That is,
+
+$$\E[(X_1,\ldots,X_n)]=(\E[X_1],\ldots,\E[X_n])$$
+
+The **covariance matrix** of a multidimensional random variables $X$ is the matrix of all pairwise covariances, i.e. with $(i,j)$-th element  being:
+
+$$(\textbf{Cov}[X])_{i,j}=\Cov[(X_i,X_j)]$$ 
+
+
+## Sample estimates
+Let $\{x_1,...,x_n\}$ a finite sample of size $n$ of independent realizations of a random variable $X$. Considered as random variables, the $x_i$ are independently and identically distributed (i.i.d.).
+
+The **sample mean**, often denoted $\bar x$, is defined as:
+
+$$\bar x = \frac{1}{n}\sum_i x_i$$
+The sample mean is an unbiased estimator of the expected value. That is, $\E[\bar x] = \E[X]$.
+
+The **sample variance** is defined as:
+
+$$\sigma^2_x = \frac{1}{n}\sum_i (x_i-\bar x)^2$$
+The sample variance is not an unbiased estimator of the variance. Therefore, one often uses the **unbiased sample variance**, defined as:
+
+$$s_x^2 = \frac{1}{n-1}\sum_i (x_i-\bar x)^2$$
+for which $\E[s^2_x] = \Var[X]$ holds.
+
+The **sample standard deviation** and the **unbiased sample standard deviation** are defined as the squared root of their variance counterparts.
+
+
+## Linear regression {#appendix-lin-reg}
+This is the proof for the univariate linear regression estimates.
+
+For a data set $(x, y)_i$ with $i \in \{1 \dots N\}$ the univariate linear model is defined as
+$$y_i = \alpha + \beta x_i + \epsilon_i$$
+with free parameters $\alpha$ and $\beta$ and a random error
+$\epsilon_i \sim N(0, \sigma^2)$ that is i.i.d. (independently and identically distributed).
+
+The normal distribution is defined as
+$$N(\epsilon | 0, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{\epsilon^2}{2 \sigma^2}) .$$
+
+The assumption that the errors $\epsilon_i$ are independent and identically distributed allows us to factorize the Likelihood of the data under the linear model as
+$$L(\alpha, \beta, \sigma^2) = \prod_{i=1}^{N} N(\epsilon_i | 0, \sigma^2) ,$$
+using the fact that the probability of independent events is the product of the probabilities of each individual event.
+
+We are interested in finding the parameters $\alpha$, $\beta$ and $\sigma^2$ that best model our data. This can be achieved by finding the parameters that maximize the likelihood of our data. As maximizing the likelihood is equivalent to maximizing the log likelihood and as the log likelihood is easier to handle, we will use the log likelihood in the following. 
+
+The log likelihood of our data is defined as follows: 
+
+\begin{align}
+\log(L(\alpha, \beta, \sigma^2)) & = \log( \prod_{i=1}^{N} N(\epsilon_i | 0, \sigma^2) ) \\
+& = \sum_{i=1}^{N} \log( N(y_i - (\alpha + \beta x_i) | 0, \sigma^2) ) \\
+& =  - 0.5 N \log(2 \pi \sigma^2) + \sum_{i=1}^{N} - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2} .
+\end{align}
+
+<!-- - $$\log(L(\alpha, \beta, \sigma^2)) = \sum_{i=1}^{N} [- 0.5 \log(\pi \sigma^2) - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2}]$$ -->
+<!-- $$\log(L(\alpha, \beta, \sigma^2)) = - 0.5 N \log(2 \pi \sigma^2) + \sum_{i=1}^{N} - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2} .$$ -->
+
+We can maximize a quadratic function by computing its gradient and setting it to zero, this yields:
+$$\hat{\alpha} = \bar{y} - \hat{\beta} \bar{x}$$
+$$\hat{\beta} = \frac{\sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^N (x_i - \bar{x})^2}$$
+$$\hat{\sigma}^2 = \frac{1}{N} \sum_{i=1}^N (y_i - (\hat{\alpha} + \hat{\beta}x_i)^2)$$
+
+with means denoted by $\bar{x}$ and $\bar{y}$.
+
+
+## Resources
+
+The chapters on probability and random variables of Rafael Irizzary's book Introduction to Data Science Chapters gives related primer material [https://rafalab.github.io/dsbook/]. 
+

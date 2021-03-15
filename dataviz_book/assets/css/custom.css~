@@ -1,0 +1,163 @@
+/*Github Ribbon Test*/
+/* Source: https://github.com/dciccale/css3-github-ribbon */
+/* Define classes for example, definition, problem etc. */
+/* Choose meaningful colors for background and text */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Source+Code+Pro:500|Open+Sans|Oswald);
+
+.example {
+  background-color: #121621;
+  top: 1.2em;
+  right: -3.2em;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-box-shadow: 0 0 0 1px #1d212e inset,0 0 2px 1px #fff inset,0 0 1em #888;
+  -moz-box-shadow: 0 0 0 1px #1d212e inset,0 0 2px 1px #fff inset,0 0 1em #888;
+  box-shadow: 0 0 0 1px #1d212e inset,0 0 2px 1px #fff inset,0 0 1em #888;
+  color: #FF0;
+  display: block;
+  padding: .6em 3.5em;
+  position: absolute;
+  font: bold .82em sans-serif;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 1px -1px 8px rgba(0,0,0,0.60);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.definition {
+  background-color: #a00;
+  top: 1.2em;
+  right: -3.2em;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-box-shadow: 0 0 0 1px #1d212e inset,0 0 2px 1px #fff inset,0 0 1em #888;
+  -moz-box-shadow: 0 0 0 1px #1d212e inset,0 0 2px 1px #fff inset,0 0 1em #888;
+  box-shadow: 0 0 0 1px #1d212e inset,0 0 2px 1px #fff inset,0 0 1em #888;
+  color: #FFF;
+  display: block;
+  padding: .6em 3.5em;
+  position: absolute;
+  font: bold .82em sans-serif;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 1px -1px 8px rgba(0,0,0,0.60);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* wrap text in notes and reduce font size so that everything fits. */
+.note pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+ font-size: 14px;
+ line-height: 1.3em;
+}
+
+div.modal-body pre{
+  left: -45px;
+}
+
+.pagination {
+  position: absolute;
+  bottom: -5px;
+  left:110px;
+}
+
+.pagination ul li:before {
+  content: "";
+}
+
+body {
+  font-family: "Open Sans";
+  color: #444;
+}
+
+p {
+  text-align: justify;
+  line-height: 1.5em;
+}
+/* Place Video on Top Right */
+/* FIXME: Move CSS to css/popcorn.css */
+section.video {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+
+/* Smaller code fonts in modal popup */
+.modal pre code {
+  font-size: 16px;
+}
+
+img.center {
+  display: block;
+  margin: auto auto;
+}
+
+body {
+  background-color: #000;
+}
+.quiz-option label{
+  display: inline;
+  font-size: 1em;
+}
+slide.segue h2{
+ font-family: "Open Sans Condensed";
+ font-weight: 700;
+}
+slide:not(.segue)  h2{
+ font-family: "Open Sans Condensed";
+ font-weight: 700;
+ color: darkslategray;
+}
+article p {
+  font-family: "Open Sans"
+}
+
+code {
+  font-size: 100%;
+  font-family: "Source Code Pro", monospace;
+  color: darkred;
+}
+pre code {
+  font-weight: 500;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#glimmer iframe {
+  width: 100%;
+}
+
+.title-slide {
+  background-color: #E6F3FF;
+  /* background-image:url(http://goo.gl/EpXln); */
+}
+
+.title-slide hgroup > h1{
+ font-family: 'Oswald', 'Helvetica', sanserif; 
+}
+
+.title-slide hgroup > h1, 
+.title-slide hgroup > h2,
+.title-slide hgroup p {
+  color: #7C7C81 ;  /* ; #EF5150*/
+}
+
+slides slide .build > * {
+  -webkit-transition: opacity 0.5s ease-in-out 0.2s;
+  -moz-transition: opacity 0.5s ease-in-out 0.2s;
+  -ms-transition: opacity 0.5s ease-in-out 0.2s;
+  -o-transition: opacity 0.5s ease-in-out 0.2s;
+  transition: opacity 0.5s ease-in-out 0.2s;
+}

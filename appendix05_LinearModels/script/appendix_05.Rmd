@@ -1,0 +1,65 @@
+
+# Linear Model {#appendix-lin-reg}
+
+For a data set $(x, y)_i$ with $i \in \{1 \dots N\}$ the simple linear model is defined as
+$$y_i = \alpha + \beta x_i + \epsilon_i$$
+with free parameters $\alpha$ and $\beta$ and a random error
+$\epsilon_i \sim N(0, \sigma^2)$ that is i.i.d. (independently and identically distributed).
+
+The normal distribution is defined as
+$$N(\epsilon | 0, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{\epsilon^2}{2 \sigma^2}) .$$
+
+The assumption that the errors $\epsilon_i$ are independent and identically distributed allows us to factorize the Likelihood of the data under the linear model as
+$$L(\alpha, \beta, \sigma^2) = \prod_{i=1}^{N} N(\epsilon_i | 0, \sigma^2) ,$$
+using the fact that the probability of independent events is the product of the probabilities of each individual event.
+
+With this we can now compute the likelihood of the data $(x, y)_i$ with $i \in \{1 \dots N\}$ as a function of
+the model parameters $\alpha, \beta, \sigma^2$.
+
+\begin{align}
+L(\alpha, \beta, \sigma^2) & = \prod_{i=1}^{N} N(\epsilon_i | 0, \sigma^2)\\
+& =  \prod_{i=1}^{N} N(y_i - \hat{y_i} | 0, \sigma^2)\\
+& =  \prod_{i=1}^{N} N(y_i - (\alpha + \beta x_i) | 0, \sigma^2).
+\end{align}
+
+
+The predictors $x$ are not assumed to be random variables. The responses are not independent from each other if there is a relation between $x$ and $y$. Therefore, the independence assumption is made for the variable $\epsilon$. 
+
+
+### Parameter estimation
+
+**Problem**: How do we find the best parameters of our model?
+
+**Solution**: Maximize the (log) likelihood of our data
+
+We are interested in finding the parameters $\alpha$, $\beta$ and $\sigma^2$ that best model our data. This can be achieved by finding the parameters that maximize the likelihood of our data. As maximizing the likelihood is equivalent to maximizing the log likelihood and as the log likelihood is easier to handle, we will use the log likelihood in the following. 
+
+The log likelihood of our data is defined as follows: 
+
+\begin{align}
+\log(L(\alpha, \beta, \sigma^2)) & = \log( \prod_{i=1}^{N} N(\epsilon_i | 0, \sigma^2) ) \\
+& = \sum_{i=1}^{N} \log( N(y_i - (\alpha + \beta x_i) | 0, \sigma^2) ) \\
+& =  - 0.5 N \log(2 \pi \sigma^2) + \sum_{i=1}^{N} - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2} .
+\end{align}
+
+<!-- - $$\log(L(\alpha, \beta, \sigma^2)) = \sum_{i=1}^{N} [- 0.5 \log(\pi \sigma^2) - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2}]$$ -->
+<!-- $$\log(L(\alpha, \beta, \sigma^2)) = - 0.5 N \log(2 \pi \sigma^2) + \sum_{i=1}^{N} - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2} .$$ -->
+
+We can maximize a quadratic function by computing its gradient and setting it to zero, this yields:
+$$\hat{\alpha} = \bar{y} - \hat{\beta} \bar{x}$$
+$$\hat{\beta} = \frac{\sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^N (x_i - \bar{x})^2}$$
+$$\hat{\sigma}^2 = \frac{1}{N} \sum_{i=1}^N (y_i - (\hat{\alpha} + \hat{\beta}x_i)^2)$$
+
+with means denoted by $\bar{x}$ and $\bar{y}$.
+
+
+
+**Intuition**
+
+It can be shown that in a linear model with errors belonging to a normal distribution, maximizing the likelihood is actually equivalent to minimizing the residual sum of squares (*RSS*).
+
+$$RSS = \sum_{i=1}^{N} (y_i - (\alpha + \beta x_i))^2$$
+
+```{r, echo=FALSE, fig.cap="\\label{fig:linModel} Visualization of a Linear Regression model."}
+knitr::include_graphics("assets/img/lec12_linear_model_geometric0.png")
+```
