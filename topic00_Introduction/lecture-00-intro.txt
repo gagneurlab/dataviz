@@ -1,0 +1,5 @@
+# Introduction slides
+https://docs.google.com/presentation/d/1KtzaEsJhkooObJAqsQv5qFHlcei3qJnrkVtDyV1bhdk/edit?usp=sharing
+
+# Slides for rstudio preparation
+https://docs.google.com/presentation/d/176i3Ae3kx6dBwLsQ0ZKMsYTRpaa6hK5BJ_96XDqnIzg/edit

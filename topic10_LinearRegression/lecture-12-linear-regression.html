@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Analysis and Visualization</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Data Analysis and Visualization">
+  <meta name="author" content="Matthias Heinig, Jan Krumsiek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="./assets/css/custom.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+      <slide class="nobackground">
+    <article class="flexbox vcenter">
+      <span>
+        <img width='500px' src="assets/img/title.jpg">
+      </span>
+    </article>
+  </slide>
+    <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Data Analysis and Visualization</h1>
+    <h2>Linear regression</h2>
+    <p>Matthias Heinig, Jan Krumsiek<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <article data-timings="">
+    <!-- Center image on slide --> 
+
+<script 
+src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script> <script 
+type='text/javascript'> $(function() { $("p:has(img)").addClass('centered'); });
+</script>
+
+<!-- setwd('./lectures/') -->
+
+<!-- START LECTURE -->
+
+<h2>Overview: Linear regression</h2>
+
+<ul>
+<li>A simple linear model</li>
+<li>Parameter estimation</li>
+<li>Hypothesis testing</li>
+<li>Multiple linear regression</li>
+<li>Model selection</li>
+<li>Diagnostic plots</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <article data-timings="">
+    <div class="trasition-slide"> A simple linear model </div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>A simple linear model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>A <em>simple linear model</em> allows to study the relationship between two continuous variables </p>
+
+<ul>
+<li>one variable <code>x</code> is the <em>predictor</em>, <em>explanatory</em> or <em>independent</em> variable </li>
+<li>the other variable <code>y</code> is the <em>response</em>, <em>outcome</em> or <em>depdentent</em> variable </li>
+<li>the model is called <em>simple</em> because we study only one predictor variable</li>
+</ul>
+
+<p><p/>
+<em>Goals</em> of the analysis are</p>
+
+<ol>
+<li>Prediction of future observations.</li>
+<li>Assessment of the effect of, or relationship between, explanatory variables on the response. </li>
+<li>A general description of data structure.</li>
+</ol>
+
+<p>Further reading:</p>
+
+<!-- http://www.stat.cmu.edu/~cshalizi/mreg/15/lectures/06/lecture-06.pdf //-->
+
+<p><a href="https://rafalab.github.io/dsbook/case-study-is-height-hereditary.html">https://rafalab.github.io/dsbook/case-study-is-height-hereditary.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Deterministic vs statistical model</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <h3>Deterministic</h3>
+
+<p><img src="assets/fig/lecture-12-linear-regression-1-1.png" alt="plot of chunk lecture-12-linear-regression-1"></p>
+
+<p>\[F = \frac{5}{9} C + 32\]</p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <h3>Statistical</h3>
+
+<p><img src="assets/fig/lecture-12-linear-regression-2-1.png" alt="plot of chunk lecture-12-linear-regression-2"></p>
+
+<p>\[M = 389 - 6 L\]</p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Model specification</h2>
+  </hgroup>
+  <article data-timings="">
+    <blockquote>
+<p>For a data set \((x, y)_i\) with \(i \in \{1 \dots N\}\) the simple linear model is defined as
+\[y_i = \alpha + \beta x_i + \epsilon_i\] 
+with free parameters \(\alpha\) and \(\beta\) and a random error 
+\(\epsilon_i \sim N(0, \sigma^2)\) that is i.i.d. (independently and indentically distributed)</p>
+</blockquote>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Model visualized</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/img/lec12_linear_model_geometric0.png" alt=""></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Model likelihood</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[y_i = \alpha + \beta x_i + \epsilon_i\] </p>
+
+<p>The normal distribution is defined as 
+\[N(\epsilon, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{\epsilon^2}{2 \sigma^2})\]</p>
+
+<p>with this model we can now compute the likelihood of the data \((x, y)_i\) with \(i \in \{1 \dots N\}\) as a function of 
+the model parameters \(\alpha, \beta, \sigma^2\)</p>
+
+<p>\[
+\begin{eqnarray}
+L(\alpha, \beta, \sigma^2) & = & \prod_{i=1}^{N} N(\epsilon_i, \sigma^2)\\
+& = & \prod_{i=1}^{N} N(y_i - \hat{y_i}, \sigma^2)\\
+& = & \prod_{i=1}^{N} N(y_i - (\alpha + \beta x_i), \sigma^2)\\
+\end{eqnarray}
+\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Quiz</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div class="quiz quiz-single well ">
+  <p>Which assumption allows to factorize the Likelihood of the data under the linear model
+\[y_i = \alpha + \beta x_i + \epsilon_i\] 
+as
+\[L(\alpha, \beta, \sigma^2) = \prod_{i=1}^{N} N(\epsilon_i, \sigma^2) ?\]</p>
+
+<ol>
+<li><p>A    Independence and identical distribution of the predictors \(x_i\)</p></li>
+<li><p>B    Independence and identical distribution of the responses \(y_i\)</p></li>
+<li><p>C    <em>Independence and identical distribution of the errors \(\epsilon_i\)</em></p></li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>The distribution of which variable was defined in the specification?</p>
+
+</div>
+<div class="quiz-explanation">
+  <p>The predictors \(x\) are not assumed to be random variables. The responses are not independent from each other if there is a relation between \(x\) and \(y\). So the indepence assumption is made for variable \(\epsilon\).The probability of independent events is the product of the probablities of each individual event.</p>
+
+</div>
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Parameter estimation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Problem</strong>: How do we find the best parameters of our model?</p>
+
+<p><strong>Solution</strong>: maximize the (log) likelihood of our data</p>
+
+<!--- $$\log(L(\alpha, \beta, \sigma^2)) = \sum_{i=1}^{N} [- 0.5 \log(\pi \sigma^2) - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2}]$$ -->
+
+<p>\[\log(L(\alpha, \beta, \sigma^2)) = - 0.5 N \log(2 \pi \sigma^2) + \sum_{i=1}^{N} - \frac{(y_i - (\alpha + \beta x_i))^2}{2 \sigma^2}\]</p>
+
+<p>How to maximize a quadratic function?</p>
+
+<p>We compute gradient and set it to zero, this yields:
+\[\hat{\alpha} = \bar{y} - \hat{\beta} \bar{x}\]
+\[\hat{\beta} = \frac{\sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^N (x_i - \bar{x})^2}\]
+\[\hat{\sigma}^2 = \frac{1}{N} \sum_{i=1}^N (y_i - (\hat{\alpha} + \hat{\beta}x_i)^2)\]</p>
+
+<p>with means denoted by \(\bar{x}\) and \(\bar{y}\).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Intuition</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Maximizing the likelihood is actually equivalent to minimizing the residual sum of squares (<em>RSS</em>).</p>
+
+<p><img src='assets/img/lec12_linear_model_geometric0.png' width='80%'></p>
+
+<p>\[RSS = \sum_{i=1}^{N} (y_i - (\alpha + \beta x_i))^2\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Geometric representation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Maximizing the likelihood is actually equivalent to minimizing the squared distance between observation and prediction</p>
+
+<p><img src="assets/img/lec12_linear_model_geometric1.png" alt=""></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Fit a simple linear model in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">skincancer = read.table(&quot;extdata/skincancer.txt&quot;, header=T) 
+head(skincancer)
+</code></pre>
+
+<pre><code>##         State  Lat Mort Ocean  Long
+## 1     Alabama 33.0  219     1  87.0
+## 2     Arizona 34.5  160     0 112.0
+## 3    Arkansas 35.0  170     0  92.5
+## 4  California 37.5  182     1 119.5
+## 5    Colorado 39.0  149     0 105.5
+## 6 Connecticut 41.8  159     1  72.8
+</code></pre>
+
+<pre><code class="r">m = lm(Mort ~ Lat, data=skincancer)
+coef(m)
+</code></pre>
+
+<pre><code>## (Intercept)         Lat 
+##  389.189351   -5.977636
+</code></pre>
+
+<p>Other useful functions for <code>lm</code> objects</p>
+
+<ul>
+<li><code>predict</code> compute the fitted values or predict response for new data</li>
+<li><code>resid</code> compute the residuals</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>How well does our model fit the data?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Any data set will give us estimates of the model, but how good is the model overall?</p>
+
+<ul>
+<li><p>Compute model predictions
+\[\hat{y}_i = \hat{\alpha} + \hat{\beta} x_i\]</p></li>
+<li><p>Compute the <em>residuals</em> (compare predictions with the actual values)
+\[\hat{\epsilon}_i = \hat{y}_i - y_i\]</p></li>
+<li><p>Compute the <em>residual sum of squares</em>
+\[RSS = \sum_{i=1}^N \hat{\epsilon}_i^2\]</p></li>
+<li><p>Compare the residual sum of squares to the total sum squares (<em>SS</em>) of \(y\)
+\[R^2 = 1 - \frac{\sum_{i=1}^N \hat{\epsilon}_i^2}{\sum_{i=1}^N (y_i - \bar{y})^2} = 1 - \frac{RSS}{SS}\]</p></li>
+</ul>
+
+<p>\(R^2\) is called the <em>coefficient of determination</em> and represents the percentage of variance explained by the model.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Quiz</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div class="quiz quiz-single well ">
+  <p>\[R^2 = 1 - \frac{\sum_{i=1}^N \hat{\epsilon}_i^2}{\sum_{i=1}^N (y_i - \bar{y})^2} = 1 - \frac{RSS}{SS}\]
+What is the range of values that \(R^2\) can take?</p>
+
+<ol>
+<li><p>A    -infinity &lt; R<sup>2</sup> &lt; infinity</p></li>
+<li><p>B    0 &lt; R<sup>2</sup> &lt; infinity</p></li>
+<li><p>C    -infinity &lt; R<sup>2</sup> &lt; 1</p></li>
+<li><p>D  <em>0 &lt; R<sup>2</sup> &lt; 1</em></p></li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>The model predictions are optimized to at least be as good as the global mean.</p>
+
+</div>
+<div class="quiz-explanation">
+  <p>The sum of squares represents the variation around the global mean, the residual sum of squares represents the variation around the model predictions. The model predictions are optimized to at least be as good as the global mean.</p>
+
+</div>
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Hypothesis testing</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Now that we can estimate the parameters and assuming the Gaussian noise model we can ask:</p>
+
+<blockquote>
+<p>Is there a linear relationship between \(y\) and \(x\)?</p>
+</blockquote>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Quiz</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div class="quiz quiz-single well ">
+  <p>\[y = \alpha + \beta x + \epsilon\] 
+Which expression would indicate a linear relationship?</p>
+
+<ol>
+<li><p>A    alpha = 0</p></li>
+<li><p>B    beta = 0</p></li>
+<li><p>C    alpha != 0</p></li>
+<li><p>D  <em>beta != 0</em></p></li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>Which variable connects x and y?</p>
+
+</div>
+<div class="quiz-explanation">
+  <p>\(y = \alpha + \beta x\) therefore \(\beta\) links \(x\) and \(y\) if \(\beta \neq 0\).</p>
+
+</div>
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Hypothesis testing</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <p>Using the assumption of indenpendent Gaussian noise we can derive the theretical distributions of our estimates.
+\[\hat{\beta} \sim N(\beta, \sigma^2 / N s_X^2)\]
+where \(s_X^2\) is the variance of \(X\).</p>
+
+<p>Note that the true value of \(\beta\) and \(\sigma^2\) are usually not known and need to be estimated. Using the estimate \(\hat{\sigma}^2\) to compute the so called standard error \(\hat{se}(\hat{\beta}) = \hat{\sigma}^2 / N s_X^2\) we obtain the following distribution
+\[\frac{\hat{\beta} - \beta}{\hat{se}(\hat{\beta})} \sim t_{N-2}\]
+where \(t_{N-2}\) denotes the student&#39;s \(t\) distribution with \(N-2\) degrees of freedom.</p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><img src="assets/fig/lecture-12-linear-regression-4-1.png" alt="plot of chunk lecture-12-linear-regression-4"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Hypothesis testing: P-value</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The P-value of a statistical test is the <strong>probability</strong> of the value of a <strong>test statistic</strong> at least as extreme as the one observed in our data <strong>under the null hypothesis</strong>.</p>
+
+<p>In our case:</p>
+
+<ul>
+<li>Null hypothesis \(H_0: \beta_0 = 0\)</li>
+<li>test statistic is \(\hat{t} = \frac{\hat{\beta} - \beta_0}{\hat{se}(\hat{\beta})} = \frac{\hat{\beta}}{\hat{se}(\hat{\beta})}\)</li>
+<li>probability under the null model: \(P(t \geq \hat{t}) \sim t_{N-2}\)</li>
+</ul>
+
+<p>To confirm a liner relation between \(y\) and \(x\) we need to reject the null hypothesis at significance level \(\alpha (= 0.05)\):</p>
+
+<ul>
+<li>Accept \(H_0\) if \(P(|t| \geq |\hat{t}|) > \alpha\)</li>
+<li>Reject \(H_0\) if \(P(|t| \geq |\hat{t}|) \leq \alpha\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Quiz</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div class="quiz quiz-single well ">
+  <p>When would we speak of a linear relationship with \(H_0: \beta = 0\) at significance level \(\alpha\)?</p>
+
+<ol>
+<li><p>A    Reject H0 if P(|t| &gt;|\hat{t}|) &gt; alpha</p></li>
+<li><p>B  <em>Reject H0 if P(|t| &gt; |\hat{t}|) &lt; alpha</em></p></li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>The goal of statistical testing is to reject the null hypothesis</p>
+
+</div>
+<div class="quiz-explanation">
+  <p>We speak of a linear relationship between \(y\) and \(x\) if \(\beta \neq 0\). \(\beta = 0\) is equivalent to \(t=0\). So we need to reject the null hypothesis \(\beta = 0\) under the distribution of the null model.  This is equivalent to the probability of a more extreme statistic under the null model is less than \(\alpha\).</p>
+
+</div>
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Hypothesis testing in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">m = lm(Mort ~ Lat, data=skincancer)
+summary(m)
+</code></pre>
+
+<pre><code>## 
+## Call:
+## lm(formula = Mort ~ Lat, data = skincancer)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -38.972 -13.185   0.972  12.006  43.938 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 389.1894    23.8123   16.34  &lt; 2e-16 ***
+## Lat          -5.9776     0.5984   -9.99 3.31e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 19.12 on 47 degrees of freedom
+## Multiple R-squared:  0.6798, Adjusted R-squared:  0.673 
+## F-statistic:  99.8 on 1 and 47 DF,  p-value: 3.309e-13
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Relation to the <em>classical</em>  t-test</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <h3>Two group t-test with equal variance</h3>
+
+<p><br/>
+<br/>
+<br/></p>
+
+<ul>
+<li>mean group 0: \(\mu_0\)</li>
+<li>mean group 1: \(\mu_1\)</li>
+<li><strong>H0</strong>: \(\mu_0 = \mu_1\)</li>
+<li>\(t = \frac{\bar{X}_0 - \bar{X}_1}{s_p}\)</li>
+<li>\(s_p\): pooled standard deviation</li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <h3>Linear model with one indicator variable</h3>
+
+<ul>
+<li>\(y = \alpha + \beta x\)</li>
+<li>group 0: \(x = 0\)</li>
+<li>group 1: \(x = 1\)</li>
+<li>mean group 0: \(\mu_0 = \alpha\)</li>
+<li>mean group 1: \(\mu_1 = \alpha + \beta\)</li>
+<li><strong>H0</strong>: \(\beta = 0 \Leftrightarrow \alpha = \alpha + \beta \Leftrightarrow \mu_0 = \mu_1\)</li>
+<li>\(t = \frac{\beta}{se}\)</li>
+<li>\(se\): standard error of \(\beta\)</li>
+</ul>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <article data-timings="">
+    <div class="trasition-slide"> Multiple linear regression </div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Multiple linear regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <blockquote>
+<p>For a data set \((\mathbf{x}, y)_i\) with \(i \in \{1 \dots N\}\) and \(\mathbf{x}\) a vector of length \(p\) the multiple linear regression model is defined as
+\[y_i = \beta_0 + \sum_{j=1}^p \beta_j x_{ij} + \epsilon_i\] 
+with free parameters \(\alpha\) and \(\beta\) and a random error 
+\(\epsilon_i \sim N(0, \sigma^2)\) that is i.i.d. (independently and indentically  distributed)</p>
+</blockquote>
+
+<p><p/></p>
+
+<blockquote>
+<p>The model can be written in matrix notation
+\[ \mathbf{y} = X \mathbf{\beta} + \mathbf{\epsilon} \]
+here the matrix \(X\) is of dimension \((N \times p + 1)\) where each row corresponds to the vector \(\mathbf{x}\) with a 1 prepended to accomodate the intercept. The error is distributed as \(\mathbf{\epsilon} \sim N(\mathbf{0}, \Sigma)\) as a multivariate Gaussian with covariance \(\Sigma = \sigma^2 I\) (i.i.d).</p>
+</blockquote>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Parameter estimation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>By the method of maximum likelihood (also for least squares) we obtain 
+\[\hat{\mathbf{\beta}} = (X^TX)^{-1}X^T \mathbf{y}\]
+\[\hat{\sigma}^2 = \frac{\hat{\epsilon}^T\hat{\epsilon}}{N - p}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Nested models and hypothesis testing</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Example model: \(y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3\)</p>
+
+<ul>
+<li>General concept: <strong>nested models</strong></li>
+<li>Comparison of a full model \(\Omega\) to a reduced model \(\omega\)</li>
+<li>Model \(\omega\) is a special case of the more general model \(\Omega\)</li>
+</ul>
+
+<p>Examples</p>
+
+<ul>
+<li>test of individual predictor \(x_1\)
+
+<ul>
+<li>Full model: all \(\beta\) can take any value</li>
+<li>Reduced model: \(\beta_1 = 0\) other \(\beta\) can take any value</li>
+</ul></li>
+<li>test of two predictors \(x_1\) and \(x_2\)
+
+<ul>
+<li>Full model: all \(\beta\) can take any value</li>
+<li>Reduced model: \(\beta_1 = \beta_2 = \beta_3 = 0\) (only the mean \(\beta_0\) can take any value)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Geometric representation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Maximizing the likelihood is actually equivalent to minimizing the squared distance between observation and prediction</p>
+
+<p><img src="assets/img/lec12_linear_model_geometric2.png" alt=""></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Likelihood ratio test (LRT)</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Define the ratio of the two maximized likehoods as test statistic and reject if the ratio is too large
+\[\frac{\max_{\beta, \sigma \in \Omega} L(\beta, \sigma)}{\max_{\beta, \sigma \in \omega} L(\beta, \sigma)}\]
+Looking at the details we find that \(L(\hat{\beta}, \hat{\sigma}) \propto (\hat{\sigma^2})^{-n/2}\) , which gives us a test that rejects if
+\[\frac{\hat{\sigma}^2_{\omega}}{\hat{\sigma}^2_{\Omega}} > \mbox{a constant}\]
+is too large. This is equivalent to
+\[\frac{RSS_{\omega}}{RSS_{\Omega}} > \mbox{a constant}\]
+\[\frac{RSS_{\omega}}{RSS_{\Omega}} - 1 > \mbox{a constant} - 1\]
+\[\frac{RSS_{\omega} - RSS_{\Omega}}{RSS_{\Omega}} > \mbox{another constant}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Distribution of the LRT</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>\(q\) number of parameters in (dimension of) model \(\Omega\)</li>
+<li>\(p\) number of parameters in (dimension of) model \(\omega\)</li>
+<li>test statistic</li>
+</ul>
+
+<p>\[F = \frac{(RSS_{\omega} - RSS_{\Omega}) / (q - p)}{RSS_{\Omega} / (n - q)}\]</p>
+
+<ul>
+<li>\(F\) is distributed according to the F distribution with (q - p) and (n - q) degrees of freedom</li>
+<li><p>Reject the LRT if \(F\) is larger that the critital value corresponding to the significance level</p></li>
+<li><p>This analysis is also frequently referred to as &quot;Analysis of Variance&quot;: <strong>ANOVA</strong></p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Example: testing the difference of means in 3 groups</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <p>\[y = \beta_0 + \beta_1 x_1 + \beta_2 x_2\]</p>
+
+<p>Indicator variables</p>
+
+<ul>
+<li>group &quot;6 cylinders&quot;: \(x_1 = 1\)</li>
+<li>group &quot;8 cylinders&quot;: \(x_2 = 1\)</li>
+</ul>
+
+<p>Test the effect of both indicators at the same time</p>
+
+<ul>
+<li><strong>H0:</strong> \(\beta_1 = \beta_2 = 0\)</li>
+<li>Full model: \(\Omega\) is the space where all three \(\beta\) can take any value</li>
+<li>Reduced model: \(\omega\) is the space where only \(\beta_0\) can take any value</li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><img src="assets/fig/lecture12-linear-regression-mpg-1.png" alt="plot of chunk lecture12-linear-regression-mpg"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Example in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">data(&quot;mtcars&quot;)
+## for the example we need a factor
+## else it will be interpreted as number
+mtcars$cyl &lt;- as.factor(mtcars$cyl)
+## fit the full model
+full &lt;- lm(mpg ~ cyl, data=mtcars)
+## have a look at the model matrix 
+## which is automatically created
+head(model.matrix(full))
+</code></pre>
+
+<pre><code>##                   (Intercept) cyl6 cyl8
+## Mazda RX4                   1    1    0
+## Mazda RX4 Wag               1    1    0
+## Datsun 710                  1    0    0
+## Hornet 4 Drive              1    1    0
+## Hornet Sportabout           1    0    1
+## Valiant                     1    1    0
+</code></pre>
+
+<pre><code class="r">## fit the reduced model (only the intercept &quot;1&quot;)
+reduced &lt;- lm(mpg ~ 1, data=mtcars)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Example in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">## compare the models
+anova(reduced, full)
+</code></pre>
+
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: mpg ~ 1
+## Model 2: mpg ~ cyl
+##   Res.Df     RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1     31 1126.05                                  
+## 2     29  301.26  2    824.78 39.697 4.979e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Adjusting for continuous confounding variables</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>in the car example a large fuel consumption might be due to
+
+<ul>
+<li>strong engine</li>
+<li>heavy cars</li>
+</ul></li>
+<li>many cylinders might be used in heavy cars with strong engines?
+
+<ul>
+<li>include the confounders in the reduced model</li>
+</ul></li>
+</ul>
+
+<pre><code class="r">full &lt;- lm(mpg ~ cyl + hp + wt, data=mtcars)
+reduced &lt;- lm(mpg ~ hp + wt, data=mtcars)
+anova(reduced, full)
+</code></pre>
+
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: mpg ~ hp + wt
+## Model 2: mpg ~ cyl + hp + wt
+##   Res.Df    RSS Df Sum of Sq      F  Pr(&gt;F)  
+## 1     29 195.05                              
+## 2     28 176.62  1    18.427 2.9213 0.09848 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <article data-timings="">
+    <div class="trasition-slide"> Model selection </div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>How do we know which variables need to be in the model?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We want to explain the data in the simplest way</li>
+<li>Unnecessary predictors will add noise to the estimation of other quantities that we are interested in</li>
+<li><p>Collinearity is caused by having too many variables trying to do the same job</p></li>
+<li><p>Procedures</p>
+
+<ul>
+<li>Backward Elimination</li>
+<li>Forward Selection</li>
+</ul></li>
+<li><p>Decision to keep / drop variables based on </p>
+
+<ul>
+<li>Hypothesis tests</li>
+<li>Information criteria (AIC, BIC)</li>
+</ul></li>
+<li><p>All procedures are heuristics, so try out!</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Backward elimination</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Start with all the predictors in the model</li>
+<li>Remove the predictor with highest p-value greater than \(\alpha_{crit}\)</li>
+<li>Refit the model and goto 2</li>
+<li>Stop when all p-values are less than \(\alpha_{crit}\)</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Forward selection</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This just reverses the backward method.</p>
+
+<ol>
+<li>Start with no variables in the model.</li>
+<li>For all predictors not in the model, check their p-value if they are added to the model. Choose the one with lowest p-value less than \(\alpha_{crit}\).</li>
+<li>Continue until no new predictors can be added.</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
+  <article data-timings="">
+    <div class="trasition-slide"> Diagnostic plots </div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Quiz</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div class="quiz quiz-single well ">
+  <p>Which are the most important assumptions of the linear model for hypothesis testing?</p>
+
+<ol>
+<li><p>A    Relation between y and x is linear</p></li>
+<li><p>B    Errors (residuals) are identically and independently distributed</p></li>
+<li><p>C    Errors (residuals) follow a normal distribution</p></li>
+<li><p>D  <em>A, B and C</em></p></li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>There is no hint, try to remember!</p>
+
+</div>
+<div class="quiz-explanation">
+  
+</div>
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>Diagnostic plots</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>How to check our assumptions graphically?</strong></p>
+
+<ul>
+<li>Relation between \(y\) and \(x\) is linear</li>
+<li>Errors (residuals) are identically and independently distributed</li>
+<li>Errors (residuals) follow a normal distribution</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Relation between \(y\) and \(x\) is linear</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <h3>Simple linear regression</h3>
+
+<p>Scatter plot of \(y\) versus \(x\)</p>
+
+<pre><code class="r">plot(Mort ~ Lat, data=skincancer,
+xlab=&quot;Latitude&quot;, ylab=&quot;Mortality&quot;) 
+m = lm(Mort ~ Lat, data=skincancer) 
+abline(m, lwd=2)
+</code></pre>
+
+<p><img src="assets/fig/lecture-12-linear-regression-5-1.png" alt="plot of chunk lecture-12-linear-regression-5"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <h3>Multiple linear regression</h3>
+
+<p>Scatter plot of \(y\) versus \(\hat{y}\)</p>
+
+<pre><code class="r">m &lt;- lm(mpg ~ cyl + hp + wt, data=mtcars)
+plot(mpg ~ predict(m), data=mtcars)
+abline(a=0, b=1, lwd=2)
+</code></pre>
+
+<p><img src="assets/fig/lecture-12-linear-regression-6-1.png" alt="plot of chunk lecture-12-linear-regression-6"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Residuals are identically and independently distributed</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The residuals across all data points come from the same distribution with the same parameters.</p>
+
+<ul>
+<li>Normal distribution</li>
+<li>Mean \(\mu = 0\)</li>
+<li>Standard deviation \(\sigma\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Scatter plot of residuals \(\hat{\epsilon}\) and predicted values \(\hat{y}\)</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">m = lm(Mort ~ Lat, data=skincancer)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+</code></pre>
+
+<p><img src="assets/fig/lecture-12-linear-regression-7-1.png" alt="plot of chunk lecture-12-linear-regression-7"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>What could go wrong?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Variance not constant: <strong>heteroscedascity</strong></p>
+
+<pre><code class="r">x &lt;- 1:100
+y &lt;- rnorm(100, mean=5 * x, sd=0.1*x)
+m &lt;- lm(y ~ x)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+</code></pre>
+
+<p><img src="assets/fig/lecture-12-linear-regression-8-1.png" alt="plot of chunk lecture-12-linear-regression-8"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>What to do when the variance is not constant?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>transformation of the response \(y\)
+
+<ul>
+<li>log transformation</li>
+<li>square root transformation</li>
+<li>variance stabilizing transformation</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Consequence of heteroscedascity</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Hypothesis tests are invalid because standard errors of estimates are inconsistent</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>What could go wrong?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Relation between \(x\) and \(y\) is not linear</p>
+
+<pre><code class="r">x &lt;- 1:100
+y &lt;- rnorm(100, mean=0.01 * x^3)
+m &lt;- lm(y ~ x)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+</code></pre>
+
+<p><img src="assets/fig/lecture-12-linear-regression-11-1.png" alt="plot of chunk lecture-12-linear-regression-11"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>What to do when relation is not linear?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>transformation of the data \(x\)
+
+<ul>
+<li>in our example \(x^3\), in practice difficult to know! Try out!</li>
+</ul></li>
+</ul>
+
+<pre><code class="r">x &lt;- 1:100
+y &lt;- rnorm(100, mean=0.01 * x^3)
+xt &lt;- x^3
+m &lt;- lm(y ~ xt)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+</code></pre>
+
+<p><img src="assets/fig/lecture-12-linear-regression-12-1.png" alt="plot of chunk lecture-12-linear-regression-12"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Consequence of non-linear relation: bad fit</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <p><img src="assets/fig/lecture-12-linear-regression-12-1-1.png" alt="plot of chunk lecture-12-linear-regression-12-1"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><img src="assets/fig/lecture-12-linear-regression-12-2-1.png" alt="plot of chunk lecture-12-linear-regression-12-2"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>What could go wrong?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Residuals are not normal</p>
+
+<pre><code class="r">x &lt;- 1:100
+y &lt;- rpois(100, lambda=5 * x)
+m &lt;- lm(y ~ x)
+plot(resid(m) ~ predict(m))
+abline(h=0)
+</code></pre>
+
+<p><img src="assets/fig/lecture-12-linear-regression-9-1.png" alt="plot of chunk lecture-12-linear-regression-9"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>QQ-Plot to check for normal residuals</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <p>Normally distributed residuals</p>
+
+<pre><code class="r">x &lt;- 1:100
+y &lt;- rnorm(100, mean=5 * x)
+m &lt;- lm(y ~ x)
+qqnorm(resid(m))
+abline(a=0, b=1, lwd=2)
+</code></pre>
+
+<p><img src="assets/fig/lecture-12-linear-regression-10-1-1.png" alt="plot of chunk lecture-12-linear-regression-10-1"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p>Poisson distributed residuals</p>
+
+<pre><code class="r">x &lt;- 1:100
+y &lt;- rpois(100, lambda=x)
+m &lt;- lm(y ~ x)
+qqnorm(resid(m))
+abline(a=0, b=1, lwd=2)
+</code></pre>
+
+<p><img src="assets/fig/lecture-12-linear-regression-10-2-1.png" alt="plot of chunk lecture-12-linear-regression-10-2"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>Consequence of non-normal residuals</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Hypothesis test may not be valid</li>
+<li>Unreliable error rates
+
+<ul>
+<li>True type-I error (false positive) is not \(\alpha\)</li>
+<li>True type-II error (false negative) is not \(\beta\)</li>
+</ul></li>
+<li>In particular problematic for small data sets</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>Summary and conclusion</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Linear models </p>
+
+<ul>
+<li>are a powerful and versatile tool</li>
+<li>can be used to
+
+<ul>
+<li>predict future data</li>
+<li>assess linear relations between variables (hypothesis testing)</li>
+<li>describe the structure of the data (multiple linear regression)</li>
+<li>control for confounding (multiple linear regression)</li>
+</ul></li>
+<li>assumptions need to be checked (diagnostic plots)</li>
+<li>can be generalized for different distributions (GLMs for classification: next lecture)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='NA'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='NA'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='A simple linear model'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Deterministic vs statistical model'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Model specification'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Model visualized'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Model likelihood'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Quiz'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Parameter estimation'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Intuition'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Geometric representation'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Fit a simple linear model in R'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='How well does our model fit the data?'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Quiz'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Hypothesis testing'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Quiz'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Hypothesis testing'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Hypothesis testing: P-value'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Quiz'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Hypothesis testing in R'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Relation to the <em>classical</em>  t-test'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='NA'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Multiple linear regression'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Parameter estimation'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Nested models and hypothesis testing'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Geometric representation'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Likelihood ratio test (LRT)'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Distribution of the LRT'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='Example: testing the difference of means in 3 groups'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Example in R'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Example in R'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Adjusting for continuous confounding variables'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='NA'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='How do we know which variables need to be in the model?'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='Backward elimination'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Forward selection'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='NA'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='Quiz'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='Diagnostic plots'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='Relation between \(y\) and \(x\) is linear'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='Residuals are identically and independently distributed'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='Scatter plot of residuals \(\hat{\epsilon}\) and predicted values \(\hat{y}\)'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='What could go wrong?'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title='What to do when the variance is not constant?'>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='Consequence of heteroscedascity'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='What could go wrong?'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='What to do when relation is not linear?'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='Consequence of non-linear relation: bad fit'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='What could go wrong?'>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title='QQ-Plot to check for normal residuals'>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title='Consequence of non-normal residuals'>
+         51
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=52 title='Summary and conclusion'>
+         52
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+<script src="libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="libraries/widgets/quiz/js/quiz-app.js"></script>
+
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

@@ -1,0 +1,557 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+# Tidy data and combining tables
+
+## Introduction
+### Motivation
+Without good practices, much of the time of a data analyst can be wasted in data wrangling rather than visualization or analysis. The concept of tidy data [@Wickham2014] addresses this issue by offering a standard representation of data, that is easy to manipulate, model and visualize. This chapter introduces the notion of tidy data and operations for tidying up messy datasets. Moreover, we describe how to easily concatenate tables with the same format and merge tables with common variables. This will set us ready for data visualization and analytics.
+
+This chapter is partially adopted from "Introduction to Data Science" by Rafael A. Irizarry (https://rafalab.github.io/dsbook/) and uses concepts and material introduced by the developers of the `tidyr` package.
+
+### Datasets used in this chapter
+
+The following code chunks load libraries and tables used throughout this chapter.
+
+```{r, echo=TRUE, warning=FALSE}
+  library(data.table) # melt, dcast, ...
+  library(tidyr) # separate, unite, ...
+```
+
+```{r, echo=TRUE, warning=FALSE}
+DATADIR <- "extdata"
+
+election_results <- fread(
+  file.path(DATADIR, "US-pres16results.csv"), 
+  na.strings=c("NULL", "NA"), encoding = "UTF-8", sep = ","
+  )
+
+election_results <- election_results[
+  is.na(county) & st != "US",
+  .(cand, st, votes, total_votes)
+  ]
+
+setnames(election_results, "cand", "candidate")
+setnames(election_results, "st", "state")
+
+table1 <- fread(
+  file.path(DATADIR, "table1_alternate.csv"), 
+  na.strings=c("NULL", "NA"), encoding = "UTF-8", sep = ","
+  ) 
+
+table2 <- fread(
+  file.path(DATADIR, "table2_alternate.csv"), 
+  na.strings=c("NULL", "NA"), encoding = "UTF-8", sep = ","
+  ) 
+
+table3 <- fread(
+  file.path(DATADIR, "table3_alternate.csv"), 
+  na.strings=c("NULL", "NA"), encoding = "UTF-8", sep = ","
+  )
+
+table4 <- fread(
+  file.path(DATADIR, "table4_alternate.csv"), 
+  na.strings=c("NULL", "NA"), encoding = "UTF-8", sep = ","
+  ) 
+
+table5 <- fread(
+  file.path(DATADIR, "table5_alternate.csv"), 
+  na.strings=c("NULL", "NA"), encoding = "UTF-8", sep = ","
+  ) 
+```
+
+## Tidy and untidy data
+
+### Definition of tidy data
+
+![**Tidy data table layout.** Each variable has a column, each observation a row and each value a cell.](assets/img/lec05_tidy-1_alternate.png)
+
+
+We say that a data table is in  _tidy_ format if:
+  
+1. Each **variable** has its own **column**.
+2. Each **observation** has its own **row**.
+3. Each **value** has its own **cell**.
+
+The following dataset from the 2016 US presidential vote^[https://www.kaggle.com/stevepalley/2016uspresidentialvotebycounty?select=pres16results.csv] is an example of a tidy dataset:
+
+
+```{r, echo=TRUE, warning=FALSE}
+head(election_results)
+```
+
+Each row represents a state and a candidate with each of the four values related to these states stored in the four variables: candidate, state, votes, and total_votes.
+
+### Advantages of tidy data
+
+Organizing data in a tidy fashion reduces the burden to frequently reorganize the data. In particular, the advantages are:
+
+* Easier manipulation using `data.table` commands such as sub-setting by rows and columns, as well as `by` operations
+* Vectorized operations become easier to use
+* Many other tools work better with tidy data, including plotting functions, hypothesis testing functions, and modeling functions such as linear regression. These advantages will become striking in the following chapters.
+
+### Common signs of untidy datasets
+
+Often, untidy datasets can be identified by one or more of the following issues [@Wickham2014]:
+  
+* Column headers are values, not variable names
+* Multiple variables are stored in one column
+* Variables are stored in both rows and columns
+* A single observational unit is stored in multiple tables
+
+@Wickham2014 furthermore mentions "Multiple types of observational units stored in the same table" as a sign of untidy data.
+This point is discussed in Section \@ref(tidy-not-unique). 
+
+<!-- We will show this advantages with the following example: -->
+
+<!-- ```{r, echo = FALSE} -->
+<!-- dt <- table1 -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- head(dt) -->
+<!-- ``` -->
+
+<!-- As stated before, tidy data can be easily manipulated. For example in the table above we can easily compute the percentage of votes given to a candidate in a particular state using the following commands: -->
+
+<!--   ```{r} -->
+<!-- # Compute percentage -->
+<!-- dt[, percentage := votes / total_votes * 100] # vectorized operations; dt is modified -->
+<!-- head(dt) -->
+
+<!-- # Compute total votes per candidate -->
+<!-- dt[, .(votes = sum(votes)), by = candidate] # note that this does not modify dt -->
+<!-- ``` -->
+<!-- ```{r, echo = FALSE} -->
+<!-- dt_simple <- dt[candidate%in%c("Hillary Clinton", "Donald Trump") & state%in%c("CA", "FL")] -->
+<!-- ``` -->
+
+<!-- this would raise many questions, not the simplest plot, ggplot is complicated, etc. Also, a bit political. -->
+
+<!-- Additionally, tidy data works better with many packages like ggplot2 which we are going to use in this course. -->
+<!-- For the sake of simplicity of the plot we use data for the top candidates in selected states (California and Florida).  -->
+<!-- ```{r leture05-ggplot-tidy-data-alternate} -->
+<!-- ggplot(dt_simple, aes(state, votes, fill=candidate)) +  -->
+<!--      geom_bar(position="dodge", stat="identity") -->
+<!-- ``` -->
+
+## Tidying up datasets
+
+In this part of the chapter, we show how to transform untidy datasets into tidy ones. To this end, we will present some of the most often encountered untidy formats and present specific solutions to each of them.
+
+### Melting (wide to long)
+
+One of the most used operations to obtain tidy data is to transform a wide table into a long table. This operation, which transforms a wide table into a long table is called melting, by analogy with melting a piece of metal. It is useful in particular when data is untidy because column headers are values, and not variable names.
+
+As an example, consider the table below which reports vote counts for two US states, California and Florida. In this table, the column names CA and FL are values of the variable *state*. Therefore, we can say that this table is in an untidy format:
+
+```{r}
+table4
+```
+
+![Melting the election dataset](assets/img/lec05_tidy-gather_alternate.png)
+This can be achieved by using the __data.table__ function `melt()`:
+
+```{r}
+melt(table4,
+     id.vars = "candidate",
+     measure.vars = c("CA", "FL"),
+     variable.name = "state",
+     value.name = "votes")
+```
+
+We remark that the previous chunk of code would work as well without specifying either `measure.vars` OR `id.vars`. However, specifying neither will not work.
+
+When melting, all values in the columns specified by the `measure.vars` argument are gathered into one column whose name can be specified using the `value.name` argument. Additionally, a new column, which can be named using the argument `variable.name`, is created containing all values which were previously stored in the column names. 
+
+Now we have a table in a tidy format where a row represents the number of votes for a candidate in a state. The new table also makes clear that the quantities are numbers of votes thanks to the column name.
+
+### Casting (long to wide)
+
+The other way around also happens frequently. It is helpful when multiple variables are stored in one column. In the table below, multiple values, namely the number of votes for a candidate and the total number of votes, are reported in one column. It is not easy to compute the percentage of votes given to a candidate in this format. To tidy up this table we have to separate those values into two columns:
+
+```{r}
+table2
+```
+
+
+![Casting the election dataset](assets/img/lec05_tidy-spread_alternate.png)
+
+This operation, which transforms a long table into a wide table is called casting, following up with the metal forging analogy employed with the term "melting".
+
+Data table casting can be achieved using the `dcast()` function whose most frequent usage is:
+  ```{r, eval=FALSE}
+dcast(data, formula, value.var = guess(data))
+```
+
+Casting requires specifying which column contains the categories by which the new columns should be created. This is provided via the `formula` argument. Setting `formula` to be `... ~ type` instructs `dcast` to create new columns in the table containing the categories named in the column "type" and that all other columns will get rearranged accordingly. Furthermore, we force the argument `value.var`, which refers to which column the values have to be extracted from, to be "value" rather than letting `dcast` guessing as by default. The call is then:  
+
+```{r}
+dcast(table2, ... ~ type,  value.var = "value")
+```
+
+The function `dcast` has many more arguments. Also the formula can allow for more sophisticated ways to handle the columns. We refer to the "datatable-reshape" vignette (see section Resources) and the help of `dcast()` for more details. 
+
+### Separating columns
+
+Sometimes single variables can be spread across multiple columns as in the following table.
+
+```{r}
+## One column contains multiple variables
+print(table3)
+```
+
+The number of votes per candidate is displayed in the numerator of the `proportion` column and the total number in the denominator.
+
+We can solve both problems using the `separate()` function from the `tidyr` package. The code below splits up the `proportion` column into two columns, one containing the votes and the other one containing the total votes. By default, columns are separated by any non-alphanumerical character (such as ",", ";", "/",...).
+
+```{r}
+separate(table3, col = proportion,
+         into = c("votes", "total_votes"))
+```
+
+![Separated election dataset](assets/img/lec05_tidy-separate_alternate.png)
+The drawing above visualizes the operation performed above.
+
+### Uniting columns
+
+In this example the first and last names are separated columns without a real need for it (we will not be interested in computing any statistics over all Hillary's):
+
+```{r}
+table5
+```
+
+We unite multiple variables into a single variable with the function `unite()` from the `tidyr` package: 
+
+```{r}
+unite(table5, col = candidate, name, surname, sep = " ")
+```
+
+The `sep` argument defines the separating character(s) used to unite the different column values into one.
+
+![United election dataset](assets/img/lec05_tidy-unite_alternate.png)
+
+<!-- ### A short remark on the pipe operator -->
+
+<!-- You may have noticed that we used the pipe `%>%` operator in a chunk of code above. This operator is provided by the magrittr. The operator forwards a value, or the result of an expression, into the next function call or expression. For example, the following commands will complete exactly the same task: -->
+
+<!-- ```{r, echo=T, eval=F} -->
+<!-- library(magrittr)  # for pipe operator %>%  -->
+
+<!-- ## First assignment with pipe operator -->
+<!-- separate(table3, col = proportion,  -->
+<!--         into = c("votes", "total_votes")) %>% class -->
+
+
+<!-- ## Second assignment without pipe operator -->
+<!-- class(separate(table3, col = proportion, -->
+<!--          into = c("votes", "total_votes")) ) -->
+<!-- ``` -->
+
+<!-- When performing several (nested) functions, the advantage of the pipe operator becomes particularly notable, since it allows clearer code readability and prevents bugs.  -->
+
+### Advanced: Columns containing sets of values
+
+Kaggle, a machine learning platform, conducts a yearly survey among its users. Below are a few columns of the answers from the 2017 survey. In those columns, we observe another type of untidy data. In this survey, multiple choice questions were asked from which multiple answers could be selected. For each individual the selected answers are concatenated into a string.
+
+```{r}
+options(width = 60)
+survey <- fread('extdata/kaggle-survey-2017/multipleChoiceResponses.csv')
+survey[, .(LanguageRecommendationSelect, LearningPlatformSelect, PastJobTitlesSelect)]
+```
+
+<!-- Assume that we want to find out how many of the survey participants acquired their data science skills in college or university. For this, we need to search within the string containing all answers of a participant. -->
+
+<!-- A simple command to search within strings is `grep(pattern, x)`. We can use it for any pattern of characters within a string `x`. -->
+
+<!-- For example: -->
+<!-- ```{r} -->
+<!-- grep('College', 	'Blogs,College/University,Conferences,Friends network') -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- grep('Online courses', 	'Blogs,College/University,Conferences,Friends network') -->
+<!-- ``` -->
+
+<!-- We can use this directly in our selection of rows, to obtain all rows containing a certain course format. -->
+
+<!-- ```{r} -->
+<!-- survey[grep("College/University", LearningPlatformSelect), .N] -->
+<!-- ``` -->
+
+<!-- This way we can see that over 3300 of all survey participants answered in the survey that they acquired their data science skills in "College/University". -->
+
+
+<!-- #### Melting columns with variable length -->
+
+Below is one solution, of how the `LearningPlattformSelect` column could be transformed into a tidy format.
+```{r}
+survey_split <- survey[,tstrsplit(LearningPlatformSelect, ',')]
+survey_split[, individual := 1:nrow(survey)]
+LearningPlatformMelt <- melt(survey_split, 
+                             id.vars = 'individual',
+                             na.rm = TRUE)[, variable := NULL]
+
+LearningPlatformMelt[order(individual)] %>% head(n=5)
+```
+
+
+## Concatenating tables
+
+One frequently has to concatenate (i.e. append) tables with a same format. Such tables may already be loaded into a list or shall be read from multiple files.
+
+For instance, assume a service generates a new file of data per day in a given directory. One is interested in analyzing the files of multiple days jointly. This requires to list all files of the directory, to read each file and to concatenate them into one.
+
+Here is an example with daily COVID-19 data. We first get all file names of the directory into a list called `files`:
+
+```{r, show = TRUE, eval=FALSE}
+files <- list.files('path_to_your_directory')
+```
+```{r, show = FALSE, echo=TRUE}
+files <- list.files('extdata/cov_concatenate', full.names = TRUE)
+head(files)
+```
+
+
+Next, we load all file contents with `fread` using `lapply`,  which passes the function `fread` to every element in the list `files` and returns a list of data.tables called `tables`. 
+```{r}
+# name the list elements by the filenames 
+names(files) <- basename(files)
+
+# read all files at once into a list of data.tables
+tables <- lapply(files, fread)
+```
+
+Let us know look at the first table: 
+```{r}
+head(tables[[1]])
+```
+
+We notice that the variable data is only encoded in the filepath so that we additionally need to introduce a  new variable in the new table, which defines, from which list the original table came from. We do this to avoid loosing information. In this manner, we can state which case / population numbers came from which country.
+
+To do so, we can use the `data.table` function `rbindlist()` which gives us the option to introduce a new column `idcol` containing the list names:
+
+```{r}
+# bind all tables into one using rbindlist, 
+# keeping the list names (the filenames) as an id column. 
+dt <- rbindlist(tables, idcol = 'filepath')
+head(dt)
+```
+
+
+## Merging tables
+
+Merging two data tables into one by common column(s) is frequently needed. This can be achieved using the `merge` function whose core signature is:
+
+```{r, eval=FALSE}
+merge(
+  x, y,                                  # tables to merge
+  by = NULL, by.x = NULL, by.y = NULL,   # by which columns
+  all = FALSE, all.x = all, all.y = all  # types of merge
+)
+```
+
+The four types of merges (also commonly called joins) are:
+
+* **Inner (default)**: consider only rows with matching values in the `by` columns.
+* **Outer or full (all)**: return all rows and columns from `x` and `y`. If there are no matching values, return NAs.
+* **Left (all.x)**: consider all rows from `x`, even if they have no matching row in `y`.
+* **Right (all.y)**: consider all rows from `y`, even if they have no matching row in `x`.
+
+We now provide examples of each type using the following made up tables: 
+
+```{r}
+dt1 <- data.table(p_id = c("G008", "F027", "L051"), 
+                  value = rnorm(3)) 
+dt1
+
+dt2 <- data.table(p_id = c("G008", "F027", "U093"), 
+                  country = c("Germany", "France", "USA")) 
+dt2
+```
+
+### Inner merge
+
+An inner merge returns only rows with matching values in the *by* columns and discards all other rows:
+```{r}
+# Inner merge, default one, all = FALSE
+m <- merge(dt1, dt2, by = "p_id", all = FALSE)
+m   
+```
+
+Note that the row order got changed after the merging. To prevent this and, therefore, to keep the original ordering we can use the argument `sort` and set it to `FALSE`: 
+
+```{r}
+m <- merge(dt1, dt2, by = "p_id", all = FALSE, sort = FALSE)
+m
+```
+
+Note that the row order got changed after the merging.
+
+### Outer (full) merge
+An outer merge returns all rows and columns from `x` and `y`. If there are no matching values, it yields missing values (`NA`):
+```{r}
+# Outer (full) merge, all = TRUE
+merge(dt1, dt2, by = "p_id", all = TRUE)
+```
+
+### Left merge
+Returns all rows from `x`, even if they have no matching row in `y`. Rows from `x` with no matching in `y` lead to missing values (`NA`).
+```{r}
+# Left merge, all.x = TRUE
+merge(dt1, dt2, by = "p_id", all.x = TRUE)
+```
+ 
+### Right merge
+Returns all rows from `y`, even if they have no matching row in `x`. Rows from `y` with no matching in `x` lead to missing values (`NA`).
+```{r}
+# Right, all.y = TRUE
+merge(dt1, dt2, by = "p_id", all.y = TRUE)
+```
+
+### Merging by several columns
+Merging can also be done using several columns. Here are two made-up tables to illustrate this use case:
+
+```{r}
+dt1 <- data.table(firstname = c("Alice", "Alice", "Bob"), 
+                  lastname = c("Coop", "Smith", "Smith"), x=1:3)
+dt1
+
+dt2 <- data.table(firstname = c("Alice", "Bob", "Bob"), 
+                  lastname = c("Coop", "Marley", "Smith"),
+                  y=LETTERS[1:3])
+dt2
+```
+
+We merge now `dt1` and `dt2` by first name and last name:
+```{r}
+merge(dt1, dt2, by=c("firstname", "lastname"))
+```
+
+Notice that merging by first name only gives a different result (as expected):
+
+```{r}
+merge(dt1, dt2, by="firstname")
+```
+
+Also notice that in this case the merge tables has a column lastname.x and a column lastname.y. This is because the two original data tables have a column named the same way ("lastname"), but this column was not part of the "by" argument. Hence, it is assumed that they do not necessarily correspond to the same variable. Hence, they receive distinct names in the returned table. 
+
+## Tidy representations are not unique {#tidy-not-unique}
+While untidy data should be avoided, there can be multiple tidy representations for a particular dataset. We explain this regarding i) alternative forms of a single table and ii) the practical utility of non-normalized representations (i.e. with redundant information). 
+
+### Alternative tidy forms of a table
+There can be alternative tidy representations for a same table.
+Here is an example based on Fisher's Iris dataset. This classic dataset contains measurements of 4 different attributes for 150 iris flowers from 3 different species. See <https://en.wikipedia.org/wiki/Iris_flower_data_set>.
+
+```{r echo=F, fig.show = "hold", out.width = "40%", fig.align = "center", fig.pos='H'}
+knitr::include_graphics("assets/img/lec03_iris.png")
+```
+
+```{r, echo = F}
+iris_dt <- data.table(Flower = paste0("F_",1:nrow(iris)), as.data.table(iris))
+iris_melt <- melt(
+  iris_dt, id.vars =c("Flower","Species"), variable.name = "Attribute",
+  measure.vars = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")
+)
+```
+
+Here is one tidy representation where each row represents one flower:
+```{r, echo = T, results = T}
+# Iris dataset, usual representation
+iris_dt[1:3,]
+```
+
+Here is another tidy representation where each row represents one measurement:
+```{r, echo = T, results = T}
+# Another tidy representation
+iris_melt[1:3,]
+```
+
+Both representations are tidy and can be more or less useful depending on the downstream analysis. For instance the first, wide, representation is handy to assess the relationship between sepal length and sepal width, say by plotting one against the other one or by computing their correlations. The second, long, representation can be useful to compute means by attributes or by attributes and species. In the wide form, computing those group means would require to select columns by names which is tedious and leads to not-easily maintainable code. The decisive criteria between using one or the other tidy representation is the definition on what is considered as an observation in the use case.
+
+
+### On multiple types of observational units in the same table
+
+Another important remark for handling tidy data in practice relates to the last common sign of messy datasets according to @Wickham2014, i.e. "Multiple types of observational units are stored in the same table". Applying this criteria actually depends on the context.
+
+Consider the following table which combines product and customer data:  
+```{r, echo = F, results = T}
+prod_dt <- data.table(
+  productCode = c("p018", "p030", "p018"),
+  productName = c("dryer", "phone", "dryer"),
+  customerNumber = c("c001", "c001", "c002"),
+  customerName = c("Smith", "Smith", "Lewis"),
+  price = c(450, 600, 450),
+  state = c("CA", "CA", "AZ"),
+  quantOrdered = c(1,2,1)
+  )
+prod_dt[, .(productCode, quantOrdered, price, customerNumber, customerName, state)]
+```
+
+This table is tidy. Each row corresponds to an order. The columns are variables. However, it contains repetitive information: the product code, product name and its price on the one hand, the customer number, name and state on the other hand. The information could be stored in separate tables without data repetitions, namely:
+
+* a consumer table:
+```{r, echo = F, results = T}
+unique(prod_dt[, .(customerNumber, customerName, state)])
+```
+
+* a product table:
+```{r, echo = F, results = T}
+unique(prod_dt[, .(productCode, price)])
+```
+
+* an order table:
+```{r, echo = F, results = T}
+unique(prod_dt[, .(productCode, customerNumber, quantOrdered)])
+```
+
+The three-table representation, where each table has unique entries is called a normalized representation. Normalized representations ensure that no multiple types of observational units are stored in the same table. It is a good habit to have normalized representations for database back-ends because it facilitates maintenance of the data consistency by reducing redundancy. One should not enter all customer details at each order but do it one central place and link the information with a customer number.
+
+However, on the data analysis side  (front-end), we are not interested in maintaining a database (back-end), rather in having the desired data in a ready-to-use format which depends on our needs. To this end, the merge table is very handy and can be the common denominator of multiple analyses like:
+```{r}
+# vectorized operations e.g. total price of each order
+prod_dt[, totalPrice := quantOrdered * price]
+
+# group by operations, e.g. number of products per states 
+prod_dt[, N_prod := .N, by = state]
+```
+
+Hence, the choice of the representation (normalized or not) depends on the context: back-end or front-end.
+
+## Summary
+By now, you should be able to:
+
+* define what a tidy dataset is
+* recognize untidy data
+* perform the operations of melting and casting
+* perform the operations of uniting and splitting
+* append tables with the same format by rows
+* understand and perform the 4 merging operations
+
+## Tidy data resources
+Tidy data:
+H. Wickham, Journal of Statistical Software, 2014, Volume 59, Issue 10 <https://www.jstatsoft.org/v59/i10/paper>
+
+Melt and cast:
+<https://cran.r-project.org/web/packages/data.table/vignettes/datatable-reshape.html>
+
+<!-- Stringr, A complementary package for string manipulations: -->
+<!-- <https://github.com/rstudio/cheatsheets/raw/master/strings.pdf> -->
+
+<!-- ### Advantages of non-tidy data -->
+
+<!-- * Performance advantage using certain functions -->
+<!--   + `colSums()` or `heatmap()` on matrices -->
+
+<!-- * Field convention -->
+
+<!-- * Memory efficiency -->
+
+<!--   + don't worry, you should be fine with tidy-data in `data.table` -->
+
+<!-- Interesting blog post: -->
+
+<!--   * <http://simplystatistics.org/2016/02/17/non-tidy-data/> -->
+
+
+

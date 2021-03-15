@@ -1,0 +1,146 @@
+# Additonal plotting tools
+
+
+````{r include=FALSE, cache=F, echo=F}
+library(data.table)
+library(gridExtra)
+library(ggplot2)
+library(magrittr)
+
+
+# data
+ind <- fread('extdata/CPI_HDI.csv')
+
+mysize <- 15
+mytheme <- theme(
+    axis.title = element_text(size=mysize), 
+    axis.text = element_text(size=mysize),
+    legend.title = element_text(size=mysize),
+    legend.text = element_text(size=mysize)
+    ) + theme_bw()
+
+```
+
+## Plotting themes
+
+Themes control non-data parts of your plots, such as:
+
+* Overall appearance
+* Axes
+* Plot title
+* Legends
+
+They control the appearance of your plots (size, color, position) but not how the data is represented. 
+One example is `theme_bw` which provides a white background.
+
+```{r,  fig.height=5, fig.width=6}
+ggplot(ind, aes(CPI, HDI, color=region)) +
+  geom_point() +
+  theme_bw()
+```
+
+Other complete themes are: `theme_classic`, `theme_minimal`, `theme_light`, `theme_dark`.
+
+More themes are available in the `ggthemes` package.
+```{r, fig.height=4.5, fig.width=5.5, fig.cap = 'Example of Wall Street Journal theme'}
+library(ggthemes)
+ggplot(ind, aes(CPI, HDI, color=region)) +
+  geom_point() +
+  theme_wsj() + scale_colour_wsj("colors6", "")
+```
+
+
+## Axes
+
+The appearance of the axis titles can be controlled with the global variable `axis.title`, 
+or independently for $x$ and $y$ using `axis.title.x` and `axis.title.y`.
+
+```{r,  fig.height=4.5, fig.width=6}
+ggplot(ind, aes(CPI, HDI, color=region)) +
+  geom_jitter() +
+  theme(axis.title = element_text(size=20, color = 'red'))
+```
+
+Similar for `axis.text`:
+```{r, fig.height=4.5, fig.width=6}
+ggplot(ind, aes(CPI, HDI, color=region)) +
+  geom_jitter() +
+  theme(axis.text = element_text(size=20, color = 'blue'))
+```
+
+
+### Axis elements
+
+The axis elements control the appearance of the axes:
+
+Element             | Setter            | Description               
+--------------------|-------------------|---------------------------
+axis.line           | `element_line()`  | line parallel to axis (hidden in default themes)
+axis.text           | `element_text()`  | tick labels               
+axis.text.x         | `element_text()`  | x-axis tick labels        
+axis.text.y         | `element_text()`  | y-axis tick labels        
+axis.title          | `element_text()`  | axis titles               
+axis.title.x        | `element_text()`  | x-axis title              
+axis.title.y        | `element_text()`  | y-axis title              
+axis.ticks          | `element_line()`  | axis tick marks           
+axis.ticks.length   | `unit()`          | length of tick marks 
+
+## Plot title
+
+The appearance of the plot's title can be controlled with the variable `plot.title`.
+```{r, fig.height=5, fig.width=6}
+ggplot(ind, aes(CPI, HDI, color=region)) +
+  geom_jitter() +
+  ggtitle('CPI vs HDI') +
+  theme(plot.title = element_text(size=20, face = 'bold'))
+```
+
+
+## Legend
+
+The appearance of the legend can be controlled with `legend.text` and `legend.title`.
+```{r, fig.height=5, fig.width=7}
+base <- ggplot(ind, aes(CPI, HDI, color=region)) +
+  geom_jitter() 
+base + theme(
+  legend.text = element_text(size = 15),
+  legend.title = element_text(size = 15, face = "bold")
+)
+```
+
+The legend elements control the appearance of all legends. You can also modify the appearance of individual legends by modifying the same elements in `guide_legend()` or `guide_colourbar()`.
+
+Element             | Setter                    | Description                                 |
+--------------------|---------------------------|---------------------------------------------|
+legend.background   |  `element_rect()`         | legend background                           |
+legend.key          |  `element_rect()`         | background of legend keys                   |
+legend.key.size     |  `unit()`                 | legend key size                             |
+legend.key.height   |  `unit()`                 | legend key height                           |
+legend.key.width    |  `unit()`                 | legend key width                            |
+legend.margin       |  `unit()`                 | legend margin                               |
+legend.text         |  `element_text()`         | legend labels                               |
+legend.text.align   |  0--1                     | legend label alignment (0 = right, 1 = left)|
+legend.title        |  `element_text()`         | legend name                                 |
+legend.title.align  |  0--1                     | legend name alignment (0 = right, 1 = left) |
+
+
+
+## Interactive plots
+
+Interactive plots can improve presentations. The library `plotly` allows to interactively construct plots. We can simply construct a plot with `ggplot2` and pass this object to the function `ggplotly()`:
+
+```{r,  eval=F, echo=T}
+library(plotly)
+p <- ggplot(mtcars, aes(factor(cyl), mpg)) +
+        geom_boxplot()
+ggplotly(p)
+```
+
+We can also save the generated `plotly` object into an `html` file as follows:
+
+```{r,  echo=T, eval=F}
+plotly_path <- "assets/fig/my_plotly_fig.html"
+save_plotly_as_widget(ggplotly(p), file.path(getwd(), plotly_path))
+```
+
+

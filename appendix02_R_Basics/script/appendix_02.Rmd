@@ -1,0 +1,313 @@
+```{r include=FALSE}
+options("width"=80)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, cache=T, 
+    results="show",
+    out.width="400px", out.height="250px",
+    fig.align="center",
+    dpi=200, tidy = TRUE, tidy.opts=list(width.cutoff=80))
+
+error_hook <- knitr::knit_hooks$get("error")
+knitr::knit_hooks$set(
+  error = function(x, options) {
+    if (!is.null(n <- options$linewidth)) {
+      x = knitr:::split_lines(x)
+      if (any(nchar(x) > n))
+        x = strwrap(x, width = n)
+      x = paste(x, collapse = '\n')
+    }
+    error_hook(x, options)
+  }
+)
+```
+# R programming {#appendix-r-programming}
+
+This Appendix covers the basic concepts of the R programming language: data types, data operations, data structures, control flow and functions. It is largely based on Rafael Irizzary's book Introduction to Data Science [https://rafalab.github.io/dsbook/]. 
+
+## Conditional expressions {#conditionals}
+
+Conditional expressions are one of the basic features of programming. They are used for what is called _flow control_. The most common conditional expression is the if-else statement. In R, we can actually perform quite a bit of data analysis without conditionals. However, they do come up occasionally, and you will need them once you start writing your own functions and packages.
+
+Here is a very simple example showing the general structure of an if-else statement. The basic idea is to print the reciprocal of `a` unless `a` is 0:
+
+```{r}
+a <- 0
+
+if(a!=0){
+  print(1/a)
+} else{
+  print("No reciprocal for 0.")
+}
+```
+
+
+Let's look at one more example using the US murders data frame:
+
+```{r}
+library(dslabs)
+data(murders)
+murder_rate <- murders$total / murders$population*100000
+```
+
+
+Here is a very simple example that tells us which states, if any, have a murder rate lower than 0.5 per 100,000. The `if` statement protects us from the case in which no state satisfies the condition.
+
+```{r}
+ind <- which.min(murder_rate)
+
+if(murder_rate[ind] < 0.5){
+  print(murders$state[ind]) 
+} else{
+  print("No state has murder rate that low")
+}
+```
+
+If we try it again with a rate of 0.25, we get a different answer:
+
+```{r}
+if(murder_rate[ind] < 0.25){
+  print(murders$state[ind]) 
+} else{
+  print("No state has a murder rate that low.")
+}
+```
+
+
+A related function that is very useful is `ifelse`. This function takes three arguments: a logical and two possible answers. If the logical is `TRUE`, the value in the second argument is returned and if `FALSE`, the value in the third argument is returned. Here is an example:
+
+```{r}
+a <- 0
+ifelse(a > 0, 1/a, NA)
+```
+
+The function is particularly useful because it works on vectors. It examines each entry of the logical vector and returns elements from the vector provided in the second argument, if the entry is `TRUE`, or elements from the vector provided in the third argument, if the entry is `FALSE`.
+
+```{r}
+a <- c(0, 1, 2, -4, 5)
+result <- ifelse(a > 0, 1/a, NA)
+```
+
+This table helps us see what happened:
+```{r, echo=FALSE}
+tmp <- data.frame(a = a, is_a_positive = a > 0, answer1 = 1/a, answer2 = NA, result = result)
+if(knitr::is_html_output()){
+  knitr::kable(tmp, "html") %>%
+    kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
+} else{
+  knitr::kable(tmp, "latex", booktabs = TRUE) %>%
+    kableExtra::kable_styling(font_size = 8)
+}
+```
+
+Here is an example of how this function can be readily used to replace all the missing values in a vector with zeros:
+
+```{r}
+data(na_example)
+no_nas <- ifelse(is.na(na_example), 0, na_example) 
+sum(is.na(no_nas))
+```
+
+Two other useful functions are `any` and `all`. The `any` function takes a vector of logicals and returns `TRUE` if any of the entries is `TRUE`. The `all` function takes a vector of logicals and returns `TRUE` if all of the entries are `TRUE`. Here is an example:
+
+```{r}
+z <- c(TRUE, TRUE, FALSE)
+any(z)
+all(z)
+```
+
+## Defining functions
+
+As you become more experienced, you will find yourself needing to perform the same operations over and over. A simple example is computing averages. We can compute the average of a vector `x` using the `sum` and `length` functions: `sum(x)/length(x)`. Because we do this repeatedly, it is much more efficient to write a function that performs this operation. This particular operation is so common that someone already wrote the `mean` function and it is included in base R. However, you will encounter situations in which the function does not already exist, so R permits you to write your own. A simple version of a function that computes the average can be defined like this:
+
+```{r}
+avg <- function(x){
+  s <- sum(x)
+  n <- length(x)
+  s/n
+}
+```
+
+Now `avg` is a function that computes the mean:
+
+```{r}
+x <- 1:100
+identical(mean(x), avg(x))
+```
+
+Notice that variables defined inside a function are not saved in the workspace. So while we use `s` and `n` when we call `avg`, the values are created and changed only during the call. Here is an illustrative example:
+
+```{r}
+s <- 3
+avg(1:10)
+s
+```
+
+Note how `s` is still `r s` after we call `avg`.
+
+
+In general, functions are objects, so we assign them to variable names with `<-`. The function `function` tells R you are about to define a function. The general form of a function definition looks like this:
+
+```{r, eval=FALSE}
+my_function <- function(VARIABLE_NAME){
+  perform operations on VARIABLE_NAME and calculate VALUE
+  VALUE
+}
+```
+
+The functions you define can have multiple arguments as well as default values. For example, we can define a function that computes either the arithmetic or geometric average depending on a user defined variable like this:
+
+```{r}
+avg <- function(x, arithmetic = TRUE){
+  n <- length(x)
+  ifelse(arithmetic, sum(x)/n, prod(x)^(1/n))
+}
+```
+
+We will learn more about how to create functions through experience as we face more complex tasks.
+
+## Namespaces
+
+Once you start becoming more of an R expert user, you will likely need to load several add-on packages for some of your analysis. Once you start doing this, it is likely that two packages use the same name for two different functions. And often these functions do completely different things. 
+Functions of diffrenet packages live in different _namespaces_. R will follow a certain order when searching for a function in these _namespaces_. You can see the order by typing:
+
+```{r, eval=FALSE}
+search()
+```
+
+The first entry in this list is the global environment which includes all the objects you define. 
+
+If we want to be absolutely sure that R uses the function of specific package, we shall use  double colons (`::`). For instance to force R to use the `filter` of the __stats__ package, we can use
+
+```{r, eval=FALSE}
+stats::filter
+```
+
+Also note that if we want to use a function in a package without loading the entire package, we can use the double colon as well.
+
+For more on this more advanced topic we recommend the R packages book^[http://r-pkgs.had.co.nz/namespace.html].
+
+## For-loops
+
+The formula for the sum of the series $1+2+\dots+n$ is $n(n+1)/2$. What if we weren't sure that was the right function? How could we check? Using what we learned about functions we can create one that computes the $S_n$:
+
+```{r}
+compute_s_n <- function(n){
+  x <- 1:n
+  sum(x)
+}
+```
+
+How can we compute $S_n$ for various values of $n$, say $n=1,\dots,25$? Do we write 25 lines of code calling `compute_s_n`? No, that is what for-loops are for in programming. In this case, we are performing exactly the same task over and over, and the only thing that is changing is the value of $n$. For-loops let us define the range that our variable takes (in our example $n=1,\dots,10$), then change the value and evaluate expression as you _loop_. 
+
+Perhaps the simplest example of a for-loop is this useless piece of code:
+```{r}
+for(i in 1:5){
+  print(i)
+}
+```
+
+Here is the for-loop we would write for our $S_n$ example:
+
+```{r}
+m <- 25
+s_n <- vector(length = m) # create an empty vector
+for(n in 1:m){
+  s_n[n] <- compute_s_n(n)
+}
+```
+In each iteration $n=1$, $n=2$, etc..., we compute $S_n$ and store it in the $n$th entry of `s_n`.
+
+Now we can create a plot to search for a pattern:
+
+```{r eval=FALSE}
+n <- 1:m
+plot(n, s_n)
+```
+
+```{r sum-of-consecutive-squares, out.width="50%", echo=FALSE}
+rafalib::mypar()
+n <- 1:m
+plot(n, s_n)
+```
+
+
+If you noticed that it appears to be a quadratic, you are on the right track because the formula is $n(n+1)/2$.
+<!--
+which we can confirm with a table:
+
+```{r show_s_n_table}
+head(data.frame(s_n = s_n, formula = n*(n+1)/2))
+```
+
+We can also overlay the two results by using the function `lines` to draw a line over the previously plotted points:
+
+```{r s_n-v-n}
+plot(n, s_n)
+lines(n, n*(n+1)/2)
+```
+
+-->
+
+## Vectorization and functionals {#vectorization}
+
+Although for-loops are an important concept to understand, in R we rarely use them. As you learn more R, you will realize that _vectorization_ is preferred over for-loops since it results in shorter and clearer code. We already saw examples in the Vector Arithmetic section. A _vectorized_ function is a function that will apply the same operation on each of the vectors.
+
+```{r}
+x <- 1:10
+sqrt(x)
+y <- 1:10
+x*y
+```
+
+To make this calculation, there is no need for for-loops. However, not all functions work this way. For instance, the function we just wrote, `compute_s_n`, does not work element-wise since it is expecting a scalar. This piece of code does not run the function on each entry of `n`:
+
+```{r, eval=FALSE}
+n <- 1:25
+compute_s_n(n)
+```
+
+_Functionals_ are functions that help us apply the same function to each entry in a vector, matrix, data frame, or list. Here we cover the functional that operates on numeric, logical, and character vectors: `sapply`.
+
+The function `sapply` permits us to perform element-wise operations on any function. Here is how it works:
+
+```{r}
+x <- 1:10
+sapply(x, sqrt)
+```
+
+Each element of `x` is passed on to the function `sqrt` and the result is returned. These results are concatenated. In this case, the result is a vector of the same length as the original `x`. This implies that the for-loop above can be written as follows:
+
+```{r s_n-v-n-sapply, eval=FALSE}
+n <- 1:25
+s_n <- sapply(n, compute_s_n)
+```
+
+Other functionals are `apply`, `lapply`, `tapply`, `mapply`, `vapply`, and `replicate`. We mostly use `sapply`, `apply`, and `replicate` in this book, but we recommend familiarizing yourselves with the others as they can be very useful.
+
+## R Markdown
+
+* This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. 
+
+* Simply go to File --> New File --> R Markdown
+
+* Select PDF and you get a template.
+
+* You most likely won't need more commands than in on the first page of [this cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
+
+* When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.  
+
+## Resources
+
+* Advanced R by Hadley Wickham [Advanced R](http://adv-r.had.co.nz/)
+
+* In-depth documentations:
+
+  * [Introduction to R](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf)
+
+  * [R language definition](https://cran.r-project.org/doc/manuals/r-release/R-lang.pdf)
+
+  * [R Internals](https://cran.r-project.org/doc/manuals/r-release/R-ints.pdf)
+
+* Last but not least:
+
+  * [Stackoverflow](http://stackoverflow.com/questions/tagged/r)
+
