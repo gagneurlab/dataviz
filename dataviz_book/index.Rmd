@@ -1,6 +1,8 @@
 --- 
 title: "Data Analysis and Visualization in R (IN2339)"
-author: "Chair of Computational Molecular Medicine"
+author: |
+  | Chair of Computational Molecular Medicine
+  | Technical University of Munich
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -44,13 +46,14 @@ This work is licensed under the [Creative Commons Attribution-NonCommercial-Shar
 
 # Acknowledgments {-}
 
-The script has been first put together in 2020 by Felix Brechtmann, Daniela Klaproth-Andrade, Alexander Karollus, Vangelis Theodorakis, Vicente Yepez, Ines Scheller, and Julien Gagneur.
+This script has been first put together in the winter semester 2020/2021 by Felix Brechtmann, Alexander Karollus, Daniela Klaproth-Andrade, Pedro Silva, and Julien Gagneur with help from Xueqi Cao, Laura Martens, Ines Scheller, Vangelis Theodorakis, and Vicente Yépez.
 
-We leverage work from colleagues in designing lecture slides since 2017: Žiga Avsec, Ines Assum, Daniel Bader, Jun Cheng, Bašak Eraslan, Mathias Heinig, Jan Krumsieck, Christian Mertes, and Georg Stricker.
+We leveraged work from colleagues who helped creating lecture slides since 2017: Žiga Avsec, Ines Assum, Daniel Bader, Jun Cheng, Bašak Eraslan, Mathias Heinig, Jan Krumsieck, Christian Mertes, and Georg Stricker.
 
 
 # Prerequisites {-}
 Basics in probabilities are required. Chapters 13-15 ("Introduction to Statistics with R", "Probability" and "Random variables") of the Book "Introduction to Data Science" https://rafalab.github.io/dsbook/ make a good refresher. Make sure all concepts are familiar to you. Check your knowledge by trying the exercises. 
 
-
+# Feedback {-}
+For improvement suggestions, reporting errors and typos, please use the online document [here](https://docs.google.com/document/d/1tdWmtkDaNUnQLkG_cNfJ2KLHwnaldtQwZh6pUQh8Mpc/edit?usp=sharing).
 
