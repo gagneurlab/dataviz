@@ -8,7 +8,7 @@ output:
 This chapter provides a quick introduction to the programming language R and to using the software RStudio. 
 
 ## Rstudio
-Rstudio is a software that allows to program in R and interactively analyse data with R. It succinctly organizes your session into 4 panels each set up for you to do certain tasks in each panel: Edit and write code (source panel), run and execute code (console panel), list objects that you have in your environment and have a history of your past commands (environment/history panel), and a panel to show your folders' structure, see plots, install/load packages, and read the documentation of functions (files/plots/packages/help panel).
+Rstudio is a software that allows to program in R and interactively analyse data with R. It succinctly organizes your session into 4 panels each set up for you to do certain tasks: Edit and write code (source panel), run and execute code (console panel), list objects that you have in your environment and have a history of your past commands (environment/history panel), and a panel to show your folders' structure, see plots, install/load packages, and read the documentation of functions (files/plots/packages/help panel).
 
 <!-- <!-- ![RStudio](../../assets/img/RStudio.png){#id .class width=600px height=400px} --> 
 ```{r, out.width = "900px", echo=FALSE}
@@ -28,11 +28,11 @@ Check the View menu to find out the rest of useful shortcuts!
 
 
 ## First steps with R
-This section is largely borrowed from the book Introduction to Data Science by Rafael Irizarry. [https://rafalab.github.io/dsbook]
+This section is largely borrowed from the book Introduction to Data Science by Rafael Irizarry (https://rafalab.github.io/dsbook).
 
 ### Objects
 
-Suppose a high school student asks us for help solving several quadratic equations of the form $ax^2+bx+c = 0$. The quadratic formula gives us the solutions:
+Suppose a high school student asks us for help to solve several quadratic equations of the form $ax^2+bx+c = 0$. The quadratic formula gives us the solutions:
 
 $$
 \frac{-b - \sqrt{b^2 - 4ac}}{2a}\,\, \mbox{ and } \frac{-b + \sqrt{b^2 - 4ac}}{2a}
@@ -116,7 +116,7 @@ For most functions, we can also use this shorthand:
 ?log
 ```
 
-The help page will show you what arguments the function is expecting. For example, `log` needs `x` and `base` to run. However, some arguments are required and others are optional. You can determine which arguments are optional by noting in the help document that a default value is assigned with `=`. Defining these is optional. For example, the base of the function `log` defaults to `base = exp(1)` making `log` the natural log by default. 
+The help page will show you what arguments the function is expecting. For example, `log` needs `x` and `base` to run. Some arguments are required and others are optional. You can determine which arguments are optional by noting in the help document that a default value is assigned with `=`. Defining these is optional. For example, the base of the function `log` defaults to `base = exp(1)` making `log` the natural log by default. 
 
 If you want a quick look at the arguments without opening the help system, you can type:
 
@@ -124,7 +124,7 @@ If you want a quick look at the arguments without opening the help system, you c
 args(log)
 ```
 
-You can change the default values by simply assigning another object:
+You can change the default values:
 
 ```{r}
 log(8, base = 2)
@@ -141,7 +141,7 @@ The above code works, but we can save ourselves some typing: if no argument name
 log(8,2)
 ```
 
-If using the arguments' names, then we can include them in whatever order we want:
+If we use the arguments' names, then we can include them in whatever order we want:
 
 ```{r}
 log(base = 2, x = 8)
@@ -267,7 +267,7 @@ To work efficiently in R, it is important to learn the different types of variab
 
 ### Data frames {#data-frames}
 
-Up to now, the variables we have defined are just one number. This is not very useful for storing data. The most common way of storing a dataset in R is in a _data frame_. Conceptually, we can think of a data frame as a table with rows representing observations and the different variables reported for each observation defining the columns. Data frames are particularly useful for datasets because we can combine different data types into one object. 
+Up to now, the variables we have defined are just one number. We might be interested in storing more complex data. The most common way of storing a dataset in R is in a _data frame_. Conceptually, we can think of a data frame as a table with rows representing observations and the different variables reported for each observation defining the columns. Data frames are particularly useful for datasets because we can combine different data types into one object. 
 
 A large proportion of data analysis challenges start with data stored in a data frame.<!--For example, we stored the data for our motivating example in a data frame.-->You can access this dataset by loading the __dslabs__ library and loading the `murders` dataset using the `data` function:
 
@@ -300,10 +300,10 @@ str(murders)
 rm(str)
 ```
 
-This tells us much more about the object. We see that the table has 51 rows (50 states plus DC) and five variables. We can show the first six lines using the function `head`:
+This tells us much more about the object. We see that the table has 51 rows (50 states plus DC) and five variables (stored as columns). We can show the first six lines using the function `head`:
 
 ```{r}
-head(murders)
+head(murders)  # same as murders[1:6]
 ```
 
 In this dataset, each state is considered an observation and five variables are reported for each state.
@@ -412,7 +412,7 @@ The new order is in agreement with the fact that the Northeast has the least mur
 
 ### Lists
 
-Data frames are a special case of _lists_. Lists are useful because you can store any combination of different types. You can create a list using the `list` function like this:
+Data frames are a special case of _lists_. Lists are useful because they can store any combination of different types. You can create a list using the `list` function like this:
 
 ```{r}
 record <- list(name = "John Doe",
@@ -464,7 +464,7 @@ We won't be using lists until later, but you might encounter one in your own exp
 
 ### Matrices {#matrices}
 
-Matrices are another type of object that are common in R. Matrices are similar to data frames in that they are two-dimensional: they have rows and columns. However, like numeric, character and logical vectors, entries in matrices have to be all the same type. For this reason data frames are much more useful for storing data, since we can have characters, factors, and numbers in them. 
+Matrices are another very common object type in R. Matrices are similar to data frames in that they are two-dimensional: they have rows and columns. However, like numeric, character and logical vectors, entries in matrices have to be all the same type. For this reason data frames are much more useful for storing data, since we can have characters, factors, and numbers in them. 
 
 Yet matrices have a major advantage over data frames: we can perform matrix algebra operations, a powerful type of mathematical technique. We do not describe these operations in this book, but much of what happens in the background when you perform a data analysis involves matrices. 
 
@@ -473,7 +473,7 @@ Yet matrices have a major advantage over data frames: we can perform matrix alge
 We can define a matrix using the `matrix` function. We need to specify the number of rows and columns.
 
 ```{r}
-mat <- matrix(1:12, 4, 3)
+mat <- matrix(1:12, nrow = 4, ncol = 3)
 mat
 ```
 
@@ -596,7 +596,7 @@ codes
 
 ### Sequences
 
-Another useful function for creating vectors generates sequences:
+Another useful function for creating vectors in sequences is `seq`:
 
 ```{r}
 seq(1, 10)
@@ -695,7 +695,7 @@ x <- c("1", "b", "3")
 as.numeric(x)
 ```
 
-R does not have any guesses for what number you want when you type `b`, so it does not try.
+R does not have any guesses for what number you want when you type `b`, so it returns `NA`.
 
 As a data scientist you will encounter the `NA`s often as they are generally used for missing data, a common problem in real-world datasets.
 
@@ -725,7 +725,7 @@ x <- c(31, 4, 15, 92, 65)
 sort(x)
 ```
 
-Rather than sort the input vector, the function `order` returns the index that sorts input vector:
+Rather than sorting the input vector, the function `order` returns the indexes that sort the input vector:
 
 ```{r}
 index <- order(x)
@@ -750,11 +750,11 @@ murders$abb[1:6]
 This means we can order the state names by their total murders. We first obtain the index that orders the vectors according to murder totals and then index the state names vector:
 
 ```{r}
-ind <- order(murders$total) 
+ind <- order(murders$total)
 murders$abb[ind] 
 ```
 
-According to the above, California had the most murders.
+According to the above, California (CA) had the most murders.
 
 ### `max` and `which.max`
 
