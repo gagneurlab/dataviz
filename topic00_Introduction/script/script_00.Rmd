@@ -9,7 +9,7 @@ Data Science is at the heart of the scientific method, which starts with making 
 
 ## What you will learn and not learn {-}
 
-The goal of this course is to allow you to provide you general analytic techniques to extract knowledge, patterns, and connections between samples and variables, and how to communicate these in an intuitive and clear way.
+The goal of this course is to provide you with general analytic techniques to extract knowledge, patterns, and connections between samples and variables, and how to communicate these in an intuitive and clear way.
 
 This course focuses on front-end data science. This means, it teaches practical skills to analyse data. We will focus on tidy data, visualizations, and data manipulation in R. To only then dive into the math required to understand and interpret analysis results.
 
@@ -21,7 +21,7 @@ Other courses offered by the faculty of Informatics cover data science back-end 
 
 R is a statistical programming language designed for data analytics. It is a great language for front-end data science, i.e. to rapidly manipulate, visualize and come to raising interesting hypotheses. 
 
-Seen from a software developer point of view (i.e. from a back-end data science point of view), R can be seen cumbersome and not using memory and computing resources efficiently. The purpose of the R language is to reduce time spent in coding to maximize user's brain time on looking at te data and thinking about it, rather that reducing computer's running time. Of course, they are ways to develop efficient R software, notably by relying on implementation in lower languages such as C. This course does not cover such R developer skills. 
+Seen from a software developer point of view (i.e. from a back-end data science point of view), R can be seen cumbersome and not using memory and computing resources efficiently. The purpose of the R language is to reduce time spent in coding to maximize user's brain time on looking at the data and thinking about it, rather than reducing computer's running time. Of course, there are ways to develop efficient R software, notably by relying on implementation in lower languages such as C. This course does not cover such R developer skills. 
 
 Another advantage of R is that it offers a very large set of libraries from many application areas.
 
