@@ -284,7 +284,7 @@ survey[, .(LanguageRecommendationSelect, LearningPlatformSelect, PastJobTitlesSe
 
 <!-- #### Melting columns with variable length -->
 
-Below is one solution, of how the `LearningPlattformSelect` column could be transformed into a tidy format.
+Below is one solution of how the `LearningPlatformSelect` column could be transformed into a tidy format.
 ```{r}
 survey_split <- survey[,tstrsplit(LearningPlatformSelect, ',')]
 survey_split[, individual := 1:nrow(survey)]
@@ -302,7 +302,7 @@ One frequently has to concatenate (i.e. append) tables with a same format. Such 
 
 For instance, assume a service generates a new file of data per day in a given directory. One is interested in analyzing the files of multiple days jointly. This requires to list all files of the directory, to read each file and to concatenate them into one.
 
-Here is an example with daily COVID-19 data. We first get all file names of the directory into a list called `files`:
+Here is an example with daily COVID-19 data. We first get all file names of the directory into a vector called `files`:
 
 ```{r, show = TRUE, eval=FALSE}
 files <- list.files('path_to_your_directory')
@@ -322,12 +322,12 @@ names(files) <- basename(files)
 tables <- lapply(files, fread)
 ```
 
-Let us know look at the first table: 
+Let us now look at the first table: 
 ```{r}
 head(tables[[1]])
 ```
 
-We notice that the variable data is only encoded in the filepath so that we additionally need to introduce a  new variable in the new table, which defines, from which list the original table came from. We do this to avoid loosing information. In this manner, we can state which case / population numbers came from which country.
+We notice that the variable `date` is only encoded in the file path so that we additionally need to introduce a  new variable in the new table, which defines, from which list the original table came from. We do this to avoid losing information. In this manner, we can state which case / population numbers came from which country.
 
 To do so, we can use the `data.table` function `rbindlist()` which gives us the option to introduce a new column `idcol` containing the list names:
 
@@ -372,7 +372,7 @@ dt2
 
 ### Inner merge
 
-An inner merge returns only rows with matching values in the *by* columns and discards all other rows:
+An inner merge returns only rows with matching values in the `by` columns and discards all other rows:
 ```{r}
 # Inner merge, default one, all = FALSE
 m <- merge(dt1, dt2, by = "p_id", all = FALSE)
@@ -386,24 +386,24 @@ m <- merge(dt1, dt2, by = "p_id", all = FALSE, sort = FALSE)
 m
 ```
 
-Note that the row order got changed after the merging.
+Note that the column order is preserved after merging.
 
 ### Outer (full) merge
-An outer merge returns all rows and columns from `x` and `y`. If there are no matching values, it yields missing values (`NA`):
+An outer merge returns all rows and columns from `x` and `y`. If there are no matching values in `p_id`, it yields missing values (`NA`):
 ```{r}
 # Outer (full) merge, all = TRUE
 merge(dt1, dt2, by = "p_id", all = TRUE)
 ```
 
 ### Left merge
-Returns all rows from `x`, even if they have no matching row in `y`. Rows from `x` with no matching in `y` lead to missing values (`NA`).
+Returns all rows from `x`, even if they have no matching row in `y`. Rows from `x` with no matching `p_id` in `y` lead to missing values (`NA`).
 ```{r}
 # Left merge, all.x = TRUE
 merge(dt1, dt2, by = "p_id", all.x = TRUE)
 ```
  
 ### Right merge
-Returns all rows from `y`, even if they have no matching row in `x`. Rows from `y` with no matching in `x` lead to missing values (`NA`).
+Returns all rows from `y`, even if they have no matching row in `x`. Rows from `y` with no matching `p_id` in `x` lead to missing values (`NA`).
 ```{r}
 # Right, all.y = TRUE
 merge(dt1, dt2, by = "p_id", all.y = TRUE)
@@ -467,7 +467,7 @@ Here is another tidy representation where each row represents one measurement:
 iris_melt[1:3,]
 ```
 
-Both representations are tidy and can be more or less useful depending on the downstream analysis. For instance the first, wide, representation is handy to assess the relationship between sepal length and sepal width, say by plotting one against the other one or by computing their correlations. The second, long, representation can be useful to compute means by attributes or by attributes and species. In the wide form, computing those group means would require to select columns by names which is tedious and leads to not-easily maintainable code. The decisive criteria between using one or the other tidy representation is the definition on what is considered as an observation in the use case.
+Both representations are tidy and can be more or less useful depending on the downstream analysis. For instance the first wide representation is handy to assess the relationship between sepal length and sepal width, say by plotting one against the other one or by computing their correlations. The second, long, representation can be useful to compute means by attributes or by attributes and species. In the wide form, computing those group means would require to select columns by names which is tedious and leads to not-easily maintainable code. The decisive criteria between using one or the other tidy representation is the definition on what is considered as an observation in the use case.
 
 
 ### On multiple types of observational units in the same table
