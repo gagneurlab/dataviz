@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 11 Logistic Regression | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 11 Logistic Regression | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-03-16" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="chap-lin-reg.html"/>
 <link rel="next" href="supervised-learning.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,8 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -60,6 +60,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -118,6 +119,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -714,7 +738,7 @@ Note that the odds are poorly estimated for high and low values of height, as th
 <span id="cb660-12"><a href="chap-log-reg.html#cb660-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#999999&quot;</span>,<span class="st">&quot;#000000&quot;</span>)) <span class="sc">+</span>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
 <span id="cb660-13"><a href="chap-log-reg.html#cb660-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb660-14"><a href="chap-log-reg.html#cb660-14" aria-hidden="true" tabindex="-1"></a>p_log_odds</span></code></pre></div>
-<div class="figure"><span id="fig:odds-vs-height"></span>
+<div class="figure"><span style="display:block;" id="fig:odds-vs-height"></span>
 <img src="dataviz_book_files/figure-html/odds-vs-height-1.png" alt="Odds male:female versus height (logaritmic y-scale). The grey halved dots indicate censored bins which have either 0 males or 0 females leading to infinite log-odds estimates." width="384" />
 <p class="caption">
 Figure 11.1: Odds male:female versus height (logaritmic y-scale). The grey halved dots indicate censored bins which have either 0 males or 0 females leading to infinite log-odds estimates.
@@ -738,7 +762,7 @@ Figure 11.1: Odds male:female versus height (logaritmic y-scale). The grey halve
 <span id="cb661-4"><a href="chap-log-reg.html#cb661-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb661-5"><a href="chap-log-reg.html#cb661-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;z&quot;</span>) <span class="sc">+</span></span>
 <span id="cb661-6"><a href="chap-log-reg.html#cb661-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(<span class="fu">sigma</span>(z)) ) </span></code></pre></div>
-<div class="figure"><span id="fig:sigmoid"></span>
+<div class="figure"><span style="display:block;" id="fig:sigmoid"></span>
 <img src="dataviz_book_files/figure-html/sigmoid-1.png" alt="The logistic or sigmoid function" width="288" />
 <p class="caption">
 Figure 11.2: The logistic or sigmoid function
@@ -897,7 +921,7 @@ Overall, logistic regression fits better to our data and fixes the issue of havi
 <span id="cb665-27"><a href="chap-log-reg.html#cb665-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb665-28"><a href="chap-log-reg.html#cb665-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb665-29"><a href="chap-log-reg.html#cb665-29" aria-hidden="true" tabindex="-1"></a>p_hist_male <span class="sc">/</span> p_hist_female <span class="sc">/</span> p_log_odds <span class="sc">/</span> p_fit_male</span></code></pre></div>
-<div class="figure"><span id="fig:sex-from-height-overview"></span>
+<div class="figure"><span style="display:block;" id="fig:sex-from-height-overview"></span>
 <img src="dataviz_book_files/figure-html/sex-from-height-overview-1.png" alt="Overview of predicting sex from height. From top to bottom: distribution of heights for i) males and ii) females, iii) Male to female ratio in log-scale, and iv) proprotion of males (dots) along with logistic regression fit (red curve). Note that while 2-cm bins are used throughout the plot for visualization purposes, the logistic regression fit in contrast is performed on the raw data, i.e. sex (0/1) versus height." width="768" />
 <p class="caption">
 Figure 11.3: Overview of predicting sex from height. From top to bottom: distribution of heights for i) males and ii) females, iii) Male to female ratio in log-scale, and iv) proprotion of males (dots) along with logistic regression fit (red curve). Note that while 2-cm bins are used throughout the plot for visualization purposes, the logistic regression fit in contrast is performed on the raw data, i.e. sex (0/1) versus height.
@@ -955,7 +979,7 @@ This gives us a height value of 173.6 cm. Note that the point of steepest increa
 <pre><code>##         1 
 ## 0.9681999</code></pre>
 <p>An increase in height from 173.6 cm to 178.6 cm increases the estimated probability by 0.35, while an increase in height from 178.6 cm to 183.6 cm increases the estimated probability by 0.12.</p>
-<div class="figure"><span id="fig:log-increase"></span>
+<div class="figure"><span style="display:block;" id="fig:log-increase"></span>
 <img src="dataviz_book_files/figure-html/log-increase-1.png" alt="Estimated probability given the same 5 cm increase in height on different points of the logistic curve." width="384" />
 <p class="caption">
 Figure 11.4: Estimated probability given the same 5 cm increase in height on different points of the logistic curve.
@@ -1118,7 +1142,7 @@ ggplot(heights, aes(logistic_logit, fill=sex)) +
 ```
 <img src="dataviz_book_files/figure-html/lecture-02-431-1.png" width="555px" />
 -->
-<div class="figure"><span id="fig:class-cutoff"></span>
+<div class="figure"><span style="display:block;" id="fig:class-cutoff"></span>
 <img src="assets/img/lec13_heights_cutoff.png" alt="When informative, a classifier score separates to some extent the positive from the negative class. Such can be seen in the logistic regression model for sex prediction given height. The choice of a classification cutoff leads to various types of correct and incorrect predictions." width="475px" />
 <p class="caption">
 Figure 11.5: When informative, a classifier score separates to some extent the positive from the negative class. Such can be seen in the logistic regression model for sex prediction given height. The choice of a classification cutoff leads to various types of correct and incorrect predictions.
@@ -1126,7 +1150,7 @@ Figure 11.5: When informative, a classifier score separates to some extent the p
 </div>
 <p>As seen from the previous figure, picking a cutoff at a certain value like the one in the dashed line, will produce classifications which are false positives or false negatives.</p>
 <p>Now imagine we move our cutoff in the way of the next figure:</p>
-<div class="figure"><span id="fig:lecture-02-432"></span>
+<div class="figure"><span style="display:block;" id="fig:lecture-02-432"></span>
 <img src="assets/img/lec13_heights_cutoff_fn.png" alt="Setting a classification cutoff is always a trade-off between sensitivity and specificity." width="475px" />
 <p class="caption">
 Figure 11.6: Setting a classification cutoff is always a trade-off between sensitivity and specificity.
@@ -1253,7 +1277,6 @@ Because the dataset is imbalanced for the female (negative class), the correspon
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1272,6 +1295,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1292,6 +1316,10 @@ gitbook.start({
 "text": null
 },
 "download": {},
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

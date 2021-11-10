@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 High dimensional visualizations | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 High dimensional visualizations | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-03-16" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="low-dimensional-visualizations.html"/>
 <link rel="next" href="graph-supported-hypos.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,8 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -60,6 +60,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -118,6 +119,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -682,7 +706,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>With <code>pheatmap</code> we can also scale the data by rows or columns by setting the argument <code>scale</code> accordingly. We do it here in the classical way, by column:</p>
 <div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="high-dimensional-visualizations.html#cb420-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(mat, <span class="at">cluster_rows=</span><span class="cn">FALSE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span>, </span>
 <span id="cb420-2"><a href="high-dimensional-visualizations.html#cb420-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">scale=</span><span class="st">&#39;column&#39;</span>)</span></code></pre></div>
-<div class="figure"><span id="fig:scaled-heatmap"></span>
+<div class="figure"><span style="display:block;" id="fig:scaled-heatmap"></span>
 <img src="dataviz_book_files/figure-html/scaled-heatmap-1.png" alt="Scaled heatmap." width="480" />
 <p class="caption">
 Figure 5.1: Scaled heatmap.
@@ -701,7 +725,7 @@ Figure 5.1: Scaled heatmap.
 <h4><span class="header-section-number">5.4.1.1</span> Objective</h4>
 <!-- we use big K and not small k like in the book because we can have small k for the cluster indices-->
 <p>K-Means clustering aims to partition the observations into <span class="math inline">\(K\)</span> non-overlapping clusters. The number of clusters <span class="math inline">\(K\)</span> is predefined. The clusters <span class="math inline">\(C_1,...C_K\)</span> define a partition of the observations, i.e., every observation belongs to one and only one cluster. To this end, one makes use of so-called cluster centroids, denoted <span class="math inline">\(\boldsymbol\mu_1, ..., \boldsymbol\mu_K\)</span>, and associates each observation to its closest centroid (Figure <a href="high-dimensional-visualizations.html#fig:K-means-aim">5.2</a>).</p>
-<div class="figure"><span id="fig:K-means-aim"></span>
+<div class="figure"><span style="display:block;" id="fig:K-means-aim"></span>
 <img src="dataviz_book_files/figure-html/K-means-aim-1.png" alt="K-means clustering partitions observations into K clusters (here K=3) by associating each observation to its closest centroids (crosses)." width="384" />
 <p class="caption">
 Figure 5.2: K-means clustering partitions observations into K clusters (here K=3) by associating each observation to its closest centroids (crosses).
@@ -721,7 +745,7 @@ Figure 5.2: K-means clustering partitions observations into K clusters (here K=3
 <p>First, if we assume that the positions of the centroids <span class="math inline">\(\boldsymbol\mu_k\)</span> are given, then each summand <span class="math inline">\(|| \mathbf x_i - \boldsymbol{\mu}_k||^2\)</span> in Equation <a href="high-dimensional-visualizations.html#eq:K-means-obj">(5.1)</a> can be minimized by including the observation <span class="math inline">\(\mathbf x_i\)</span> to the cluster of its closest centroid. The number of clusters <span class="math inline">\(K\)</span> depends on the dataset.</p>
 <p>Second, if we now assume that the clusters are given, then the values of the centroids that minimize <span class="math inline">\(\sum_{i \in C_k}|| \mathbf x_i - \boldsymbol{\mu}_k||^2\)</span> are the observation means, i.e. <span class="math inline">\(\boldsymbol\mu_k = \frac{1}{|C_k|}\sum_{i \in C_k} \mathbf x_i\)</span>. Hence, the centroids are the cluster means, giving the name of the algorithm.</p>
 <p>These two observations lead to an iterative algorithm that provides in practice good solutions, even though it does not guarantee to find the optimal solution.</p>
-<div class="figure"><span id="fig:K-means-algo"></span>
+<div class="figure"><span style="display:block;" id="fig:K-means-algo"></span>
 <img src="assets/img/kMeansD.png" alt="K-mean algorithm. Source: https://en.wikipedia.org/wiki/K-means_clustering" width="300px" />
 <p class="caption">
 Figure 5.3: K-mean algorithm. Source: <a href="https://en.wikipedia.org/wiki/K-means_clustering" class="uri">https://en.wikipedia.org/wiki/K-means_clustering</a>
@@ -746,7 +770,7 @@ Figure 5.3: K-mean algorithm. Source: <a href="https://en.wikipedia.org/wiki/K-m
 <li>The clusters have equal (or similar) variance</li>
 <li>The clusters are of similar size</li>
 </ul>
-<div class="figure"><span id="fig:K-means-fail"></span>
+<div class="figure"><span style="display:block;" id="fig:K-means-fail"></span>
 <img src="assets/img/lec07_kmeans_assumptions.png" alt="Situations for which K-means fail to retrieve underlying clusters" width="1000px" />
 <p class="caption">
 Figure 5.4: Situations for which K-means fail to retrieve underlying clusters
@@ -787,7 +811,7 @@ Figure 5.4: Situations for which K-means fail to retrieve underlying clusters
 <span id="cb423-16"><a href="high-dimensional-visualizations.html#cb423-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_row =</span> row.ann,</span>
 <span id="cb423-17"><a href="high-dimensional-visualizations.html#cb423-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows=</span><span class="cn">FALSE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span></span>
 <span id="cb423-18"><a href="high-dimensional-visualizations.html#cb423-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<div class="figure"><span id="fig:K-mean-heatmap"></span>
+<div class="figure"><span style="display:block;" id="fig:K-mean-heatmap"></span>
 <img src="dataviz_book_files/figure-html/K-mean-heatmap-1.png" alt="Pretty heatmap with K-mean cluster annotation." width="480" />
 <p class="caption">
 Figure 5.5: Pretty heatmap with K-mean cluster annotation.
@@ -800,7 +824,7 @@ Figure 5.5: Pretty heatmap with K-mean cluster annotation.
 <h3><span class="header-section-number">5.4.2</span> Hierarchical clustering</h3>
 <p>A major limitation of the K-means algorithm is that it relies on a predefined number of clusters. What if the interesting number of clusters is larger or smaller? Hierarchical clustering allows exploring multiple levels of clustering granularity at once by computing nested clusters. It results in a tree-based representation of the observations, called a dendrogram. Figure <a href="high-dimensional-visualizations.html#fig:hc-example">5.6</a> shows an example of a hierarchical clustering using two variables only.</p>
 <!-- this figure will be super helpful as a slide to explain hierarchical clustering -->
-<div class="figure"><span id="fig:hc-example"></span>
+<div class="figure"><span style="display:block;" id="fig:hc-example"></span>
 <img src="dataviz_book_files/figure-html/hc-example-1.png" alt="Example of a hierarchical clustering for two variables. (A) Dendrogram (tree on the left) along with the heatmap. (B) Scatterplot of the same data as in (A)." width="768" />
 <p class="caption">
 Figure 5.6: Example of a hierarchical clustering for two variables. (A) Dendrogram (tree on the left) along with the heatmap. (B) Scatterplot of the same data as in (A).
@@ -1038,13 +1062,13 @@ Hence, one can equivalently consider that PC1 maximizes the variance of the proj
 <h3><span class="header-section-number">5.5.6</span> Nonlinear dimension reduction</h3>
 <p>One limitation of PCA is that it is restricted to linear transformation of the data. What if the data lies closer to a parabola rather than a straight line? There are many non-linear alternatives to PCA including Independent Component Analysis, kernel PCA, t-SNE, UMAP. Details of these techniques are beyond the scope of this lecture. However, as long as one uses these techniques as visualization and exploratory tools rather than for making any claim on the data, a profound understanding of their theory is not necessary.</p>
 <p>We illustrate here with one example of a PCA and a UMAP representation of same single-cell gene expression matrix of mouse. The input matrix has 15,604 rows (single cells) and 1,951 columns (genes) and comes for the Tabula muris project.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
-<div class="figure"><span id="fig:single-cell-PCA"></span>
+<div class="figure"><span style="display:block;" id="fig:single-cell-PCA"></span>
 <img src="assets/img/lec05_single_cell_pca.png" alt="PCA on mouse single-cell transcriptome data. Source: Laura Martens, TUM" width="600px" />
 <p class="caption">
 Figure 5.7: PCA on mouse single-cell transcriptome data. Source: Laura Martens, TUM
 </p>
 </div>
-<div class="figure"><span id="fig:single-cell-UMAP"></span>
+<div class="figure"><span style="display:block;" id="fig:single-cell-UMAP"></span>
 <img src="assets/img/lec05_single_cell_umap.png" alt="UMAP (non-linear dimension reduction) on mouse single-cell transcriptome data. Source: Laura Martens, TUM" width="600px" />
 <p class="caption">
 Figure 5.8: UMAP (non-linear dimension reduction) on mouse single-cell transcriptome data. Source: Laura Martens, TUM
@@ -1108,7 +1132,6 @@ C. Bishop, Pattern Recognition and Machine Learning. <a href="https://www.micros
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1127,6 +1150,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1147,6 +1171,10 @@ gitbook.start({
 "text": null
 },
 "download": {},
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

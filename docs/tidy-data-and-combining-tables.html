@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Tidy data and combining tables | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Tidy data and combining tables | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-03-16" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="data-wrangling.html"/>
 <link rel="next" href="low-dimensional-visualizations.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,8 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -60,6 +60,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -118,6 +119,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -633,7 +657,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">3.1</span> Introduction</h2>
 <div id="motivation" class="section level3" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Motivation</h3>
-<p>Without good practices, much of the time of a data analyst can be wasted in data wrangling rather than visualization or analysis. The concept of tidy data <span class="citation">(<a href="appendix-probabilities.html#ref-Wickham2014" role="doc-biblioref">Wickham 2014</a>)</span> addresses this issue by offering a standard representation of data, that is easy to manipulate, model and visualize. This chapter introduces the notion of tidy data and operations for tidying up messy datasets. Moreover, we describe how to easily concatenate tables with the same format and merge tables with common variables. This will set us ready for data visualization and analytics.</p>
+<p>Without good practices, much of the time of a data analyst can be wasted in data wrangling rather than visualization or analysis. The concept of tidy data <span class="citation">(<a href="#ref-Wickham2014" role="doc-biblioref">Wickham 2014</a>)</span> addresses this issue by offering a standard representation of data, that is easy to manipulate, model and visualize. This chapter introduces the notion of tidy data and operations for tidying up messy datasets. Moreover, we describe how to easily concatenate tables with the same format and merge tables with common variables. This will set us ready for data visualization and analytics.</p>
 <p>This chapter is partially adopted from “Introduction to Data Science” by Rafael A. Irizarry (<a href="https://rafalab.github.io/dsbook/" class="uri">https://rafalab.github.io/dsbook/</a>) and uses concepts and material introduced by the developers of the <code>tidyr</code> package.</p>
 </div>
 <div id="datasets-used-in-this-chapter" class="section level3" number="3.1.2">
@@ -718,14 +742,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="common-signs-of-untidy-datasets" class="section level3" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> Common signs of untidy datasets</h3>
-<p>Often, untidy datasets can be identified by one or more of the following issues <span class="citation">(<a href="appendix-probabilities.html#ref-Wickham2014" role="doc-biblioref">Wickham 2014</a>)</span>:</p>
+<p>Often, untidy datasets can be identified by one or more of the following issues <span class="citation">(<a href="#ref-Wickham2014" role="doc-biblioref">Wickham 2014</a>)</span>:</p>
 <ul>
 <li>Column headers are values, not variable names</li>
 <li>Multiple variables are stored in one column</li>
 <li>Variables are stored in both rows and columns</li>
 <li>A single observational unit is stored in multiple tables</li>
 </ul>
-<p><span class="citation"><a href="appendix-probabilities.html#ref-Wickham2014" role="doc-biblioref">Wickham</a> (<a href="appendix-probabilities.html#ref-Wickham2014" role="doc-biblioref">2014</a>)</span> furthermore mentions “Multiple types of observational units stored in the same table” as a sign of untidy data.
+<p><span class="citation"><a href="#ref-Wickham2014" role="doc-biblioref">Wickham</a> (<a href="#ref-Wickham2014" role="doc-biblioref">2014</a>)</span> furthermore mentions “Multiple types of observational units stored in the same table” as a sign of untidy data.
 This point is discussed in Section <a href="tidy-data-and-combining-tables.html#tidy-not-unique">3.6</a>.</p>
 <!-- We will show this advantages with the following example: -->
 <!-- ```{r, echo = FALSE} -->
@@ -926,7 +950,7 @@ The drawing above visualizes the operation performed above.</p>
 <!-- ``` -->
 <!-- This way we can see that over 3300 of all survey participants answered in the survey that they acquired their data science skills in "College/University". -->
 <!-- #### Melting columns with variable length -->
-<p>Below is one solution, of how the <code>LearningPlattformSelect</code> column could be transformed into a tidy format.</p>
+<p>Below is one solution of how the <code>LearningPlatformSelect</code> column could be transformed into a tidy format.</p>
 <div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="tidy-data-and-combining-tables.html#cb322-1" aria-hidden="true" tabindex="-1"></a>survey_split <span class="ot">&lt;-</span> survey[,<span class="fu">tstrsplit</span>(LearningPlatformSelect, <span class="st">&#39;,&#39;</span>)]</span>
 <span id="cb322-2"><a href="tidy-data-and-combining-tables.html#cb322-2" aria-hidden="true" tabindex="-1"></a>survey_split[, individual <span class="sc">:</span><span class="er">=</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(survey)]</span>
 <span id="cb322-3"><a href="tidy-data-and-combining-tables.html#cb322-3" aria-hidden="true" tabindex="-1"></a>LearningPlatformMelt <span class="ot">&lt;-</span> <span class="fu">melt</span>(survey_split, </span>
@@ -946,7 +970,7 @@ The drawing above visualizes the operation performed above.</p>
 <h2><span class="header-section-number">3.4</span> Concatenating tables</h2>
 <p>One frequently has to concatenate (i.e. append) tables with a same format. Such tables may already be loaded into a list or shall be read from multiple files.</p>
 <p>For instance, assume a service generates a new file of data per day in a given directory. One is interested in analyzing the files of multiple days jointly. This requires to list all files of the directory, to read each file and to concatenate them into one.</p>
-<p>Here is an example with daily COVID-19 data. We first get all file names of the directory into a list called <code>files</code>:</p>
+<p>Here is an example with daily COVID-19 data. We first get all file names of the directory into a vector called <code>files</code>:</p>
 <div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="tidy-data-and-combining-tables.html#cb324-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&#39;path_to_your_directory&#39;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="tidy-data-and-combining-tables.html#cb325-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&#39;extdata/cov_concatenate&#39;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb325-2"><a href="tidy-data-and-combining-tables.html#cb325-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(files)</span></code></pre></div>
@@ -962,7 +986,7 @@ The drawing above visualizes the operation performed above.</p>
 <span id="cb327-3"><a href="tidy-data-and-combining-tables.html#cb327-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb327-4"><a href="tidy-data-and-combining-tables.html#cb327-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read all files at once into a list of data.tables</span></span>
 <span id="cb327-5"><a href="tidy-data-and-combining-tables.html#cb327-5" aria-hidden="true" tabindex="-1"></a>tables <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, fread)</span></code></pre></div>
-<p>Let us know look at the first table:</p>
+<p>Let us now look at the first table:</p>
 <div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="tidy-data-and-combining-tables.html#cb328-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tables[[<span class="dv">1</span>]])</span></code></pre></div>
 <pre><code>##    cases deaths countriesAndTerritories geoId
 ## 1:    54      0                 Germany    DE
@@ -973,7 +997,7 @@ The drawing above visualizes the operation performed above.</p>
 ##    Cumulative_number_for_14_days_of_COVID-19_cases_per_100000
 ## 1:                                                  0.1156359
 ## 2:                                                  1.8638311</code></pre>
-<p>We notice that the variable data is only encoded in the filepath so that we additionally need to introduce a new variable in the new table, which defines, from which list the original table came from. We do this to avoid loosing information. In this manner, we can state which case / population numbers came from which country.</p>
+<p>We notice that the variable <code>date</code> is only encoded in the file path so that we additionally need to introduce a new variable in the new table, which defines, from which list the original table came from. We do this to avoid losing information. In this manner, we can state which case / population numbers came from which country.</p>
 <p>To do so, we can use the <code>data.table</code> function <code>rbindlist()</code> which gives us the option to introduce a new column <code>idcol</code> containing the list names:</p>
 <div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="tidy-data-and-combining-tables.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bind all tables into one using rbindlist, </span></span>
 <span id="cb330-2"><a href="tidy-data-and-combining-tables.html#cb330-2" aria-hidden="true" tabindex="-1"></a><span class="co"># keeping the list names (the filenames) as an id column. </span></span>
@@ -1028,9 +1052,9 @@ The drawing above visualizes the operation performed above.</p>
 <span id="cb333-2"><a href="tidy-data-and-combining-tables.html#cb333-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">value =</span> <span class="fu">rnorm</span>(<span class="dv">3</span>)) </span>
 <span id="cb333-3"><a href="tidy-data-and-combining-tables.html#cb333-3" aria-hidden="true" tabindex="-1"></a>dt1</span></code></pre></div>
 <pre><code>##    p_id       value
-## 1: G008  0.04055206
-## 2: F027 -1.32951698
-## 3: L051  0.75072755</code></pre>
+## 1: G008 -1.34959068
+## 2: F027  0.07861826
+## 3: L051 -0.51585873</code></pre>
 <div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="tidy-data-and-combining-tables.html#cb335-1" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">p_id =</span> <span class="fu">c</span>(<span class="st">&quot;G008&quot;</span>, <span class="st">&quot;F027&quot;</span>, <span class="st">&quot;U093&quot;</span>), </span>
 <span id="cb335-2"><a href="tidy-data-and-combining-tables.html#cb335-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">country =</span> <span class="fu">c</span>(<span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;USA&quot;</span>)) </span>
 <span id="cb335-3"><a href="tidy-data-and-combining-tables.html#cb335-3" aria-hidden="true" tabindex="-1"></a>dt2</span></code></pre></div>
@@ -1040,50 +1064,50 @@ The drawing above visualizes the operation performed above.</p>
 ## 3: U093     USA</code></pre>
 <div id="inner-merge" class="section level3" number="3.5.1">
 <h3><span class="header-section-number">3.5.1</span> Inner merge</h3>
-<p>An inner merge returns only rows with matching values in the <em>by</em> columns and discards all other rows:</p>
+<p>An inner merge returns only rows with matching values in the <code>by</code> columns and discards all other rows:</p>
 <div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="tidy-data-and-combining-tables.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inner merge, default one, all = FALSE</span></span>
 <span id="cb337-2"><a href="tidy-data-and-combining-tables.html#cb337-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb337-3"><a href="tidy-data-and-combining-tables.html#cb337-3" aria-hidden="true" tabindex="-1"></a>m   </span></code></pre></div>
 <pre><code>##    p_id       value country
-## 1: F027 -1.32951698  France
-## 2: G008  0.04055206 Germany</code></pre>
+## 1: F027  0.07861826  France
+## 2: G008 -1.34959068 Germany</code></pre>
 <p>Note that the row order got changed after the merging. To prevent this and, therefore, to keep the original ordering we can use the argument <code>sort</code> and set it to <code>FALSE</code>:</p>
 <div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="tidy-data-and-combining-tables.html#cb339-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">FALSE</span>, <span class="at">sort =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb339-2"><a href="tidy-data-and-combining-tables.html#cb339-2" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
 <pre><code>##    p_id       value country
-## 1: G008  0.04055206 Germany
-## 2: F027 -1.32951698  France</code></pre>
-<p>Note that the row order got changed after the merging.</p>
+## 1: G008 -1.34959068 Germany
+## 2: F027  0.07861826  France</code></pre>
+<p>Note that the column order is preserved after merging.</p>
 </div>
 <div id="outer-full-merge" class="section level3" number="3.5.2">
 <h3><span class="header-section-number">3.5.2</span> Outer (full) merge</h3>
-<p>An outer merge returns all rows and columns from <code>x</code> and <code>y</code>. If there are no matching values, it yields missing values (<code>NA</code>):</p>
+<p>An outer merge returns all rows and columns from <code>x</code> and <code>y</code>. If there are no matching values in <code>p_id</code>, it yields missing values (<code>NA</code>):</p>
 <div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="tidy-data-and-combining-tables.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outer (full) merge, all = TRUE</span></span>
 <span id="cb341-2"><a href="tidy-data-and-combining-tables.html#cb341-2" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##    p_id       value country
-## 1: F027 -1.32951698  France
-## 2: G008  0.04055206 Germany
-## 3: L051  0.75072755    &lt;NA&gt;
+## 1: F027  0.07861826  France
+## 2: G008 -1.34959068 Germany
+## 3: L051 -0.51585873    &lt;NA&gt;
 ## 4: U093          NA     USA</code></pre>
 </div>
 <div id="left-merge" class="section level3" number="3.5.3">
 <h3><span class="header-section-number">3.5.3</span> Left merge</h3>
-<p>Returns all rows from <code>x</code>, even if they have no matching row in <code>y</code>. Rows from <code>x</code> with no matching in <code>y</code> lead to missing values (<code>NA</code>).</p>
+<p>Returns all rows from <code>x</code>, even if they have no matching row in <code>y</code>. Rows from <code>x</code> with no matching <code>p_id</code> in <code>y</code> lead to missing values (<code>NA</code>).</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="tidy-data-and-combining-tables.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Left merge, all.x = TRUE</span></span>
 <span id="cb343-2"><a href="tidy-data-and-combining-tables.html#cb343-2" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##    p_id       value country
-## 1: F027 -1.32951698  France
-## 2: G008  0.04055206 Germany
-## 3: L051  0.75072755    &lt;NA&gt;</code></pre>
+## 1: F027  0.07861826  France
+## 2: G008 -1.34959068 Germany
+## 3: L051 -0.51585873    &lt;NA&gt;</code></pre>
 </div>
 <div id="right-merge" class="section level3" number="3.5.4">
 <h3><span class="header-section-number">3.5.4</span> Right merge</h3>
-<p>Returns all rows from <code>y</code>, even if they have no matching row in <code>x</code>. Rows from <code>y</code> with no matching in <code>x</code> lead to missing values (<code>NA</code>).</p>
+<p>Returns all rows from <code>y</code>, even if they have no matching row in <code>x</code>. Rows from <code>y</code> with no matching <code>p_id</code> in <code>x</code> lead to missing values (<code>NA</code>).</p>
 <div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="tidy-data-and-combining-tables.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Right, all.y = TRUE</span></span>
 <span id="cb345-2"><a href="tidy-data-and-combining-tables.html#cb345-2" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all.y =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##    p_id       value country
-## 1: F027 -1.32951698  France
-## 2: G008  0.04055206 Germany
+## 1: F027  0.07861826  France
+## 2: G008 -1.34959068 Germany
 ## 3: U093          NA     USA</code></pre>
 </div>
 <div id="merging-by-several-columns" class="section level3" number="3.5.5">
@@ -1145,11 +1169,11 @@ Here is an example based on Fisher’s Iris dataset. This classic dataset contai
 ## 1:    F_1  setosa Sepal.Length   5.1
 ## 2:    F_2  setosa Sepal.Length   4.9
 ## 3:    F_3  setosa Sepal.Length   4.7</code></pre>
-<p>Both representations are tidy and can be more or less useful depending on the downstream analysis. For instance the first, wide, representation is handy to assess the relationship between sepal length and sepal width, say by plotting one against the other one or by computing their correlations. The second, long, representation can be useful to compute means by attributes or by attributes and species. In the wide form, computing those group means would require to select columns by names which is tedious and leads to not-easily maintainable code. The decisive criteria between using one or the other tidy representation is the definition on what is considered as an observation in the use case.</p>
+<p>Both representations are tidy and can be more or less useful depending on the downstream analysis. For instance the first wide representation is handy to assess the relationship between sepal length and sepal width, say by plotting one against the other one or by computing their correlations. The second, long, representation can be useful to compute means by attributes or by attributes and species. In the wide form, computing those group means would require to select columns by names which is tedious and leads to not-easily maintainable code. The decisive criteria between using one or the other tidy representation is the definition on what is considered as an observation in the use case.</p>
 </div>
 <div id="on-multiple-types-of-observational-units-in-the-same-table" class="section level3" number="3.6.2">
 <h3><span class="header-section-number">3.6.2</span> On multiple types of observational units in the same table</h3>
-<p>Another important remark for handling tidy data in practice relates to the last common sign of messy datasets according to <span class="citation"><a href="appendix-probabilities.html#ref-Wickham2014" role="doc-biblioref">Wickham</a> (<a href="appendix-probabilities.html#ref-Wickham2014" role="doc-biblioref">2014</a>)</span>, i.e. “Multiple types of observational units are stored in the same table.” Applying this criteria actually depends on the context.</p>
+<p>Another important remark for handling tidy data in practice relates to the last common sign of messy datasets according to <span class="citation"><a href="#ref-Wickham2014" role="doc-biblioref">Wickham</a> (<a href="#ref-Wickham2014" role="doc-biblioref">2014</a>)</span>, i.e. “Multiple types of observational units are stored in the same table.” Applying this criteria actually depends on the context.</p>
 <p>Consider the following table which combines product and customer data:</p>
 <pre><code>##    productCode quantOrdered price customerNumber
 ## 1:        p018            1   450           c001
@@ -1224,6 +1248,12 @@ H. Wickham, Journal of Statistical Software, 2014, Volume 59, Issue 10 <a href="
 
 
 
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Wickham2014" class="csl-entry">
+Wickham, Hadley. 2014. <span>“Tidy Data.”</span> <em>Journal of Statistical Software, Articles</em> 59 (10): 1–23. <a href="https://doi.org/10.18637/jss.v059.i10">https://doi.org/10.18637/jss.v059.i10</a>.
+</div>
+</div>
 <div class="footnotes">
 <hr />
 <ol start="3">
@@ -1240,7 +1270,6 @@ H. Wickham, Journal of Statistical Software, 2014, Volume 59, Issue 10 <a href="
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1259,6 +1288,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1279,6 +1309,10 @@ gitbook.start({
 "text": null
 },
 "download": {},
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

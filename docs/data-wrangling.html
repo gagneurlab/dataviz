@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Data wrangling | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Data wrangling | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-03-16" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="r-basics.html"/>
 <link rel="next" href="tidy-data-and-combining-tables.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,8 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -60,6 +60,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -118,6 +119,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -682,42 +706,42 @@ from <code>data.frame</code>.</p>
 <div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="data-wrangling.html#cb220-1" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&#39;path_to_file/flightsLAX.csv&#39;</span>)</span></code></pre></div>
 <p>Typing the name of the newly created <code>data.table</code> (<code>flights</code>) in the console displays its first and last rows. We observe that reading the file was successful.</p>
 <div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="data-wrangling.html#cb221-1" aria-hidden="true" tabindex="-1"></a>flights</span></code></pre></div>
-<pre><code>##         YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER
-##      1: 2015     1   1           4      AA          2336      N3KUAA
-##      2: 2015     1   1           4      AA           258      N3HYAA
-##      3: 2015     1   1           4      US          2013      N584UW
-##      4: 2015     1   1           4      DL          1434      N547US
-##      5: 2015     1   1           4      AA           115      N3CTAA
-##     ---                                                             
-## 389365: 2015    12  31           4      AA          1538      N866AA
-## 389366: 2015    12  31           4      AS           175      N431AS
-## 389367: 2015    12  31           4      AS           471      N570AS
-## 389368: 2015    12  31           4      AA           219      N3LYAA
-## 389369: 2015    12  31           4      B6           688      N657JB
-##         ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE
-##      1:            LAX                 PBI              2      263     2330
-##      2:            LAX                 MIA             15      258     2342
-##      3:            LAX                 CLT             44      228     2125
-##      4:            LAX                 MSP             35      188     1535
-##      5:            LAX                 MIA            103      255     2342
-##     ---                                                                    
-## 389365:            LAX                 MIA           2357      250     2342
-## 389366:            LAX                 ANC           2350      291     2345
-## 389367:            LAX                 SEA           2353      132      954
-## 389368:            LAX                 ORD           2358      198     1744
-## 389369:            LAX                 BOS           2355      272     2611
-##         ARRIVAL_TIME
-##      1:          741
-##      2:          756
-##      3:          753
-##      4:          605
-##      5:          839
-##     ---             
-## 389365:          731
-## 389366:          400
-## 389367:          225
-## 389368:          544
-## 389369:          753</code></pre>
+<pre><code>##         YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+##      1: 2015     1   1           4      AA          2336
+##      2: 2015     1   1           4      AA           258
+##      3: 2015     1   1           4      US          2013
+##      4: 2015     1   1           4      DL          1434
+##      5: 2015     1   1           4      AA           115
+##     ---                                                 
+## 389365: 2015    12  31           4      AA          1538
+## 389366: 2015    12  31           4      AS           175
+## 389367: 2015    12  31           4      AS           471
+## 389368: 2015    12  31           4      AA           219
+## 389369: 2015    12  31           4      B6           688
+##         TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
+##      1:      N3KUAA            LAX                 PBI
+##      2:      N3HYAA            LAX                 MIA
+##      3:      N584UW            LAX                 CLT
+##      4:      N547US            LAX                 MSP
+##      5:      N3CTAA            LAX                 MIA
+##     ---                                               
+## 389365:      N866AA            LAX                 MIA
+## 389366:      N431AS            LAX                 ANC
+## 389367:      N570AS            LAX                 SEA
+## 389368:      N3LYAA            LAX                 ORD
+## 389369:      N657JB            LAX                 BOS
+##         DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+##      1:              2      263     2330          741
+##      2:             15      258     2342          756
+##      3:             44      228     2125          753
+##      4:             35      188     1535          605
+##      5:            103      255     2342          839
+##     ---                                              
+## 389365:           2357      250     2342          731
+## 389366:           2350      291     2345          400
+## 389367:           2353      132      954          225
+## 389368:           2358      198     1744          544
+## 389369:           2355      272     2611          753</code></pre>
 </div>
 <div id="inspecting-tables" class="section level3" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Inspecting tables</h3>
@@ -736,29 +760,32 @@ from <code>data.frame</code>.</p>
 <!-- ``` -->
 <p>Next, we are often interested in basic statistics on the columns. To obtain this information we can call the <code>summary()</code> function on the table.</p>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="data-wrangling.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(flights[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span></code></pre></div>
-<pre><code>##       YEAR          MONTH             DAY        DAY_OF_WEEK   
-##  Min.   :2015   Min.   : 1.000   Min.   : 1.0   Min.   :1.000  
-##  1st Qu.:2015   1st Qu.: 3.000   1st Qu.: 8.0   1st Qu.:2.000  
-##  Median :2015   Median : 6.000   Median :16.0   Median :4.000  
-##  Mean   :2015   Mean   : 6.198   Mean   :15.7   Mean   :3.934  
-##  3rd Qu.:2015   3rd Qu.: 9.000   3rd Qu.:23.0   3rd Qu.:6.000  
-##  Max.   :2015   Max.   :12.000   Max.   :31.0   Max.   :7.000  
-##    AIRLINE          FLIGHT_NUMBER 
-##  Length:389369      Min.   :   1  
-##  Class :character   1st Qu.: 501  
-##  Mode  :character   Median :1296  
-##                     Mean   :1905  
-##                     3rd Qu.:2617  
-##                     Max.   :6896</code></pre>
+<pre><code>##       YEAR          MONTH             DAY      
+##  Min.   :2015   Min.   : 1.000   Min.   : 1.0  
+##  1st Qu.:2015   1st Qu.: 3.000   1st Qu.: 8.0  
+##  Median :2015   Median : 6.000   Median :16.0  
+##  Mean   :2015   Mean   : 6.198   Mean   :15.7  
+##  3rd Qu.:2015   3rd Qu.: 9.000   3rd Qu.:23.0  
+##  Max.   :2015   Max.   :12.000   Max.   :31.0  
+##   DAY_OF_WEEK      AIRLINE          FLIGHT_NUMBER 
+##  Min.   :1.000   Length:389369      Min.   :   1  
+##  1st Qu.:2.000   Class :character   1st Qu.: 501  
+##  Median :4.000   Mode  :character   Median :1296  
+##  Mean   :3.934                      Mean   :1905  
+##  3rd Qu.:6.000                      3rd Qu.:2617  
+##  Max.   :7.000                      Max.   :6896</code></pre>
 <p>This provides us already a lot of information about our data. We can for example see that all data is from 2015 as all values in the YEAR column are 2015. But for categorical data this is not very insightful, as we can see for the AIRLINE column.</p>
 <p>To investigate categorical columns we can have a look at their unique elements using:</p>
 <div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="data-wrangling.html#cb229-1" aria-hidden="true" tabindex="-1"></a>flights[, <span class="fu">unique</span>(AIRLINE)]</span></code></pre></div>
-<pre><code>##  [1] &quot;AA&quot; &quot;US&quot; &quot;DL&quot; &quot;UA&quot; &quot;OO&quot; &quot;AS&quot; &quot;B6&quot; &quot;NK&quot; &quot;VX&quot; &quot;WN&quot; &quot;HA&quot; &quot;F9&quot; &quot;MQ&quot;</code></pre>
+<pre><code>##  [1] &quot;AA&quot; &quot;US&quot; &quot;DL&quot; &quot;UA&quot; &quot;OO&quot; &quot;AS&quot; &quot;B6&quot; &quot;NK&quot; &quot;VX&quot; &quot;WN&quot; &quot;HA&quot;
+## [12] &quot;F9&quot; &quot;MQ&quot;</code></pre>
 <p>This command provided us the airline identifiers present in the dataset. Another valuable information for categorical variables is how often each category occurs. This can be obtained using the following commands:</p>
 <div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="data-wrangling.html#cb231-1" aria-hidden="true" tabindex="-1"></a>flights[, <span class="fu">table</span>(AIRLINE)]</span></code></pre></div>
 <pre><code>## AIRLINE
-##    AA    AS    B6    DL    F9    HA    MQ    NK    OO    UA    US    VX    WN 
-## 65483 16144  8216 50343  2770  3112   368  8688 73389 54862  7374 23598 75022</code></pre>
+##    AA    AS    B6    DL    F9    HA    MQ    NK    OO    UA 
+## 65483 16144  8216 50343  2770  3112   368  8688 73389 54862 
+##    US    VX    WN 
+##  7374 23598 75022</code></pre>
 </div>
 </div>
 <div id="row-subsetting" class="section level2" number="2.2">
@@ -774,34 +801,45 @@ from <code>data.frame</code>.</p>
 <h3><span class="header-section-number">2.2.1</span> Subsetting rows by indices</h3>
 <p>If we want to see the second element of the table, we can do the following:</p>
 <div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="data-wrangling.html#cb234-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">2</span>, ]   <span class="co"># Access the 2nd row (also flights[2] or flights[i = 2])</span></span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
-## 1: 2015     1   1           4      AA           258      N3HYAA            LAX
-##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-## 1:                 MIA             15      258     2342          756</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+## 1: 2015     1   1           4      AA           258
+##    TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
+## 1:      N3HYAA            LAX                 MIA
+##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+## 1:             15      258     2342          756</code></pre>
 <p>A shorter writing allows leaving out the comma:</p>
 <div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="data-wrangling.html#cb236-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">2</span>]   <span class="co"># Access the 2nd row (also flights[2] or flights[i = 2])</span></span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
-## 1: 2015     1   1           4      AA           258      N3HYAA            LAX
-##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-## 1:                 MIA             15      258     2342          756</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+## 1: 2015     1   1           4      AA           258
+##    TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
+## 1:      N3HYAA            LAX                 MIA
+##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+## 1:             15      258     2342          756</code></pre>
 <p>For accessing multiple consecutive rows we can use the <code>start:stop</code> syntax as for example:</p>
 <div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="data-wrangling.html#cb238-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]   </span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
-## 1: 2015     1   1           4      AA          2336      N3KUAA            LAX
-## 2: 2015     1   1           4      AA           258      N3HYAA            LAX
-## 3: 2015     1   1           4      US          2013      N584UW            LAX
-##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-## 1:                 PBI              2      263     2330          741
-## 2:                 MIA             15      258     2342          756
-## 3:                 CLT             44      228     2125          753</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+## 1: 2015     1   1           4      AA          2336
+## 2: 2015     1   1           4      AA           258
+## 3: 2015     1   1           4      US          2013
+##    TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
+## 1:      N3KUAA            LAX                 PBI
+## 2:      N3HYAA            LAX                 MIA
+## 3:      N584UW            LAX                 CLT
+##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+## 1:              2      263     2330          741
+## 2:             15      258     2342          756
+## 3:             44      228     2125          753</code></pre>
 <p>Accessing multiple rows that are not necessarily consecutive can be done by creating an index vector with <code>c()</code>:</p>
 <div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="data-wrangling.html#cb240-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)]</span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
-## 1: 2015     1   1           4      US          2013      N584UW            LAX
-## 2: 2015     1   1           4      AA           115      N3CTAA            LAX
-##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
-## 1:                 CLT             44      228     2125          753
-## 2:                 MIA            103      255     2342          839</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+## 1: 2015     1   1           4      US          2013
+## 2: 2015     1   1           4      AA           115
+##    TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
+## 1:      N584UW            LAX                 CLT
+## 2:      N3CTAA            LAX                 MIA
+##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+## 1:             44      228     2125          753
+## 2:            103      255     2342          839</code></pre>
 </div>
 <div id="subsetting-rows-by-logical-conditions" class="section level3" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Subsetting rows by logical conditions</h3>
@@ -815,118 +853,118 @@ from <code>data.frame</code>.</p>
 </ul>
 <p>For example, entries of flights operated by “AA” (American Airlines) can be extracted using:</p>
 <div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="data-wrangling.html#cb242-1" aria-hidden="true" tabindex="-1"></a>flights[AIRLINE <span class="sc">==</span> <span class="st">&quot;AA&quot;</span>]</span></code></pre></div>
-<pre><code>##        YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER
-##     1: 2015     1   1           4      AA          2336      N3KUAA
-##     2: 2015     1   1           4      AA           258      N3HYAA
-##     3: 2015     1   1           4      AA           115      N3CTAA
-##     4: 2015     1   1           4      AA          2410      N3BAAA
-##     5: 2015     1   1           4      AA          1515      N3HMAA
-##    ---                                                             
-## 65479: 2015    12  31           4      AA          1116      N029AA
-## 65480: 2015    12  31           4      AA           246      N863AA
-## 65481: 2015    12  31           4      AA          1927      N837AW
-## 65482: 2015    12  31           4      AA          1538      N866AA
-## 65483: 2015    12  31           4      AA           219      N3LYAA
-##        ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE
-##     1:            LAX                 PBI              2      263     2330
-##     2:            LAX                 MIA             15      258     2342
-##     3:            LAX                 MIA            103      255     2342
-##     4:            LAX                 DFW            600      150     1235
-##     5:            LAX                 ORD            557      202     1744
-##    ---                                                                    
-## 65479:            LAX                 ATL           2256      207     1947
-## 65480:            KOA                 LAX           2335      272     2504
-## 65481:            LAX                 IAD           2346      239     2288
-## 65482:            LAX                 MIA           2357      250     2342
-## 65483:            LAX                 ORD           2358      198     1744
-##        ARRIVAL_TIME
-##     1:          741
-##     2:          756
-##     3:          839
-##     4:         1052
-##     5:         1139
-##    ---             
-## 65479:          553
-## 65480:          635
-## 65481:          712
-## 65482:          731
-## 65483:          544</code></pre>
+<pre><code>##        YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+##     1: 2015     1   1           4      AA          2336
+##     2: 2015     1   1           4      AA           258
+##     3: 2015     1   1           4      AA           115
+##     4: 2015     1   1           4      AA          2410
+##     5: 2015     1   1           4      AA          1515
+##    ---                                                 
+## 65479: 2015    12  31           4      AA          1116
+## 65480: 2015    12  31           4      AA           246
+## 65481: 2015    12  31           4      AA          1927
+## 65482: 2015    12  31           4      AA          1538
+## 65483: 2015    12  31           4      AA           219
+##        TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
+##     1:      N3KUAA            LAX                 PBI
+##     2:      N3HYAA            LAX                 MIA
+##     3:      N3CTAA            LAX                 MIA
+##     4:      N3BAAA            LAX                 DFW
+##     5:      N3HMAA            LAX                 ORD
+##    ---                                               
+## 65479:      N029AA            LAX                 ATL
+## 65480:      N863AA            KOA                 LAX
+## 65481:      N837AW            LAX                 IAD
+## 65482:      N866AA            LAX                 MIA
+## 65483:      N3LYAA            LAX                 ORD
+##        DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+##     1:              2      263     2330          741
+##     2:             15      258     2342          756
+##     3:            103      255     2342          839
+##     4:            600      150     1235         1052
+##     5:            557      202     1744         1139
+##    ---                                              
+## 65479:           2256      207     1947          553
+## 65480:           2335      272     2504          635
+## 65481:           2346      239     2288          712
+## 65482:           2357      250     2342          731
+## 65483:           2358      198     1744          544</code></pre>
 <p>Alternatively, if we are interested in all flights from any destination to the airports in NYC (“JFK” and “LGA”), we can subset the rows using the following command:</p>
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="data-wrangling.html#cb244-1" aria-hidden="true" tabindex="-1"></a>flights[DESTINATION_AIRPORT <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;LGA&quot;</span>, <span class="st">&quot;JFK&quot;</span>)]</span></code></pre></div>
-<pre><code>##        YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER
-##     1: 2015     1   1           4      B6            24      N923JB
-##     2: 2015     1   1           4      DL           476      N196DN
-##     3: 2015     1   1           4      AA           118      N788AA
-##     4: 2015     1   1           4      VX           404      N621VA
-##     5: 2015     1   1           4      UA           275      N598UA
-##    ---                                                             
-## 12011: 2015    12  31           4      AA           180      N796AA
-## 12012: 2015    12  31           4      B6           524      N934JB
-## 12013: 2015    12  31           4      B6           624      N942JB
-## 12014: 2015    12  31           4      DL          1262      N394DL
-## 12015: 2015    12  31           4      B6          1124      N943JB
-##        ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE
-##     1:            LAX                 JFK            620      279     2475
-##     2:            LAX                 JFK            650      274     2475
-##     3:            LAX                 JFK            650      268     2475
-##     4:            LAX                 JFK            728      268     2475
-##     5:            LAX                 JFK            806      277     2475
-##    ---                                                                    
-## 12011:            LAX                 JFK           1640      259     2475
-## 12012:            LAX                 JFK           1645      261     2475
-## 12013:            LAX                 JFK           2107      280     2475
-## 12014:            LAX                 JFK           2244      256     2475
-## 12015:            LAX                 JFK           2349      274     2475
-##        ARRIVAL_TIME
-##     1:         1413
-##     2:         1458
-##     3:         1436
-##     4:         1512
-##     5:         1606
-##    ---             
-## 12011:           18
-## 12012:           18
-## 12013:          513
-## 12014:          625
-## 12015:          748</code></pre>
+<pre><code>##        YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+##     1: 2015     1   1           4      B6            24
+##     2: 2015     1   1           4      DL           476
+##     3: 2015     1   1           4      AA           118
+##     4: 2015     1   1           4      VX           404
+##     5: 2015     1   1           4      UA           275
+##    ---                                                 
+## 12011: 2015    12  31           4      AA           180
+## 12012: 2015    12  31           4      B6           524
+## 12013: 2015    12  31           4      B6           624
+## 12014: 2015    12  31           4      DL          1262
+## 12015: 2015    12  31           4      B6          1124
+##        TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
+##     1:      N923JB            LAX                 JFK
+##     2:      N196DN            LAX                 JFK
+##     3:      N788AA            LAX                 JFK
+##     4:      N621VA            LAX                 JFK
+##     5:      N598UA            LAX                 JFK
+##    ---                                               
+## 12011:      N796AA            LAX                 JFK
+## 12012:      N934JB            LAX                 JFK
+## 12013:      N942JB            LAX                 JFK
+## 12014:      N394DL            LAX                 JFK
+## 12015:      N943JB            LAX                 JFK
+##        DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+##     1:            620      279     2475         1413
+##     2:            650      274     2475         1458
+##     3:            650      268     2475         1436
+##     4:            728      268     2475         1512
+##     5:            806      277     2475         1606
+##    ---                                              
+## 12011:           1640      259     2475           18
+## 12012:           1645      261     2475           18
+## 12013:           2107      280     2475          513
+## 12014:           2244      256     2475          625
+## 12015:           2349      274     2475          748</code></pre>
 <p>Additionally, we can concatenate multiple conditions using the logical OR <code>|</code> or the logical AND <code>&amp;</code> operator. For instance, if we want to inspect all flights departing between 6am and 7am operated by American Airlines we can use the following statement:</p>
 <div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="data-wrangling.html#cb246-1" aria-hidden="true" tabindex="-1"></a>flights[AIRLINE <span class="sc">==</span> <span class="st">&quot;AA&quot;</span> <span class="sc">&amp;</span> DEPARTURE_TIME <span class="sc">&gt;</span> <span class="dv">600</span> <span class="sc">&amp;</span> DEPARTURE_TIME <span class="sc">&lt;</span> <span class="dv">700</span>]</span></code></pre></div>
-<pre><code>##       YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER
-##    1: 2015     1   1           4      AA          1686      N4XXAA
-##    2: 2015     1   1           4      AA          1361      N3KYAA
-##    3: 2015     1   1           4      AA          2420      N3ERAA
-##    4: 2015     1   1           4      AA           338      N3DJAA
-##    5: 2015     1   1           4      AA          2424      N3DLAA
-##   ---                                                             
-## 3820: 2015    12  31           4      AA           169      N787AA
-## 3821: 2015    12  31           4      AA          1352      N7CAAA
-## 3822: 2015    12  31           4      AA           146      N3MKAA
-## 3823: 2015    12  31           4      AA          2453      N869AA
-## 3824: 2015    12  31           4      AA           118      N791AA
-##       ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE
-##    1:            LAX                 STL            609      183     1592
-##    2:            BNA                 LAX            607      255     1797
-##    3:            LAX                 DFW            619      149     1235
-##    4:            LAX                 SFO            644       55      337
-##    5:            LAX                 DFW            641      146     1235
-##   ---                                                                    
-## 3820:            SFO                 LAX            623       54      337
-## 3821:            MIA                 LAX            651      303     2342
-## 3822:            LAX                 BOS            650      268     2611
-## 3823:            LAX                 DFW            651      142     1235
-## 3824:            LAX                 JFK            659      272     2475
-##       ARRIVAL_TIME
-##    1:         1134
-##    2:          847
-##    3:         1119
-##    4:          803
-##    5:         1149
-##   ---             
-## 3820:          740
-## 3821:          913
-## 3822:         1446
-## 3823:         1134
-## 3824:         1505</code></pre>
+<pre><code>##       YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+##    1: 2015     1   1           4      AA          1686
+##    2: 2015     1   1           4      AA          1361
+##    3: 2015     1   1           4      AA          2420
+##    4: 2015     1   1           4      AA           338
+##    5: 2015     1   1           4      AA          2424
+##   ---                                                 
+## 3820: 2015    12  31           4      AA           169
+## 3821: 2015    12  31           4      AA          1352
+## 3822: 2015    12  31           4      AA           146
+## 3823: 2015    12  31           4      AA          2453
+## 3824: 2015    12  31           4      AA           118
+##       TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
+##    1:      N4XXAA            LAX                 STL
+##    2:      N3KYAA            BNA                 LAX
+##    3:      N3ERAA            LAX                 DFW
+##    4:      N3DJAA            LAX                 SFO
+##    5:      N3DLAA            LAX                 DFW
+##   ---                                               
+## 3820:      N787AA            SFO                 LAX
+## 3821:      N7CAAA            MIA                 LAX
+## 3822:      N3MKAA            LAX                 BOS
+## 3823:      N869AA            LAX                 DFW
+## 3824:      N791AA            LAX                 JFK
+##       DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME
+##    1:            609      183     1592         1134
+##    2:            607      255     1797          847
+##    3:            619      149     1235         1119
+##    4:            644       55      337          803
+##    5:            641      146     1235         1149
+##   ---                                              
+## 3820:            623       54      337          740
+## 3821:            651      303     2342          913
+## 3822:            650      268     2611         1446
+## 3823:            651      142     1235         1134
+## 3824:            659      272     2475         1505</code></pre>
 </div>
 </div>
 <div id="column-operations" class="section level2" number="2.3">
@@ -937,8 +975,8 @@ from <code>data.frame</code>.</p>
 <h3><span class="header-section-number">2.3.1</span> Working with columns</h3>
 <p>Accessing columns by name also makes the code more readable: <code>flights[, TAIL_NUMBER]</code> instead of <code>flights[, 7]</code>.</p>
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="data-wrangling.html#cb248-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, TAIL_NUMBER]    <span class="co"># Access column x (also DT$x or DT[j=x]). </span></span></code></pre></div>
-<pre><code>##  [1] &quot;N3KUAA&quot; &quot;N3HYAA&quot; &quot;N584UW&quot; &quot;N547US&quot; &quot;N3CTAA&quot; &quot;N76517&quot; &quot;N925SW&quot; &quot;N719SK&quot;
-##  [9] &quot;N435SW&quot; &quot;N560SW&quot;</code></pre>
+<pre><code>##  [1] &quot;N3KUAA&quot; &quot;N3HYAA&quot; &quot;N584UW&quot; &quot;N547US&quot; &quot;N3CTAA&quot; &quot;N76517&quot;
+##  [7] &quot;N925SW&quot; &quot;N719SK&quot; &quot;N435SW&quot; &quot;N560SW&quot;</code></pre>
 <p>For accessing a specific cell (i.e. specific column and specific row), we can use the following syntax:</p>
 <div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="data-wrangling.html#cb250-1" aria-hidden="true" tabindex="-1"></a>flights[<span class="dv">4</span>, TAIL_NUMBER]   <span class="co"># Access a specific cell.</span></span></code></pre></div>
 <pre><code>## [1] &quot;N547US&quot;</code></pre>
@@ -981,12 +1019,14 @@ from <code>data.frame</code>.</p>
 <h3><span class="header-section-number">2.3.3</span> Advanced commands: *apply() over columns</h3>
 <p>The columns of a <code>data.table</code> are exposed as a list to the environment. Therefore functions applying to a list can be applied to them, including those of the <code>*apply</code> family such as sapply()`. For example:</p>
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="data-wrangling.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(flights, class)   <span class="co"># Try the same with lapply</span></span></code></pre></div>
-<pre><code>##                YEAR               MONTH                 DAY         DAY_OF_WEEK 
-##           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot; 
-##             AIRLINE       FLIGHT_NUMBER         TAIL_NUMBER      ORIGIN_AIRPORT 
-##         &quot;character&quot;           &quot;integer&quot;         &quot;character&quot;         &quot;character&quot; 
-## DESTINATION_AIRPORT      DEPARTURE_TIME            AIR_TIME            DISTANCE 
-##         &quot;character&quot;           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot; 
+<pre><code>##                YEAR               MONTH                 DAY 
+##           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot; 
+##         DAY_OF_WEEK             AIRLINE       FLIGHT_NUMBER 
+##           &quot;integer&quot;         &quot;character&quot;           &quot;integer&quot; 
+##         TAIL_NUMBER      ORIGIN_AIRPORT DESTINATION_AIRPORT 
+##         &quot;character&quot;         &quot;character&quot;         &quot;character&quot; 
+##      DEPARTURE_TIME            AIR_TIME            DISTANCE 
+##           &quot;integer&quot;           &quot;integer&quot;           &quot;integer&quot; 
 ##        ARRIVAL_TIME 
 ##           &quot;integer&quot;</code></pre>
 <div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="data-wrangling.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that we can access columns stored as variables by setting with=F.</span></span>
@@ -1074,20 +1114,27 @@ we can build even more powerful statements using all three elements. For example
 <p>As an example, we can add a new column called <code>SPEED</code> (in miles per hour) whose value is the <code>DISTANCE</code> divided by <code>AIR_TIME</code> times 60:</p>
 <div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="data-wrangling.html#cb283-1" aria-hidden="true" tabindex="-1"></a>flights[, SPEED <span class="sc">:</span><span class="er">=</span> DISTANCE <span class="sc">/</span> AIR_TIME <span class="sc">*</span> <span class="dv">60</span>]</span>
 <span id="cb283-2"><a href="data-wrangling.html#cb283-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights)</span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER TAIL_NUMBER ORIGIN_AIRPORT
-## 1: 2015     1   1           4      AA          2336      N3KUAA            LAX
-## 2: 2015     1   1           4      AA           258      N3HYAA            LAX
-## 3: 2015     1   1           4      US          2013      N584UW            LAX
-## 4: 2015     1   1           4      DL          1434      N547US            LAX
-## 5: 2015     1   1           4      AA           115      N3CTAA            LAX
-## 6: 2015     1   1           4      UA          1545      N76517            LAX
-##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME    SPEED
-## 1:                 PBI              2      263     2330          741 531.5589
-## 2:                 MIA             15      258     2342          756 544.6512
-## 3:                 CLT             44      228     2125          753 559.2105
-## 4:                 MSP             35      188     1535          605 489.8936
-## 5:                 MIA            103      255     2342          839 551.0588
-## 6:                 IAH            112      156     1379          607 530.3846</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+## 1: 2015     1   1           4      AA          2336
+## 2: 2015     1   1           4      AA           258
+## 3: 2015     1   1           4      US          2013
+## 4: 2015     1   1           4      DL          1434
+## 5: 2015     1   1           4      AA           115
+## 6: 2015     1   1           4      UA          1545
+##    TAIL_NUMBER ORIGIN_AIRPORT DESTINATION_AIRPORT
+## 1:      N3KUAA            LAX                 PBI
+## 2:      N3HYAA            LAX                 MIA
+## 3:      N584UW            LAX                 CLT
+## 4:      N547US            LAX                 MSP
+## 5:      N3CTAA            LAX                 MIA
+## 6:      N76517            LAX                 IAH
+##    DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME    SPEED
+## 1:              2      263     2330          741 531.5589
+## 2:             15      258     2342          756 544.6512
+## 3:             44      228     2125          753 559.2105
+## 4:             35      188     1535          605 489.8936
+## 5:            103      255     2342          839 551.0588
+## 6:            112      156     1379          607 530.3846</code></pre>
 <p>Having computed a new column using the <code>:=</code> operator, we can use it for further analyses. For instance, we can compute the average speed, air time and distance for each airline:</p>
 <div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="data-wrangling.html#cb285-1" aria-hidden="true" tabindex="-1"></a>flights[, .(<span class="at">mean_AIR_TIME =</span> <span class="fu">mean</span>(AIR_TIME, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
 <span id="cb285-2"><a href="data-wrangling.html#cb285-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_SPEED =</span> <span class="fu">mean</span>(SPEED, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
@@ -1111,20 +1158,27 @@ we can build even more powerful statements using all three elements. For example
 <p>Additionally we can use the <code>:=</code> operator to remove columns. If we for example observe that tail numbers are not important for our analysis we can remove them with the following statement:</p>
 <div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="data-wrangling.html#cb287-1" aria-hidden="true" tabindex="-1"></a>flights[, TAIL_NUMBER <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
 <span id="cb287-2"><a href="data-wrangling.html#cb287-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(flights)</span></code></pre></div>
-<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER ORIGIN_AIRPORT
-## 1: 2015     1   1           4      AA          2336            LAX
-## 2: 2015     1   1           4      AA           258            LAX
-## 3: 2015     1   1           4      US          2013            LAX
-## 4: 2015     1   1           4      DL          1434            LAX
-## 5: 2015     1   1           4      AA           115            LAX
-## 6: 2015     1   1           4      UA          1545            LAX
-##    DESTINATION_AIRPORT DEPARTURE_TIME AIR_TIME DISTANCE ARRIVAL_TIME    SPEED
-## 1:                 PBI              2      263     2330          741 531.5589
-## 2:                 MIA             15      258     2342          756 544.6512
-## 3:                 CLT             44      228     2125          753 559.2105
-## 4:                 MSP             35      188     1535          605 489.8936
-## 5:                 MIA            103      255     2342          839 551.0588
-## 6:                 IAH            112      156     1379          607 530.3846</code></pre>
+<pre><code>##    YEAR MONTH DAY DAY_OF_WEEK AIRLINE FLIGHT_NUMBER
+## 1: 2015     1   1           4      AA          2336
+## 2: 2015     1   1           4      AA           258
+## 3: 2015     1   1           4      US          2013
+## 4: 2015     1   1           4      DL          1434
+## 5: 2015     1   1           4      AA           115
+## 6: 2015     1   1           4      UA          1545
+##    ORIGIN_AIRPORT DESTINATION_AIRPORT DEPARTURE_TIME
+## 1:            LAX                 PBI              2
+## 2:            LAX                 MIA             15
+## 3:            LAX                 CLT             44
+## 4:            LAX                 MSP             35
+## 5:            LAX                 MIA            103
+## 6:            LAX                 IAH            112
+##    AIR_TIME DISTANCE ARRIVAL_TIME    SPEED
+## 1:      263     2330          741 531.5589
+## 2:      258     2342          756 544.6512
+## 3:      228     2125          753 559.2105
+## 4:      188     1535          605 489.8936
+## 5:      255     2342          839 551.0588
+## 6:      156     1379          607 530.3846</code></pre>
 <p>Here we observe, that the tail numbers are gone from the <code>data.table</code>.</p>
 </div>
 <div id="advanced-multiple-assignments" class="section level3" number="2.6.2">
@@ -1135,14 +1189,14 @@ we can build even more powerful statements using all three elements. For example
 <span id="cb289-3"><a href="data-wrangling.html#cb289-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Add columns with sepal and petal area. Note the syntax of multiple assignment.</span></span>
 <span id="cb289-4"><a href="data-wrangling.html#cb289-4" aria-hidden="true" tabindex="-1"></a>iris_dt[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span> (<span class="at">Sepal.Area =</span> Sepal.Length <span class="sc">*</span> Sepal.Width,</span>
 <span id="cb289-5"><a href="data-wrangling.html#cb289-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">Petal.Area =</span> Petal.Length <span class="sc">*</span> Petal.Width)][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
-<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Area
-## 1:          5.1         3.5          1.4         0.2  setosa      17.85
-## 2:          4.9         3.0          1.4         0.2  setosa      14.70
-## 3:          4.7         3.2          1.3         0.2  setosa      15.04
-##    Petal.Area
-## 1:       0.28
-## 2:       0.28
-## 3:       0.26</code></pre>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width
+## 1:          5.1         3.5          1.4         0.2
+## 2:          4.9         3.0          1.4         0.2
+## 3:          4.7         3.2          1.3         0.2
+##    Species Sepal.Area Petal.Area
+## 1:  setosa      17.85       0.28
+## 2:  setosa      14.70       0.28
+## 3:  setosa      15.04       0.26</code></pre>
 <p>You can also delete columns by using the <code>:=</code> command.</p>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="data-wrangling.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s assume setosa flowers are orange, versicolor purple and virginica pink.</span></span>
 <span id="cb291-2"><a href="data-wrangling.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a column with these colors.</span></span>
@@ -1157,8 +1211,9 @@ we can build even more powerful statements using all three elements. For example
 <div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="data-wrangling.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can delete this new column by setting it to NULL</span></span>
 <span id="cb293-2"><a href="data-wrangling.html#cb293-2" aria-hidden="true" tabindex="-1"></a>iris_dt[, color <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
 <span id="cb293-3"><a href="data-wrangling.html#cb293-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(iris_dt)</span></code></pre></div>
-<pre><code>## [1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot;  &quot;Species&quot;     
-## [6] &quot;Sepal.Area&quot;   &quot;Petal.Area&quot;</code></pre>
+<pre><code>## [1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot;
+## [4] &quot;Petal.Width&quot;  &quot;Species&quot;      &quot;Sepal.Area&quot;  
+## [7] &quot;Petal.Area&quot;</code></pre>
 </div>
 <div id="copying-tables" class="section level3" number="2.6.3">
 <h3><span class="header-section-number">2.6.3</span> Copying tables</h3>
@@ -1213,7 +1268,6 @@ we can build even more powerful statements using all three elements. For example
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1232,6 +1286,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1252,6 +1307,10 @@ gitbook.start({
 "text": null
 },
 "download": {},
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

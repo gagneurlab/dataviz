@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Graphically supported hypotheses | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Graphically supported hypotheses | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-03-16" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="high-dimensional-visualizations.html"/>
 <link rel="next" href="resampling-stat.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,8 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -60,6 +60,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -118,6 +119,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -657,7 +681,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="graph-supported-hypos.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(carat, price)) <span class="sc">+</span> </span>
 <span id="cb440-2"><a href="graph-supported-hypos.html#cb440-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.05</span>) <span class="sc">+</span> <span class="co"># alpha: point transparency</span></span>
 <span id="cb440-3"><a href="graph-supported-hypos.html#cb440-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
-<div class="figure"><span id="fig:price-vs-carat"></span>
+<div class="figure"><span style="display:block;" id="fig:price-vs-carat"></span>
 <img src="dataviz_book_files/figure-html/price-vs-carat-1.png" alt="Price increases nearly linearly with carat" width="384" />
 <p class="caption">
 Figure 6.1: Price increases nearly linearly with carat
@@ -690,7 +714,7 @@ Figure 6.1: Price increases nearly linearly with carat
 <li><p>The dataset includes so many variables that the chance to have one pair of variables associating is high. This is generally called data dredging, data fishing, data snooping, or cherry picking. An example of data dredging would be if we look through many results produced by a random process and pick the one that shows a relationship that supports a theory we want to defend. An example is given in Figure <a href="graph-supported-hypos.html#fig:missamerica-murder">6.2</a>.</p></li>
 </ol>
 <p>In the statistical literature, this problem is called “multiple testing.” It will be treated in a later chapter.</p>
-<div class="figure"><span id="fig:missamerica-murder"></span>
+<div class="figure"><span style="display:block;" id="fig:missamerica-murder"></span>
 <img src="assets/img/lec06_tylervigen_missamerica_murders.png" alt="Example of a correlation discovered in a dataset with a very large set of variables. Source: http://www.tylervigen.com/spurious-correlations." width="1040" />
 <p class="caption">
 Figure 6.2: Example of a correlation discovered in a dataset with a very large set of variables. Source: <a href="http://www.tylervigen.com/spurious-correlations" class="uri">http://www.tylervigen.com/spurious-correlations</a>.
@@ -720,7 +744,7 @@ Figure 6.2: Example of a correlation discovered in a dataset with a very large s
 <h3><span class="header-section-number">6.2.3</span> The association is induced by a third variable</h3>
 <p>Another general issue is when an association is due to a third variable. There are several scenarios.</p>
 <p>Given two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, we will now consider three basic configurations where a third variable <span class="math inline">\(z\)</span> could be causally related to them and how this affects associations between the variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> (Figure <a href="graph-supported-hypos.html#fig:causal-diagrams">6.3</a>). We show causal relationships using causal diagrams where variables are nodes and causal links are depicted as directed arrows. We denote <span class="math inline">\(x \perp y\)</span> when variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are statistically independent and <span class="math inline">\(x \not\perp y\)</span> when they are dependent. Also, <span class="math inline">\((x \perp y) | z\)</span> means that <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are independent given <span class="math inline">\(z\)</span>.</p>
-<div class="figure"><span id="fig:causal-diagrams"></span>
+<div class="figure"><span style="display:block;" id="fig:causal-diagrams"></span>
 <img src="assets/img/lec06_causal_diagrams.png" alt="Elementary causal diagrams involving two variables of interest X and Y and a third variable Z." width="480" />
 <p class="caption">
 Figure 6.3: Elementary causal diagrams involving two variables of interest X and Y and a third variable Z.
@@ -934,7 +958,7 @@ One fun imaginary example is given by Judea Pearl in “The Book of Why”<a hre
 <div id="simpsons-paradox" class="section level3" number="6.2.4">
 <h3><span class="header-section-number">6.2.4</span> Simpson’s paradox</h3>
 <p>In 1951, Simpson demonstrated that a statistical relationship observed within a group of individuals could be reversed within all subgroups that make up that population. This phenomenon, where a variable X seems to relate to a second variable Y in a certain way, but flips direction when the stratifying for another variable Z, has since been referred to as Simpson’s paradox.</p>
-<div class="figure"><span id="fig:simpson-paradox"></span>
+<div class="figure"><span style="display:block;" id="fig:simpson-paradox"></span>
 <img src="assets/img/lec06_simpson_paradox.png" alt="Simpson's paradox. The sign (+ or -) designates positive or negative effects (causal diagram, left) or associations (right)." width="500px" />
 <p class="caption">
 Figure 6.4: Simpson’s paradox. The sign (+ or -) designates positive or negative effects (causal diagram, left) or associations (right).
@@ -946,18 +970,18 @@ Figure 6.4: Simpson’s paradox. The sign (+ or -) designates positive or negati
 <span id="cb469-3"><a href="graph-supported-hypos.html#cb469-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">simulate_simpson</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">groups =</span> <span class="dv">4</span>, <span class="at">r =</span> <span class="fl">0.6</span>) <span class="sc">%&gt;%</span> as.data.table</span>
 <span id="cb469-4"><a href="graph-supported-hypos.html#cb469-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;X&#39;</span>, <span class="st">&#39;Y&#39;</span>, <span class="st">&#39;Z&#39;</span>)</span>
 <span id="cb469-5"><a href="graph-supported-hypos.html#cb469-5" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
-<pre><code>##              X          Y Z
-##   1: 0.7571442 -0.2531470 A
-##   2: 1.3253338  0.2617510 A
-##   3: 1.1057654 -1.0828252 A
-##   4: 0.1859743 -0.3760158 A
-##   5: 2.1004333  1.5311882 A
-##  ---                       
-## 396: 3.3302676 -3.4945929 D
-## 397: 3.3872684 -4.4615286 D
-## 398: 2.4995125 -4.9025445 D
-## 399: 3.7237566 -4.7194693 D
-## 400: 4.3878277 -3.5184049 D</code></pre>
+<pre><code>##              X          Y   Z
+##   1: 0.7571442 -0.2531470 G_1
+##   2: 1.3253338  0.2617510 G_1
+##   3: 1.1057654 -1.0828252 G_1
+##   4: 0.1859743 -0.3760158 G_1
+##   5: 2.1004333  1.5311882 G_1
+##  ---                         
+## 396: 3.3302676 -3.4945929 G_4
+## 397: 3.3872684 -4.4615286 G_4
+## 398: 2.4995125 -4.9025445 G_4
+## 399: 3.7237566 -4.7194693 G_4
+## 400: 4.3878277 -3.5184049 G_4</code></pre>
 <p>When visualizing the relationship between the variables <code>X</code> and <code>Y</code>, we observe a negative correlation between <code>X</code> and <code>Y</code>:</p>
 <div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="graph-supported-hypos.html#cb471-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(X,Y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&#39;lm&#39;</span>) <span class="sc">+</span> mytheme</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/lecture-02-275-1.png" width="672" /></p>
@@ -1154,7 +1178,6 @@ From the plot above, it appears that apprehensions have almost tripled, when in 
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1173,6 +1196,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1193,6 +1217,10 @@ gitbook.start({
 "text": null
 },
 "download": {},
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

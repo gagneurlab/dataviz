@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Resampling-based Statistical Assessment | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Resampling-based Statistical Assessment | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-03-16" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="graph-supported-hypos.html"/>
 <link rel="next" href="analytical-stat.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,8 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -60,6 +60,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -118,6 +119,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -672,8 +696,8 @@ For the football example, we can be equally skeptical.
 <h3><span class="header-section-number">7.1.1</span> The experiment</h3>
 <p>This section introduces a dataset that we will use throughout this chapter, and occasionally in the following chapters.</p>
 <p>Yeast is a good old friend of humans. Thanks to yeast, we can make bread, wine, and (not the least for TUM and Munich) beer. Yeast is also very much studied by biologists. The yeast strain that is commonly used in research labs grows poorly on maltose compared to wild yeast strains. Hard to brew malt beer with the lab strain… One may wonder whether the lab strain has acquired a genetic mutation causing this poor fitness in maltose media. If so, on which chromosome, near which gene?</p>
-<p>Our dataset <span class="citation">(<a href="appendix-probabilities.html#ref-gagneur2013" role="doc-biblioref">Gagneur et al. 2013</a>)</span> allows addressing these questions (and further yeast genetic questions). The lab strain was crossed with a wild isolate growing well on maltose. Overall, 184 offsprings, also called segregants, were obtained. During a cross, parental chromosomes are recombined at discrete random locations in a process called cross-over.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> Consequently, the chromosomes of the segregants consist of alternated segments inherited from either parent. Yeast has 16 chromosomes. Figure <a href="resampling-stat.html#fig:yeast-cross">7.1</a> illustrates this crossing process for one chromosome.</p>
-<div class="figure"><span id="fig:yeast-cross"></span>
+<p>Our dataset <span class="citation">(<a href="#ref-gagneur2013" role="doc-biblioref">Gagneur et al. 2013</a>)</span> allows addressing these questions (and further yeast genetic questions). The lab strain was crossed with a wild isolate growing well on maltose. Overall, 184 offsprings, also called segregants, were obtained. During a cross, parental chromosomes are recombined at discrete random locations in a process called cross-over.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> Consequently, the chromosomes of the segregants consist of alternated segments inherited from either parent. Yeast has 16 chromosomes. Figure <a href="resampling-stat.html#fig:yeast-cross">7.1</a> illustrates this crossing process for one chromosome.</p>
+<div class="figure"><span style="display:block;" id="fig:yeast-cross"></span>
 <img src="assets/img/lec09-stat-testing/lec09_yeast_cross.png" alt="Cross of the lab strain and wild isolate. Meiotic recombination implies that chromosomes of the offsprings consist of alternated segments inherited from either parent." width="600px" />
 <p class="caption">
 Figure 7.1: Cross of the lab strain and wild isolate. Meiotic recombination implies that chromosomes of the offsprings consist of alternated segments inherited from either parent.
@@ -684,7 +708,7 @@ Figure 7.1: Cross of the lab strain and wild isolate. Meiotic recombination impl
 <div id="genotype" class="section level3" number="7.1.2">
 <h3><span class="header-section-number">7.1.2</span> Genotype</h3>
 <p>The <code>genotype</code> table reports the genotype of each the 184 yeast strains at 1,000 genomic locations called genetic markers. At each marker, the genotype values are either “Lab strain” or “Wild isolate” (Figure <a href="resampling-stat.html#fig:genotype-matrix">7.2</a>).</p>
-<div class="figure"><span id="fig:genotype-matrix"></span>
+<div class="figure"><span style="display:block;" id="fig:genotype-matrix"></span>
 <img src="assets/img/lec09-stat-testing/lec09_genotype.png" alt="Sketch of the genotype of segregants (rows) across the 16 chromosomes. The genotypes are provided at 1,000 genomic positions (called markers, vertical line)." width="800px" />
 <p class="caption">
 Figure 7.2: Sketch of the genotype of segregants (rows) across the 16 chromosomes. The genotypes are provided at 1,000 genomic positions (called markers, vertical line).
@@ -781,7 +805,7 @@ To assess this hypothesis, we first create a data table called <code>dt</code> t
 <div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="resampling-stat.html#cb484-1" aria-hidden="true" tabindex="-1"></a>LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code></pre></div>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot;</code></pre>
 <div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="resampling-stat.html#cb486-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span></code></pre></div>
-<pre><code>## [1] &quot;E&quot; &quot;F&quot; &quot;B&quot; &quot;H&quot; &quot;C&quot; &quot;A&quot; &quot;G&quot; &quot;D&quot;</code></pre>
+<pre><code>## [1] &quot;B&quot; &quot;H&quot; &quot;D&quot; &quot;G&quot; &quot;A&quot; &quot;E&quot; &quot;F&quot; &quot;C&quot;</code></pre>
 <p>We now shuffle the genotype column. To keep the original data safe, we work on <code>dt_permuted</code>, a copy of the table <code>dt</code>.</p>
 <div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="resampling-stat.html#cb488-1" aria-hidden="true" tabindex="-1"></a>dt_permuted <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt)</span>
 <span id="cb488-2"><a href="resampling-stat.html#cb488-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0</span>) <span class="co"># the seed of the random number generator</span></span>
@@ -831,7 +855,7 @@ To assess this hypothesis, we first create a data table called <code>dt</code> t
 <div id="concepts-of-statistical-hypothesis-testing" class="section level3" number="7.2.2">
 <h3><span class="header-section-number">7.2.2</span> Concepts of Statistical Hypothesis Testing</h3>
 <p>We just implemented one type of Hypothesis test. Figure <a href="resampling-stat.html#fig:hypothesis-test-overview">7.3</a> provides an overview of Hypothesis testing.</p>
-<div class="figure"><span id="fig:hypothesis-test-overview"></span>
+<div class="figure"><span style="display:block;" id="fig:hypothesis-test-overview"></span>
 <img src="assets/img/lec09-stat-testing/lec10_Stat-testing-overview.png" alt="We assume an underlying random process (i.e. 'Nature'). We collected data which is a particular realization of this random process, and from this data we computed a test statistic. In the bottom row, we now play the role of the Devil's Advocate and assume that the underlying random process conforms to the null hypothesis. Based on this assumption, diffrent realization datasets could arise as different realizations of the random process, for which the test statistics would get different values. Then we compute how likely it is to see the test statistics as, or more, extreme as the ones we got from our actual data. We use this probability to reject or not the null hypothesis." width="800px" />
 <p class="caption">
 Figure 7.3: We assume an underlying random process (i.e. ‘Nature’). We collected data which is a particular realization of this random process, and from this data we computed a test statistic. In the bottom row, we now play the role of the Devil’s Advocate and assume that the underlying random process conforms to the null hypothesis. Based on this assumption, diffrent realization datasets could arise as different realizations of the random process, for which the test statistics would get different values. Then we compute how likely it is to see the test statistics as, or more, extreme as the ones we got from our actual data. We use this probability to reject or not the null hypothesis.
@@ -909,12 +933,12 @@ A one-tailed test will only make sense if you have very good reason (before look
 <li><span class="math inline">\(m\)</span> be the number of random (Monte Carlo) permutations</li>
 <li><span class="math inline">\(r = \#\{T^* \geq T_\text{obs}\}\)</span> be the number of these random permutations that produce a test statistic greater than or equal to that calculated for the actual data.</li>
 </ul>
-<p>Then the estimated one-sided P-value, <span class="math inline">\(\hat P\)</span> is <span class="citation">(<a href="appendix-probabilities.html#ref-davison_hinkley_1997" role="doc-biblioref">Davison and Hinkley 1997</a>; <a href="appendix-probabilities.html#ref-Phipson2010" role="doc-biblioref">Phipson and Smyth 2010</a>)</span></p>
+<p>Then the estimated one-sided P-value, <span class="math inline">\(\hat P\)</span> is <span class="citation">(<a href="#ref-davison_hinkley_1997" role="doc-biblioref">Davison and Hinkley 1997</a>; <a href="#ref-Phipson2010" role="doc-biblioref">Phipson and Smyth 2010</a>)</span></p>
 <p><span class="math display" id="eq:permut-p-val">\[\begin{align}
 \hat P = \frac{r+1}{m+1}
 \tag{7.1}
 \end{align}\]</span></p>
-<p>Permutation P-values should never be zero <span class="citation">(<a href="appendix-probabilities.html#ref-Phipson2010" role="doc-biblioref">Phipson and Smyth 2010</a>)</span>. Do not use <span class="math inline">\(\frac{r}{m}\)</span> as often done!</p>
+<p>Permutation P-values should never be zero <span class="citation">(<a href="#ref-Phipson2010" role="doc-biblioref">Phipson and Smyth 2010</a>)</span>. Do not use <span class="math inline">\(\frac{r}{m}\)</span> as often done!</p>
 <p>In our case, we observed no single permutation with larger test statistics. Hence <span class="math inline">\(r=0\)</span>. We thus get:</p>
 <p><span class="math display">\[ \hat P = \frac{1}{1001} \simeq 0.01\]</span>
 So, if we assume that the null hypothesis is true, the probability of observing a difference in median growth rates as, or more, extreme as the ones we actually observed, is less than one in one thousand. We would thus need to be quite unlucky to get results like this by chance. So, we reject the null hypothesis and we say that the association between genotype at marker 5211 and growth rates in maltose is statistically significant.</p>
@@ -1101,7 +1125,7 @@ In the next chapter, we will give a technical reason for this.</p>
 <div id="discussion-1" class="section level2" number="7.4">
 <h2><span class="header-section-number">7.4</span> Discussion</h2>
 <p>In this chapter we explored ways to avoid being fooled by randomness. Specifically, we discussed hypothesis testing, which is our go-to method to distinguish statistically significant results from noise, and we discussed confidence intervals, which help us to know how uncertain we are about quantities we estimate from our data.</p>
-<p>Cares should be taken though. Many misuses of p-values in the scientific literature have been reported, the most obvious being to repeat an experiments until one finally gets P&lt;0.05 and only report this observation in a publication. See <span class="citation"><a href="appendix-probabilities.html#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar</a> (<a href="appendix-probabilities.html#ref-Wasserstein2016" role="doc-biblioref">2016</a>)</span> for an extensive discussion.</p>
+<p>Cares should be taken though. Many misuses of p-values in the scientific literature have been reported, the most obvious being to repeat an experiments until one finally gets P&lt;0.05 and only report this observation in a publication. See <span class="citation"><a href="#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar</a> (<a href="#ref-Wasserstein2016" role="doc-biblioref">2016</a>)</span> for an extensive discussion.</p>
 <p>We have looked only at resampling strategies: permutation testing as Hypothesis testing when assessing statistical dependence of variables, and case resampling for confidence intervals. Resampling methods have the advantage that they are simple to implement and make little assumptions about the underlying distribution. However, they are compute intensive. We finally noticed that the i.i.d assumption may be violated in practice. Therefore, careful thinking of possible hidden dependencies (such as confounders) shall be done when applying these methods.</p>
 <!-- This being said, we are not always fooled randomly. In fact, frequently, we will be fooled *systematically*. This can happen due to **confounding**, which was not addressed in this chapter. Confounding occurs when there is some other variable, which we did not consider in our analysis, which drives our results. -->
 <!-- As an example, we might find a statistically significant relationship between the amount of ice cream consumed on a given day and the number of people who receive a sunburn. We could then spend a lot of time interpreting this. Maybe eating ice cream makes people more susceptible to sunburn? Or maybe people who get sunburn are likely to eat ice cream to help get over the pain? But there is a confounder here, namely the season. On a hot summer day, people eat ice cream and get sunburned. On a cold winter day, people do not ice cream and they also do not get sunburned. The statistically significant relationship is explained by this confounder.  -->
@@ -1128,6 +1152,21 @@ In the next chapter, we will give a technical reason for this.</p>
 <!-- It makes sense in the abstract, but I find it a bit hard to distinguish them in practice. The binomial test is one example. It looks parametric (it assumes that the underlying data is iid bernoulli and the null hypothesis is framed in terms of the bernoulli parameter p) but the sign test is also a binomial test and its definetely nonparametric. So it sort of depends on how you frame it?  -->
 </div>
 </div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-davison_hinkley_1997" class="csl-entry">
+Davison, A. C., and D. V. Hinkley. 1997. <em>Bootstrap Methods and Their Application</em>. Cambridge Series in Statistical and Probabilistic Mathematics. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511802843">https://doi.org/10.1017/CBO9780511802843</a>.
+</div>
+<div id="ref-gagneur2013" class="csl-entry">
+Gagneur, Julien, Oliver Stegle, Chenchen Zhu, Petra Jakob, Manu M. Tekkedil, Raeka S. Aiyar, Ann-Kathrin Schuon, Dana Pe’er, and Lars M. Steinmetz. 2013. <span>“Genotype-Environment Interactions Reveal Causal Pathways That Mediate Genetic Effects on Phenotype.”</span> <em>PLOS Genetics</em> 9 (9): 1–10. <a href="https://doi.org/10.1371/journal.pgen.1003803">https://doi.org/10.1371/journal.pgen.1003803</a>.
+</div>
+<div id="ref-Phipson2010" class="csl-entry">
+Phipson, Belinda, and Gordon K Smyth. 2010. <span>“Permutation p-Values Should Never Be Zero: Calculating Exact p-Values When Permutations Are Randomly Drawn.”</span> <em>Statistical Applications in Genetics and Molecular Biology</em> 9 (1). https://doi.org/<a href="https://doi.org/10.2202/1544-6115.1585">https://doi.org/10.2202/1544-6115.1585</a>.
+</div>
+<div id="ref-Wasserstein2016" class="csl-entry">
+Wasserstein, Ronald L., and Nicole A. Lazar. 2016. <span>“The ASA Statement on p-Values: Context, Process, and Purpose.”</span> <em>The American Statistician</em> 70 (2): 129–33. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a>.
+</div>
+</div>
 <div class="footnotes">
 <hr />
 <ol start="13">
@@ -1144,7 +1183,6 @@ In the next chapter, we will give a technical reason for this.</p>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1163,6 +1201,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1183,6 +1222,10 @@ gitbook.start({
 "text": null
 },
 "download": {},
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

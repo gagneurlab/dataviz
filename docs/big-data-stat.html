@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Statistical Assessments for Big Data | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Statistical Assessments for Big Data | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-03-16" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="analytical-stat.html"/>
 <link rel="next" href="chap-lin-reg.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,8 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -60,6 +60,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -118,6 +119,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -815,7 +839,7 @@ Original coins were fair: When tossed, each coin has an equal chance to come up 
 <span id="cb593-6"><a href="big-data-stat.html#cb593-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we make the plot separately for fair and biased coins</span></span>
 <span id="cb593-7"><a href="big-data-stat.html#cb593-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fair) <span class="sc">+</span></span>
 <span id="cb593-8"><a href="big-data-stat.html#cb593-8" aria-hidden="true" tabindex="-1"></a>  mytheme</span></code></pre></div>
-<div class="figure"><span id="fig:qqplot-fair-biased"></span>
+<div class="figure"><span style="display:block;" id="fig:qqplot-fair-biased"></span>
 <img src="dataviz_book_files/figure-html/qqplot-fair-biased-1.png" alt="P-value Q-Q plots against the uniform distribution for the fair and the biased coins." width="576" />
 <p class="caption">
 Figure 9.1: P-value Q-Q plots against the uniform distribution for the fair and the biased coins.
@@ -916,7 +940,7 @@ Moreover, by definition of the p-value, we have that <span class="math inline">\
 <h4><span class="header-section-number">9.3.6.1</span> Explanation: the Benjamini-Hochberg correction controls the False Discovery Rate</h4>
 <p>When applying the Bonferroni correction, we took a very conservative view: we created a worst-case scenario where <strong>everyone</strong> was innocent, and then minimized the probability of innocents being executed based on this assumption.</p>
 <p>But everyone in the kingdom can see that this worst-case scenario is not correct by looking at the Q-Q plot (this time including all subjects, and not split by the innocent ones and the non-innocent:</p>
-<div class="figure"><span id="fig:qqplot-all"></span>
+<div class="figure"><span style="display:block;" id="fig:qqplot-all"></span>
 <img src="dataviz_book_files/figure-html/qqplot-all-1.png" alt="P-value Q-Q plots against the uniform distribution for the entire population." width="384" />
 <p class="caption">
 Figure 9.2: P-value Q-Q plots against the uniform distribution for the entire population.
@@ -1020,7 +1044,6 @@ If you are a coffee drinking TUM student aged 19-25 who was born in an odd-numbe
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1039,6 +1062,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1059,6 +1083,10 @@ gitbook.start({
 "text": null
 },
 "download": {},
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 R basics | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 R basics | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-03-16" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="introduction.html"/>
 <link rel="next" href="data-wrangling.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,8 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -60,6 +60,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -118,6 +119,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -632,7 +656,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This chapter provides a quick introduction to the programming language R and to using the software RStudio.</p>
 <div id="rstudio" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Rstudio</h2>
-<p>Rstudio is a software that allows to program in R and interactively analyse data with R. It succinctly organizes your session into 4 panels each set up for you to do certain tasks in each panel: Edit and write code (source panel), run and execute code (console panel), list objects that you have in your environment and have a history of your past commands (environment/history panel), and a panel to show your folders’ structure, see plots, install/load packages, and read the documentation of functions (files/plots/packages/help panel).</p>
+<p>Rstudio is a software that allows to program in R and interactively analyse data with R. It succinctly organizes your session into 4 panels each set up for you to do certain tasks: Edit and write code (source panel), run and execute code (console panel), list objects that you have in your environment and have a history of your past commands (environment/history panel), and a panel to show your folders’ structure, see plots, install/load packages, and read the documentation of functions (files/plots/packages/help panel).</p>
 <!-- <!-- ![RStudio](../../assets/img/RStudio.png){#id .class width=600px height=400px} -->
 <p><img src="assets/img/RStudio.png" width="900px" /></p>
 <ul>
@@ -649,10 +673,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="first-steps-with-r" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> First steps with R</h2>
-<p>This section is largely borrowed from the book Introduction to Data Science by Rafael Irizarry. [<a href="https://rafalab.github.io/dsbook" class="uri">https://rafalab.github.io/dsbook</a>]</p>
+<p>This section is largely borrowed from the book Introduction to Data Science by Rafael Irizarry (<a href="https://rafalab.github.io/dsbook" class="uri">https://rafalab.github.io/dsbook</a>).</p>
 <div id="objects" class="section level3" number="1.2.1">
 <h3><span class="header-section-number">1.2.1</span> Objects</h3>
-<p>Suppose a high school student asks us for help solving several quadratic equations of the form <span class="math inline">\(ax^2+bx+c = 0\)</span>. The quadratic formula gives us the solutions:</p>
+<p>Suppose a high school student asks us for help to solve several quadratic equations of the form <span class="math inline">\(ax^2+bx+c = 0\)</span>. The quadratic formula gives us the solutions:</p>
 <p><span class="math display">\[
 \frac{-b - \sqrt{b^2 - 4ac}}{2a}\,\, \mbox{ and } \frac{-b + \sqrt{b^2 - 4ac}}{2a}
 \]</span>
@@ -701,12 +725,12 @@ Variables are examples, but objects can also be more complicated entities such a
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="r-basics.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">&quot;log&quot;</span>)</span></code></pre></div>
 <p>For most functions, we can also use this shorthand:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="r-basics.html#cb17-1" aria-hidden="true" tabindex="-1"></a>?log</span></code></pre></div>
-<p>The help page will show you what arguments the function is expecting. For example, <code>log</code> needs <code>x</code> and <code>base</code> to run. However, some arguments are required and others are optional. You can determine which arguments are optional by noting in the help document that a default value is assigned with <code>=</code>. Defining these is optional. For example, the base of the function <code>log</code> defaults to <code>base = exp(1)</code> making <code>log</code> the natural log by default.</p>
+<p>The help page will show you what arguments the function is expecting. For example, <code>log</code> needs <code>x</code> and <code>base</code> to run. Some arguments are required and others are optional. You can determine which arguments are optional by noting in the help document that a default value is assigned with <code>=</code>. Defining these is optional. For example, the base of the function <code>log</code> defaults to <code>base = exp(1)</code> making <code>log</code> the natural log by default.</p>
 <p>If you want a quick look at the arguments without opening the help system, you can type:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="r-basics.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">args</span>(log)</span></code></pre></div>
 <pre><code>## function (x, base = exp(1)) 
 ## NULL</code></pre>
-<p>You can change the default values by simply assigning another object:</p>
+<p>You can change the default values:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="r-basics.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">8</span>, <span class="at">base =</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p>Note that we have not been specifying the argument <code>x</code> as such:</p>
@@ -715,7 +739,7 @@ Variables are examples, but objects can also be more complicated entities such a
 <p>The above code works, but we can save ourselves some typing: if no argument name is used, R assumes you are entering arguments in the order shown in the help file or by <code>args</code>. So by not using the names, it assumes the arguments are <code>x</code> followed by <code>base</code>:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="r-basics.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">8</span>,<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<p>If using the arguments’ names, then we can include them in whatever order we want:</p>
+<p>If we use the arguments’ names, then we can include them in whatever order we want:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="r-basics.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="at">base =</span> <span class="dv">2</span>, <span class="at">x =</span> <span class="dv">8</span>)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p>To specify arguments, we must use <code>=</code>, and cannot use <code>&lt;-</code>.</p>
@@ -789,7 +813,7 @@ Variables are examples, but objects can also be more complicated entities such a
 <p>To work efficiently in R, it is important to learn the different types of variables and what we can do with these.</p>
 <div id="data-frames" class="section level3" number="1.3.1">
 <h3><span class="header-section-number">1.3.1</span> Data frames</h3>
-<p>Up to now, the variables we have defined are just one number. This is not very useful for storing data. The most common way of storing a dataset in R is in a <em>data frame</em>. Conceptually, we can think of a data frame as a table with rows representing observations and the different variables reported for each observation defining the columns. Data frames are particularly useful for datasets because we can combine different data types into one object.</p>
+<p>Up to now, the variables we have defined are just one number. We might be interested in storing more complex data. The most common way of storing a dataset in R is in a <em>data frame</em>. Conceptually, we can think of a data frame as a table with rows representing observations and the different variables reported for each observation defining the columns. Data frames are particularly useful for datasets because we can combine different data types into one object.</p>
 <p>A large proportion of data analysis challenges start with data stored in a data frame.<!--For example, we stored the data for our motivating example in a data frame.-->You can access this dataset by loading the <strong>dslabs</strong> library and loading the <code>murders</code> dataset using the <code>data</code> function:</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="r-basics.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
 <span id="cb45-2"><a href="r-basics.html#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(murders)</span></code></pre></div>
@@ -804,11 +828,13 @@ Variables are examples, but objects can also be more complicated entities such a
 <pre><code>## &#39;data.frame&#39;:    51 obs. of  5 variables:
 ## $ state : chr &quot;Alabama&quot; &quot;Alaska&quot; &quot;Arizona&quot; &quot;Arkansas&quot; ...
 ## $ abb : chr &quot;AL&quot; &quot;AK&quot; &quot;AZ&quot; &quot;AR&quot; ...
-## $ region : Factor w/ 4 levels &quot;Northeast&quot;,&quot;South&quot;,..: 2 4 4 2 4 4 1 2 2 2 ...
-## $ population: num 4779736 710231 6392017 2915918 37253956 ...
+## $ region : Factor w/ 4 levels &quot;Northeast&quot;,&quot;South&quot;,..: 2 4 4
+##    2 4 4 1 2 2 2 ...
+## $ population: num 4779736 710231 6392017 2915918 37253956
+##    ...
 ## $ total : num 135 19 232 93 1257 ...</code></pre>
-<p>This tells us much more about the object. We see that the table has 51 rows (50 states plus DC) and five variables. We can show the first six lines using the function <code>head</code>:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="r-basics.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(murders)</span></code></pre></div>
+<p>This tells us much more about the object. We see that the table has 51 rows (50 states plus DC) and five variables (stored as columns). We can show the first six lines using the function <code>head</code>:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="r-basics.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(murders)  <span class="co"># same as murders[1:6]</span></span></code></pre></div>
 <pre><code>##        state abb region population total
 ## 1    Alabama  AL  South    4779736   135
 ## 2     Alaska  AK   West     710231    19
@@ -823,16 +849,19 @@ Variables are examples, but objects can also be more complicated entities such a
 <h3><span class="header-section-number">1.3.3</span> The accessor: <code>$</code></h3>
 <p>For our analysis, we will need to access the different variables represented by columns included in this data frame. To do this, we use the accessor operator <code>$</code> in the following way:</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="r-basics.html#cb52-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>population</span></code></pre></div>
-<pre><code>##  [1]  4779736   710231  6392017  2915918 37253956  5029196  3574097   897934
-##  [9]   601723 19687653  9920000  1360301  1567582 12830632  6483802  3046355
-## [17]  2853118  4339367  4533372  1328361  5773552  6547629  9883640  5303925
-## [25]  2967297  5988927   989415  1826341  2700551  1316470  8791894  2059179
-## [33] 19378102  9535483   672591 11536504  3751351  3831074 12702379  1052567
-## [41]  4625364   814180  6346105 25145561  2763885   625741  8001024  6724540
+<pre><code>##  [1]  4779736   710231  6392017  2915918 37253956  5029196
+##  [7]  3574097   897934   601723 19687653  9920000  1360301
+## [13]  1567582 12830632  6483802  3046355  2853118  4339367
+## [19]  4533372  1328361  5773552  6547629  9883640  5303925
+## [25]  2967297  5988927   989415  1826341  2700551  1316470
+## [31]  8791894  2059179 19378102  9535483   672591 11536504
+## [37]  3751351  3831074 12702379  1052567  4625364   814180
+## [43]  6346105 25145561  2763885   625741  8001024  6724540
 ## [49]  1852994  5686986   563626</code></pre>
 <p>But how did we know to use <code>population</code>? Previously, by applying the function <code>str</code> to the object <code>murders</code>, we revealed the names for each of the five variables stored in this table. We can quickly access the variable names using:</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="r-basics.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(murders)</span></code></pre></div>
-<pre><code>## [1] &quot;state&quot;      &quot;abb&quot;        &quot;region&quot;     &quot;population&quot; &quot;total&quot;</code></pre>
+<pre><code>## [1] &quot;state&quot;      &quot;abb&quot;        &quot;region&quot;     &quot;population&quot;
+## [5] &quot;total&quot;</code></pre>
 <p>It is important to know that the order of the entries in <code>murders$population</code> preserves the order of the rows in our data table.</p>
 <!--
 This will later permit us to manipulate one variable based on the results of another. For example, we will be able to order the state names by the number of murders.
@@ -872,7 +901,8 @@ This will later permit us to manipulate one variable based on the results of ano
 <pre><code>## [1] &quot;factor&quot;</code></pre>
 <p>It is a <em>factor</em>. Factors are useful for storing categorical data. We can see that there are only 4 regions by using the <code>levels</code> function:</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="r-basics.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(murders<span class="sc">$</span>region)</span></code></pre></div>
-<pre><code>## [1] &quot;Northeast&quot;     &quot;South&quot;         &quot;North Central&quot; &quot;West&quot;</code></pre>
+<pre><code>## [1] &quot;Northeast&quot;     &quot;South&quot;         &quot;North Central&quot;
+## [4] &quot;West&quot;</code></pre>
 <p>In the background, R stores these <em>levels</em> as integers and keeps a map to keep track of the labels. This is more memory efficient than storing all the characters.</p>
 <p>Note that the levels have an order that is different from the order of appearance in the factor object. The default in R is for the levels to follow alphabetical order. However, often we want the levels to follow a different order. You can specify an order through the <code>levels</code> argument when creating the factor with the <code>factor</code> function. For example, in the murders dataset regions are ordered from east to west. The function <code>reorder</code> lets us change the order of the levels of a factor variable based on a summary computed on a numeric vector. We will demonstrate this with a simple example, and will see more advanced ones in the Data Visualization part of the book.</p>
 <p>Suppose we want the levels of the region by the total number of murders rather than alphabetical order. If there are values associated with each level, we can use the <code>reorder</code> and specify a data summary to determine the order. The following code takes the sum of the total murders in each region, and reorders the factor following these sums.</p>
@@ -880,13 +910,14 @@ This will later permit us to manipulate one variable based on the results of ano
 <span id="cb71-2"><a href="r-basics.html#cb71-2" aria-hidden="true" tabindex="-1"></a>value <span class="ot">&lt;-</span> murders<span class="sc">$</span>total</span>
 <span id="cb71-3"><a href="r-basics.html#cb71-3" aria-hidden="true" tabindex="-1"></a>region <span class="ot">&lt;-</span> <span class="fu">reorder</span>(region, value, <span class="at">FUN =</span> sum)</span>
 <span id="cb71-4"><a href="r-basics.html#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(region)</span></code></pre></div>
-<pre><code>## [1] &quot;Northeast&quot;     &quot;North Central&quot; &quot;West&quot;          &quot;South&quot;</code></pre>
+<pre><code>## [1] &quot;Northeast&quot;     &quot;North Central&quot; &quot;West&quot;         
+## [4] &quot;South&quot;</code></pre>
 <p>The new order is in agreement with the fact that the Northeast has the least murders and the South has the most.</p>
 <p><strong>Warning</strong>: Factors can be a source of confusion since sometimes they behave like characters and sometimes they do not. As a result, confusing factors and characters are a common source of bugs.</p>
 </div>
 <div id="lists" class="section level3" number="1.3.6">
 <h3><span class="header-section-number">1.3.6</span> Lists</h3>
-<p>Data frames are a special case of <em>lists</em>. Lists are useful because you can store any combination of different types. You can create a list using the <code>list</code> function like this:</p>
+<p>Data frames are a special case of <em>lists</em>. Lists are useful because they can store any combination of different types. You can create a list using the <code>list</code> function like this:</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="r-basics.html#cb73-1" aria-hidden="true" tabindex="-1"></a>record <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">name =</span> <span class="st">&quot;John Doe&quot;</span>,</span>
 <span id="cb73-2"><a href="r-basics.html#cb73-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">student_id =</span> <span class="dv">1234</span>,</span>
 <span id="cb73-3"><a href="r-basics.html#cb73-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">grades =</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="dv">82</span>, <span class="dv">91</span>, <span class="dv">97</span>, <span class="dv">93</span>),</span>
@@ -931,11 +962,11 @@ We won't be using lists until later, but you might encounter one in your own exp
 </div>
 <div id="matrices" class="section level3" number="1.3.7">
 <h3><span class="header-section-number">1.3.7</span> Matrices</h3>
-<p>Matrices are another type of object that are common in R. Matrices are similar to data frames in that they are two-dimensional: they have rows and columns. However, like numeric, character and logical vectors, entries in matrices have to be all the same type. For this reason data frames are much more useful for storing data, since we can have characters, factors, and numbers in them.</p>
+<p>Matrices are another very common object type in R. Matrices are similar to data frames in that they are two-dimensional: they have rows and columns. However, like numeric, character and logical vectors, entries in matrices have to be all the same type. For this reason data frames are much more useful for storing data, since we can have characters, factors, and numbers in them.</p>
 <p>Yet matrices have a major advantage over data frames: we can perform matrix algebra operations, a powerful type of mathematical technique. We do not describe these operations in this book, but much of what happens in the background when you perform a data analysis involves matrices.</p>
 <!-- We cover matrices in more detail in Chapter \@ref(matrix-algebra) but describe them briefly here since some of the functions we will learn return matrices.  -->
 <p>We can define a matrix using the <code>matrix</code> function. We need to specify the number of rows and columns.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="r-basics.html#cb86-1" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">4</span>, <span class="dv">3</span>)</span>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="r-basics.html#cb86-1" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
 <span id="cb86-2"><a href="r-basics.html#cb86-2" aria-hidden="true" tabindex="-1"></a>mat</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    5    9
@@ -1029,7 +1060,7 @@ By now you should know that if you type:</p>
 </div>
 <div id="sequences" class="section level3" number="1.4.3">
 <h3><span class="header-section-number">1.4.3</span> Sequences</h3>
-<p>Another useful function for creating vectors generates sequences:</p>
+<p>Another useful function for creating vectors in sequences is <code>seq</code>:</p>
 <div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="r-basics.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
 <p>The first argument defines the start, and the second defines the end which is included. The default is to go up in increments of 1, but a third argument lets us tell it how much to jump by:</p>
@@ -1095,7 +1126,7 @@ By now you should know that if you type:</p>
 <span id="cb148-2"><a href="r-basics.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(x)</span></code></pre></div>
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre><code>## [1]  1 NA  3</code></pre>
-<p>R does not have any guesses for what number you want when you type <code>b</code>, so it does not try.</p>
+<p>R does not have any guesses for what number you want when you type <code>b</code>, so it returns <code>NA</code>.</p>
 <p>As a data scientist you will encounter the <code>NA</code>s often as they are generally used for missing data, a common problem in real-world datasets.</p>
 </div>
 </div>
@@ -1108,10 +1139,11 @@ By now you should know that if you type:</p>
 <div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="r-basics.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
 <span id="cb151-2"><a href="r-basics.html#cb151-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(murders)</span>
 <span id="cb151-3"><a href="r-basics.html#cb151-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(murders<span class="sc">$</span>total)</span></code></pre></div>
-<pre><code>##  [1]    2    4    5    5    7    8   11   12   12   16   19   21   22   27   32
-## [16]   36   38   53   63   65   67   84   93   93   97   97   99  111  116  118
-## [31]  120  135  142  207  219  232  246  250  286  293  310  321  351  364  376
-## [46]  413  457  517  669  805 1257</code></pre>
+<pre><code>##  [1]    2    4    5    5    7    8   11   12   12   16   19
+## [12]   21   22   27   32   36   38   53   63   65   67   84
+## [23]   93   93   97   97   99  111  116  118  120  135  142
+## [34]  207  219  232  246  250  286  293  310  321  351  364
+## [45]  376  413  457  517  669  805 1257</code></pre>
 <p>However, this does not give us information about which states have which murder totals. For example, we don’t know which state had 1257.</p>
 </div>
 <div id="order" class="section level3" number="1.6.2">
@@ -1120,7 +1152,7 @@ By now you should know that if you type:</p>
 <div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="r-basics.html#cb153-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">31</span>, <span class="dv">4</span>, <span class="dv">15</span>, <span class="dv">92</span>, <span class="dv">65</span>)</span>
 <span id="cb153-2"><a href="r-basics.html#cb153-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(x)</span></code></pre></div>
 <pre><code>## [1]  4 15 31 65 92</code></pre>
-<p>Rather than sort the input vector, the function <code>order</code> returns the index that sorts input vector:</p>
+<p>Rather than sorting the input vector, the function <code>order</code> returns the indexes that sort the input vector:</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="r-basics.html#cb155-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">order</span>(x)</span>
 <span id="cb155-2"><a href="r-basics.html#cb155-2" aria-hidden="true" tabindex="-1"></a>x[index]</span></code></pre></div>
 <pre><code>## [1]  4 15 31 65 92</code></pre>
@@ -1132,18 +1164,19 @@ By now you should know that if you type:</p>
 <p>The second entry of <code>x</code> is the smallest, so <code>order(x)</code> starts with <code>2</code>. The next smallest is the third entry, so the second entry is <code>3</code> and so on.</p>
 <p>How does this help us order the states by murders? First, remember that the entries of vectors you access with <code>$</code> follow the same order as the rows in the table. For example, these two vectors containing state names and abbreviations, respectively, are matched by their order:</p>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="r-basics.html#cb161-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>state[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code></pre></div>
-<pre><code>## [1] &quot;Alabama&quot;    &quot;Alaska&quot;     &quot;Arizona&quot;    &quot;Arkansas&quot;   &quot;California&quot;
-## [6] &quot;Colorado&quot;</code></pre>
+<pre><code>## [1] &quot;Alabama&quot;    &quot;Alaska&quot;     &quot;Arizona&quot;    &quot;Arkansas&quot;  
+## [5] &quot;California&quot; &quot;Colorado&quot;</code></pre>
 <div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="r-basics.html#cb163-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>abb[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code></pre></div>
 <pre><code>## [1] &quot;AL&quot; &quot;AK&quot; &quot;AZ&quot; &quot;AR&quot; &quot;CA&quot; &quot;CO&quot;</code></pre>
 <p>This means we can order the state names by their total murders. We first obtain the index that orders the vectors according to murder totals and then index the state names vector:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="r-basics.html#cb165-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">order</span>(murders<span class="sc">$</span>total) </span>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="r-basics.html#cb165-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">order</span>(murders<span class="sc">$</span>total)</span>
 <span id="cb165-2"><a href="r-basics.html#cb165-2" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>abb[ind] </span></code></pre></div>
-<pre><code>##  [1] &quot;VT&quot; &quot;ND&quot; &quot;NH&quot; &quot;WY&quot; &quot;HI&quot; &quot;SD&quot; &quot;ME&quot; &quot;ID&quot; &quot;MT&quot; &quot;RI&quot; &quot;AK&quot; &quot;IA&quot; &quot;UT&quot; &quot;WV&quot; &quot;NE&quot;
-## [16] &quot;OR&quot; &quot;DE&quot; &quot;MN&quot; &quot;KS&quot; &quot;CO&quot; &quot;NM&quot; &quot;NV&quot; &quot;AR&quot; &quot;WA&quot; &quot;CT&quot; &quot;WI&quot; &quot;DC&quot; &quot;OK&quot; &quot;KY&quot; &quot;MA&quot;
-## [31] &quot;MS&quot; &quot;AL&quot; &quot;IN&quot; &quot;SC&quot; &quot;TN&quot; &quot;AZ&quot; &quot;NJ&quot; &quot;VA&quot; &quot;NC&quot; &quot;MD&quot; &quot;OH&quot; &quot;MO&quot; &quot;LA&quot; &quot;IL&quot; &quot;GA&quot;
-## [46] &quot;MI&quot; &quot;PA&quot; &quot;NY&quot; &quot;FL&quot; &quot;TX&quot; &quot;CA&quot;</code></pre>
-<p>According to the above, California had the most murders.</p>
+<pre><code>##  [1] &quot;VT&quot; &quot;ND&quot; &quot;NH&quot; &quot;WY&quot; &quot;HI&quot; &quot;SD&quot; &quot;ME&quot; &quot;ID&quot; &quot;MT&quot; &quot;RI&quot; &quot;AK&quot;
+## [12] &quot;IA&quot; &quot;UT&quot; &quot;WV&quot; &quot;NE&quot; &quot;OR&quot; &quot;DE&quot; &quot;MN&quot; &quot;KS&quot; &quot;CO&quot; &quot;NM&quot; &quot;NV&quot;
+## [23] &quot;AR&quot; &quot;WA&quot; &quot;CT&quot; &quot;WI&quot; &quot;DC&quot; &quot;OK&quot; &quot;KY&quot; &quot;MA&quot; &quot;MS&quot; &quot;AL&quot; &quot;IN&quot;
+## [34] &quot;SC&quot; &quot;TN&quot; &quot;AZ&quot; &quot;NJ&quot; &quot;VA&quot; &quot;NC&quot; &quot;MD&quot; &quot;OH&quot; &quot;MO&quot; &quot;LA&quot; &quot;IL&quot;
+## [45] &quot;GA&quot; &quot;MI&quot; &quot;PA&quot; &quot;NY&quot; &quot;FL&quot; &quot;TX&quot; &quot;CA&quot;</code></pre>
+<p>According to the above, California (CA) had the most murders.</p>
 </div>
 <div id="max-and-which.max" class="section level3" number="1.6.3">
 <h3><span class="header-section-number">1.6.3</span> <code>max</code> and <code>which.max</code></h3>
@@ -1171,8 +1204,8 @@ For any given vector it returns a vector with the rank of the first entry, secon
 <div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="r-basics.html#cb173-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
 <span id="cb173-2"><a href="r-basics.html#cb173-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">70</span>)</span>
 <span id="cb173-3"><a href="r-basics.html#cb173-3" aria-hidden="true" tabindex="-1"></a>x<span class="sc">+</span>y</span></code></pre></div>
-<pre><code>## Warning in x + y: longer object length is not a multiple of shorter object
-## length</code></pre>
+<pre><code>## Warning in x + y: longer object length is not a multiple of
+## shorter object length</code></pre>
 <pre><code>## [1] 11 22 33 41 52 63 71</code></pre>
 <p>We do get a warning, but no error. For the output, R has recycled the numbers in <code>x</code>. Notice the last digit of numbers in the output.</p>
 </div>
@@ -1191,7 +1224,8 @@ For any given vector it returns a vector with the rank of the first entry, secon
 <div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="r-basics.html#cb178-1" aria-hidden="true" tabindex="-1"></a>inches <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">69</span>, <span class="dv">62</span>, <span class="dv">66</span>, <span class="dv">70</span>, <span class="dv">70</span>, <span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">70</span>)</span></code></pre></div>
 <p>and want to convert to centimeters. Notice what happens when we multiply <code>inches</code> by 2.54:</p>
 <div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="r-basics.html#cb179-1" aria-hidden="true" tabindex="-1"></a>inches <span class="sc">*</span> <span class="fl">2.54</span></span></code></pre></div>
-<pre><code>##  [1] 175.26 157.48 167.64 177.80 177.80 185.42 170.18 185.42 170.18 177.80</code></pre>
+<pre><code>##  [1] 175.26 157.48 167.64 177.80 177.80 185.42 170.18 185.42
+##  [9] 170.18 177.80</code></pre>
 <p>In the line above, we multiplied each element by 2.54. Similarly, if for each entry we want to compute how many inches taller or shorter than 69 inches, the average height for males, we can subtract it from every entry like this:</p>
 <div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="r-basics.html#cb181-1" aria-hidden="true" tabindex="-1"></a>inches <span class="sc">-</span> <span class="dv">69</span></span></code></pre></div>
 <pre><code>##  [1]  0 -7 -3  1  1  4 -2  4 -2  1</code></pre>
@@ -1226,10 +1260,11 @@ d + h
 <div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="r-basics.html#cb183-1" aria-hidden="true" tabindex="-1"></a>murder_rate <span class="ot">&lt;-</span> murders<span class="sc">$</span>total <span class="sc">/</span> murders<span class="sc">$</span>population <span class="sc">*</span> <span class="dv">100000</span></span></code></pre></div>
 <p>Once we do this, we notice that California is no longer near the top of the list. In fact, we can use what we have learned to order the states by murder rate:</p>
 <div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="r-basics.html#cb184-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>abb[<span class="fu">order</span>(murder_rate)]</span></code></pre></div>
-<pre><code>##  [1] &quot;VT&quot; &quot;NH&quot; &quot;HI&quot; &quot;ND&quot; &quot;IA&quot; &quot;ID&quot; &quot;UT&quot; &quot;ME&quot; &quot;WY&quot; &quot;OR&quot; &quot;SD&quot; &quot;MN&quot; &quot;MT&quot; &quot;CO&quot; &quot;WA&quot;
-## [16] &quot;WV&quot; &quot;RI&quot; &quot;WI&quot; &quot;NE&quot; &quot;MA&quot; &quot;IN&quot; &quot;KS&quot; &quot;NY&quot; &quot;KY&quot; &quot;AK&quot; &quot;OH&quot; &quot;CT&quot; &quot;NJ&quot; &quot;AL&quot; &quot;IL&quot;
-## [31] &quot;OK&quot; &quot;NC&quot; &quot;NV&quot; &quot;VA&quot; &quot;AR&quot; &quot;TX&quot; &quot;NM&quot; &quot;CA&quot; &quot;FL&quot; &quot;TN&quot; &quot;PA&quot; &quot;AZ&quot; &quot;GA&quot; &quot;MS&quot; &quot;MI&quot;
-## [46] &quot;DE&quot; &quot;SC&quot; &quot;MD&quot; &quot;MO&quot; &quot;LA&quot; &quot;DC&quot;</code></pre>
+<pre><code>##  [1] &quot;VT&quot; &quot;NH&quot; &quot;HI&quot; &quot;ND&quot; &quot;IA&quot; &quot;ID&quot; &quot;UT&quot; &quot;ME&quot; &quot;WY&quot; &quot;OR&quot; &quot;SD&quot;
+## [12] &quot;MN&quot; &quot;MT&quot; &quot;CO&quot; &quot;WA&quot; &quot;WV&quot; &quot;RI&quot; &quot;WI&quot; &quot;NE&quot; &quot;MA&quot; &quot;IN&quot; &quot;KS&quot;
+## [23] &quot;NY&quot; &quot;KY&quot; &quot;AK&quot; &quot;OH&quot; &quot;CT&quot; &quot;NJ&quot; &quot;AL&quot; &quot;IL&quot; &quot;OK&quot; &quot;NC&quot; &quot;NV&quot;
+## [34] &quot;VA&quot; &quot;AR&quot; &quot;TX&quot; &quot;NM&quot; &quot;CA&quot; &quot;FL&quot; &quot;TN&quot; &quot;PA&quot; &quot;AZ&quot; &quot;GA&quot; &quot;MS&quot;
+## [45] &quot;MI&quot; &quot;DE&quot; &quot;SC&quot; &quot;MD&quot; &quot;MO&quot; &quot;LA&quot; &quot;DC&quot;</code></pre>
 </div>
 </div>
 <div id="indexing" class="section level2" number="1.8">
@@ -1247,8 +1282,8 @@ d + h
 <div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="r-basics.html#cb189-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> murder_rate <span class="sc">&lt;=</span> <span class="fl">0.71</span></span></code></pre></div>
 <p>Note that we get back a logical vector with <code>TRUE</code> for each entry smaller than or equal to 0.71. To see which states these are, we can leverage the fact that vectors can be indexed with logicals.</p>
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="r-basics.html#cb190-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>state[ind]</span></code></pre></div>
-<pre><code>## [1] &quot;Hawaii&quot;        &quot;Iowa&quot;          &quot;New Hampshire&quot; &quot;North Dakota&quot; 
-## [5] &quot;Vermont&quot;</code></pre>
+<pre><code>## [1] &quot;Hawaii&quot;        &quot;Iowa&quot;          &quot;New Hampshire&quot;
+## [4] &quot;North Dakota&quot;  &quot;Vermont&quot;</code></pre>
 <p>In order to count how many are TRUE, the function <code>sum</code> returns the sum of the entries of a vector and logical vectors get <em>coerced</em> to numeric with <code>TRUE</code> coded as 1 and <code>FALSE</code> as 0. Thus we can count the states using:</p>
 <div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="r-basics.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(ind)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
@@ -1323,7 +1358,6 @@ d + h
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1342,6 +1376,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1362,6 +1397,10 @@ gitbook.start({
 "text": null
 },
 "download": {},
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

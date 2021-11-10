@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Analytical Statistical Assessment | Data Analysis and Visualization in R (IN2339)</title>
   <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Analytical Statistical Assessment | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-03-16" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="resampling-stat.html"/>
 <link rel="next" href="big-data-stat.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,9 +50,8 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -60,6 +60,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -118,6 +119,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -705,7 +729,7 @@ P &amp;= 2\min \{p(T \leq T_\text{obs}| H_0), p(T \geq T_\text{obs}| H_0) \}\\
 &amp;= 2\min\{\sum_{T \leq T_\text{obs}}\binom{n}{T}0.5^n, \sum_{T \geq T_\text{obs}}\binom{n}{T}0.5^n \}
 \tag{8.1}
 \end{align}\]</span></p>
-<div class="figure"><span id="fig:binom-test"></span>
+<div class="figure"><span style="display:block;" id="fig:binom-test"></span>
 <img src="dataviz_book_files/figure-html/binom-test-1.png" alt="Two-sided p-value for the coin tossing example. The two-sided p-value equals to the sum of the probabilities (total red area) under the null hypothesis of the realizations equal or more extreme than the observed one (vertical line)." width="480" />
 <p class="caption">
 Figure 8.1: Two-sided p-value for the coin tossing example. The two-sided p-value equals to the sum of the probabilities (total red area) under the null hypothesis of the realizations equal or more extreme than the observed one (vertical line).
@@ -751,39 +775,22 @@ Figure 8.1: Two-sided p-value for the coin tossing example. The two-sided p-valu
 <p>Assume we receive the following table as a result:</p>
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-Severe
-</th>
-<th style="text-align:right;">
-Mild
-</th>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Severe</th>
+<th align="right">Mild</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-Smoker
-</td>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-20
-</td>
+<tr class="odd">
+<td align="left">Smoker</td>
+<td align="right">10</td>
+<td align="right">20</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Non-smoker
-</td>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-70
-</td>
+<tr class="even">
+<td align="left">Non-smoker</td>
+<td align="right">10</td>
+<td align="right">70</td>
 </tr>
 </tbody>
 </table>
@@ -794,146 +801,73 @@ Non-smoker
 <p>It is enlightening to approach first this problem with permutation testing (See Chapter <a href="resampling-stat.html#resampling-stat">7</a>). To this end, one shall first consider the underlying, not aggregated, dataset of individual cases. Such tidy dataset, where one row is one patient and each column one variable, would have the following structure:</p>
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-Patient
-</th>
-<th style="text-align:left;">
-Smoker
-</th>
-<th style="text-align:left;">
-Symptoms
-</th>
+<tr class="header">
+<th align="left">Patient</th>
+<th align="left">Smoker</th>
+<th align="left">Symptoms</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-patient_1
-</td>
-<td style="text-align:left;">
-no
-</td>
-<td style="text-align:left;">
-mild
-</td>
+<tr class="odd">
+<td align="left">patient_1</td>
+<td align="left">no</td>
+<td align="left">mild</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-patient_2
-</td>
-<td style="text-align:left;">
-yes
-</td>
-<td style="text-align:left;">
-severe
-</td>
+<tr class="even">
+<td align="left">patient_2</td>
+<td align="left">yes</td>
+<td align="left">severe</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-patient_3
-</td>
-<td style="text-align:left;">
-no
-</td>
-<td style="text-align:left;">
-severe
-</td>
+<tr class="odd">
+<td align="left">patient_3</td>
+<td align="left">no</td>
+<td align="left">severe</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-patient_4
-</td>
-<td style="text-align:left;">
-yes
-</td>
-<td style="text-align:left;">
-severe
-</td>
+<tr class="even">
+<td align="left">patient_4</td>
+<td align="left">yes</td>
+<td align="left">severe</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-patient_5
-</td>
-<td style="text-align:left;">
-yes
-</td>
-<td style="text-align:left;">
-mild
-</td>
+<tr class="odd">
+<td align="left">patient_5</td>
+<td align="left">yes</td>
+<td align="left">mild</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-…
-</td>
-<td style="text-align:left;">
-…
-</td>
-<td style="text-align:left;">
-…
-</td>
+<tr class="even">
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
 </tr>
 </tbody>
 </table>
 <p>For permutation testing, the null hypothesis is the independence of the Smoker and the Symptoms variables. With permutation testing, data under the null hypothesis are simulated by permuting values in one column (say “Symptoms”) keeping the order of the other column (say “Smoker”) fixed. For each permutation, we get a different 2x2 <em>contingency table</em> which we will denote as:</p>
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:left;">
-Severe
-</th>
-<th style="text-align:left;">
-Mild
-</th>
-<th style="text-align:left;">
-Row total
-</th>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Severe</th>
+<th align="left">Mild</th>
+<th align="left">Row total</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-Smoker
-</td>
-<td style="text-align:left;">
-a
-</td>
-<td style="text-align:left;">
-b
-</td>
-<td style="text-align:left;">
-a + b
-</td>
+<tr class="odd">
+<td align="left">Smoker</td>
+<td align="left">a</td>
+<td align="left">b</td>
+<td align="left">a + b</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Non-smoker
-</td>
-<td style="text-align:left;">
-c
-</td>
-<td style="text-align:left;">
-d
-</td>
-<td style="text-align:left;">
-c + d
-</td>
+<tr class="even">
+<td align="left">Non-smoker</td>
+<td align="left">c</td>
+<td align="left">d</td>
+<td align="left">c + d</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Column total
-</td>
-<td style="text-align:left;">
-a + c
-</td>
-<td style="text-align:left;">
-b + d
-</td>
-<td style="text-align:left;">
-n = a + b + c + d
-</td>
+<tr class="odd">
+<td align="left">Column total</td>
+<td align="left">a + c</td>
+<td align="left">b + d</td>
+<td align="left">n = a + b + c + d</td>
 </tr>
 </tbody>
 </table>
@@ -1035,7 +969,7 @@ c &amp;= \sqrt{\frac{n_xn_y}{n_x+n_y}}
 <p>A consequence of these assumptions is that our null hypothesis simplifies. If both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are Gaussian with the same variance, the only way the two groups can differ is if the Gaussians have different means. Therefore, the null hypothesis is that the expectations are equal:</p>
 <p><span class="math inline">\(H_0: \operatorname{E}(X) = \operatorname{E}(Y)\)</span></p>
 <p>Under <span class="math inline">\(H_0\)</span>, our test statistic <span class="math inline">\(t\)</span> follows a Student’s t-distribution with <span class="math inline">\(\nu = n_x + n_y -2\)</span> degrees of freedom (the degrees of freedom <span class="math inline">\(\nu\)</span> is the parameter of Student’s t-distribution). Figure <a href="analytical-stat.html#fig:student-distrib">8.2</a> shows the shape of Student’s <span class="math inline">\(t\)</span>-distribution for different degrees of freedom <span class="math inline">\(\nu\)</span>.</p>
-<div class="figure"><span id="fig:student-distrib"></span>
+<div class="figure"><span style="display:block;" id="fig:student-distrib"></span>
 <img src="assets/img/lec11-stat-testing-II/lec11-Student_t_pdf.svg.png" alt="Student's t-distribution for various degrees of freedom. Source: https://en.wikipedia.org/wiki/Student%27s_t-distribution" width="162" />
 <p class="caption">
 Figure 8.2: Student’s t-distribution for various degrees of freedom. Source: <a href="https://en.wikipedia.org/wiki/Student%27s_t-distribution" class="uri">https://en.wikipedia.org/wiki/Student%27s_t-distribution</a>
@@ -1052,7 +986,7 @@ Figure 8.2: Student’s t-distribution for various degrees of freedom. Source: <
 ## 
 ## data:  growth_rate by genotype
 ## t = -10.77, df = 152, p-value &lt; 2.2e-16
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group Lab strain and group Wild isolate is not equal to 0
 ## 95 percent confidence interval:
 ##  -2.406400 -1.660387
 ## sample estimates:
@@ -1069,7 +1003,7 @@ Figure 8.2: Student’s t-distribution for various degrees of freedom. Source: <
 ## 
 ## data:  growth_rate by genotype
 ## t = -10.805, df = 152, p-value &lt; 2.2e-16
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group Lab strain and group Wild isolate is not equal to 0
 ## 95 percent confidence interval:
 ##  -2.405189 -1.661599
 ## sample estimates:
@@ -1334,7 +1268,7 @@ r =\frac{\sum ^n _{i=1}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum ^n _{i=1}(x_i 
 <div id="testing-associations-of-two-variables-overview" class="section level2" number="8.6">
 <h2><span class="header-section-number">8.6</span> Testing associations of two variables: Overview</h2>
 <p>Figure <a href="analytical-stat.html#fig:two-variable-tests">8.3</a> summarizes the different tests we have seen for the association of two variables, together with the typical companion plots:</p>
-<div class="figure"><span id="fig:two-variable-tests"></span>
+<div class="figure"><span style="display:block;" id="fig:two-variable-tests"></span>
 <img src="assets/img/lec11-stat-testing-II/lec11-common-stat-tests.png" alt="Overview of two-variable tests" width="750px" />
 <p class="caption">
 Figure 8.3: Overview of two-variable tests
@@ -1439,7 +1373,7 @@ Figure 8.3: Overview of two-variable tests
 <!-- patchwork::wrap_plots(gg_hist, gg_qq, ncol=1) -->
 <!-- ``` -->
 <p>Figure <a href="analytical-stat.html#fig:qq-plot-examples">8.4</a> give more examples. We assume here the Normal distribution (Gaussian with mean 0 and variance 1) as reference theoretical distribution. These plots show how different violations of the distributional assumption translate to different deviations from the diagonal in a Q-Q plot.</p>
-<div class="figure"><span id="fig:qq-plot-examples"></span>
+<div class="figure"><span style="display:block;" id="fig:qq-plot-examples"></span>
 <img src="assets/img/lec11-QQ-plots.png" alt="Examples of Q-Q plots. The theoretical distribution is in each case the Normal distribution (Gaussian with mean 0 and variance 1). The upper row shows histograms of some observations, the lower row shows the matching Q-Q plots. The vertical red dashed line marks the theoretical mean (0, top row) and the red lines the y=x diagonal (bottom row)." width="900px" />
 <p class="caption">
 Figure 8.4: Examples of Q-Q plots. The theoretical distribution is in each case the Normal distribution (Gaussian with mean 0 and variance 1). The upper row shows histograms of some observations, the lower row shows the matching Q-Q plots. The vertical red dashed line marks the theoretical mean (0, top row) and the red lines the y=x diagonal (bottom row).
@@ -1677,7 +1611,6 @@ We saw that for many scenarios, non-parametric tests exist that do not make litt
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -1696,6 +1629,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -1716,6 +1650,10 @@ gitbook.start({
 "text": null
 },
 "download": {},
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
