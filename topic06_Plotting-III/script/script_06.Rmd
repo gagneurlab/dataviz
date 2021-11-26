@@ -499,7 +499,7 @@ Basically, there are four options for color coding with `ggplot2` in R:
 
 #### Color palettes 
 
-The package `RColorBrewer` provides a comprehensive set of nice and color palettes:
+The package `RColorBrewer` provides a comprehensive set of nice color palettes:
 
 ```{r, eval=F}
 library(RColorBrewer)
