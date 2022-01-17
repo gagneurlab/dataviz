@@ -452,7 +452,7 @@ dat[order(HR_strata),.(slope = get_slope(BB_per_game, R_per_game)), by='HR_strat
 
 The slopes are reduced, but they are not 0, which indicates that BBs are helpful for producing runs, just not as much as previously thought ^[One can extract data of so-called singles, i.e the number of runs reaching the first base, and find that the effects on runs are similar than for BBs, which is consistent with the intuition that BB directly contributes to runs because it brings the batter to the first base. See R. Irizzary's book.]
 
-Although our understanding of the application tells us that HR cause BB but not the other way around, we can still check if stratifying by BB makes the effect of BB go down. To do this, we use the same code except that we swap HR and BBs to get this plot:
+Although our understanding of the application tells us that HR cause BB but not the other way around, we can still check if stratifying by BB makes the effect of HR go down. To do this, we use the same code except that we swap HR and BBs to get this plot:
 
 ```{r runs-vs-hr-by-bb-strata, out.width="100%",echo=FALSE}
 dat <- Teams_filt[,.(BB_strata = round(BB/G,1), 

@@ -382,7 +382,7 @@ Permutation P-values should never be zero [@Phipson2010]. Do not use $\frac{r}{m
 
 In our case, we observed no single permutation with larger test statistics. Hence $r=0$. We thus get:
 
-$$ \hat P = \frac{1}{1001} \simeq 0.01$$
+$$ \hat P = \frac{1}{1001} \simeq 0.001$$
 So, if we assume that the null hypothesis is true, the probability of observing a difference in median growth rates as, or more, extreme as the ones we actually observed, is less than one in one thousand. We would thus need to be quite unlucky to get results like this by chance. So, we reject the null hypothesis and we say that the association between genotype at marker 5211 and growth rates in maltose is statistically significant.
 
 
