@@ -59,7 +59,7 @@ class(titanic_dt)
 Here you can see that the class function informs us that `titanic_dt` is both a `data.table` and a `data.frame` as `data.table` inherits
 from `data.frame`.
 
-Alternatively, we can read files from disk and process them using `data.table`. The easiest way to do so is to use the function `fread()`. Here is an example using a subset of the Kaggle flight and airports dataset that is limited to flights going in or to the Los Angeles airport. We refer to the description Kaggle flights and airports challenge for more details [https://www.kaggle.com/tylerx/flights-and-airports-data]. 
+Alternatively, we can read files from disk and process them using `data.table`. The easiest way to do so is to use the function `fread()`. Here is an example using a subset of the Kaggle flight and airports dataset that is limited to flights going in or to the Los Angeles airport. We refer to the description of the Kaggle flights and airports challenge for more details [https://www.kaggle.com/tylerx/flights-and-airports-data]. 
 
 To run the following code, save the comma-separated value file `flightsLAX.csv` into a local folder of your choice and replace the string `"path_to_file"` with the actual path to your `flightsLAX.csv` file. For example `"path_to_file"` could be substituted with `"/Users/samantha/mydataviz_folder/extdata"`. See Appendix I "Importing data" for more details.
 
@@ -80,7 +80,7 @@ flights
 
 ### Inspecting tables
 
-A first step in any analysis should involve inspecting the data we just read in. This often starts by looking the first and last rows of the table as we did above. The next information we are often interested in is the size of our data set. We can use the following commands to obtain it:
+A first step in any analysis should involve inspecting the data we just read in. This often starts by looking at the first and last rows of the table as we did above. The next information we are often interested in is the size of our data set. We can use the following commands to obtain it:
 ```{r}
 ncol(flights)   # nrow(flights) for number of rows
 dim(flights)    # returns nrow and ncol
@@ -243,20 +243,10 @@ flights[1:5,AIR_TIME/DISTANCE]
 
 ### Advanced commands: *apply() over columns
 
-The columns of a `data.table` are exposed as a list to the environment. Therefore functions applying to a list can be applied to them, including those of the `*apply` family such as sapply()`. For example:
+The columns of a `data.table` are exposed as a list to the environment. Therefore functions applying to a list can be applied to them, including those of the `*apply` family such as `sapply()`. For example:
 
 ```{r, linewidth=80, error=TRUE}
 sapply(flights, class)   # Try the same with lapply
-```
-
-```{r}
-
-# Note that we can access columns stored as variables by setting with=F.
-# In this case, `colnames(iris_dt)!="Species"` returns a logical vector and `
-# iris_dt` is subsetted by the logical vector
-
-# Same as sapply(iris_dt[, 1:4], sum)
-#sapply(iris_dt[, colnames(iris_dt)!="Species", with = F], sum) 
 ```
 
 ## The 'by' option
@@ -299,7 +289,7 @@ flights[DESTINATION_AIRPORT == "JFK", .N, by = 'AIRLINE']
 ## Extending tables
 ### Creating new columns (the := command)
 
-The ``:=`` operator updates the `data.table` we are working in place, so writing `DT <- DT[,... := ...]` is redundant. This operator, plus all ``set`` functions (e.g. `setnames` for column name renaming, `setcolorder` for changing the positions in which the columns positioned are inside the `DT`, etc), change their input by *reference*. No copy of the object is made, which makes the operation faster and less memory-consuming.
+The ``:=`` operator updates the `data.table` we are working with in place, so writing `DT <- DT[,... := ...]` is redundant. This operator, plus all ``set`` functions (e.g. `setnames` for column name renaming, `setcolorder` for changing the positions in which the columns are positioned inside the `DT`, etc), change their input by *reference*. No copy of the object is made, which makes the operation faster and less memory-consuming.
 
 As an example, we can add a new column called `SPEED` (in miles per hour) whose value is the `DISTANCE` divided by `AIR_TIME` times 60:
 ```{r}
@@ -327,7 +317,7 @@ Here we observe, that the tail numbers are gone from the `data.table`.
 
 ### Advanced: Multiple assignments
 
-With the following syntax we can assign multiple new columns at once. We the base R dataset `iris` ^[https://en.wikipedia.org/wiki/Iris_flower_data_set], which we first transform into a `data.table`.
+With the following syntax we can assign multiple new columns at once. We load the base R dataset `iris` ^[https://en.wikipedia.org/wiki/Iris_flower_data_set], which we first transform into a `data.table`.
 
 ```{r}
 # load the Iris data table

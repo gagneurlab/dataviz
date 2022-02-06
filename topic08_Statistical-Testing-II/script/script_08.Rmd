@@ -132,7 +132,7 @@ dbinom(x=t, size=n, prob=0.5)
 ```
 
 
-We recall that the $P$-value is defined as the probability, under the null hypothesis, of observing a test statistic as or more extreme as the one we actually observed. Since we just want to know *whether* the coin is biased, and do not care in which direction, we need a two sided p-value. This is given by (Figure \@ref(fig:binom-test)):
+We recall that the $P$-value is defined as the probability, under the null hypothesis, of observing a test statistic as or more extreme as the one we actually observed. Since we just want to know *whether* the coin is biased, and do not care in which direction, we need a two sided  $P$-value. This is given by (Figure \@ref(fig:binom-test)):
 
 \begin{align}
 P &= 2\min \{p(T \leq T_\text{obs}| H_0), p(T \geq T_\text{obs}| H_0) \}\\
@@ -141,10 +141,10 @@ P &= 2\min \{p(T \leq T_\text{obs}| H_0), p(T \geq T_\text{obs}| H_0) \}\\
 (\#eq:p-val-binom)
 \end{align}
 
-```{r binom-test, echo=FALSE, fig.cap="Two-sided p-value for the coin tossing example. The two-sided p-value equals to the sum of the probabilities (total red area) under the null hypothesis of the realizations equal or more extreme than the observed one (vertical line).", fig.width=5, fig.height=4}
+```{r binom-test, echo=FALSE, fig.cap="Two-sided $P$-value for the coin tossing example. The two-sided $P$-value equals to the sum of the probabilities (total red area) under the null hypothesis of the realizations equal or more extreme than the observed one (vertical line).", fig.width=5, fig.height=4}
 p_T_H0 <- dbinom(x=0:n, size=n, prob=0.5)
 dt  <- data.table(t_rnd=0:n, p_T_H0)
-dt [, reject:= (t_rnd>=t | t_rnd <= n-t)]
+dt [, reject:= (t_rnd>=t)]
 
 dt %>% ggplot(aes(x=t_rnd,y=p_T_H0, fill=reject)) + geom_bar(stat="identity") + 
   xlab("T") + ylab(expression(paste("p(T | ", H[0], ")"))) +
@@ -152,9 +152,11 @@ dt %>% ggplot(aes(x=t_rnd,y=p_T_H0, fill=reject)) + geom_bar(stat="identity") +
   scale_fill_manual("legend", values=c("FALSE" ="darkgrey", "TRUE" = "red")) +
   geom_vline(xintercept=t) +
   geom_text(aes(t,Inf,label="T observed", hjust=-0.1, vjust=+2)) +
-  theme_bw() +
-  theme(legend.position = "none") 
+  geom_text(aes(t,Inf,label="T observed", hjust=-0.1, vjust=+2)) +
+  theme_bw() +  guides(fill = guide_legend(title = "T >= T observed"))+
+  theme(legend.position = "none") + mytheme
 ```
+
 
 To apply the formula \@ref(eq:p-val-binom), one can compute the smaller of the two terms which is here $\sum_{T \geq 7}\binom{10}{T}0.5^{10}$, and corresponds to the right tail marked in red in Figure  \@ref(fig:binom-test). This is $1- \sum_{T \leq 6}\binom{10}{T}0.5^{10}$ and is obtained in R with:
 
@@ -162,7 +164,7 @@ To apply the formula \@ref(eq:p-val-binom), one can compute the smaller of the t
 1-pbinom(q=t-1, size=n, prob=0.5)
 ```
 
-Hence the two-sided p-value is twice this value, yielding:
+Hence the two-sided $P$-value is twice this value, yielding:
 ```{r}
 2*(1-pbinom(q=t-1, size=n, prob=0.5))
 ```
@@ -267,7 +269,7 @@ $$P = \sum_{i \geq a}p(k=i|H_0)$$
 
 This is called Fisher's exact test.
 
-For our application purposes, we do not need to know the formula of the hypergeometric distribution, nor how it is derived. However, it is important to know that a formula exists and what the underlying assumptions are, i.e. that the margins of the 2x2 contingency table are considered to be fixed. That means that we do not consider $n$, $a+b$, $b+d$, $a+b$ and $c+d$ as random variables, but instead take these quantities as given (we "condition" on them). Note that this assumption is often violated in practice, as in the example above where we randomly sampled patients rather than sampling a fixed amount from each subgroup. But Fisher's exact test is nevertheless applied as an exact instance of permutation testing.
+For our application purposes, we do not need to know the formula of the hypergeometric distribution, nor how it is derived. However, it is important to know that a formula exists and what the underlying assumptions are, i.e. that the margins of the 2x2 contingency table are considered to be fixed. That means that we do not consider $n$, $a+b$, $b+d$, $a+c$ and $c+d$ as random variables, but instead take these quantities as given (we "condition" on them). Note that this assumption is often violated in practice, as in the example above where we randomly sampled patients rather than sampling a fixed amount from each subgroup. But Fisher's exact test is nevertheless applied as an exact instance of permutation testing.
 
 There are alternatives to Fisher's exact test that do not need all margins fixed assumptions. One is the formerly popular Chi-squared test, which is based on large number approximations. It is rarely needed nowadays, as Fisher's exact test is exact and fast to compute. Another approach is based on logistic regression and will be addressed in a later Chapter.
 
@@ -282,9 +284,9 @@ tbl = data.table(
 tst <- fisher.test(tbl,  alternative = "greater")
 tst
 ```
-The one-sided p-value is `r tst$p.value`. At the level $\alpha=0.05$, one would therefore reject the null hypothesis of independence of symptom severity and smoking status.
+The one-sided $P$-value is `r tst$p.value`. At the level $\alpha=0.05$, one would therefore reject the null hypothesis of independence of symptom severity and smoking status.
 
-As for the binomial test, the p-value can be extracted with `$p.value`. The function `fisher.test` also returns an estimate of the odds ratio and its confidence interval. The estimate of the odds ratio is based on a estimation procedure robust for low counts, giving close yet slightly different estimates than the sample odds ratio (we obtained 3.5 at the start of Section \@ref(fisher-test)).
+As for the binomial test, the $P$-value can be extracted with `$p.value`. The function `fisher.test` also returns an estimate of the odds ratio and its confidence interval. The estimate of the odds ratio is based on a estimation procedure robust for low counts, giving close yet slightly different estimates than the sample odds ratio (we obtained 3.5 at the start of Section \@ref(fisher-test)).
 
 ## Testing the association between one quantitative and one binary variable
 
@@ -339,13 +341,13 @@ where $\bar{x}$ and $\bar{y}$ are the sample means of $X$ and $Y$ respectively, 
 \begin{align}
 \bar x &= \frac{1}{n_x}\sum_i x_i \\
 \bar y &= \frac{1}{n_y}\sum_i y_i \\
-s_p &= \sqrt \frac{\sum_i (x_i-\bar x )^2 + \sum_i (y_i-\bar y )^2}{n_x + n_y -2} \\
+s &= \sqrt \frac{\sum_i (x_i-\bar x )^2 + \sum_i (y_i-\bar y )^2}{n_x + n_y -2} \\
 c &= \sqrt{\frac{n_xn_y}{n_x+n_y}}
 \end{align}
 
 While the details can always be looked up, understanding Equation \@ref(eq:t-stat) is useful. Intuitively, the $t$-statistic compares, up to the constant $c$, the "signal" of group difference, namely the estimated difference of the means of the two groups, to the "noise", i.e. how uncertain we are about our estimate of this difference. This "noise" in our estimate is itself the ratio of the typical variations within the groups ($s$) over a term capturing the sample size ($c$). One can thus interpret it as a signal-to-noise ratio. If the $t$-statistic is large, then we see a clear difference in means. By contrast, if the $t$-statistic is small, then the difference in means is not large compared to the noise. Larger sample size (more data) or larger between-group differences compared to within-group differences lead to larger $t$-statistics.
 
-#### Student's t-distribution
+#### Student's t-distribution {#student-t}
 
 Before we can derive the distribution of this test statistic under the null hypothesis, we need to make some additional assumptions about the data, namely:
 
@@ -363,7 +365,8 @@ Under $H_0$, our test statistic $t$ follows a Student's t-distribution with $\nu
 knitr::include_graphics("assets/img/lec11-stat-testing-II/lec11-Student_t_pdf.svg.png")
 ```
 
-We can make two observations. Firstly, the distribution of the $t$-statistic under $H_0$ does not depend on the (unknown) variance. Secondly, Student's $t$-distribution has heavier tails than the Gaussian. This intuitively comes from the fact that, while the numerator of the $t$-statistic is normally distributed, the estimate of the standard deviation in the denominator is noisy. The smaller the sample size $n$, the noisier the estimate. Hence, the smaller the degrees of freedom, the heavier the tails. For infinite degrees of freedom, Student's $t$-distribution equals the normal distribution.
+We can make two observations. Firstly, the distribution of the $t$-statistic under $H_0$ does not depend on the (unknown) variance. Secondly, Student's $t$-distribution has heavier tails than the Gaussian. This intuitively comes from the fact that, while the numerator of the $t$-statistic is normally distributed, the estimate of the standard deviation in the denominator is noisy. The smaller the sample size $n$, the noisier the estimate. 
+The degrees of freedom capture just this. They are equal to the number of data points (here $n_x + n_y$) minus the number of parameters of the model (here minus 2 for the means of each group). The smaller the degrees of freedom, the less accurate our estimates of the standard deviation is, and the more variation the denominator of the t-statistics brings. Hence, the smaller the degrees of freedom, the heavier the tails. For infinite degrees of freedom, Student's $t$-distribution equals the normal distribution.
 
 #### Student's t-test in R
 
@@ -387,7 +390,7 @@ t.test(growth_rate ~ genotype, data=dt)
 ### Wilcoxon rank-sum test: An alternative to the t-test for non-Gaussian data
 
 #### Assumptions
-As we saw, the $t$-test assumes the data follows a specific distribution, namely a Gaussian. There are many situations where this is reasonable, but in general we cannot guarantee that this assumption holds. Using the $t$-test if the data is not normal can lead to wrong conclusions.
+As we saw, the $t$-test assumes the data follows a specific distribution, namely a Gaussian. There are many situations where this is reasonable, but in general we cannot guarantee that this assumption holds. Using the $t$-test if the data is not normal can lead to wrong conclusions. For instance, distributions that have heavier tails that the Gaussian can lead to false null hypothesis rejections as sample mean differences can seem to be surprisingly large (See section \@ref(why-bother-wilcox)).
 
 The Wilcoxon Rank-Sum test is a popular alternative to the t-test. It makes very few assumptions about the data, namely that:
 
@@ -423,7 +426,7 @@ The Mann-Whitney U statistic is defined as:
 
 $$U= \min\{U_x, U_y\}$$
 
-P-values are then based on the distribution of Mann-Whitney U statistic under the null hypothesis. It combines tabulated values for small sample sizes and Central Limit Theorem approximation for large sample sizes (exploiting that the expectation and the variance of $U$ under the null can be analytically derived ^[https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test].)
+$P$-values are then based on the distribution of Mann-Whitney U statistic under the null hypothesis. It combines tabulated values for small sample sizes and Central Limit Theorem approximation for large sample sizes (exploiting that the expectation and the variance of $U$ under the null can be analytically derived ^[https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test].)
 
 
 <!-- Under the null hypothesis, it can be shown that: -->
@@ -450,7 +453,7 @@ wilcox.test(growth_rate ~ genotype, data=dt)
 ```
 
 
-### Why bother with the Wilcoxon rank-sum test?
+### Why bother with the Wilcoxon rank-sum test?{#why-bother-wilcox}
 <!-- New section! -->
 
 The Wilcoxon rank-sum test makes less assumptions than the $t$-test, specifically because it does not require that the data follows a Gaussian distribution. We will now see an example to illustrate this.
@@ -503,7 +506,7 @@ We will consider two different tests which are based on different notions of the
 
 An important property is that when two variables (X,Y) form a bivariate Gaussian distribution ^[https://en.wikipedia.org/wiki/Multivariate_normal_distribution], their independence is equivalent to their population Pearson correlation coefficient $\rho_{X,Y}$ equals 0 (See Appendix \@ref(appendix-probabilities)). This motivates for a Hypothesis test, called the Pearson correlation coefficient test.
 
-#### Pearson's correlation coefficient
+#### Pearson's correlation coefficient {#pearson-cor}
 The Pearson correlation coefficient test is based on the sample estimate of the population Pearson correlation coefficient, defined as:
 
 \begin{align}
@@ -1045,7 +1048,7 @@ Nevertheless, this sort of overlap test is very often used in the literature. Wh
 
 In the last chapter, we saw Permutation-based testing, which is very general: we can use it to test for any ad hoc statistics such as mean difference, median difference and so on. However, in the beginning of this chapter, we saw that Permutation-based testing is computationally intensive and not always appropriate in the context of big data. This is why we discussed a number of analytical tests which can serve as alternatives, to compute $P$-values and confidence intervals.
 
-Some of tests are parametric, i.e. they assume some parameterized function for the data distribution, leading to the null hypothesis is be based on the parameters (for instance that two groups distribute according to the Gaussian distribution and that the means of the two groups are equal).
+Some of the tests are parametric, i.e. they assume some parameterized function for the data distribution, leading to the null hypothesis is be based on the parameters (for instance that two groups distribute according to the Gaussian distribution and that the means of the two groups are equal).
 We saw that for many scenarios, non-parametric tests exist that do not make little assumptions on the distribution functions. Examples of such non-parametric tests are the Fisher, the Wilcoxon rank-sum test, and the Spearman rank-correlation test. In general, these should be preferred to their parametric counterparts, unless we have good reason to believe that the more restrictive assumptions of the parametric test are met. We can check distributional assumptions using Q-Q plots.
 
 The two-variable tests we discussed assess in some ways the dependencies between variables. By themselves, they cannot tell whether these relationships are causal and, if so, what the direction of causality is (See Chapter \@ref(graph-supported-hypos)). For instance, we may be tempted to conclude from the viral infection  example that smoking is a cause of severe symptoms, but that study design unfortunately cannot guarantee this. People who smoke could, for example, on average be older, have a less healthy diet, or have other risk-factors, compared to non-smokers. In other words, there could be confounding variables not taken into account here.

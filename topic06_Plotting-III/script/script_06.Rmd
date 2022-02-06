@@ -24,7 +24,7 @@ mytheme <- theme(
 
 # Graphically supported hypotheses {#graph-supported-hypos}
 
-In the last 2 chapters we presented the different types of plots. We now consider the task of structuring and presenting an entire analysis. We want to be able to provide novel insights from a dataset. Guided by the scientific method, a major aspect will be to give strong support for testable hypotheses. This is important in basic research to suggest experimental validations (does this gene affects growth?), but also for decision makers in public health (does smoking cause cancer?), public governance (would investing in education benefit economy?) or in the industry (would modifying a process increases productivity, modifying a product increases sales, etc.?).  
+In the last 2 chapters we presented the different types of plots. We now consider the task of structuring and presenting an entire analysis. We want to be able to provide novel insights from a dataset. Guided by the scientific method, a major aspect will be to give strong support for testable hypotheses. This is important in basic research to suggest experimental validations (does this gene affect growth?), but also for decision makers in public health (does smoking cause cancer?), public governance (would investing in education benefit economy?) or in the industry (would modifying a process increase productivity, modifying a product increases sales, etc.?).  
 
 This chapter covers:
 
@@ -40,11 +40,11 @@ A typical data analysis starts with an exploration of the data. These are illust
 
 ### Descriptive plots
 
-Descriptive plots allow exploring how a variable or a set of variables distributes. For a univariate data these are histograms, single boxplots or violin plots. For multivariate data these are clustered heatmaps, PCA projections, etc.
+Descriptive plots allow exploring how a variable or a set of variables distribute. For a univariate data these are histograms, single boxplots or violin plots. For multivariate data these are clustered heatmaps, PCA projections, etc.
 
-Descriptive plots correspond to descriptions of the distribution $p(X)$, where $X$ is the variable we want to explore. In machine learning terms, they correspond to methods from unsupervised learning e.g. k-means clustering, hierarchical clustering, PCA.
+Descriptive plots correspond to descriptions of the distribution $p(X)$, where $X$ is the variable we want to explore. In machine learning terms, they correspond to methods from unsupervised learning, e.g. k-means clustering, hierarchical clustering, PCA.
 
-For example, we can consider the `diamonds` dataset which contains the prices and other attributes of several diamonds. To first visualize the distribution of the weights (`carat`) of the diamonds, we can build a histogram:  
+As an example, we can consider the `diamonds` dataset which contains the prices and other attributes of several diamonds. To first visualize the distribution of the weights (`carat`) of the diamonds, we can build a histogram:  
 
 ```{r carat-distrib, fig.height=3, message=FALSE}
 ggplot(diamonds, aes(carat)) + geom_histogram() + mytheme
@@ -56,7 +56,7 @@ Associative plots show how a variable depends on another variable.
 
 For such plots, one typically uses the y-axis for the response variable (e.g. survival rate, skin cancer occurrence) and the x-axis for the explanatory variables (e.g drug dose, sun exposure). Suitable plots are side-by-side boxplots, scatter plots, etc. 
 
-Associative plots are graphical representation of the conditional distributions $p(y|x)$ (pronounced "p of y given x"), where $y$ is the response and $x$ is the explanatory variable(s). When the conditional distribution $p(y|x)$ actually depends on $x$, we say that $x$ and $y$ are dependent. For instance a scatterplot can show the trend that the response $y$ increases in average as $x$ increases. A boxplot can show that characteristic values of the distribution of $y$ (quartiles, median) depends on the value of the category $x$, etc.  
+Associative plots are graphical representation of the conditional distributions $p(y|x)$ (pronounced "p of y given x"), where $y$ is the response and $x$ is the explanatory variable(s). When the conditional distribution $p(y|x)$ actually depends on $x$, we say that $x$ and $y$ are dependent. For instance, a scatterplot can show the trend that the response $y$ increases on average as $x$ increases. A boxplot can show that characteristic values of the distribution of $y$ (quartiles, median) depend on the value of the category $x$, etc.  
 
 In machine learning terms, associative plots correspond to methods from supervised learning (e.g. regression, classification). For instance, one can build a predictor that predicts the risk of skin cancer **given** the age and sun exposure of a person.
 
@@ -68,9 +68,9 @@ ggplot(diamonds, aes(carat, price)) +
   stat_smooth() + mytheme
 ```
 
-### Correctly using descriptive and demonstrative plots
+### Correctly using descriptive and associative plots
 
-A typical mistake is to use a descriptive plot to formulate a claim. For instance, a statement such as "My experiments are reproducible because the replicate samples group together on the projection of the first PCA 2D-plane" is wrong. PCA is a visualization designed to capture the joint distribution of all data and not to assess reproducibility between given pair of samples. To make a claim, we use an associative plot between a response variable on the y-axis against a dependent variable on the x-axis. In this example, we can create a boxplot that shows the distribution of the correlation between pairs of samples (y-axis) for two categories (x-axis): the group of replicate samples and the group of sample pairs from different experiments.
+Claims are often not well supported with descriptive plots. For instance, claiming that "The experiments are reproducible because the replicate samples group together on the projection of the first PCA 2D-plane" is wrong. PCA is a visualization designed to capture the joint distribution of all data and not to assess reproducibility between given pair of samples. Instead claims are better supported using associative plots between an appropriate response variable on the y-axis against an appropriate dependent variable on the x-axis. In this example, we want to claim that there is a higher similarity between replicate experiments than across experiments from different conditions. To this end, one can create a boxplot that shows the distribution of the correlation between pairs of samples (y-axis) for two categories (x-axis): pairs of replicate samples and pairs of sample from different conditions.
 
 <!-- TODO: add a concrete example. the latter one makes sense for biologists in omics applications, probably not very concrete for others-->
 
@@ -79,7 +79,7 @@ One goal of data analysis is to provide a hypothesis about the underlying causal
 
 Causal conclusions can be established in specific cases where the data has been gathered in a controlled fashion. This includes experimental perturbations where a single variable is changed and every other condition is kept the same. For instance, one can vary the dose of a drug given to a bacteria and measure its growth, in otherwise identical growth conditions. Randomized controlled trials constitute another example where a treatment and its placebo are administered to a cohort randomly, therefore preventing by design associations with other factors.
 
-However, we most of the time have access to uncontrolled (one also say observational) data. With observational data, we can assess statistical dependencies, or associations, between variables such as correlations, enrichments, etc. However, these do not necessarily imply a causal link. 
+However, most of the time, we have access to observational data, i.e data sampled without the possibility to control the conditions. With observational data, we can assess statistical dependencies, or associations, between variables such as correlations, enrichments, etc. However, these do not necessarily imply a causal link.
 
 In the following sections, we go through the elementary situations of non-causal associations and how to address these issues through data visualization and appropriate wordings of the claims. These are:
 
@@ -197,7 +197,7 @@ dt <- data.table(
   )
 ```
 
-We check the simulations worked. First, $z$ distributes as expected with about 25% draws with 0 heads, 50% with one head, and 25% with 2 heads:
+We check whether the simulations worked. First, $z$ distributes as expected with about 25% draws with 0 heads, 50% with one head, and 25% with 2 heads:
 
 ```{r}
 table(z)
@@ -294,8 +294,9 @@ admissions[, sum(admitted*applicants)/sum(applicants), by=gender]
 Closer inspection shows a paradoxical result. Here are the percent admissions by major:
 
 ```{r}
-stats <- admissions[, sum(admitted), by=.(major, gender)] %>% 
-  dcast(...~gender, value.var='V1') %>% .[, women_minus_men := women - men]
+stats <- admissions[, c('major', 'gender', 'admitted')] %>% 
+  dcast(...~gender, value.var='admitted') %>% 
+    .[, women_minus_men := women - men]
 head(stats)
 ```
 
@@ -477,7 +478,7 @@ Sometimes, however, we do want to show more complex figures that contain a large
 
 Usually, we first show descriptive plots to first present the data and let the audience be able to understand the data. Then, we use associative plots to support claims, results and hypotheses.
 
-Ideally, one slide contains exactly one claim supported by one plot. For this, the plot type should be chosen carefully. The title of the slide or figure is a very important element. The title should give the take-home message of the presented visualizations. It is a clear and simple interpretation of the plot. For instance, a title such as "Scatterplot of diamond price versus carat" for Figure \@ref(fig:price-vs-carat) would not be informative since it is evident from the type of the plot and the axis labels that we look at a scatter plot of price versus carat. More informative is your interpretation of it, which the reader can judge from the plot. Do you want to claim that "Price increases nearly linearly with carat", or rather that "There remains much variations in price among diamond with the same carat"? Such statements make informative slide titles.
+Ideally, one slide contains exactly one claim supported by one plot. For this, the plot type should be chosen carefully. The title of the slide or figure is a very important element. The title should give the take-home message of the presented visualizations. It is a clear and simple interpretation of the plot. For instance, a title such as "Scatterplot of diamond price versus carat" for Figure \@ref(fig:price-vs-carat) would not be informative since it is evident from the type of the plot and the axis labels that we look at a scatter plot of price versus carat. More informative is your interpretation of it, which the reader can judge from the plot. Do you want to claim that "Price increases nearly linearly with carat", or rather that "There remains much price variation among diamonds with the same carat"? Such statements make informative slide titles.
 
 
 #### Closure
@@ -561,7 +562,7 @@ We use different colors only when they correspond to differences of meaning in t
 
 **Rule #5: less is more**
 
-Use `soft`, natural colors to display `most` information and `bright` and/or dark colors to `highlight` only particular information that requires greater attention.
+Use soft, natural colors to display most information and bright and/or dark colors to highlight only particular information that requires greater attention.
 
 ## General do’s and don'ts in data visualization
  
@@ -614,7 +615,7 @@ data.frame(Year = as.character(c(2011, 2012, 2013)),Southwest_Border_Apprehensio
   geom_bar(stat = "identity", fill = "grey", width = 0.65) + theme_bw()
 ```
 
-### don'ts
+### Don'ts
 Good plotting style is like good writing style: say the most with the least. We can here quote Antoine de Saint-Exupery:
 
 *“Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away”.*
@@ -675,7 +676,7 @@ By now, you should be able to:
   * indirect effect
   * common consequence
 
-* Mind data/ink ratio by showing more data and reducing decorations 
+* Mind data-ink ratio by showing more data and reducing decorations 
 
 * Prepare your report to provide novel insights. The audience should be able to easily answer the question: "What did I learn?"
 
@@ -687,7 +688,7 @@ By now, you should be able to:
 
  * Introduction to Data Science, Rafael A. Irizarry, https://rafalab.github.io/dsbook/index.html
  
- Advanced (proofs of conditional dependences for the 3-variable elementary causal diagrams):
+ Advanced (proofs of conditional dependencies for the 3-variable elementary causal diagrams):
  
 C. Bishop, Pattern Recognition and Machine Learning. https://www.microsoft.com/en-us/research/people/cmbishop/prml-book/
 

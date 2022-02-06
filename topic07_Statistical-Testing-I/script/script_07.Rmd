@@ -44,7 +44,7 @@ Now, consider: another scenario.
 
 Suppose a friend says she can correctly predict the winning team in any football game, due to her deep knowledge of the sport. To test this, we ask for her predictions for two Champions League games. She turns out to be right both times. On a first glance, this seems very impressive: she has a $100\%$ success rate! Should we hence bet a lot of money on her next prediction? What if she is just guessing and got lucky?
 
-Someone who just flips a coin to decide the winner has a $25\%$ chance to get lucky and guess two games correctly. Accordingly, betting all our life savings that she will be right again next game may not be a very good idea. Hence, the danger is to conclude something based on a limited amount of data. Apparent trends can arise purely by chance, and if we are not careful this can lead us into making the wrong conclusions. Now, what if the friend had correctly predicted the outcome in 4 out of 5 games? What about 237 out of 286 games? When should we start taking her claim seriously?
+Someone who just flips a coin to decide the winner has a $25\%$ chance to get lucky and guess two games correctly. Accordingly, betting all our life that she will be right again for the next game may not be a very good idea. Here, the danger is to conclude something based on a limited amount of data. Apparent trends can arise purely by chance. If we are not careful, this can lead us into making the wrong conclusions. Now, what if the friend had correctly predicted the outcome in 4 out of 5 games? What about 237 out of 286 games? When should we start taking her claim seriously?
 
 
 <!--
@@ -62,7 +62,7 @@ We see that in terms of the median delay, the airlines all look very similar. We
 For the football example, we can be equally skeptical. 
 -->
 
-This chapter introduces concepts and methods to answer these types of questions. We cover the concept of hypothesis testing and of statistical significance, which is another way of saying that a trend is unlikely to have arisen purely by chance. We also introduce the concept of confidence interval which models our uncertainty when estimating parameters such as the mean of a variable. To this end, we provide two largely applicable computational methods: permutation testing and case resampling. These methods are based on resampling the data at hand, thereby making little modeling assumptions.
+This chapter introduces concepts and methods to answer these types of questions. We cover the concept of hypothesis testing and of statistical significance, which is another way of saying that a trend is unlikely to have arisen purely by chance. We also introduce the concept of confidence interval which models our uncertainty when estimating parameters such as the mean of a variable. To this end, this chapter describes two largely applicable computational methods: permutation testing and case resampling. These methods are based on resampling the data at hand, thereby making little modeling assumptions.
 
 ## The yeast dataset {#yeast-dataset}
 
@@ -71,7 +71,7 @@ This section introduces a dataset that we will use throughout this chapter, and 
 
 Yeast is a good old friend of humans. Thanks to yeast, we can make bread, wine, and (not the least for TUM and Munich) beer. Yeast is also very much studied by biologists. The yeast strain that is commonly used in research labs grows poorly on maltose compared to wild yeast strains. Hard to brew malt beer with the lab strain... One may wonder whether the lab strain has acquired a genetic mutation causing this poor fitness in maltose media. If so, on which chromosome, near which gene? 
 
-Our dataset [@gagneur2013] allows addressing these questions (and further yeast genetic questions). The lab strain was crossed with a wild isolate growing well on maltose. Overall, 184 offsprings, also called segregants, were obtained. During a cross, parental chromosomes are recombined at discrete random locations in a process called cross-over ^[https://en.wikipedia.org/wiki/Chromosomal_crossover]. Consequently, the chromosomes of the segregants consist of alternated segments inherited from either parent. Yeast has 16 chromosomes. Figure \@ref(fig:yeast-cross) illustrates this crossing process for one chromosome.
+Our dataset [@gagneur2013] allows addressing these questions (and further yeast genetic questions). The lab strain was crossed with a wild isolate growing well on maltose. Overall, 184 offsprings, also called segregants, were obtained. During a cross, parental chromosomes are recombined at discrete random locations in a process called cross-over ^[ See [Wikipedia](https://en.wikipedia.org/wiki/Chromosomal_crossover) and [Khan Academy](https://www.khanacademy.org/science/biology/classical-genetics/chromosomal-basis-of-genetics/a/linkage-mapping) ]. Consequently, the chromosomes of the segregants consist of alternated segments inherited from either parent. Yeast has 16 chromosomes. Figure \@ref(fig:yeast-cross) illustrates this crossing process for one chromosome.
 
 ```{r yeast-cross, out.width = "600px", echo=FALSE, fig.cap="Cross of the lab strain and wild isolate. Meiotic recombination implies that chromosomes of the offsprings consist of alternated segments inherited from either parent."}
 knitr::include_graphics("assets/img/lec09-stat-testing/lec09_yeast_cross.png")
@@ -81,9 +81,9 @@ This shuffling of the genetic information is helpful to identify on which chromo
 
 ### Genotype 
 
-The `genotype` table reports the genotype of each the 184 yeast strains at 1,000 genomic locations called genetic markers. At each marker, the genotype values are either "Lab strain" or "Wild isolate" (Figure \@ref(fig:genotype-matrix)).
+The `genotype` table reports the genotype of each of the 184 yeast strains at 1,000 genomic locations called genetic markers. At each marker, the genotype values are either "Lab strain" or "Wild isolate" (Figure \@ref(fig:genotype-matrix)).
 
-```{r genotype-matrix, out.width = "800px", echo=FALSE, fig.cap="Sketch of the genotype of segregants (rows) across the 16 chromosomes. The genotypes are provided at 1,000 genomic positions (called markers, vertical line)."}
+```{r genotype-matrix, out.width = "800px", echo=FALSE, fig.cap="Sketch of the genotype of segregants (rows) across the 16 chromosomes. The genotypes are provided at 1,000 genomic positions (called markers, vertical line). The colors indicate the genotype (blue: Lab strain, red: Wild isolate)."}
 knitr::include_graphics("assets/img/lec09-stat-testing/lec09_genotype.png")
 ```
 
@@ -118,7 +118,7 @@ growth
 In this Chapter, we focus on a simple, targeted question. We know beforehand that the gene MAL13 is important for maltose metabolism. Could genetic variation between the lab strain and the wild isolate near the gene MAL13 be responsible for the growth difference in maltose? 
 
 Marker 5211, which starts at positions 1069229 of chromosome 07, is the closest marker to the gene MAL13. We thus ask whether genotype at marker 5211 associates with growth rate in maltose.  
-To assess this hypothesis, we first create a data table called `dt` that contains the relevant data and visualize with a boxplot how growth rates distributes depending on the genotype at marker 5211:
+To assess this hypothesis, we first create a data table called `dt` that contains the relevant data and visualize with a boxplot how growth rates distribute depending on the genotype at marker 5211:
 
 ```{r, fig.height=4, fig.width=4, warning=FALSE}
 mk <- marker[chrom == "chr07" & start == 1069229, id]
@@ -148,7 +148,7 @@ dt[genotype == 'Wild isolate', median(growth_rate, na.rm=T)] -
 
 We see that genotype at that marker indeed associates with a strong difference in growth rates in the Maltose media, with a difference between the medians of 2.17 generations per day.
 
-But, as we already discussed in the motivating section, we need to be careful before making any conclusions. Maybe the pattern we see is an artifact of random variation and would disappear if we had more data. In the following we approach this issue with two concepts. We first look at statistical hypothesis testing, assessing whether the association could have arisen by chance. Next, we will consider parameter uncertainty, which will provide error bars around our difference of medians estimate.  
+But, as we already discussed in the motivating section, we need to be careful before making any conclusions. Maybe the pattern we see is an artifact of random variation and would disappear if we had more data. In the following we approach this issue with two concepts. We first look at statistical hypothesis testing, assessing whether the association could have arisen by chance due to sampling variation. Next, we will consider parameter uncertainty, which will provide error bars around our difference of medians estimate.  
 
 
 ## Statistical hypothesis testing
@@ -232,7 +232,7 @@ This empirical approach is quite intuitive. Let us now formalize it and precisel
 ### Concepts of Statistical Hypothesis Testing  
 We just implemented one type of Hypothesis test. Figure \@ref(fig:hypothesis-test-overview) provides an overview of Hypothesis testing.
 
-```{r hypothesis-test-overview, out.width = "800px", echo=FALSE, fig.cap="We assume an underlying random process (i.e. 'Nature'). We collected data which is a particular realization of this random process, and from this data we computed a test statistic. In the bottom row, we now play the role of the Devil's Advocate and assume that the underlying random process conforms to the null hypothesis. Based on this assumption, diffrent realization datasets could arise as different realizations of the random process, for which the test statistics would get different values. Then we compute how likely it is to see the test statistics as, or more, extreme as the ones we got from our actual data. We use this probability to reject or not the null hypothesis."}
+```{r hypothesis-test-overview, out.width = "800px", echo=FALSE, fig.cap="We assume an underlying random process (i.e. 'Nature'). We collected data which is a particular realization of this random process, and from this data we computed a test statistic. In the bottom row, we now play the role of the Devil's advocate and assume that the underlying random process conforms to the null hypothesis. Based on this assumption, different realizations of the dataset could arise as different realizations of the random process, for which the test statistics would get different values. Then we compute how likely it is to observe the test statistics as extreme as, or more extreme than the ones we got from our actual data. We use this probability to reject or not the null hypothesis."}
 knitr::include_graphics("assets/img/lec09-stat-testing/lec10_Stat-testing-overview.png")
 ```
 
@@ -257,7 +257,7 @@ The null hypothesis can be compared to the proverbial "Devil's Advocate". To tes
 The exact null hypothesis depends on the problem. In our example, the null hypothesis was statistical independence of genotype and growth rate. It can also be that a mean is 0, a Pearson correlation is 0, etc.
 
 
-#### The P-value
+#### The $P$-value
 
 Under the null hypothesis $H_0$, the test statistic $T$ follows a certain distribution $p(T|H_0)$. The $P$-value is the probability of obtaining a test statistic the same as or more extreme than the one we actually observed, under the assumption that the null hypothesis is true (See Figure \@ref(fig:hypothesis-test-overview)).
 
@@ -323,14 +323,14 @@ In a two-tailed test, we allow both options. We test $H_0$: true difference is z
 In most scenarios the two-tailed test will be most appropriate, as generally there is no reason to privilege effects in one direction over another direction.
 A one-tailed test will only make sense if you have very good reason (before looking at the data!) that only the effect in one direction is important.
 
-#### Some intuition on Hypothesis Testing and the P-value
+#### Some intuition on Hypothesis Testing and the $P$-value
 
 To get some intuition on how to interpret the $P$-value and this idea of rejecting the null hypothesis, think about a legal trial. Suppose a murder has been committed, and a man has been accused of being the murderer. Under German law he is considered innocent until proven guilty. So, our null hypothesis is that the man is innocent. But we also collect some evidence. For example, we discover that the murder weapon had his finger prints on it, that a witness saw him near the crime scene and that he bought chemicals used to dispose of corpses one day before the crime. None of these facts constitute hard proof that he did commit the crime, but assuming he was innocent, it would require a lot of unlikely coincidences. This corresponds to a scenario where the $P$-value is low. Thus, we reject the null hypothesis of innocence and convict him. 
 
 Conversely, imagine another trial, where the only evidence we have is that an old lady, who sees rather badly, thinks she *maybe* saw the accused near the crime scene. This corresponds to a scenario where the $P$-value is high. The accused could be guilty, but it also does not seem implausible that he is innocent and the old lady is just mistaking him for someone else. If we start convicting people based on such flimsy evidence, the jail would quickly be full of innocent people. So we do not reject the null hypothesis of innocence.
 
-#### What the P-value is not
-The P-value is *not* the probability of the observed test statistic given that the null hypothesis is true:
+#### What the $P$-value is not
+The $P$-value is *not* the probability of the observed test statistic given that the null hypothesis is true:
 
 $$p(T \geq T_\text{obs}| H_0) \neq p(T=T_\text{obs} | H_0)$$
 
@@ -351,26 +351,26 @@ Generally a permutation test is used to test the statistical dependence between 
 
 The test statistics can be any measure that captures the dependence.
 
-We assumed that the observations are **identically and independently distributed** (i.i.d). Denoting each observation (a row of the data table) $(x_i, y_i)$ with $i=1...n$. The data generating process is the same for all observations (identicallly distributed). Moreover, the observations are independent. In particular the order of the indexing (the order of the rows of the data table) can be considered arbitrary.
+We assumed that the observations are **identically and independently distributed** (i.i.d.). Denoting each observation (a row of the data table) $(x_i, y_i)$ with $i=1...n$. The data generating process is the same for all observations (identicallly distributed). Moreover, the observations are independent. In particular the order of the indexing (the order of the rows of the data table) can be considered arbitrary.
 
-The i.i.d. assumption if often taken in Hypothesis testing. It is however a tricky one. For instance if you have longitudinal data or confounders (hidden groups in the data). In our case, if the measurement of growth was done in separate day for the segregants of distinct genotypes, the i.i.d assumption could have not held. It is important in real applications to question this assumption, and if possible, to address it, for instance by stratifying the data.
+The i.i.d. assumption is often taken in Hypothesis testing. It is however a tricky one. For instance if you have longitudinal data or **confounders**, i.e. variables that influence both the dependent variable and independent variable causing a spurious association. In our case, if the measurement of growth was done on separate days for the segregants of distinct genotypes, the i.i.d. assumption could have not held. It is important in real applications to question this assumption, and if possible, to address it, for instance by stratifying the data.
 
 The null hypothesis of a permutation test is that the two variables $x$ and $y$ are statistically independent:
 
 $$ H_0: x \perp y$$
 
-Hence, under the $H_0$, the data generation process of $x$ is independent of the one of $y$. Combined with the $i.i.d$ assumption, this implies that the values of $x_i$ could have occurred in any other order with the very same likelihood. 
+Hence, under the $H_0$, the data generation process of $x$ is independent of the one of $y$. Combined with the i.i.d. assumption, this implies that the values of $x_i$ could have occurred in any other order with the very same likelihood. 
 
 This gives us a mechanisms to simulate data under the null (Figure \@ref(fig:hypothesis-test-overview)). 
 
 An exact permutation test considers all possible distinct permutation (See next chapter). With a large number of observations as here ($n=184$), we can also draw enough random permutations to have decent idea of the distribution of $p(T|H_0)$.
 
-For a one-sided p-value we do:
+For a one-sided $P$-value we do:
 
 * $m$ be the number of random (Monte Carlo) permutations
 * $r = \#\{T^* \geq T_\text{obs}\}$ be the number of these random permutations that produce a test statistic greater than or equal to that calculated for the actual data.
 
-Then the estimated one-sided P-value, $\hat P$ is [@davison_hinkley_1997; @Phipson2010]
+Then the estimated one-sided $P$-value, $\hat P$ is [@davison_hinkley_1997; @Phipson2010]
 
 \begin{align}
 \hat P = \frac{r+1}{m+1}
@@ -378,11 +378,11 @@ Then the estimated one-sided P-value, $\hat P$ is [@davison_hinkley_1997; @Phips
 \end{align}
 
 
-Permutation P-values should never be zero [@Phipson2010]. Do not use $\frac{r}{m}$ as often done!
+Permutation $P$-values should never be zero [@Phipson2010]. Do not use $\frac{r}{m}$ as often done!
 
 In our case, we observed no single permutation with larger test statistics. Hence $r=0$. We thus get:
 
-$$ \hat P = \frac{1}{1001} \simeq 0.01$$
+$$ \hat P = \frac{1}{1001} \simeq 0.001$$
 So, if we assume that the null hypothesis is true, the probability of observing a difference in median growth rates as, or more, extreme as the ones we actually observed, is less than one in one thousand. We would thus need to be quite unlucky to get results like this by chance. So, we reject the null hypothesis and we say that the association between genotype at marker 5211 and growth rates in maltose is statistically significant.
 
 
@@ -468,7 +468,7 @@ In R, it is obtained by ecdf().
 plot(ecdf(x))
 ```
 
-The eCDF tells us, for any value $x$, the proportion of observations less than or equal to $x$. For example, from the ecdf above, we see that about half of the observations are less than or equal to $0$. This is equivalent to say that the eCDF tells us, for any value $x$, the probability of one randomly picked observation among $\{x_1, x_2,...x_n\}$ to be less than or equal to $x$. Hence, the eCDF is nothing else that the cumulative distribution of the process of randomly drawing from $\{x_1, x_2,...x_n\}$.   
+The eCDF tells us, for any value $x$, the proportion of observations less than or equal to $x$. For example, from the ecdf above, we see that about half of the observations are less than or equal to $0$. This is equivalent to saying that the eCDF tells us, for any value $x$, that the probability of one randomly picked observation among $\{x_1, x_2,...x_n\}$ is less than or equal to $x$. Hence, the eCDF is nothing else that the cumulative distribution of the process of randomly drawing from $\{x_1, x_2,...x_n\}$.   
 
 The empirical distribution function converges almost surely to the distribution function of $X$. This means that as $n$ goes to infinity, the empirical distribution and the actual distribution will become more and more alike:
 
@@ -523,7 +523,7 @@ T_bootstrap <- rep(NA, 1000)
 for(i in 1:R){
   # sample the original data with same size with replacement
   dt_boot <- dt[sample(nrow(dt), replace=TRUE)]
-  # store the difference of medians in the i-th entry of T_permuted
+  # store the difference of medians in the i-th entry of T_bootstrap
   T_bootstrap[i] <- diff_median(dt_boot)
 } 
 ```
@@ -532,7 +532,7 @@ The 95% bootstrap percentile confidence interval can now be obtained using the q
 
 
 
-More concretely, we use the same idea as we had in the beginning when we actually repeated experiments: we again try to cover the central $(1-\alpha)*100\%$ of the distribution of estimates, where we can choose $(1-\alpha)*100\%$ to be bigger or smaller to depending on how conservative we want to be.
+More concretely, we use the same idea as we had in the beginning when we actually repeated experiments: we again try to cover the central $(1-\alpha)*100\%$ of the distribution of estimates, where we can choose $(1-\alpha)*100\%$ to be larger or smaller depending on how conservative we want to be.
 
 This is achieved by using the interval:
 
@@ -661,9 +661,9 @@ In the next chapter, we will give a technical reason for this.
 
 In this chapter we explored ways to avoid being fooled by randomness. Specifically, we discussed hypothesis testing, which is our go-to method to distinguish statistically significant results from noise, and we discussed confidence intervals, which help us to know how uncertain we are about quantities we estimate from our data.
 
-Cares should be taken though. Many misuses of p-values in the scientific literature have been reported, the most obvious being to repeat an experiments until one finally gets P<0.05 and only report this observation in a publication. See @Wasserstein2016 for an extensive discussion.
+Cares should be taken though. Many misuses of $P$-values in the scientific literature have been reported, the most obvious being to repeat an experiments until one finally gets P<0.05 and only report this observation in a publication. See @Wasserstein2016 for an extensive discussion.
 
-We have looked only at resampling strategies: permutation testing as Hypothesis testing when assessing statistical dependence of variables, and case resampling for confidence intervals. Resampling methods have the advantage that they are simple to implement and make little assumptions about the underlying distribution. However, they are compute intensive. We finally noticed that the i.i.d assumption may be violated in practice. Therefore, careful thinking of possible hidden dependencies (such as confounders) shall be done when applying these methods.  
+We have looked only at resampling strategies: permutation testing as Hypothesis testing when assessing statistical dependence of variables, and case resampling for confidence intervals. Resampling methods have the advantage that they are simple to implement and make little assumptions about the underlying distribution. However, they are compute intensive. We finally noticed that the i.i.d. assumption may be violated in practice. Therefore, careful thinking of possible hidden dependencies (such as confounders) shall be done when applying these methods.  
 
 <!-- This being said, we are not always fooled randomly. In fact, frequently, we will be fooled *systematically*. This can happen due to **confounding**, which was not addressed in this chapter. Confounding occurs when there is some other variable, which we did not consider in our analysis, which drives our results. -->
 

@@ -1,18 +1,3 @@
-\newcommand{\bs}{\boldsymbol} 
-\newcommand{\m}{\mathbf}
-
-\newcommand{\w}{\m w} 
-\newcommand{\x}{\m x}
-\newcommand{\y}{\m y}
-
-\newcommand{\X}{\m X} 
-\newcommand{\I}{\m I} 
-
-\newcommand{\E}{\operatorname{E}} 
-\newcommand{\Var}{\operatorname{Var}} 
-
-
-
 
 ```{r, include=FALSE} 
 knitr::opts_chunk$set(warning = FALSE, message = FALSE,
@@ -318,7 +303,7 @@ Performing cross-validation at the level of individual data points will favor mo
 ggplot(simulated_dt, aes(x,y)) + geom_point(alpha=0.7) + geom_smooth(span = 0.15) + theme_bw()
 ```
 
-We need to perform cross-validation at the cluster level to learn the trend across clusters. However, this is difficult without application knowledge. Visualization techniques can help. Application areas may have their own strategies. In genetics, models are required to be replicated on independent populations (genetic associations on say Swedes must be replicated among say Germans). The issue also arises with temporal data. Cross-validation cannot be done by taking random subsets of past data points. For temporal data, it is common practice (and common sense) to test models my mimicking predictions of future time points.
+We need to perform cross-validation at the cluster level to learn the trend across clusters. However, this is difficult without application knowledge. Visualization techniques can help. Application areas may have their own strategies. In genetics, models are required to be replicated on independent populations (genetic associations on say Swedes must be replicated among say Germans). The issue also arises with temporal data. Cross-validation cannot be done by taking random subsets of past data points. For temporal data, it is common practice (and common sense) to test models my mimicking predictions of future time points. See a broader discussion of this issue by @Roberts2017.
 
 ```{r, echo=F}
 ggplot(simulated_dt, aes(x,y)) + geom_point(alpha=0.7) + geom_smooth(span = 0.15, se=FALSE) +
@@ -542,7 +527,7 @@ Note that decision trees for classification tasks can be constructed with both n
 
 For constructing a random forest, the first step is called aggregation (or bagging), which involves generating many predictors, each using regression or classification trees. To ensure that the individual trees are not the same, we use bootstrap to induce randomness. These two features combined explain the name: the bootstrap makes the individual trees randomly different, and the combination of trees is the forest. In a random forest for classification tasks, the predicted output is the majority vote of the contained decision trees. In contrast, the predicted value of a random forest regressor is the mean of the predictions from each decision tree in the random forest. 
 
-```{r rf, out.width = "500px", echo=FALSE, fig.cap="Illustration of a random forest for classification tasks. Source: https://en.wikipedia.org/wiki/Random_forest#/media/File:Random_forest_diagram_complete.png "}
+```{r rf, out.width = "500px", echo=FALSE, fig.cap="Illustration of a random forest for classification tasks. Source: By Venkata Jagannath - https://community.tibco.com/wiki/random-forest-template-tibco-spotfirer-wiki-page, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=68995764"}
 knitr::include_graphics("assets/img/topic12_supervised_learning/rf_wiki.png")
 ```
 
@@ -579,21 +564,13 @@ rf_classifier <- randomForest(## Define formula and data
                               ## Hyper parameters
                               ntree=100,     # Define number of trees
                               nodesize = 5,  # Minimum size of leaf nodes
-                              maxnodes = 30, # Maximum number of leaf nodes
-                              
-                              ## Output the feature importances                           	
-                              importance=TRUE)
+                              maxnodes = 30 # Maximum number of leaf nodes
+                              )
 
 rf_classifier
 ```
 
-We remark that the number of threes (`ntree`), the minimum size of leaf nodes (`nodesize`) and the maximum amount of leaf nodes (`maxnodes`) in each tree are hyper parameters of random forests. These should be optimized (or tuned) for each application to achieve a better performance of the models. However, hyper-parameter tuning is out scope in this lecture. 
-
-As stated before, tree-based models are widely used in practice partly because of their high interpretability. The random forest classifier in R offers a closer look at the feature importances of the model. We can observe in this example that the height of the person is the most important feature for predicting his/her gender for both females and males. Additionally, the mother's height seems to be more important for predicting the female gender than the father's height and the father's height seems to be more determinant for predicting the gender male than the mother's height.
-
-```{r}
-rf_classifier$importance
-```
+We remark that the number of threes (`ntree`), the minimum size of leaf nodes (`nodesize`) and the maximum amount of leaf nodes (`maxnodes`) in each tree are hyper parameters of random forests. These should be optimized (or tuned) for each application to achieve a better performance of the models. Two popular approaches are grid search and random reach. Hyper-parameter tuning is out the scope of this lecture. We refer the interested reader to the practical methodology chapter of the Deep learning book [@Goodfellow-et-al-2016].
 
 
 For predicting the gender of an input sample using the trained model stored in the variable `rf_classifier`, we can use the function `predict` as follows: 

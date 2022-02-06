@@ -1,16 +1,3 @@
-\newcommand{\bs}{\boldsymbol} 
-\newcommand{\m}{\mathbf}
-
-\newcommand{\w}{\m w} 
-\newcommand{\x}{\m x}
-\newcommand{\y}{\m y}
-
-\newcommand{\X}{\m X} 
-\newcommand{\I}{\m I} 
-
-\newcommand{\E}{\operatorname{E}} 
-\newcommand{\Var}{\operatorname{Var}} 
-
 # Linear Regression {#chap-lin-reg}
 
 ## Motivation and overview
@@ -69,7 +56,7 @@ where sex is 1 for male and 0 for female, and mother and father designate each p
 The linear model in Equation \@ref(eq:E-linreg), can deal with continuous as well as discrete explanatory variables, solving the issue number 2. Moreover, because Equation \@ref(eq:E-linreg) models independent additive contributions of the explanatory variables, it has just one parameter per explanatory variable. The effects of the explanatory variables do not depend on the value of the other variables. These effects do not change between strata. Hence, linear regression does not suffer from a combinatorial explosion of strata (issue number 3).
 
 ### Limitations
-These assumptions of linear regression makes the task easier, but how limiting are they?
+These assumptions of linear regression make the task easier, but how limiting are they?
 
 The Gaussian assumption is limiting. We cannot deal with binary response variables for instance. The next chapter will address such cases.
 
@@ -301,27 +288,27 @@ The LSE is derived from the data $y_1,\dots,y_n$, which are a realization of ran
 
 $$ p(\hat \beta) = N(\beta, \sigma^2/ns^2_x)$$
 
-Hence, if the modeling assumptions hold, the estimates are unbiased, meaning that their expected value are the true values of the parameter $\E[\hat \beta] = \beta$. Moreover they are consistent, meaning that  for infinitely large sample size they converge to the true values.
+Hence, if the modeling assumptions hold, the estimates are unbiased, meaning that their expected value are the true values of the parameter $\E[\hat \beta_1] = \beta_1$. Moreover they are consistent, meaning that  for infinitely large sample size they converge to the true values.
 
 Another result allows us to build a hypothesis test, namely:
-$$p\left(\frac{\hat{\beta} - \beta}{\hat{se}(\hat{\beta})}\right) = t_{n-2}\left(\frac{\hat{\beta} - \beta}{\hat{se}(\hat{\beta})}\right)$$
-where $t_{n-2}$ denotes the student's $t$ distribution with $n-2$ degrees of freedom.
+$$p\left(\frac{\hat{\beta_1} - \beta_1}{\hat{se}(\hat{\beta_1})}\right) = t_{n-2}\left(\frac{\hat{\beta_1} - \beta_1}{\hat{se}(\hat{\beta_1})}\right)$$
+where $t_{n-2}$ denotes the student's $t$ distribution with $n-2$ degrees of freedom. As for the t-test presented for comparing two groups in Section \@ref(student-t), the degrees of freedom is equal to the number of data points $n$ minus two, the number of model parameters ($\beta_0$ and $\beta_1$). 
 
 
-Remember, the p-value of a statistical test is the **probability** of the value of a **test statistic** being at least as extreme as the one observed in our data **under the null hypothesis**.
+Remember, the $P-$value of a statistical test is the **probability** of the value of a **test statistic** being at least as extreme as the one observed in our data **under the null hypothesis**.
 
-In our case we can formulate the null hypothesis, that $y$ does not depend on $x_i$ as follows: 
+In our case we can formulate the null hypothesis, that $y$ does not depend on $x$ as follows: 
 
-* The null hypothesis for parameter $\beta_i$ is $H_0: \beta_i = 0$
-* The test statistic is $\hat{t} = \frac{\hat{\beta} - \beta_i}{\hat{se}(\hat{\beta})} = \frac{\hat{\beta}}{\hat{se}(\hat{\beta})}$
+* The null hypothesis for parameter $\beta_1$ is $H_0: \beta_1 = 0$
+* The test statistic is $\hat{t} = \frac{\hat{\beta_1} - \beta_1}{\hat{se}(\hat{\beta_1})} = \frac{\hat{\beta_1}}{\hat{se}(\hat{\beta_1})}$
 * The probability under the null model is $P(t \geq \hat{t}), \mbox{where } t \sim t_{n-2}$
 
-To confirm a linear relationship between $y$ and $x$, we need to reject the null hypothesis at significance level $\alpha$ (= 0.05):
+We reject the null hypothesis at significance level $\alpha$ (= 0.05):
 
 * Accept $H_0$ if $P(|t| \geq |\hat{t}|) > \alpha$
 * Reject $H_0$ if $P(|t| \geq |\hat{t}|) \leq \alpha$
 
-Now the  question remains, how do we do this in R? Luckily the `summary(fit)` function helps us here. It reports t-statistics (`t value`) and p-values (`Pr(>|t|)`) for each estimate.
+How do we do this in R? The `summary(fit)` function helps us here. It reports t-statistics (`t value`) and $P-$values (`Pr(>|t|)`) for each estimate.
 
 
 ```{r}
@@ -388,7 +375,7 @@ A univariate linear regression gives the following parameter estimates:
 fit_r_vs_hr <- lm(R_per_game~HR_per_game, data=Teams_filt)
 fit_r_vs_hr
 ```
-So this tells us that teams that hit 1 more HR per game than the average team, score `r coef(fit_r_vs_hr)[2]` more runs per game than the average team. Given that the most common final score is a difference of a run, this can certainly lead to a large increase in wins. Not surprisingly, HR hitters are very expensive. Because we are working on a budget, we will need to find some other way to increase wins. So, in the next section, we move our attention to another possible predictive variable of runs.
+So this tells us that teams that hit 1 more HR per game than the average team, score `r sprintf("%.3f", coef(fit_r_vs_hr)[2])` more runs per game than the average team. Given that the most common final score is a difference of a run, this can certainly lead to a large increase in wins. Not surprisingly, HR hitters are very expensive. Because we are working on a budget, we will need to find some other way to increase wins. So, in the next section, we move our attention to another possible predictive variable of runs.
 
 
 #### Base on balls
@@ -452,7 +439,7 @@ dat[order(HR_strata),.(slope = get_slope(BB_per_game, R_per_game)), by='HR_strat
 
 The slopes are reduced, but they are not 0, which indicates that BBs are helpful for producing runs, just not as much as previously thought ^[One can extract data of so-called singles, i.e the number of runs reaching the first base, and find that the effects on runs are similar than for BBs, which is consistent with the intuition that BB directly contributes to runs because it brings the batter to the first base. See R. Irizzary's book.]
 
-Although our understanding of the application tells us that HR cause BB but not the other way around, we can still check if stratifying by BB makes the effect of BB go down. To do this, we use the same code except that we swap HR and BBs to get this plot:
+Although our understanding of the application tells us that HR cause BB but not the other way around, we can still check whether stratifying by BB makes the effect of HR go down. To do this, we use the same code except that we swap HR and BBs to get this plot:
 
 ```{r runs-vs-hr-by-bb-strata, out.width="100%",echo=FALSE}
 dat <- Teams_filt[,.(BB_strata = round(BB/G,1), 
@@ -567,11 +554,11 @@ $$F = \frac{(RSS_{\omega} - RSS_{\Omega}) / (q - p)}{RSS_{\Omega} / (n - q)} , $
 
 where $q$ is the number of parameters in (dimension of) model $\Omega$ and $p$ the number of parameters in (dimension of) model $\omega$ and $RSS$ designates residual sums of squares.
 
-The statistic $F$ is distributed according to the F distribution with (q - p) and (n - q) degrees of freedom respectively. We reject the LRT if $F$ is larger than the critical value corresponding to the significance level. This analysis is also frequently referred to as "Analysis of Variance" or **ANOVA**.
+The statistic $F$ is distributed according to the F distribution with (q - p) and (n - q) degrees of freedom respectively. We reject the null hypothesis if $F$ is larger than the critical value corresponding to the significance level. This analysis is also frequently referred to as "Analysis of Variance" or **ANOVA**.
 
 #### Example: Testing the difference of means in 3 groups {-}
 
-As an example let us consider testing whether fuel consumption of cars depend on the number of cylinders using the `mtcars` dataset: 
+As an example let us consider testing whether fuel consumption of cars depends on the number of cylinders using the `mtcars` dataset: 
 
 ```{r lecture12-linear-regression-mpg, echo=FALSE, fig.height=5, fig.width=5}
 data("mtcars")
@@ -582,7 +569,7 @@ In this example, we are interested in whether there is a difference in the fuel 
 
 For this purpose, we will work with the following model:
 
-$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 .$$
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$
 
 Here, $x_1$ and $x_2$ will be indicator variables:
 

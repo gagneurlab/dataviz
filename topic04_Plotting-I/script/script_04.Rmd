@@ -1,30 +1,26 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 \pagebreak
 # (PART) Look {-}
 # Low dimensional visualizations
 
-````{r global_options, include=FALSE, cache=F}
+```{r global_options, include=FALSE, cache=F}
 library(data.table)
 library(gridExtra)
 library(ggplot2)
 library(magrittr)
 
-
-# data
-ind <- fread('extdata/CPI_HDI.csv')
-
-mysize <- 15
-mytheme <- theme(
-    axis.title = element_text(size=mysize), 
+mysize <- 10
+mytheme <- theme_bw() + 
+  theme(
+    axis.title = element_text(size=mysize),
     axis.text = element_text(size=mysize),
     legend.title = element_text(size=mysize),
     legend.text = element_text(size=mysize)
-    ) + theme_bw()
-
+    ) 
 
 options(knitr.package.unnamed.chunk.label="lecture-02")
 ```
@@ -84,13 +80,12 @@ height_dt[, mean(height)]
 There is something obviously wrong. We can plot the data to investigate.
 
 ```{r, fig.show='hold',  warning=FALSE, message=FALSE}
-# You can adjust the number of bins with the bins parameter
 ggplot(height_dt , aes(height)) + geom_histogram() + mytheme
 ```
 
 There is an outlier (height=165). One particular value has probably been entered in centimeters rather than meters. As a result, the mean is inflated.
 
-A quick way to fix our dataset is to remove the outlier, for instance with: 
+A quick way to fix our dataset is to remove the outlier, for instance with:
 
 ```{r, echo=TRUE}
 height_dt <- height_dt[height < 3]
@@ -116,26 +111,27 @@ The grammar of graphics is a visualization theory developed by Leland Wilkinson 
 * Composition of these common elements (one can combine elements as layers)
 
 
-The library `ggplot2` is a powerful implementation of the grammar of graphics. It has become widely used by R programmers. 
+The library `ggplot2` is a powerful implementation of the grammar of graphics. It has become widely used by R programmers.
 
 Here is a sophisticated motivating example. The plot shows the relationship between per-capita gross domestic product (GDP) and life expectancy at birth for the years 1997 and 2007 from the dataset `gapminder`:
 
-```{r lec02_plt1,  warning=FALSE, message=FALSE}
+```{r gapminder-motivation-fig,  warning=FALSE, message=FALSE, fig.cap="Illustrative figure for grammar of graphics based on the gapminder dataset."}
 #install.packages('gapminder')
 library(gapminder)
 gm_dt <- as.data.table(gapminder)[year %in% c(1977, 2007)]
 
-ggplot(data=gm_dt, aes(x=gdpPercap, y=lifeExp)) + 
+ggplot(data=gm_dt, aes(x=gdpPercap, y=lifeExp)) +
   geom_point(aes(color=continent, size=pop)) +
   facet_grid(~year) + scale_x_log10() +
-  labs(y="Life expectancy at birth", x="per-capita GDP", size = 'Population') + mytheme
+  labs(y="Life expectancy at birth", x="Per-capita GDP", size = 'Population') + mytheme
 ```
 
 We may, for instance, use such visualization to find differences in the life expectancy of each country and each continent.
 
 The following section shows how to create such a sophisticated plot step by step.
 
-## Components of the layered grammar
+### Components of the layered grammar
+
 Grammar of graphics composes plots by combining layers. The major layers are:
 
 * **Always used**:
@@ -158,37 +154,12 @@ Grammar of graphics composes plots by combining layers. The major layers are:
 * **Useful, but with care**:
 
 **Stats:** statistical transformations that typically summarize data (`stat`)
- - counts, means, medians, regression lines, ...
+ - counts, means, medians, regression lines, ... Statistical transformations can be helpful to reveal patterns but also misleading. It is important to understand them well when using them.   
 
 * **Domain-specific usage**:
 
 **Coordinate system:** describes 2D space that data is projected onto (`coord_`)
  - Cartesian coordinates, polar coordinates, map projections, ...
-
-
-
-### Components of the grammar of graphics
-
-The following components are considered in the context of the grammar of graphics:
-
-**Data:** `data.table` (or `data.frame`) object where columns correspond to variables
-
-**Aesthetics:** visual characteristics that represent data (`aes`)
- - e.g. position, size, color, shape, transparency, fill
-
-**Layers:** geometric objects that represent data (`geom_`)
- - e.g. points, lines, polygons, ...
-
-**Scales:** for each aesthetic, describes how visual characteristic is converted to display values (`scale_`)
- - e.g. log scales, color scales, size scales, shape scales, ...
-
-**Facets:** describes how data is split into subsets and displayed as multiple subgraphs (`facet_`)
-
-**Stats:** statistical transformations that typically summarize data (`stat`)
- - e.g. counts, means, medians, regression lines, ...
- 
-**Coordinate system:** describes 2D space that data is projected onto (`coord_`)
- - e.g. Cartesian coordinates, polar coordinates, map projections, ...
 
 
 <!-- The following illustration represents the abstraction of grammar of graphics:  -->
@@ -199,7 +170,7 @@ The following components are considered in the context of the grammar of graphic
 
 ### Defining the data and layers
 
-In our example, we consider the `gapminder` dataset, which serves as the data component of our visualization. We want to plot the variable `lifeExp` against the variable `gdpPercap`. First, we have a look at the first lines of the dataset:
+To demonstrate the application of grammar of graphics, we will build step by step Figure \@ref(fig:gapminder-motivation-fig). To do so, we consider the `gapminder` dataset. We want to plot the variable `lifeExp` against the variable `gdpPercap`. First, we have a look at the first lines of the dataset:
 
 ```{r lec02_plt}
 head(gm_dt[, .(country, continent, gdpPercap, lifeExp, year)])
@@ -211,10 +182,10 @@ For starting with the visualization we initiate a `ggplot` object which generate
 ggplot()
 ```
 
-Next, we can define the data to be plotted, which needs to be a `data.table` (or `data.frame`) object and the `aes()` function. This `aes()` function defines which columns in the `data.table` object map to `x` and `y` coordinates and if they should be colored or have different shapes and sizes based on the values in a different column. These elements are called “aesthetic” elements, which we observe in the plot. 
+Next, we can define the data to be plotted, which needs to be a `data.table` (or `data.frame`) object and the `aes()` function. This `aes()` function defines which columns in the `data.table` object map to `x` and `y` coordinates and if they should be colored or have different shapes and sizes based on the values in a different column. These elements are called “aesthetic” elements, which we observe in the plot.
 
 ```{r,  warning=FALSE}
-ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp))  
+ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp))
 ```
 
 As we can see, we obtain a plot with labeled axes and ranges. We want to visualize the data with a simple **scatter plot**. In a scatter plot, the values of two variables are plotted along two axes. Each pair of values is represented as a point. In R, a scatter plot can be plotted with `ggplot2` using the function `geom_point`. We want to construct a scatter plot containing the `gdpPercap` on the x-axis and the `lifeExp` on the y-axis. For this we combine the function `geom_point()` to the previous line of code with the operator `+`:
@@ -268,7 +239,7 @@ Instead of color, we can also use different shapes for characterizing the differ
 ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp, shape=continent)) + geom_point()
 ```
 
-Additionally, we distinguish the population of each country by giving a size to the points in the scatter plot: 
+Additionally, we distinguish the population of each country by giving a size to the points in the scatter plot:
 
 ```{r,  warning=FALSE}
 ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp, color=continent, size=pop)) +
@@ -283,7 +254,7 @@ Mapping of aesthetics in `aes()` can be done globally or at individual layers.
 In the previous plot we defined the variables `gdpPercap` and `lifeExp` in the `aes()` function inside `ggplot()` for a **global** definition. Global mapping is inherited by default to all geom layers (`geom_point` in the previous example), while mapping at **individual** layers is only recognized at that layer. For example, we define the `aes(x=gdpPercap, y=lifeExp)` globally, but the color attributes only locally for the layer `geom_point`:
 
 ```{r,  warning=FALSE}
-ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp)) + 
+ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp)) +
   geom_point(aes(color=continent, size=pop))
 ```
 
@@ -291,18 +262,18 @@ Note that individual layer mapping cannot be recognized by other layers. For ins
 
 ```{r, error=TRUE,  warning=FALSE, message=FALSE}
 # this doesn't work as stat_smooth didn't know aes(x , y)
-ggplot(data = gm_dt) + 
+ggplot(data = gm_dt) +
   geom_point(aes(x=gdpPercap, y=lifeExp)) +
   stat_smooth()
 
 # this works but is redundant
-ggplot(data = gm_dt) + 
+ggplot(data = gm_dt) +
   geom_point(aes(x=gdpPercap, y=lifeExp)) +
   stat_smooth(aes(x=gdpPercap, y=lifeExp))
 
 
 # the common aes(x, y) shared by all the layers can be put in the ggplot()
-ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp, color=continent)) + 
+ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp, color=continent)) +
   geom_point(aes(size=pop)) +
   stat_smooth()
 ```
@@ -313,28 +284,30 @@ ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp, color=continent)) +
 For comparing the data from the year 1977 with the data from 2007, we can add a facet with `facet_wrap()`:
 
 ```{r,  warning=FALSE}
-ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp, color=continent, size=pop)) + 
+ggplot(data = gm_dt, aes(x=gdpPercap, y=lifeExp, color=continent, size=pop)) +
   geom_point() + facet_wrap(~year)
 ```
 
 
-For a better visualization of the data points, we can consider log scaling, which we will describe more in detail later. Finally, we can adapt the axes labels of the plot with `labs()` and define a theme of our plot:
+For a better visualization of the data points, we can consider log scaling (detailed in section \@ref(log-scaling)). Finally, we can adapt the axes labels of the plot with `labs()` and define a theme of our plot:
 
 ```{r,  warning=FALSE}
-mysize <- 15
-mytheme <- theme(
-    axis.title = element_text(size=mysize), 
+mysize <- 10
+mytheme <- theme_bw() + # we start with bw theme
+  theme(
+    axis.title = element_text(size=mysize),
     axis.text = element_text(size=mysize),
     legend.title = element_text(size=mysize),
     legend.text = element_text(size=mysize)
-    ) + theme_bw()
+    ) # and override some parameters values
 
-ggplot(data=gm_dt, aes(x=gdpPercap, y=lifeExp)) + geom_point(aes(color=continent, size=pop)) +
+ggplot(data=gm_dt, aes(x=gdpPercap, y=lifeExp)) +
+  geom_point(aes(color=continent, size=pop)) +
   facet_grid(~year) + scale_x_log10() +
-  labs(x="per-capita GDP", y="Life expectancy at birth", size = 'Population') + mytheme
+  labs(x="Per-capita GDP", y="Life expectancy at birth", size = 'Population') + mytheme
 ```
 
-We remark here that `ggplot2` allows many further adaptions to plots, such as specifying axis breaks and limits. Some of these are covered in the appendix at the end of this script. 
+We remark here that `ggplot2` allows many further adaptions to plots, such as specifying axis breaks and limits. Some of these are covered in the appendix at the end of this script.
 
 <!-- #### Simple plotting example: human development vs. corruption perception -->
 
@@ -435,17 +408,24 @@ We remark here that `ggplot2` allows many further adaptions to plots, such as sp
 
 <!-- TODO -->
 
-## Different types of one- and two-dimensional plots 
+## Different types of one- and two-dimensional plots
 
-In the previous examples, we had a look at scatter plots which are suitable for plotting the relationship between two continuous variables. However, there are many more types of plots (e.g. histograms, boxplots) which can be used for plotting in different scenarios. Mainly, we distinguish between plotting one or two variables and whether the variables are continuous or discrete. 
+In the previous examples, we had a look at scatter plots which are suitable for plotting the relationship between two continuous variables. However, there are many more types of plots (e.g. histograms, boxplots) which can be used for plotting in different scenarios. Mainly, we distinguish between plotting one or two variables and whether the variables are continuous or discrete.
 
 ### Plots for one single continuous variable
 
 #### Histograms
 
-A histogram represents the frequencies of values of a variable bucketed into ranges. It takes as input numeric variables only. A histogram is similar to a bar plot but the difference is that it groups the values into continuous ranges. Each bar in a histogram represents the height of the number of values present in that range. Each bar of the histogram is called a bin.
+A histogram represents the frequencies of values of a variable bucketed into ranges or bins. It takes as input numeric variables only. The height of a bar for a given range in a histogram represents the number of values present in that bin. 
 
-We can construct a histogram of the Human Development Index (HDI) in the `ind` dataset with the function `geom_histogram()`:
+We will make use of a dataset collecting Human Development Index (HDI from http://hdr.undp.org/) and Corruption Perception Index (CPI from http://www.transparency.org/) of various countries. We first load these data into a new data table `ind` and have a first look at the table:
+
+```{r}
+ind <- fread('extdata/CPI_HDI.csv')
+ind
+```
+
+We then construct a histogram of the Human Development Index variable.
 
 ```{r, warning=FALSE, message=FALSE}
 ggplot(ind, aes(HDI)) + geom_histogram() + mytheme
@@ -459,7 +439,7 @@ ggplot(ind, aes(HDI)) + geom_histogram(bins=10) + mytheme
 
 #### Density plots
 
-Histograms are sometimes not optimal to investigate the distribution of a variable due to discretization effects during the binning process. A variation of histograms is given by density plots. They are used to represent the distribution of a numeric variable. These distribution plots are typically obtained by kernel density estimation to smoothen out the noise. Thus, the plots are smooth across bins and are not affected by the number of bins, which helps create a more defined distribution shape. 
+In some situations, histograms are not the best choice to investigate the distribution of a variable due to discretization effects during the binning process. A variation of histograms is given by density plots. They are used to represent the distribution of a numeric variable. These distribution plots are typically obtained by kernel density estimation to smoothen out the noise. Thus, the plots are smooth across bins and are not affected by the number of bins, which helps create a more defined distribution shape.
 
 As an example, we can visualize the distribution of the Human Development Index (HDI) in the `ind` dataset by means of a density plot with `geom_density()`:
 
@@ -489,64 +469,66 @@ Thus, we should be careful when changing the bandwidth, since we can get a wrong
 
 Boxplots can give a good graphical insight into the distribution of the data. They show the median, quartiles, and how far the extreme values are from most of the data.
 
-Five values are essential for constructing a boxplot:
+Four values are essential for constructing a boxplot:
 
-* the median: the center of the data, middle value of a sorted list, 50% quartile of the data
-* the first quartile (Q1):  25% quartile of the data
-* the third quartile (Q3): 75% quartile of the data
-* the interquartile range (IQR): the distance between Q1 and Q3
+* the median
+* the first quartile (Q1)
+* the third quartile (Q3)
+* the interquartile range (IQR): the difference between Q3 and Q1
 
-Every boxplot has lines at Q1, the median, and Q3, which together build the box of the boxplot. The other major feature of a boxplot is its whiskers. The whiskers are determined with the help of the IQR. Here, we compute 1.5 × IQR below Q1 and 1.5 × IQR above Q3. Anything outside of this range is called an outlier. We then draw lines at the smallest and largest point within this subset (Q1 - 1.5 × IQR to Q3 + 1.5 × IQR) from the dataset. These lines define our whiskers which reach the most extreme data point within $\pm  1.5\times IQR$.
+See [http://web.pdx.edu/~stipakb/download/PA551/boxplot.html] for a good illustration. 
 
-```{r, out.width = "400px", echo=FALSE}
-knitr::include_graphics("assets/img/lec06_07_plotting/lec06_Boxplot_vs_PDF.png")
-```
+Every boxplot has lines at Q1, the median, and Q3, which together build the box of the boxplot. The other major feature of a boxplot is its whiskers. The whiskers are determined with the help of the IQR. Data points outside of 1.5 x IQR is called an outlier. We then draw lines at the smallest and largest point within this subset (Q1 - 1.5 × IQR to Q3 + 1.5 × IQR) from the dataset. These lines define our whiskers which reach the most extreme data point within $\pm  1.5\times IQR$.
 
-It is possible to not show the outliers in boxplots, as seen in the visualization before. However, we strongly recommend keeping them. Outliers can reveal interesting data points (discoveries "out of the box") or bugs in data preprocessing. 
+It is possible to not show the outliers in boxplots. However, we strongly recommend keeping them. Outliers can reveal interesting data points (discoveries "out of the box") or bugs in data preprocessing.
 
-```{r, out.width = "400px", echo=FALSE}
-knitr::include_graphics("assets/img/lec05-box_explained.png")
-```
+<!-- ```{r, out.width = "600px", echo=FALSE} -->
+<!-- knitr::include_graphics("assets/img/lec05-box_explained.png") -->
+<!-- ``` -->
 
 For instance, we can plot the distribution of a variable `x` with a histogram and visualize the corresponding boxplot:
 
-```{r,  echo=F, fig.height = 4, fig.width = 4}
+```{r,  echo=F, fig.height = 5, fig.width = 5}
 set.seed(0)
 xl <- c(0,5)
-par(mfrow=c(1,2), mar=c(2,2,2,2)) 
+par(mfrow=c(1,2), mar=c(2,2,2,2))
 dt <- data.table(x=rlnorm(1000,meanlog=0,sdlog=0.5), group='x')
 p1 <- ggplot(dt, aes(x)) + geom_histogram(bins=30) + mytheme
 p2 <- ggplot(dt, aes(group, x)) + geom_boxplot() + coord_flip() + mytheme
 grid.arrange(p1, p2, ncol=1)
 ```
 
-Boxplots are particularly suited for plotting non-Gaussian symmetric and non-symmetric data and for plotting exponentially distributed data. However, boxplots are not well suited for bimodal data, since they only show one mode (the median). In the following example, we see a bimodal distribution in the histogram and the corresponding boxplot, which does not properly represent the distribution of the data. 
+Boxplots are particularly suited for plotting non-Gaussian symmetric and non-symmetric data and for plotting exponentially distributed data. However, boxplots are not well suited for bimodal data, since they only show one mode (the median). In the following example, we see a bimodal distribution in the histogram and the corresponding boxplot, which does not properly represent the distribution of the data.
 
 ```{r echo=FALSE}
 set.seed(100)
 ```
-```{r lec05_boxplot3,  echo=FALSE, out.width=c('220px', '220px'), fig.show='hold'}
+```{r lec05_boxplot3,  echo=FALSE, fig.height = 5, fig.width = 5}
 x = c(rnorm(100,1), rnorm(100,1)+5)
 hist(x)
 boxplot(x)
 ```
 
+Boxplots are also not suited for categorical data and discrete data with very few values, for which bar plots are preferred (Section \@ref(barplots)).
+
 ### Plots for two variables: one continuous, one discrete
 
-#### Barplots
+#### Barplots {#barplots}
 
 Barplots are often used to highlight individual quantitative values per category. Bars are visual heavyweights compared to dots and lines. In a barplot, we can combine two attributes of 2-D location and line length to encode quantitative values. In this manner, we can focus the attention primarily on individual values and support the comparison of one to another.
 
 For creating a barplot with `ggplot2` we can use the function `geom_bar()`. In the next example, we visualize the number of countries (defined in the `y` axis) per continent (defined in the `x` axis).
 
-```{r, echo = F}
-countries_dt <- data.table(Continent = c("North America", "South America",
-                                         "Africa", "Asia", "Europe", "Oceania"), 
-                           Number_countries = c(23, 12, 54, 49, 50, 16))
+```{r}
+countries_dt <- data.table(
+  Continent = c("North America", "South America",
+                "Africa", "Asia", "Europe", "Oceania"),
+  Number_countries = c(23, 12, 54, 49, 50, 16)
+)
 ```
 
 ```{r}
-ggplot(countries_dt, aes(Continent, Number_countries)) + 
+ggplot(countries_dt, aes(Continent, Number_countries)) +
   geom_bar(stat = 'identity', width = .7) + mytheme
 ```
 
@@ -554,27 +536,29 @@ ggplot(countries_dt, aes(Continent, Number_countries)) +
 
 Visualizing uncertainty is important, otherwise, barplots with bars as a result of an aggregation can be misleading. One way to visualize uncertainty is with error bars.
 
-As error bars, we can consider the standard deviation (SD) and the standard error of the mean (SEM). We remark that SD and SEM are completely different concepts. On the one hand, SD indicates the variation of quantity in the sample. On the other hand, SEM represents how well the mean is estimated.
-  
-The central limit theorem implies that: $SEM = SD / \sqrt{(n)}$ , where $n$ is the sample size (number of observations). With large $n$, SEM tends to 0.
+As error bars, we can consider the standard deviation (SD) and the standard error of the mean (SEM). SD and SEM are related yet different concepts. On the one hand, SD indicates the variation of quantity in the sample. On the other hand, SEM represents how well the mean is estimated.
 
-In the following example, we plot the average highway miles per gallon `hwy` per vehicle class `class` including error bars computed as the average plus/minus standard deviation of `hwy`: 
+The central limit theorem implies that $SEM = SD / \sqrt{n}$ , where $n$ is the sample size, i.e. the number of observations. With large $n$, SEM tends to 0, i.e. our uncertainty about the distibution's expected value decreases with larger samples sizes. In contrast, SD converges with large sample size to the distribution's standard deviation.  
 
-```{r}
-as.data.table(mpg) %>% 
+In the following example (Figure \@ref(fig:hwy-sd)), we plot the average highway miles per gallon `hwy` per vehicle class `class` including error bars computed as the average plus/minus standard deviation of `hwy`. Because of the various possibilities of error bars used in the literature, it is recommended to always specify in the legend of a figure what the error bars represent.
+
+```{r hwy-sd, fig.cap="Mean +/- standard deviation of highway miles per gallon per car class."}
+as.data.table(mpg) %>%
   .[, .(mean = mean(hwy),
         sd = sd(hwy)),
-    by = class] %>% 
-  ggplot(aes(class, mean, ymax=mean+sd, ymin=mean-sd)) + 
+    by = class] %>%
+  ggplot(aes(class, mean, ymax=mean+sd, ymin=mean-sd)) +
   geom_bar(stat='identity') +
   geom_errorbar(width = 0.3) + mytheme
 ```
+
+See Section \@ref(pipe) for usage of the pipe operator `%>%`.
 
 #### Boxplots by category
 
 As illustrated before, boxplots are well suited for plotting one continuous variable. However, we can also use boxplots to show distributions of continuous variables with respect to some categories. This can be particularly interesting for comparing the different distributions of each category.
 
-For instance, we want to visualize the highway miles per gallon `hwy` for every	one of the 7 vehicle classes	(compact, SUV, minivan, etc.). For this, we define the categorical `class` variable on the `x` axis and the continuous variable `hwy` on the `y` axis. 
+For instance, we want to visualize the highway miles per gallon `hwy` for every	one of the 7 vehicle classes	(compact, SUV, minivan, etc.). For this, we define the categorical `class` variable on the `x` axis and the continuous variable `hwy` on the `y` axis.
 
 ```{r, warning=F}
 ggplot(mpg, aes(class, hwy)) +
@@ -582,18 +566,24 @@ ggplot(mpg, aes(class, hwy)) +
 ```
 
 
-We can also add dots (or points) to a boxplot using the functions `geom_dotplot()` or `geom_jitter()`:
+We can also add dots to a boxplot using the functions `geom_dotplot()`.
 
 ```{r,  warning=F, message=F}
 p <- ggplot(mpg, aes(class, hwy)) + geom_boxplot() + mytheme
 p + geom_dotplot(binaxis='y', stackdir='center', dotsize=0.3)
+```
+
+One can also use `geom_jitter()`, which arbitrarily adds some randomness to the x-position of the data points within each box in order to separate them visually.
+
+
+```{r,  warning=F, message=F}
 p + geom_jitter()
 ```
 
 
-#### Violin plots 
+#### Violin plots
 
-A violin plot is an alternative to the boxplot for visualizing one continuous variable (grouped by categories). An advantage of the violin plot over the boxplot is that it also shows the entire distribution of the data. This can be particularly interesting when dealing with multimodal data. 
+A violin plot is an alternative to the boxplot for visualizing one continuous variable (grouped by categories). An advantage of the violin plot over the boxplot is that it also shows the entire distribution of the data. This can be particularly interesting when dealing with multimodal data.
 
 For a direct comparison, we show a violin plot for the `hwy` grouped by `class` as before with the help of the function `geom_violin()`:
 
@@ -602,29 +592,30 @@ ggplot(mpg, aes(class, hwy)) +
   geom_violin() + mytheme
 ```
 
-#### Beanplots 
-
-Another alternative to the popular boxplot is the beanplot. A beanplot has the advantage that the individual observations are shown as small lines in a one-dimensional scatter plot. Moreover, the estimated density of the distributions is visible in a beanplot. It is easy to compare different groups of data in a beanplot and to see if a group contains enough observations to make the group interesting from a statistical point of view. 
-
-For creating beanplots in R, we can use the package `ggbeeswarm`. We use the function `geom_besswarm()` to create a beanplot to visualize once again the `hwy` grouped by `class`: 
-
-```{r}
-# install.packages("ggbeeswarm")
-library(ggbeeswarm)
-ggplot(mpg, aes(class, hwy)) + 
-  geom_beeswarm() + mytheme
-```
-
-We remark that beanplots are useful only up to a certain number of data points. The creation of beanplots for larger datasets may become too expensive.
+<!-- #### Beanplots -->
 
 
-### Plots for two continuos variables
+<!-- Another alternative to the popular boxplot is the beanplot. A beanplot has the advantage that the individual observations are shown as small lines in a one-dimensional scatter plot. Moreover, the estimated density of the distributions is visible in a beanplot. It is easy to compare different groups of data in a beanplot and to see if a group contains enough observations to make the group interesting from a statistical point of view. -->
+
+<!-- For creating beanplots in R, we can use the package `ggbeeswarm`. We use the function `geom_besswarm()` to create a beanplot to visualize once again the `hwy` grouped by `class`: -->
+
+<!-- ```{r} -->
+<!-- # install.packages("ggbeeswarm") -->
+<!-- library(ggbeeswarm) -->
+<!-- ggplot(mpg, aes(class, hwy)) + -->
+<!--   geom_beeswarm() + mytheme -->
+<!-- ``` -->
+
+<!-- We remark that beanplots are useful only up to a certain number of data points. The creation of beanplots for larger datasets may become too expensive. -->
+
+
+### Plots for two continuous variables
 
 #### Scatter plots
 
 Scatter plots are a useful plot type for easily visualizing the relationship between two continuous variables. Here, dots are used to represent pairs of values corresponding to the two considered variables. The position of each dot on the horizontal (`x`) and vertical (`y`) axis indicates values for an individual data point.
 
-In the next example, we analyze the relationship between the engine displacement in liters `displ` and the highway miles per gallon `hwy` from the `mpg` dataset: 
+In the next example, we analyze the relationship between the engine displacement in liters `displ` and the highway miles per gallon `hwy` from the `mpg` dataset:
 
 ```{r}
 ggplot(mpg, aes(displ, hwy)) + geom_point() + mytheme
@@ -646,11 +637,11 @@ ggplot(mpg, aes(displ, hwy)) + geom_point() + facet_wrap(~class) + mytheme
 
 For labeling the individual points in a scatter plot, `ggplot2` offers the function `geom_text()`. However, these labels tend to overlap. To avoid this, we can use the library `ggrepel` which offers a better text labeling through the function `geom_text_repel()`.
 
-We first show the output of the classic text labeling with `geom_text()` for a random subset of 40 observations of the dataset `mpg`. Here we plot the engine displacement in liters `displ` vs. the highway miles per gallon `hwy` and label by `manufacturer`: 
+We first show the output of the classic text labeling with `geom_text()` for a random subset of 40 observations of the dataset `mpg`. Here we plot the engine displacement in liters `displ` vs. the highway miles per gallon `hwy` and label by `manufacturer`:
 
 ```{r}
 set.seed(12)
-mpg_subset <- mpg[sample(1:nrow(mpg), 30, replace=FALSE),] 
+mpg_subset <- mpg[sample(1:nrow(mpg), 30, replace=FALSE),]
 ggplot(mpg_subset, aes(displ, hwy, label=manufacturer)) + geom_point() +
   geom_text() + mytheme
 ```
@@ -660,13 +651,13 @@ As seen in the previous illustration, the text labels overlap. This complicates 
 ```{r}
 library(ggrepel)
 
-ggplot(mpg_subset, aes(displ, hwy, label=manufacturer)) + 
+ggplot(mpg_subset, aes(displ, hwy, label=manufacturer)) +
   geom_point() + geom_text_repel() + mytheme
 ```
 
 
 
-##### Log scaling
+##### Log scaling {#log-scaling}
 
 We consider another example where we want to plot the weights of the brain and body of different animals using the dataset `Animals`. This is what we obtain after creating a scatterplot.
 
@@ -708,7 +699,7 @@ data.table(x, y) %>% ggplot(aes(x, y)) +
 
 
 A line plot can be considered for connecting a series of individual data points or to display the trend of a series of data points.
-This can be particularly useful to show the shape of data as it flows and changes from point to point. We can also show the strength of the movement of values up and down through time. 
+This can be particularly useful to show the shape of data as it flows and changes from point to point. We can also show the strength of the movement of values up and down through time.
 
 As an example we show the connection between the individual datapoints of unemployment rate over the years:
 
@@ -723,7 +714,7 @@ ggplot(economics, aes(date, unemploy / pop)) +
 
 ### Plot matrix
 
-A so-termed plot matrix is useful for exploring the distributions and correlations of a few variables in a matrix-like representation. Here, for each pair of considered variables, a scatterplot is created and the correlation coefficient is computed. For every single variable, a density plot is created for showing the respective distribution. 
+A plot matrix is useful for exploring the distributions and correlations of a few variables in a matrix-like representation. Here, for each pair of considered variables, a scatterplot is shown in the lower triangle and  the Pearson correlation coefficient in shown in the upper triangle (See section \@ref{pearson-cor} and Appendix \@ref(probs-sample-estimates)). Moreover, a density plot is created for every single variable (diagonal).
 
 We can use the function `ggpairs()` from the library `GGally` for constructing plot matrices. As an example, we analyze the variables `displ`, `cyl`, `cty` and `hwy`from the dataset `mpg`:
 
@@ -732,7 +723,7 @@ library(GGally)
 ggpairs(mpg, columns = c("displ","cyl","cty","hwy")) + mytheme
 ```
 
-We remark that this plot is not well suited for comparing more than a few variables.
+This plot is recommended and suited for a handful of variables but does not scale up to much more variables.
 
 ### Correlation plot
 
@@ -741,15 +732,15 @@ A correlation plot is a graphical representation of a correlation matrix. It is 
 Correlation plots are also called "corrgrams" or "correlograms". As an example, we visualize the correlation between the variables of the dataset `mtcars` with the help of the function `ggcorr()` from the library `GGally`:
 
 ```{r}
-ggcorr(mtcars, geom = 'circle') 
+ggcorr(mtcars, geom = 'circle')
 ```
 
 
 ## Summary
 
-This first chapter of data visualization covered the basics of the grammar of graphics and `ggplot2` to plot low dimensional data. We introduced the different types of plots such as histograms, boxplots or barplots and discussed when to use which plot. 
+This first chapter of data visualization covered the basics of the grammar of graphics and `ggplot2` to plot low dimensional data. We introduced the different types of plots such as histograms, boxplots or barplots and discussed when to use which plot.
 
-## Resources 
+## Resources
 <!-- * Boxplots https://en.wikipedia.org/wiki/Box_plot -->
 * The ggplot book: https://ggplot2-book.org/
 
@@ -758,7 +749,7 @@ This first chapter of data visualization covered the basics of the grammar of gr
   * http://ggplot2.tidyverse.org/reference/
   * https://plot.ly/r/
   * https://plot.ly/ggplot2/
-  
+
 * Udacity's Data Visualization and D3.js
   * https://www.udacity.com/courses/all
 

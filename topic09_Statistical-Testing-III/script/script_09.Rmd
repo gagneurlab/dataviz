@@ -14,6 +14,7 @@ mytheme <- theme(
 
 ```
 
+
 # Statistical Assessments for Big Data {#big-data-stat}
 
 In the last two chapters, we took an in depth look at how to assess the statistical significance of patterns in our data. We know how to compute and interpret $P$-values to test specific hypotheses in the context of relatively small datasets.
@@ -49,7 +50,7 @@ The effect size determines whether an effect is actually important. If we discov
 
 ### The relationship of sample size and significance
 
-Assume now that we have a very small effect size. For instance, assume we have two groups, $X$ and $Y$, that are both normally distributed with variance 1. But $E[X] = \mu_x = 0$ whereas $E[Y]=\mu_x=0.01$. We sample from these distribution and do a $t$-test to try to reject the null hypothesis that $E[X]=E[Y]$ (i.e. the effect size is exactly 0).
+Assume now that we have a very small effect size. For instance, assume we have two groups, $X$ and $Y$, that are both normally distributed with variance 1. But $\E[X] = \mu_x = 0$ whereas $\E[Y]=\mu_y=0.01$. We sample from these distribution and do a $t$-test to try to reject the null hypothesis that $\E[X]=\E[Y]$ (i.e. the effect size is exactly 0).
 
 If our sample size is small, e.g. $n_x=n_y=10$, the difference in means is unlikely to be statistically significant.
 
@@ -116,7 +117,7 @@ This creates a problem. In reality, the null hypothesis, will seldom be literall
 
 This means, if our dataset is big enough (i.e. many hundreds of thousands of datapoints), it is likely that whatever association we test, it will be significant. But many of these associations will likely be too small to be of any practical importance. 
 
-### Report P-value, effect size, and plot
+### Report $P-$value, effect size, and plot
 
 Because of this, only reporting that an association is statistically significant is misleading and not particularly helpful. To avoid this problem, we should always report the $P$-value, an estimate of the effect size and a plot of our data that supports our conclusions.
 
@@ -129,7 +130,7 @@ Also, we should use common sense when reporting effect sizes. It is a lot more u
 
 In addition to the problem of detecting very small effects, big data also poses the problem of detecting false effects due to **multiple testing**. We will first discuss why multiple testing can undermine the conclusions we derive from data. Then we will explore ways to guard against being mislead in this way, using a simulated dataset as an example.
 
-### Multiple testing in real life: p-Hacking and fishing expeditions
+### Multiple testing in real life: $P-$Hacking and fishing expeditions
 
 Expressed very simply, multiple testing refers to the issue that, if we test enough hypotheses at a given significance level, say $\alpha=0.05$, we are bound to eventually get a significant result, *even if the null hypothesis is always true*. 
 
@@ -199,11 +200,11 @@ dt2 %>% ggplot(aes(heads,N)) +
 ```
 
 
-### Nominal p-values
+### Nominal $P-$values
 
-The king declares: "I presume innocence, i.e. I will consider the null hypothesis that each coin is fair. I will reject this hypothesis using a one-sided binomial test at p-value <=0.05."
+The king declares: "I presume innocence, i.e. I will consider the null hypothesis that each coin is fair. I will reject this hypothesis using a one-sided binomial test at $P-$value <=0.05."
 
-The king computes the p-values.
+The king computes the $P-$values.
 
 ```{r}
 dt[,
@@ -250,13 +251,13 @@ $p(T \geq T_\text{0.05}| H_0)$
 
 which we just said is equal to $0.05$! So $p(P<0.05|H_0) = 0.05$, and the same logic generalizes for any other $\alpha \in [0,1]$. 
 
-This, in turn, means that when we test 900 fair coins and reject the null hypothesis that the coin is fair whenever $P<0.05$, then on average we will reject the null hypothesis about $5\%$ of the time, so $900*0.05=45$ times. Thus, in some sense the King actually got lucky that he "only" falsely accused `r table(dt[,.(fair, rejected = p.value<=0.05)])[1,2]`.
+This, in turn, means that when we test 900 fair coins and reject the null hypothesis that the coin is fair whenever $P<0.05$, then on average we will reject the null hypothesis about $5\%$ of the time, so $900 \times 0.05=45$ times. Thus, in some sense the King actually got lucky that he "only" falsely accused `r table(dt[,.(fair, rejected = p.value<=0.05)])[2,2]`.
 
 Another way of stating this fact is to say that, under the null hypothesis, the $P$-value follows a uniform distribution on the $[0,1]$ interval. Figure \@ref(fig:qqplot-fair-biased) illustrates the $P$-value distribution, compared to the  $[0,1]$ uniform distribution, for the fair and for the biased coins:
 
-```{r qqplot-fair-biased, echo=TRUE, fig.height=4, fig.width=6, fig.cap="P-value Q-Q plots against the uniform distribution for the fair and the biased coins."}
+```{r qqplot-fair-biased, echo=TRUE, fig.height=4, fig.width=6, fig.cap="$P-$value Q-Q plots against the uniform distribution for the fair and the biased coins."}
 ggplot(dt, aes(sample = p.value)) + 
-  # we make a qqplot comparing the p-values with the [0,1] uniform
+  # we make a qqplot comparing the P-values with the [0,1] uniform
   geom_qq(distribution =  stats::qunif) + 
   # we add a diagonal
   geom_abline(slope=1, intercept=0) +
@@ -265,13 +266,13 @@ ggplot(dt, aes(sample = p.value)) +
   mytheme
 ```
 
-We see that the $P$-values for the fair coins match the uniform distribution quite well (values along diagonal). In contrast, the p-values for the biased coins are excessively small compared to the uniform distribution. This is exactly what we want: small p-values when the null hypothesis does not hold. (Note that the distribution of p-values for discrete statistics actually shows these stairs due to ties. One could visually fix it but this is not a major point).
+We see that the $P$-values for the fair coins match the uniform distribution quite well (values along diagonal). In contrast, the $P$-values for the biased coins are excessively small compared to the uniform distribution. This is exactly what we want: small $P-$values when the null hypothesis does not hold. (Note that the distribution of $P-$values for discrete statistics actually shows these stairs due to ties. One could visually fix it but this is not a major point).
 
 ### Family-wise error rate
 
 The queen, who is well-versed in matters of probability, is rightfully appalled at the prospect of many innocent subjects being executed.
 
-She states: "If they were all innocent, you would declare $0.05*1000=50$ subjects guilty and falsely sentence them to death. We shall not accept that **any** innocent person is killed".
+She states: "If they were all innocent, you would declare $0.05 \times 1000=50$ subjects guilty and falsely sentence them to death. We shall not accept that **any** innocent person is killed".
 
 King: "Mmmh, good point. But we cannot be 100% sure. What if I make sure that there is **at most** 5% chance that an **innocent person is mistakenly killed**?"
 
@@ -306,7 +307,7 @@ Specifically, the King has opted to keep the FWER below $\alpha=0.05$.
 
 We have just established that, under the null hypothesis, if we do $m$ tests, and reject if $P<\alpha$, then we will falsely reject about $m\alpha$ times. To control the FWER, the so-called **Bonferroni correction** is a lot more demanding, and only reject if $P<\frac{\alpha}{m}$.
 
-More formally, suppose we conduct our $m$ hypothesis tests for each $g=1,...,m$ , producing each a p-value $P_g$. Then the Bonferroni-adjusted $P$-values are:
+More formally, suppose we conduct our $m$ hypothesis tests for each $g=1,...,m$ , producing each a $P-$value $P_g$. Then the Bonferroni-adjusted $P$-values are:
 $$\tilde P_g = \min \{mP_g,\ 1\}$$
 
 Selecting all tests with $\tilde P_g \le \alpha$ controls the FWER at level $\alpha$ , ie., $p(V>0)\le \alpha$ .
@@ -332,7 +333,7 @@ Now, among a set of binary random events (here rejection, or not, of each true n
 What is $p\left(H_{0,i}  \text{ rejected}\right)$ when $i=1...m_0$, i.e. when $i$ is the index of a true null hypothesis?
 Having applied Bonferroni's correction means that, for all $i$:
 $$p\left(H_{0,i}  \text{ rejected}\right) = p\left(P_i\leq\frac \alpha m\right)$$
-Moreover,  by definition of the p-value, we have that $p\left(P_i\leq\frac \alpha m\right) = \frac \alpha m$ for all $i=1...m_0$, as these are the indices of the true null hypotheses. Hence we get:
+Moreover,  by definition of the $P-$value, we have that $p\left(P_i\leq\frac \alpha m\right) = \frac \alpha m$ for all $i=1...m_0$, as these are the indices of the true null hypotheses. Hence we get:
 
 \begin{align}
 \text{FWER} &\leq m_0 \frac \alpha m \leq \alpha
@@ -346,7 +347,7 @@ This control does not require any assumption about dependence among the $P$-valu
 
 The king sleeps on it and comes back angry to the queen.
 
-King:" If they were all innocent as you assumed, there should have been 50 with a p-value less than 0.05 in the first place. But they were instead `r sum(dt$p.value<=0.05)`. There are still a lot of counterfeiters unpunished. What if I introduced a fine rather than the death penalty?"
+King:" If they were all innocent as you assumed, there should have been 50 with a $P-$value less than 0.05 in the first place. But they were instead `r sum(dt$p.value<=0.05)`. There are still a lot of counterfeiters unpunished. What if I introduced a fine rather than the death penalty?"
 
 Queen: "That is more reasonable. It would be tolerable that **no more** than 5% of fined subjects are **actually innocent**."
 
@@ -370,7 +371,7 @@ When applying the Bonferroni correction, we took a very conservative view: we cr
 
 But everyone in the kingdom can see that this worst-case scenario is not correct by looking at the Q-Q plot (this time including all subjects, and not split by the innocent ones and the non-innocent:
 
-```{r qqplot-all, echo=FALSE, fig.height=4, fig.width=4, fig.cap="P-value Q-Q plots against the uniform distribution for the entire population."}
+```{r qqplot-all, echo=FALSE, fig.height=4, fig.width=4, fig.cap="$P-$value Q-Q plots against the uniform distribution for the entire population."}
 ggplot(dt, aes(sample = p.value)) + 
   geom_qq(distribution =  stats::qunif) + 
   geom_abline(slope=1, intercept=0) +
@@ -381,7 +382,7 @@ We notice a deviation from the assumption of uniformity at the low end of the di
 
 Instead of conservatively minimizing the probability of false positives, the Benjamini-Hochberg correction ^[Among the top 100 cited scientific papers of all times. https://www.nature.com/news/the-top-100-papers-1.16224] takes a more balanced view and instead controls the so-called **False discovery rate (FDR)** defined as the the expected fraction of false positives among all discoveries:
 
-$$\operatorname{FDR} = E[\frac{V}{\max(R,\ 1)}]$$,
+$$\operatorname{FDR} = \E[\frac{V}{\max(R,\ 1)}]$$,
 where $\max(R,\ 1)$ ensures the denominator to not be 0.
 
 To do this, we first order our (unadjusted) $P$-values. Let the ordered unadjusted $P$-values be: $P_1 \le P_2 \le \ ... \ \le P_m$. Let $j$ refer to a rank in this ordering, so $P_j$ is the j-th smallest $P$-value, and $H_{0,j}$ is the respective null hypothesis.
@@ -465,7 +466,7 @@ dt2 %>% ggplot(aes(heads,N)) +
   mytheme
 ```
 
-As expected, we see that the nominal p-value cutoff is the most lenient, the FWER one (Bonferroni) the most stringent and the FDR ones (Benjamini-Hochberg) is intermediate.
+As expected, we see that the nominal $P-$value cutoff is the most lenient, the FWER one (Bonferroni) the most stringent and the FDR ones (Benjamini-Hochberg) is intermediate.
 
 ## Conclusions
 

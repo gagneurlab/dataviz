@@ -1,16 +1,3 @@
-\newcommand{\bs}{\boldsymbol} 
-\newcommand{\m}{\mathbf}
-
-\newcommand{\w}{\m w} 
-\newcommand{\x}{\m x}
-\newcommand{\y}{\m y}
-
-\newcommand{\X}{\m X} 
-\newcommand{\I}{\m I} 
-
-\newcommand{\E}{\operatorname{E}} 
-\newcommand{\Var}{\operatorname{Var}} 
-
 
 # Logistic Regression {#chap-log-reg}
 
@@ -163,7 +150,7 @@ p(y_i | \x_i) &= N(y_i | \mu_i, \sigma^2) \\
 (\#eq:linreg-model)
 \end{equation}
 
-Hence, linear regression models $\mu_i := E(y_i|x_{i1},...x_{ip})$, the _expectation_ of the outcome _conditioned_ on the features, in particular, such expectation is obtained as a linear combination of the features. 
+Hence, linear regression models $\mu_i := E(y_i|x_{i1},...x_{ip})$, the _expectation_ of the outcome _conditioned_ on the features. In particular, this conditional expectation is modeled as a linear combination of the features. 
 
 Rather than predicting an unbounded continuous outcome given some features, the classification problem can be approached by predicting the probability of a class given some features (ex. predicting the probability of the student being male given that the height is 160 cm). 
 Modeling a probability with a linear function is not ideal because we can make predictions <0 or >1. Logistic regression addresses this problem by using the logistic function discussed above, which maps linear combinations of features to the (0,1) interval.
@@ -392,7 +379,7 @@ imbalanced_heights <- heights[-sample(which(sex=="M"), 100)]
 imbalanced_heights[, table(sex)]
 ```
 
-Now let's fit a logistic regression, similar to previous steps:
+Now let's fit a logistic regression as done previously:
 ```{r}
 logistic_fit_imbalanced <- glm(y ~ height, data=imbalanced_heights, family = "binomial")
 logistic_fit_imbalanced
@@ -439,6 +426,7 @@ This means that the estimated log odds for male in the imbalanced logistic fit a
 
 Why can the effect of class imbalance be seen on the intercept?  While the proportion among males in each stratum are independent of the number of males, the ratios of males over females scales with the overall number of males. Hence, The odds male:female per stratum proportionally change when the overall population odds change. In a log scale this translates into an added constant and thus a vertical shift. In other words, changes in class imbalance affects the intercept $\beta_0$ of a logistic regression by adding a constant.^[A formal proofs can be made using Bayes theorem.]
 
+
 <!-- If we denote $x$ as our feature (height) and $y$ as the class (male/female) then using Bayes theorem we can write:  -->
 
 <!-- $$ -->
@@ -474,7 +462,7 @@ Why can the effect of class imbalance be seen on the intercept?  While the propo
 
 ### Multiple Logistic regression
 
-We have been performing logistic regression with one variable as input to predict one class. However, in our formulation of logistic regression we allowed a set of features to predict the probability of the class. 
+Until now, we have performed logistic regression with one variable only as input. However, in our formulation of logistic regression we allowed a set of features to predict the probability of the class. 
 In multiple logistic regression there can be several input variables.
 We can use multiple logistic regression to predict the student's sex given the heights of the student and of the student's parents.
 
@@ -503,7 +491,7 @@ heights[, y_multi_pred := round(predict(multi_logistic_fit, heights, type="respo
 heights[, table(y, y_multi_pred)]
 ```
 
-10 males where predicted as female (false negative) and 9 females were predicted as male (false positive). 
+10 males were predicted as female (false negatives) and 9 females were predicted as male (false positives). 
 
 
 ### Confusion Matrix
@@ -514,7 +502,7 @@ The previous table is also termed confusion matrix. The following figure depicts
 knitr::include_graphics("assets/img/lec13_confusion_matrix.png")
 ```
 
-Such matrix allows us to access the quality of the classifications. A classifier should maximize true positives (TP) and true negatives (TN), and minimize false negatives (FN) and false positives (FP)
+Such matrix allows us to assess the quality of the classifications. A classifier should maximize true positives (TP) and true negatives (TN), and minimize false negatives (FN) and false positives (FP).
 
 ### Classification performance metrics
 
@@ -625,7 +613,7 @@ ggroc
 
 ```
 
-We can see that for lower values of false positive rates, the true positive rate is higher on the multiple logistic regression model. Such suggests this model has a better performance. 
+We can see that for lower values of false positive rates, the true positive rate is higher on the multiple logistic regression model. This suggests this model has a better performance. 
 Classification performance can also be measured by the AUC (area under the ROC curve). An AUC of 1 means that the model is perfectly able to distinguish between the positive and negative classes. An AUC of 0.5, which corresponds to the AUC of a ROC curve which is a diagonal line, means the classifier model is no better than random classification.
 ```{r}
 calc_auc(ggroc)
@@ -667,7 +655,8 @@ plot(PRROC_obj, auc.main=FALSE , color=2)
 ```
 
 Although the ROC curves of both models look similar, the precision recall curves look different. 
-Because the dataset is imbalanced for the female (negative class), the corresponding logistic regression model provides lower precisions for the same recall, meaning that such model is worse at classifying males. The PR curves is hence used in very imbalanced situations in which the positive class is strongly under-represented. These are "finding a needle in a haystack" situations, such as detecting a rare disease or retrieving a relevant web page among billions of web pages across the web. Then, the precision-recall curves emphasizes better the performance of the model among the top scoring predictions than the ROC curve. 
+Because the dataset is imbalanced for the female (negative class), the corresponding logistic regression model provides lower precisions for the same recall, meaning that such model is worse at classifying males. The PR curves is hence used in very imbalanced situations in which the positive class is strongly under-represented. These are "finding a needle in a haystack" situations, such as detecting a rare disease or retrieving a relevant web page among billions of web pages across the web. Then, the precision-recall curves emphasize better the performance of the model among the top scoring predictions than the ROC curve. 
+
 
 ## Conclusions
 

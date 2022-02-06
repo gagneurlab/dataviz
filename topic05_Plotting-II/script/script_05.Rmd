@@ -4,16 +4,6 @@ output:
   html_document: default
 ---
 
-\newcommand{\bs}{\boldsymbol} 
-\newcommand{\m}{\mathbf}
-
-\newcommand{\w}{\m w} 
-\newcommand{\x}{\m x}
-
-\newcommand{\X}{\m X} 
-
-\newcommand{\Var}{\operatorname{Var}} 
-
 ```{r global_options2, include=FALSE, cache=F}
 library(data.table)
 library(gridExtra)
@@ -255,7 +245,7 @@ plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12)
 
 Unlike with K-means, there is no objective function associated with hierarchical clustering. Hierarchical clustering is simply defined by how it operates.
 
-We describe bottom-up or agglomerative hierarchical clustering:
+We describe bottom-up (a.k.a. agglomerative) hierarchical clustering:
 
 1. Initialization: Compute all the $n(n − 1)/2$ pairwise dissimilarities between the $n$ observations. Treat each observation as its own cluster. A typically dissimilarity measure is the Euclidean distance. Other dissimilarities can be used (1-correlation), Manhattan distance, etc.  
 
@@ -458,7 +448,7 @@ p5 + mytheme
 We will assume all variables to be centered and admit the line passes therefore through the origin. Let us denote $\w$ a direction vector of the line of length 1.
 
 
-The closest point of the observation vector $\x_i$ to the line is its orthogonal projection $p_{\top}(\x_i)$ which is equal to the scalar product of the direction vector and the observation vector, times the direction vector:
+The closest point on the line to the observation vector $\x_i$ is its orthogonal projection $p_{\top}(\x_i)$ which is equal to the scalar product of the direction vector and the observation vector, times the direction vector:
 
 \begin{align}
 p_{\top}(\x_i) &= (\w^\top\x_i)\w
@@ -469,7 +459,7 @@ p_{\top}(\x_i) &= (\w^\top\x_i)\w
 Hence, we look for $\w$ such that: 
 
 \begin{align}
-\min_{\w} & \sum_{i=1}^n || \x - (\w^\top\x_i)\w ||^2 \\
+\min_{\w} & \sum_{i=1}^n || \x_i - (\w^\top\x_i)\w ||^2 \\
 \text{subject to} & ||\w||=1
 (\#eq:PCA-min)
 \end{align}
@@ -511,9 +501,9 @@ The covariance matrix is $\frac{1}{n}\X^{\top}\X$. It is a symmetric positive ma
 
 **Result**. The PCA $q$-dimensional plane, i.e., the $q$-dimensional plane that is closest to the data in terms of sums of squared Euclidean distances, is the plane spanned by the first $q$ eigenvectors of the covariance matrix.
 
-**Result**. The proportion of variance explained by the PCA $q$-dimensional plane equals to the sum of the $q$ first eigenvalues of the covariance matrix.  
+**Result**. The variance explained by the PCA $q$-dimensional plane equals to the sum of the $q$ first eigenvalues of the covariance matrix.  
 
-See Bishop's book for proofs.
+See @bishop2007 for proofs.
 
 These results have several implications:
 

@@ -1,7 +1,7 @@
 # Additonal plotting tools
 
 
-````{r include=FALSE, cache=F, echo=F}
+```{r, include=FALSE, cache=F, echo=F}
 library(data.table)
 library(gridExtra)
 library(ggplot2)
@@ -30,7 +30,7 @@ Themes control non-data parts of your plots, such as:
 * Plot title
 * Legends
 
-They control the appearance of your plots (size, color, position) but not how the data is represented. 
+They control the appearance of your plots (size, color, position) but not how the data is represented.
 One example is `theme_bw` which provides a white background.
 
 ```{r,  fig.height=5, fig.width=6}
@@ -52,7 +52,7 @@ ggplot(ind, aes(CPI, HDI, color=region)) +
 
 ## Axes
 
-The appearance of the axis titles can be controlled with the global variable `axis.title`, 
+The appearance of the axis titles can be controlled with the global variable `axis.title`,
 or independently for $x$ and $y$ using `axis.title.x` and `axis.title.y`.
 
 ```{r,  fig.height=4.5, fig.width=6}
@@ -73,17 +73,17 @@ ggplot(ind, aes(CPI, HDI, color=region)) +
 
 The axis elements control the appearance of the axes:
 
-Element             | Setter            | Description               
+Element             | Setter            | Description
 --------------------|-------------------|---------------------------
 axis.line           | `element_line()`  | line parallel to axis (hidden in default themes)
-axis.text           | `element_text()`  | tick labels               
-axis.text.x         | `element_text()`  | x-axis tick labels        
-axis.text.y         | `element_text()`  | y-axis tick labels        
-axis.title          | `element_text()`  | axis titles               
-axis.title.x        | `element_text()`  | x-axis title              
-axis.title.y        | `element_text()`  | y-axis title              
-axis.ticks          | `element_line()`  | axis tick marks           
-axis.ticks.length   | `unit()`          | length of tick marks 
+axis.text           | `element_text()`  | tick labels
+axis.text.x         | `element_text()`  | x-axis tick labels
+axis.text.y         | `element_text()`  | y-axis tick labels
+axis.title          | `element_text()`  | axis titles
+axis.title.x        | `element_text()`  | x-axis title
+axis.title.y        | `element_text()`  | y-axis title
+axis.ticks          | `element_line()`  | axis tick marks
+axis.ticks.length   | `unit()`          | length of tick marks
 
 ## Plot title
 
@@ -101,7 +101,7 @@ ggplot(ind, aes(CPI, HDI, color=region)) +
 The appearance of the legend can be controlled with `legend.text` and `legend.title`.
 ```{r, fig.height=5, fig.width=7}
 base <- ggplot(ind, aes(CPI, HDI, color=region)) +
-  geom_jitter() 
+  geom_jitter()
 base + theme(
   legend.text = element_text(size = 15),
   legend.title = element_text(size = 15, face = "bold")

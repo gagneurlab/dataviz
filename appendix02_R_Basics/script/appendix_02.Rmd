@@ -21,7 +21,39 @@ knitr::knit_hooks$set(
 ```
 # R programming {#appendix-r-programming}
 
-This Appendix covers the basic concepts of the R programming language: data types, data operations, data structures, control flow and functions. It is largely based on Rafael Irizzary's book Introduction to Data Science [https://rafalab.github.io/dsbook/]. 
+This Appendix covers the basic concepts of programming with R including control flow and functions. It is largely based on Rafael Irizzary's book Introduction to Data Science [https://rafalab.github.io/dsbook/]. 
+
+## The pipe operator {#pipe}
+
+The pipe operator, denoted `%>%` is a very convenient operator provided by the package `magrittr`. The pipe operator forwards a value, or the result of an expression, into the next function call or expression. The way to read an R line usiung the pipe operator is with the word "then".  For example, the following commands will complete exactly the same task:
+
+```{r, echo=T, eval=F}
+library(magrittr)  # for pipe operator %>%
+
+## First assignment without pipe operator
+x <- 1000
+log(x, 10)
+
+## Second assignment with pipe operator
+## Take x then compute log in base 10
+x %>% log(10)
+
+```
+
+By default, the pipe operator forwards its left value into the first argument of the function call on its right. It is possible to specify another argument than the first one by using the `.` character.  
+
+```{r, echo=T, eval=F}
+## This computes log(x,10)
+# Take x, then take the log in base 10
+x %>% log(10)
+
+## This too, where the base b=10 is forwarded to the second argument of log()
+b <- 10
+# Take b, then take the log of x in base b
+b %>% log(x, .)
+```
+
+When performing several (nested) functions, the advantage of the pipe operator becomes particularly notable, since it allows clearer code readability and prevents bugs.
 
 ## Conditional expressions {#conditionals}
 
@@ -148,7 +180,7 @@ In general, functions are objects, so we assign them to variable names with `<-`
 
 ```{r, eval=FALSE}
 my_function <- function(VARIABLE_NAME){
-  perform operations on VARIABLE_NAME and calculate VALUE
+ # perform operations on VARIABLE_NAME and calculate VALUE
   VALUE
 }
 ```

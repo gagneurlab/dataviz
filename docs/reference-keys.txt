@@ -1,3 +1,5 @@
+fig:gapminder-motivation-fig
+fig:hwy-sd
 fig:scaled-heatmap
 fig:K-means-aim
 eq:K-means-obj
@@ -30,7 +32,7 @@ eq:H0-uni-cond-indep
 eq:H0-cond-indep
 eq:E-linreg
 fig:mean-son-vs-father
-fig:lecture-02-391
+fig:unnamed-chunk-388
 eq:coef-univariate
 fig:non-linear-qc
 fig:odds-vs-height
@@ -41,7 +43,7 @@ eq:logreg-model
 fig:sex-from-height-overview
 fig:log-increase
 fig:class-cutoff
-fig:lecture-02-432
+fig:unnamed-chunk-429
 fig:poly1
 fig:poly2
 fig:poly3
@@ -52,7 +54,7 @@ fig:dt1
 fig:dt2
 fig:dt3
 fig:rf
-fig:lecture-02-520
+fig:unnamed-chunk-518
 r-basics
 rstudio
 first-steps-with-r
@@ -146,7 +148,6 @@ plot-vs-stat
 plot-debug
 grammar-of-graphics
 components-of-the-layered-grammar
-components-of-the-grammar-of-graphics
 defining-the-data-and-layers
 mapping-of-aesthetics
 mapping-of-color-shape-and-size
@@ -162,8 +163,7 @@ barplots
 barplots-with-errorbars
 boxplots-by-category
 violin-plots
-beanplots
-plots-for-two-continuos-variables
+plots-for-two-continuous-variables
 scatter-plots
 text-labeling
 log-scaling
@@ -209,7 +209,7 @@ graph-supported-hypos
 descriptive-vs.-associative-plots
 descriptive-plots
 associative-plots
-correctly-using-descriptive-and-demonstrative-plots
+correctly-using-descriptive-and-associative-plots
 correlation-and-causation
 the-association-is-not-statistically-supported
 reversing-cause-and-effect
@@ -272,17 +272,17 @@ fishers-exact-test
 fishers-exact-test-in-r
 testing-the-association-between-one-quantitative-and-one-binary-variable
 the-t-test
-students-t-distribution
+student-t
 students-t-test-in-r
 unequal-variance-welchs-test-in-r
 wilcoxon-rank-sum-test-an-alternative-to-the-t-test-for-non-gaussian-data
 assumptions
 the-mann-whitney-u-statistic-and-the-wilcoxon-rank-sum-test
 wilcoxon-rank-sum-test-in-r
-why-bother-with-the-wilcoxon-rank-sum-test
+why-bother-wilcox
 association-between-two-quantitative-variables
 the-pearson-correlation-test
-pearsons-correlation-coefficient
+pearson-cor
 the-test
 the-spearman-rank-correlation-test
 motivation-1
@@ -411,6 +411,7 @@ text-versus-binary-files
 unicode-versus-ascii
 organizing-data-with-spreadsheets
 appendix-r-programming
+pipe
 conditionals
 defining-functions
 namespaces
@@ -428,6 +429,6 @@ interactive-plots
 appendix-probabilities
 probability-conditional-probability-and-dependence
 expected-value-variance-and-covariance
-sample-estimates
+probs-sample-estimates
 appendix-lin-reg
 resources-6

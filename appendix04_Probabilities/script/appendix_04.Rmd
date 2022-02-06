@@ -20,9 +20,6 @@ knitr::knit_hooks$set(
 )
 ```
 
-\newcommand{\Var}{\operatorname{Var}} 
-\newcommand{\Cov}{\operatorname{Cov}} 
-\newcommand{\E}{\operatorname{E}}
 
 
 # Probabilities {#appendix-probabilities}
@@ -139,7 +136,7 @@ The **covariance matrix** of a multidimensional random variables $X$ is the matr
 $$(\textbf{Cov}[X])_{i,j}=\Cov[(X_i,X_j)]$$ 
 
 
-## Sample estimates
+## Sample estimates {#probs-sample-estimates}
 Let $\{x_1,...,x_n\}$ a finite sample of size $n$ of independent realizations of a random variable $X$. Considered as random variables, the $x_i$ are independently and identically distributed (i.i.d.).
 
 The **sample mean**, often denoted $\bar x$, is defined as:
@@ -156,6 +153,15 @@ $$s_x^2 = \frac{1}{n-1}\sum_i (x_i-\bar x)^2$$
 for which $\E[s^2_x] = \Var[X]$ holds.
 
 The **sample standard deviation** and the **unbiased sample standard deviation** are defined as the squared root of their variance counterparts.
+
+The **sample Pearson correlation coefficient** is given by:
+
+\begin{align}
+r =\frac{\sum ^n _{i=1}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum ^n _{i=1}(x_i - \bar{x})^2} \sqrt{\sum ^n _{i=1}(y_i - \bar{y})^2}}
+(\#eq:pearson-r)
+\end{align}
+
+where $\bar{x}=\frac{1}{n}\sum_{i=1}^n x_i$ is the sample mean, and analogously for $\bar{y}$.
 
 
 ## Linear regression {#appendix-lin-reg}
