@@ -5,25 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 High dimensional visualizations | Data Analysis and Visualization in R (IN2339)</title>
-  <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 High dimensional visualizations | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta property="og:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 5 High dimensional visualizations | Data Analysis and Visualization in R (IN2339)" />
   
-  <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="twitter:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
 
 
-<meta name="date" content="2022-02-06" />
+<meta name="date" content="2024-02-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="low-dimensional-visualizations.html"/>
 <link rel="next" href="graph-supported-hypos.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,10 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -94,7 +91,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -107,7 +104,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -121,6 +118,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -161,10 +162,6 @@ div.csl-indent {
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i>Acknowledgments</a></li>
-<li class="chapter" data-level="" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i>Prerequisites</a></li>
-<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i>Datasets</a></li>
-<li class="chapter" data-level="" data-path="feedback.html"><a href="feedback.html"><i class="fa fa-check"></i>Feedback</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#data-science-what-and-why"><i class="fa fa-check"></i>Data Science: What and why?</a></li>
@@ -279,25 +276,28 @@ div.csl-indent {
 <li class="chapter" data-level="3.3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#melting-wide-to-long"><i class="fa fa-check"></i><b>3.3.1</b> Melting (wide to long)</a></li>
 <li class="chapter" data-level="3.3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#casting-long-to-wide"><i class="fa fa-check"></i><b>3.3.2</b> Casting (long to wide)</a></li>
 <li class="chapter" data-level="3.3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#separating-columns"><i class="fa fa-check"></i><b>3.3.3</b> Separating columns</a></li>
-<li class="chapter" data-level="3.3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.3.4</b> Uniting columns</a></li>
-<li class="chapter" data-level="3.3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.3.5</b> Advanced: Columns containing sets of values</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.4</b> Concatenating tables</a></li>
-<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.5</b> Merging tables</a>
+<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#one-column-contains-multiple-variables"><i class="fa fa-check"></i><b>3.4</b> One column contains multiple variables</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.5.1</b> Inner merge</a></li>
-<li class="chapter" data-level="3.5.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.5.2</b> Outer (full) merge</a></li>
-<li class="chapter" data-level="3.5.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.5.3</b> Left merge</a></li>
-<li class="chapter" data-level="3.5.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.5.4</b> Right merge</a></li>
-<li class="chapter" data-level="3.5.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.5.5</b> Merging by several columns</a></li>
+<li class="chapter" data-level="3.4.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.4.1</b> Uniting columns</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.4.2</b> Advanced: Columns containing sets of values</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.6</b> Tidy representations are not unique</a>
+<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.5</b> Concatenating tables</a></li>
+<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.6</b> Merging tables</a>
 <ul>
-<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.6.1</b> Alternative tidy forms of a table</a></li>
-<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.6.2</b> On multiple types of observational units in the same table</a></li>
+<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.6.1</b> Inner merge</a></li>
+<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.6.2</b> Outer (full) merge</a></li>
+<li class="chapter" data-level="3.6.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.6.3</b> Left merge</a></li>
+<li class="chapter" data-level="3.6.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.6.4</b> Right merge</a></li>
+<li class="chapter" data-level="3.6.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.6.5</b> Merging by several columns</a></li>
 </ul></li>
-<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.7</b> Summary</a></li>
-<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.8</b> Tidy data resources</a></li>
+<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.7</b> Tidy representations are not unique</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.7.1</b> Alternative tidy forms of a table</a></li>
+<li class="chapter" data-level="3.7.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.7.2</b> On multiple types of observational units in the same table</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.8</b> Summary</a></li>
+<li class="chapter" data-level="3.9" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.9</b> Tidy data resources</a></li>
 </ul></li>
 <li class="part"><span><b>II Look</b></span></li>
 <li class="chapter" data-level="4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html"><i class="fa fa-check"></i><b>4</b> Low dimensional visualizations</a>
@@ -595,7 +595,7 @@ div.csl-indent {
 <li class="chapter" data-level="A.4" data-path="importing-data.html"><a href="importing-data.html#downloading-files"><i class="fa fa-check"></i><b>A.4</b> Downloading files</a></li>
 <li class="chapter" data-level="A.5" data-path="importing-data.html"><a href="importing-data.html#r-base-importing-functions"><i class="fa fa-check"></i><b>A.5</b> R-base importing functions</a>
 <ul>
-<li><a href="importing-data.html#scan"><code>scan</code></a></li>
+<li class="chapter" data-level="" data-path="importing-data.html"><a href="importing-data.html#scan"><i class="fa fa-check"></i><code>scan</code></a></li>
 </ul></li>
 <li class="chapter" data-level="A.6" data-path="importing-data.html"><a href="importing-data.html#text-versus-binary-files"><i class="fa fa-check"></i><b>A.6</b> Text versus binary files</a></li>
 <li class="chapter" data-level="A.7" data-path="importing-data.html"><a href="importing-data.html#unicode-versus-ascii"><i class="fa fa-check"></i><b>A.7</b> Unicode versus ASCII</a></li>
@@ -652,50 +652,43 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="high-dimensional-visualizations" class="section level1" number="5">
-<h1><span class="header-section-number">Chapter 5</span> High dimensional visualizations</h1>
+<div id="high-dimensional-visualizations" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> High dimensional visualizations<a href="high-dimensional-visualizations.html#high-dimensional-visualizations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this chapter, we turn our attention to the visualization of high-dimensional data with the aim to discover interesting patterns. We cover heatmaps, i.e., image representation of data matrices, and useful re-ordering of their rows and columns via clustering methods. To scale up visualization to very high-dimensional data, we furthermore introduce Principal Component Analysis as a dimension reduction technique.</p>
-<div id="notations" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Notations</h2>
-<p>Lower cases are used for scalars (e.g. <span class="math inline">\(x\)</span>), bold lower cases for vectors (e.g. <span class="math inline">\(\mathbf x\)</span>) and bold upper cases for matrices (e.g. <span class="math inline">\(\mathbf X\)</span>). The transpose of a matrix or of a vector is denoted with a T-superscript (e.g. <span class="math inline">\(\mathbf X^\top\)</span>). The Euclidean norm of vector <span class="math inline">\(\mathbf x\)</span> is denoted <span class="math inline">\(||\mathbf x||\)</span>.</p>
-<p>Methods of this chapter assume numeric variables. If encountered, categorical variables can be transformed to numeric variables by one-hot encoding.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
-<p>We denote <span class="math inline">\(n\)</span> the number of observations, <span class="math inline">\(p\)</span> the number of variables, and <span class="math inline">\(\mathbf X\)</span> the <span class="math inline">\(n \times p\)</span> data matrix.</p>
+<div id="notations" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Notations<a href="high-dimensional-visualizations.html#notations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Lower cases are used for scalars (e.g. <span class="math inline">\(x\)</span>), bold lower cases for vectors (e.g. <span class="math inline">\(\x\)</span>) and bold upper cases for matrices (e.g. <span class="math inline">\(\X\)</span>). The transpose of a matrix or of a vector is denoted with a T-superscript (e.g. <span class="math inline">\(\X^\top\)</span>). The Euclidean norm of vector <span class="math inline">\(\x\)</span> is denoted <span class="math inline">\(||\x||\)</span>.</p>
+<p>Methods of this chapter assume numeric variables. If encountered, categorical variables can be transformed to numeric variables by one-hot encoding <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>We denote <span class="math inline">\(n\)</span> the number of observations, <span class="math inline">\(p\)</span> the number of variables, and <span class="math inline">\(\X\)</span> the <span class="math inline">\(n \times p\)</span> data matrix.</p>
 </div>
-<div id="data-matrix-preparation" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Data matrix preparation</h2>
+<div id="data-matrix-preparation" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Data matrix preparation<a href="high-dimensional-visualizations.html#data-matrix-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We use a subset of the base R <code>mtcars</code> dataset consisting of 10 rows (cars) and four selected variables. We store this data into the numeric matrix <code>mat</code>. For ease, we give full names (rather than abbreviations) to the columns and keep the row names (car names).</p>
-<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="high-dimensional-visualizations.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb418-2"><a href="high-dimensional-visualizations.html#cb418-2" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="st">&quot;mpg&quot;</span>, <span class="st">&quot;carb&quot;</span>, <span class="st">&quot;hp&quot;</span>, <span class="st">&quot;wt&quot;</span>)])</span>
-<span id="cb418-3"><a href="high-dimensional-visualizations.html#cb418-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(mat) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(mtcars)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb418-4"><a href="high-dimensional-visualizations.html#cb418-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Miles.per.gallon&quot;</span>, <span class="st">&quot;Carburetor&quot;</span>, <span class="st">&quot;Horsepower&quot;</span>, <span class="st">&quot;Weight&quot;</span>)</span>
-<span id="cb418-5"><a href="high-dimensional-visualizations.html#cb418-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mat) <span class="co"># A look at the first rows</span></span></code></pre></div>
-<pre><code>##                   Miles.per.gallon Carburetor Horsepower
-## Mazda RX4                     21.0          4        110
-## Mazda RX4 Wag                 21.0          4        110
-## Datsun 710                    22.8          1         93
-## Hornet 4 Drive                21.4          1        110
-## Hornet Sportabout             18.7          2        175
-## Valiant                       18.1          1        105
-##                   Weight
-## Mazda RX4          2.620
-## Mazda RX4 Wag      2.875
-## Datsun 710         2.320
-## Hornet 4 Drive     3.215
-## Hornet Sportabout  3.440
-## Valiant            3.460</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="high-dimensional-visualizations.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-2"><a href="high-dimensional-visualizations.html#cb1-2" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="st">&quot;mpg&quot;</span>, <span class="st">&quot;carb&quot;</span>, <span class="st">&quot;hp&quot;</span>, <span class="st">&quot;wt&quot;</span>)])</span>
+<span id="cb1-3"><a href="high-dimensional-visualizations.html#cb1-3" tabindex="-1"></a><span class="fu">rownames</span>(mat) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(mtcars)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb1-4"><a href="high-dimensional-visualizations.html#cb1-4" tabindex="-1"></a><span class="fu">colnames</span>(mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Miles.per.gallon&quot;</span>, <span class="st">&quot;Carburetor&quot;</span>, <span class="st">&quot;Horsepower&quot;</span>, <span class="st">&quot;Weight&quot;</span>)</span>
+<span id="cb1-5"><a href="high-dimensional-visualizations.html#cb1-5" tabindex="-1"></a><span class="fu">head</span>(mat) <span class="co"># A look at the first rows</span></span></code></pre></div>
+<pre><code>##                   Miles.per.gallon Carburetor Horsepower Weight
+## Mazda RX4                     21.0          4        110  2.620
+## Mazda RX4 Wag                 21.0          4        110  2.875
+## Datsun 710                    22.8          1         93  2.320
+## Hornet 4 Drive                21.4          1        110  3.215
+## Hornet Sportabout             18.7          2        175  3.440
+## Valiant                       18.1          1        105  3.460</code></pre>
 </div>
-<div id="heatmaps" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Heatmaps</h2>
+<div id="heatmaps" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Heatmaps<a href="high-dimensional-visualizations.html#heatmaps" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Beyond 5 to 10 variables, matrix scatterplots cannot be rendered with enough resolution to be useful. However, <strong>heatmaps</strong> which simply display data matrices as an image by color-coding its entries, become handy. Heatmaps allow visualization of data matrices of up to ca. 1,000 rows and columns (order of magnitude), i.e the pixel resolution of your screen (and maybe of your eyes!).</p>
 <p>To draw heatmaps, we recommend using the library <code>pheatmap</code> (pretty heatmaps), which offers convenient functionalities in particular for clustering (See Section <a href="high-dimensional-visualizations.html#hclust">5.4.2</a>).</p>
 <p>Here is a basic call to <code>pheatmap</code> on our data matrix <code>mat</code>:</p>
-<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="high-dimensional-visualizations.html#cb420-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap) <span class="do">## pretty heatmap</span></span>
-<span id="cb420-2"><a href="high-dimensional-visualizations.html#cb420-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(mat, <span class="at">cluster_rows=</span><span class="cn">FALSE</span>, </span>
-<span id="cb420-3"><a href="high-dimensional-visualizations.html#cb420-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">cluster_cols=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="high-dimensional-visualizations.html#cb3-1" tabindex="-1"></a><span class="fu">library</span>(pheatmap) <span class="do">## pretty heatmap</span></span>
+<span id="cb3-2"><a href="high-dimensional-visualizations.html#cb3-2" tabindex="-1"></a><span class="fu">pheatmap</span>(mat, <span class="at">cluster_rows=</span><span class="cn">FALSE</span>, </span>
+<span id="cb3-3"><a href="high-dimensional-visualizations.html#cb3-3" tabindex="-1"></a>         <span class="at">cluster_cols=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/lec-07-heatmap222-1.png" width="480" /></p>
 <p>Strikingly, the horsepower variable saturates the color scale because horsepower lives in a different scale than the other variables. Consequently, we barely see variations in the other variables.</p>
-<div id="centering-and-scaling-variables" class="section level3" number="5.3.1">
-<h3><span class="header-section-number">5.3.1</span> Centering and scaling variables</h3>
+<div id="centering-and-scaling-variables" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Centering and scaling variables<a href="high-dimensional-visualizations.html#centering-and-scaling-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Bringing variables to a common scale is useful for visualization but also for computational and numerical reasons. Moreover, it makes analysis independent of the units chosen. For instance the <code>mtcars</code> dataset provide car weights in 1,000 pounds and gas consumption in miles per gallon. We would certainly want our analysis to be the same if these variables were expressed with the metric system.</p>
 <p>The widely used operations to bring variables to a same scale are:</p>
 <ul>
@@ -705,8 +698,8 @@ div.csl-indent {
 <p>These operations are implemented in the base R function <code>scale()</code> and are often offered as parameters of other functions. Scaling is usually done for variables (data matrix columns). However, in some application contexts, row-scaling can be considered as well.</p>
 <!--- consider here illustrating with boxplots --->
 <p>With <code>pheatmap</code> we can also scale the data by rows or columns by setting the argument <code>scale</code> accordingly. We do it here in the classical way, by column:</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="high-dimensional-visualizations.html#cb421-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(mat, <span class="at">cluster_rows=</span><span class="cn">FALSE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span>, </span>
-<span id="cb421-2"><a href="high-dimensional-visualizations.html#cb421-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">scale=</span><span class="st">&#39;column&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="high-dimensional-visualizations.html#cb4-1" tabindex="-1"></a><span class="fu">pheatmap</span>(mat, <span class="at">cluster_rows=</span><span class="cn">FALSE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span>, </span>
+<span id="cb4-2"><a href="high-dimensional-visualizations.html#cb4-2" tabindex="-1"></a>         <span class="at">scale=</span><span class="st">&#39;column&#39;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:scaled-heatmap"></span>
 <img src="dataviz_book_files/figure-html/scaled-heatmap-1.png" alt="Scaled heatmap." width="480" />
 <p class="caption">
@@ -716,35 +709,35 @@ Figure 5.1: Scaled heatmap.
 <p>Scaling allows us to appreciate the variation for all variables. The default color scale is centered on 0. Because each column is centered, we find positive (red-ish) and negative (blue-ish) values in each column.</p>
 </div>
 </div>
-<div id="clustering" class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Clustering</h2>
+<div id="clustering" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Clustering<a href="high-dimensional-visualizations.html#clustering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>While all data are rendered in the Figure <a href="high-dimensional-visualizations.html#fig:scaled-heatmap">5.1</a>, it is hard to see a pattern emerging. Which cars are similar to each others? Which variables are similar to each other? Clustering is the task of grouping observations by similarities. Clustering helps finding patterns in data matrices. Clustering can also be applied to variables, by simply applying clustering methods on the transpose of the data matrix.</p>
 <p>There are several clustering algorithms. In the following sections, we explain two widely used clustering methods: K-means clustering and hierarchical clustering.</p>
-<div id="k-means-clustering" class="section level3" number="5.4.1">
-<h3><span class="header-section-number">5.4.1</span> K-Means clustering</h3>
-<div id="objective" class="section level4" number="5.4.1.1">
-<h4><span class="header-section-number">5.4.1.1</span> Objective</h4>
+<div id="k-means-clustering" class="section level3 hasAnchor" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> K-Means clustering<a href="high-dimensional-visualizations.html#k-means-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="objective" class="section level4 hasAnchor" number="5.4.1.1">
+<h4><span class="header-section-number">5.4.1.1</span> Objective<a href="high-dimensional-visualizations.html#objective" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <!-- we use big K and not small k like in the book because we can have small k for the cluster indices-->
-<p>K-Means clustering aims to partition the observations into <span class="math inline">\(K\)</span> non-overlapping clusters. The number of clusters <span class="math inline">\(K\)</span> is predefined. The clusters <span class="math inline">\(C_1,...C_K\)</span> define a partition of the observations, i.e., every observation belongs to one and only one cluster. To this end, one makes use of so-called cluster centroids, denoted <span class="math inline">\(\boldsymbol\mu_1, ..., \boldsymbol\mu_K\)</span>, and associates each observation to its closest centroid (Figure <a href="high-dimensional-visualizations.html#fig:K-means-aim">5.2</a>).</p>
+<p>K-Means clustering aims to partition the observations into <span class="math inline">\(K\)</span> non-overlapping clusters. The number of clusters <span class="math inline">\(K\)</span> is predefined. The clusters <span class="math inline">\(C_1,...C_K\)</span> define a partition of the observations, i.e., every observation belongs to one and only one cluster. To this end, one makes use of so-called cluster centroids, denoted <span class="math inline">\(\bs\mu_1, ..., \bs\mu_K\)</span>, and associates each observation to its closest centroid (Figure <a href="high-dimensional-visualizations.html#fig:K-means-aim">5.2</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:K-means-aim"></span>
 <img src="dataviz_book_files/figure-html/K-means-aim-1.png" alt="K-means clustering partitions observations into K clusters (here K=3) by associating each observation to its closest centroids (crosses)." width="384" />
 <p class="caption">
 Figure 5.2: K-means clustering partitions observations into K clusters (here K=3) by associating each observation to its closest centroids (crosses).
 </p>
 </div>
-<p>Formally, one aims to determine the clusters <span class="math inline">\(C_1,...,C_K\)</span> and the centroids <span class="math inline">\(\boldsymbol\mu_1,...,\boldsymbol\mu_K\)</span> in order to minimize the within-cluster sum of squares:</p>
+<p>Formally, one aims to determine the clusters <span class="math inline">\(C_1,...,C_K\)</span> and the centroids <span class="math inline">\(\bs\mu_1,...,\bs\mu_K\)</span> in order to minimize the within-cluster sum of squares:</p>
 <p><span class="math display" id="eq:K-means-obj">\[\begin{align}
-\min_{C_1,...,C_K, \boldsymbol{\mu}_1,...,\boldsymbol{\mu}_k} \sum_{k=1}^K\sum_{i \in C_k}|| \mathbf x_i -  \boldsymbol{\mu}_k||^2
+\min_{C_1,...,C_K, \bs{\mu}_1,...,\bs{\mu}_k} \sum_{k=1}^K\sum_{i \in C_k}|| \x_i -  \bs{\mu}_k||^2
 \tag{5.1}
 \end{align}\]</span></p>
-<p>where <span class="math inline">\(||\mathbf x_i - \boldsymbol\mu_k||^2 = \sum_{j=1}^p(x_{i,j} - \mu_{k,j})^2\)</span> is the squared Euclidean distance between observation <span class="math inline">\(\mathbf x_i\)</span> (the <span class="math inline">\(i\)</span>-th row vector of the data matrix) and the centroid <span class="math inline">\(\boldsymbol{\mu}_k\)</span>.</p>
+<p>where <span class="math inline">\(||\x_i - \bs\mu_k||^2 = \sum_{j=1}^p(x_{i,j} - \mu_{k,j})^2\)</span> is the squared Euclidean distance between observation <span class="math inline">\(\x_i\)</span> (the <span class="math inline">\(i\)</span>-th row vector of the data matrix) and the centroid <span class="math inline">\(\bs{\mu}_k\)</span>.</p>
 <!-- With the least square criterion, it turns out that the centroid have to be the mean of the observations of their respective clusters. The concept of centroid is more general and could be applied to other optimization function leading for example to medioids, etc. -->
 </div>
-<div id="algorithm" class="section level4" number="5.4.1.2">
-<h4><span class="header-section-number">5.4.1.2</span> Algorithm</h4>
+<div id="algorithm" class="section level4 hasAnchor" number="5.4.1.2">
+<h4><span class="header-section-number">5.4.1.2</span> Algorithm<a href="high-dimensional-visualizations.html#algorithm" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The minimization problem (Equation <a href="high-dimensional-visualizations.html#eq:K-means-obj">(5.1)</a>) is difficult because of the combinatorial number of partitions of <span class="math inline">\(n\)</span> observations into <span class="math inline">\(K\)</span> clusters. However, two useful observations can be made.</p>
-<p>First, if we assume that the positions of the centroids <span class="math inline">\(\boldsymbol\mu_k\)</span> are given, then each summand <span class="math inline">\(|| \mathbf x_i - \boldsymbol{\mu}_k||^2\)</span> in Equation <a href="high-dimensional-visualizations.html#eq:K-means-obj">(5.1)</a> can be minimized by including the observation <span class="math inline">\(\mathbf x_i\)</span> to the cluster of its closest centroid. The number of clusters <span class="math inline">\(K\)</span> depends on the dataset.</p>
-<p>Second, if we now assume that the clusters are given, then the values of the centroids that minimize <span class="math inline">\(\sum_{i \in C_k}|| \mathbf x_i - \boldsymbol{\mu}_k||^2\)</span> are the observation means, i.e. <span class="math inline">\(\boldsymbol\mu_k = \frac{1}{|C_k|}\sum_{i \in C_k} \mathbf x_i\)</span>. Hence, the centroids are the cluster means, giving the name of the algorithm.</p>
+<p>First, if we assume that the positions of the centroids <span class="math inline">\(\bs\mu_k\)</span> are given, then each summand <span class="math inline">\(|| \x_i - \bs{\mu}_k||^2\)</span> in Equation <a href="high-dimensional-visualizations.html#eq:K-means-obj">(5.1)</a> can be minimized by including the observation <span class="math inline">\(\x_i\)</span> to the cluster of its closest centroid. The number of clusters <span class="math inline">\(K\)</span> depends on the dataset.</p>
+<p>Second, if we now assume that the clusters are given, then the values of the centroids that minimize <span class="math inline">\(\sum_{i \in C_k}|| \x_i - \bs{\mu}_k||^2\)</span> are the observation means, i.e. <span class="math inline">\(\bs\mu_k = \frac{1}{|C_k|}\sum_{i \in C_k} \x_i\)</span>. Hence, the centroids are the cluster means, giving the name of the algorithm.</p>
 <p>These two observations lead to an iterative algorithm that provides in practice good solutions, even though it does not guarantee to find the optimal solution.</p>
 <div class="figure"><span style="display:block;" id="fig:K-means-algo"></span>
 <img src="assets/img/kMeansD.png" alt="K-mean algorithm. Source: https://en.wikipedia.org/wiki/K-means_clustering" width="300px" />
@@ -755,16 +748,16 @@ Figure 5.3: K-mean algorithm. Source: <a href="https://en.wikipedia.org/wiki/K-m
 <p><strong>K-Means algorithm</strong> (Figure <a href="high-dimensional-visualizations.html#fig:K-means-algo">5.3</a>)</p>
 <ol style="list-style-type: decimal">
 <li><p>Choose the <span class="math inline">\(K\)</span> initial centroids (one for each cluster). Different methods such as sampling random observations are available for this task.</p></li>
-<li><p>Assign each observation <span class="math inline">\(\mathbf x_i\)</span> to its nearest centroid by computing the Euclidean distance between each observation to each centroid.</p></li>
-<li><p>Update the centroids <span class="math inline">\(\boldsymbol\mu_k\)</span> by taking the mean value of all of the observations assigned to each previous centroid.</p></li>
+<li><p>Assign each observation <span class="math inline">\(\x_i\)</span> to its nearest centroid by computing the Euclidean distance between each observation to each centroid.</p></li>
+<li><p>Update the centroids <span class="math inline">\(\bs\mu_k\)</span> by taking the mean value of all of the observations assigned to each previous centroid.</p></li>
 <li><p>Repeat steps 2 and 3 until the difference between new and former centroids is less than a previously defined threshold.</p></li>
 </ol>
 <p>At every iteration, and at every step 2 and 3, the within-cluster sum of squares (Equation <a href="high-dimensional-visualizations.html#eq:K-means-obj">(5.1)</a>) decreases.</p>
 <p>However, there is no guarantee to reach the optimal solution. In particular, the final clustering depends on the initialization (step 1). To not overly depend on the initialization, the K-means algorithm is typically executed with different random initializations. The clustering with lowest within-cluster sum of squares is then retained.</p>
 </div>
-<div id="considerations-and-drawbacks-of-k-means-clustering" class="section level4" number="5.4.1.3">
-<h4><span class="header-section-number">5.4.1.3</span> Considerations and drawbacks of K-Means clustering</h4>
-<p>We have to make sure that the following assumptions are met when performing k-Means clustering (Figure <a href="high-dimensional-visualizations.html#fig:K-means-fail">5.4</a>, Source: scikit-learn):<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
+<div id="considerations-and-drawbacks-of-k-means-clustering" class="section level4 hasAnchor" number="5.4.1.3">
+<h4><span class="header-section-number">5.4.1.3</span> Considerations and drawbacks of K-Means clustering<a href="high-dimensional-visualizations.html#considerations-and-drawbacks-of-k-means-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We have to make sure that the following assumptions are met when performing k-Means clustering (Figure <a href="high-dimensional-visualizations.html#fig:K-means-fail">5.4</a>, Source: scikit-learn <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>):</p>
 <ul>
 <li>The number of clusters <span class="math inline">\(K\)</span> is properly selected</li>
 <li>The clusters are isotropically distributed, i.e., in each cluster the variables are not correlated and have equal variance</li>
@@ -778,40 +771,38 @@ Figure 5.4: Situations for which K-means fail to retrieve underlying clusters
 </p>
 </div>
 </div>
-<div id="k-means-clustering-in-r" class="section level4" number="5.4.1.4">
-<h4><span class="header-section-number">5.4.1.4</span> K-Means clustering in R</h4>
+<div id="k-means-clustering-in-r" class="section level4 hasAnchor" number="5.4.1.4">
+<h4><span class="header-section-number">5.4.1.4</span> K-Means clustering in R<a href="high-dimensional-visualizations.html#k-means-clustering-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let us now apply K-means to the <code>mat</code> data matrix searching for 2 clusters. This can be easily achieved with the function <code>kmeans()</code>. While not necessary, it is a good idea to scale the variables, in order not to give the variables with larger scales too much importance (by dominating the Euclidean distances). Another way to look at it, is that the scaling reduces to some extent the problem of anisotropic clusters. In the following code, we first scale the data matrix with <code>scale()</code>. We also use the argument <code>nstart</code> of <code>kmeans()</code> to perform multiple random initializations.</p>
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="high-dimensional-visualizations.html#cb422-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb422-2"><a href="high-dimensional-visualizations.html#cb422-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">scale</span>(mat) <span class="co"># use the scaled variables for the clustering</span></span>
-<span id="cb422-3"><a href="high-dimensional-visualizations.html#cb422-3" aria-hidden="true" tabindex="-1"></a>clust_km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(X, k, <span class="at">nstart =</span> <span class="dv">20</span>) <span class="co"># K-means 20 times </span></span>
-<span id="cb422-4"><a href="high-dimensional-visualizations.html#cb422-4" aria-hidden="true" tabindex="-1"></a>clust_km<span class="sc">$</span>cluster <span class="co"># clusters of the best clustering</span></span></code></pre></div>
-<pre><code>##         Mazda RX4     Mazda RX4 Wag        Datsun 710 
-##                 2                 2                 2 
-##    Hornet 4 Drive Hornet Sportabout           Valiant 
-##                 2                 1                 1 
-##        Duster 360         Merc 240D          Merc 230 
-##                 1                 2                 2 
-##          Merc 280 
-##                 1</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="high-dimensional-visualizations.html#cb5-1" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb5-2"><a href="high-dimensional-visualizations.html#cb5-2" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">scale</span>(mat) <span class="co"># use the scaled variables for the clustering</span></span>
+<span id="cb5-3"><a href="high-dimensional-visualizations.html#cb5-3" tabindex="-1"></a>clust_km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(X, k, <span class="at">nstart =</span> <span class="dv">20</span>) <span class="co"># K-means 20 times </span></span>
+<span id="cb5-4"><a href="high-dimensional-visualizations.html#cb5-4" tabindex="-1"></a>clust_km<span class="sc">$</span>cluster <span class="co"># clusters of the best clustering</span></span></code></pre></div>
+<pre><code>##         Mazda RX4     Mazda RX4 Wag        Datsun 710    Hornet 4 Drive 
+##                 2                 2                 2                 2 
+## Hornet Sportabout           Valiant        Duster 360         Merc 240D 
+##                 1                 1                 1                 2 
+##          Merc 230          Merc 280 
+##                 2                 1</code></pre>
 <p>We now update our heatmap with the results of the clustering. We make use of the <code>annotation_row</code> argument of <code>pheatmap()</code> which generates color-coded row annotations on the left side of the heatmap. We furthermore order the rows of the data matrix by cluster.</p>
-<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="high-dimensional-visualizations.html#cb424-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the row annotation data frame</span></span>
-<span id="cb424-2"><a href="high-dimensional-visualizations.html#cb424-2" aria-hidden="true" tabindex="-1"></a>row.ann <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb424-3"><a href="high-dimensional-visualizations.html#cb424-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">kmeans =</span> <span class="fu">paste0</span>(<span class="st">&quot;C&quot;</span>,clust_km<span class="sc">$</span>cluster) <span class="co"># we call the cluster C1,..,CK.</span></span>
-<span id="cb424-4"><a href="high-dimensional-visualizations.html#cb424-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb424-5"><a href="high-dimensional-visualizations.html#cb424-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb424-6"><a href="high-dimensional-visualizations.html#cb424-6" aria-hidden="true" tabindex="-1"></a><span class="co"># rownames are used to match the matrix rows with the row annotation data frame. </span></span>
-<span id="cb424-7"><a href="high-dimensional-visualizations.html#cb424-7" aria-hidden="true" tabindex="-1"></a><span class="co"># We can now safely reorder the rows of X.</span></span>
-<span id="cb424-8"><a href="high-dimensional-visualizations.html#cb424-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(row.ann) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X) </span>
-<span id="cb424-9"><a href="high-dimensional-visualizations.html#cb424-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb424-10"><a href="high-dimensional-visualizations.html#cb424-10" aria-hidden="true" tabindex="-1"></a><span class="co"># o: order of the rows to have increasing cluster number</span></span>
-<span id="cb424-11"><a href="high-dimensional-visualizations.html#cb424-11" aria-hidden="true" tabindex="-1"></a>o <span class="ot">&lt;-</span> <span class="fu">order</span>(clust_km<span class="sc">$</span>cluster) </span>
-<span id="cb424-12"><a href="high-dimensional-visualizations.html#cb424-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb424-13"><a href="high-dimensional-visualizations.html#cb424-13" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(</span>
-<span id="cb424-14"><a href="high-dimensional-visualizations.html#cb424-14" aria-hidden="true" tabindex="-1"></a>  X[o,],        <span class="co"># X with ordered rows according to cluster number  </span></span>
-<span id="cb424-15"><a href="high-dimensional-visualizations.html#cb424-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale=</span><span class="st">&#39;none&#39;</span>, <span class="co"># no need to scale, X is scaled</span></span>
-<span id="cb424-16"><a href="high-dimensional-visualizations.html#cb424-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_row =</span> row.ann,</span>
-<span id="cb424-17"><a href="high-dimensional-visualizations.html#cb424-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows=</span><span class="cn">FALSE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span></span>
-<span id="cb424-18"><a href="high-dimensional-visualizations.html#cb424-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="high-dimensional-visualizations.html#cb7-1" tabindex="-1"></a><span class="co"># create the row annotation data frame</span></span>
+<span id="cb7-2"><a href="high-dimensional-visualizations.html#cb7-2" tabindex="-1"></a>row.ann <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-3"><a href="high-dimensional-visualizations.html#cb7-3" tabindex="-1"></a>  <span class="at">kmeans =</span> <span class="fu">paste0</span>(<span class="st">&quot;C&quot;</span>,clust_km<span class="sc">$</span>cluster) <span class="co"># we call the cluster C1,..,CK.</span></span>
+<span id="cb7-4"><a href="high-dimensional-visualizations.html#cb7-4" tabindex="-1"></a>  )</span>
+<span id="cb7-5"><a href="high-dimensional-visualizations.html#cb7-5" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="high-dimensional-visualizations.html#cb7-6" tabindex="-1"></a><span class="co"># rownames are used to match the matrix rows with the row annotation data frame. </span></span>
+<span id="cb7-7"><a href="high-dimensional-visualizations.html#cb7-7" tabindex="-1"></a><span class="co"># We can now safely reorder the rows of X.</span></span>
+<span id="cb7-8"><a href="high-dimensional-visualizations.html#cb7-8" tabindex="-1"></a><span class="fu">rownames</span>(row.ann) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X) </span>
+<span id="cb7-9"><a href="high-dimensional-visualizations.html#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="high-dimensional-visualizations.html#cb7-10" tabindex="-1"></a><span class="co"># o: order of the rows to have increasing cluster number</span></span>
+<span id="cb7-11"><a href="high-dimensional-visualizations.html#cb7-11" tabindex="-1"></a>o <span class="ot">&lt;-</span> <span class="fu">order</span>(clust_km<span class="sc">$</span>cluster) </span>
+<span id="cb7-12"><a href="high-dimensional-visualizations.html#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="high-dimensional-visualizations.html#cb7-13" tabindex="-1"></a><span class="fu">pheatmap</span>(</span>
+<span id="cb7-14"><a href="high-dimensional-visualizations.html#cb7-14" tabindex="-1"></a>  X[o,],        <span class="co"># X with ordered rows according to cluster number  </span></span>
+<span id="cb7-15"><a href="high-dimensional-visualizations.html#cb7-15" tabindex="-1"></a>  <span class="at">scale=</span><span class="st">&#39;none&#39;</span>, <span class="co"># no need to scale, X is scaled</span></span>
+<span id="cb7-16"><a href="high-dimensional-visualizations.html#cb7-16" tabindex="-1"></a>  <span class="at">annotation_row =</span> row.ann,</span>
+<span id="cb7-17"><a href="high-dimensional-visualizations.html#cb7-17" tabindex="-1"></a>  <span class="at">cluster_rows=</span><span class="cn">FALSE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span></span>
+<span id="cb7-18"><a href="high-dimensional-visualizations.html#cb7-18" tabindex="-1"></a>  )</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:K-mean-heatmap"></span>
 <img src="dataviz_book_files/figure-html/K-mean-heatmap-1.png" alt="Pretty heatmap with K-mean cluster annotation." width="480" />
 <p class="caption">
@@ -821,8 +812,8 @@ Figure 5.5: Pretty heatmap with K-mean cluster annotation.
 <p>Cluster <span class="math inline">\(C_1\)</span> appears to group the heavy, powerful and gas-consuming cars and cluster <span class="math inline">\(C_2\)</span> the light, less powerful and more economic cars.</p>
 </div>
 </div>
-<div id="hclust" class="section level3" number="5.4.2">
-<h3><span class="header-section-number">5.4.2</span> Hierarchical clustering</h3>
+<div id="hclust" class="section level3 hasAnchor" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Hierarchical clustering<a href="high-dimensional-visualizations.html#hclust" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A major limitation of the K-means algorithm is that it relies on a predefined number of clusters. What if the interesting number of clusters is larger or smaller? Hierarchical clustering allows exploring multiple levels of clustering granularity at once by computing nested clusters. It results in a tree-based representation of the observations, called a dendrogram. Figure <a href="high-dimensional-visualizations.html#fig:hc-example">5.6</a> shows an example of a hierarchical clustering using two variables only.</p>
 <!-- this figure will be super helpful as a slide to explain hierarchical clustering -->
 <div class="figure"><span style="display:block;" id="fig:hc-example"></span>
@@ -849,65 +840,63 @@ between these two clusters indicates the height in the dendrogram at which the f
 <li><p>Average: The dissimilarity between cluster A and cluster B is the average dissimilarity between any element of A and any element of B.</p></li>
 <li><p>Centroid: The dissimilarity between cluster A and cluster B is the dissimilarity between the centroids (mean vector) of A and B. Centroid linkage can result in undesirable inversions.</p></li>
 </ul>
-<div id="hierarchical-clustering-in-r" class="section level4" number="5.4.2.1">
-<h4><span class="header-section-number">5.4.2.1</span> Hierarchical clustering in R</h4>
+<div id="hierarchical-clustering-in-r" class="section level4 hasAnchor" number="5.4.2.1">
+<h4><span class="header-section-number">5.4.2.1</span> Hierarchical clustering in R<a href="high-dimensional-visualizations.html#hierarchical-clustering-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>In R, Hierarchical clustering can be performed in two simple steps. First, we compute the distance between observations (rows of a <code>data.table</code>) across variables (columns of a <code>data.table</code>) with the help of the function <code>dist()</code>. Here, the Euclidean distance between rows is computed by default. Alternatives include the Manhattan or Minkowski distance. As for K-means, it is recommended to work on scaled variables to not give too much importance to variables with large variance. We therefore compute the pairwise Euclidean distance to our scaled data matrix <code>X</code>. Second, we use the resulting Euclidean distance matrix as a dissimilarity matrix to perform Hierarchical clustering with the help of the function <code>hclust()</code>. We use here the default linkage rule (complete).</p>
-<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="high-dimensional-visualizations.html#cb425-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dist</span>(X) <span class="co"># compute distance matrix with default (Euclidean)</span></span>
-<span id="cb425-2"><a href="high-dimensional-visualizations.html#cb425-2" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d) <span class="co"># apply hierarchical clustering with default (complete linkage rule)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="high-dimensional-visualizations.html#cb8-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dist</span>(X) <span class="co"># compute distance matrix with default (Euclidean)</span></span>
+<span id="cb8-2"><a href="high-dimensional-visualizations.html#cb8-2" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d) <span class="co"># apply hierarchical clustering with default (complete linkage rule)</span></span></code></pre></div>
 <p>The results of hierarchical clustering can be shown using a dendrogram (i.e., a tree representation). Here, observations that are determined to be similar by the clustering algorithm are displayed close to each other in the <code>x</code>-axis. The height in the dendrogram at which two clusters are merged represents the distance between those two clusters.</p>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="high-dimensional-visualizations.html#cb426-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc, <span class="at">hang=</span><span class="sc">-</span><span class="dv">1</span>) <span class="co"># hang=-1 align observation labels at the bottom of the dendrogram</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="high-dimensional-visualizations.html#cb9-1" tabindex="-1"></a><span class="fu">plot</span>(hc, <span class="at">hang=</span><span class="sc">-</span><span class="dv">1</span>) <span class="co"># hang=-1 align observation labels at the bottom of the dendrogram</span></span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/lec-07-hclust-1.png" width="480" /></p>
 </div>
-<div id="pretty-heatmaps-including-hierarchical-clustering" class="section level4" number="5.4.2.2">
-<h4><span class="header-section-number">5.4.2.2</span> Pretty heatmaps including hierarchical clustering</h4>
+<div id="pretty-heatmaps-including-hierarchical-clustering" class="section level4 hasAnchor" number="5.4.2.2">
+<h4><span class="header-section-number">5.4.2.2</span> Pretty heatmaps including hierarchical clustering<a href="high-dimensional-visualizations.html#pretty-heatmaps-including-hierarchical-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>As illustrated before, the library <code>pheatmap</code> enables the easy creation of heatmaps. In the previous example, we set the parameters <code>cluster_rows</code> and <code>cluster_cols</code> to <code>FALSE</code> to avoid the default computation of hierarchical clustering. If we want to include hierarchical clustering, we can simply set these parameters to <code>TRUE</code> or let R consider its default values.</p>
-<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="high-dimensional-visualizations.html#cb427-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(X, <span class="at">cluster_rows=</span><span class="cn">TRUE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="st">&#39;none&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="high-dimensional-visualizations.html#cb10-1" tabindex="-1"></a><span class="fu">pheatmap</span>(X, <span class="at">cluster_rows=</span><span class="cn">TRUE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="st">&#39;none&#39;</span>)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/lec-07111-heatmap-1.png" width="480" /></p>
 <p>Compared to K-means (Figure <a href="high-dimensional-visualizations.html#fig:K-mean-heatmap">5.5</a>), the hierarchical clustering shows useful different degrees of granularity of the clusters. We see the most similar cars grouping together (the Mercedes 230 and the Mercedes 240D, as well as the Mazda RX4 and the Mazda RX4 Wag). At the high level, the Duster 360 stands out as an outlier.</p>
 </div>
-<div id="cutting-the-tree" class="section level4" number="5.4.2.3">
-<h4><span class="header-section-number">5.4.2.3</span> Cutting the tree</h4>
+<div id="cutting-the-tree" class="section level4 hasAnchor" number="5.4.2.3">
+<h4><span class="header-section-number">5.4.2.3</span> Cutting the tree<a href="high-dimensional-visualizations.html#cutting-the-tree" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>After having inspected the result of a hierarchical clustering, it is often interesting to define distinct clusters by cutting the dendrogram at a certain height.</p>
 <p>Typically, one cuts dendrogram either at a given height, or in order to obtain a certain number of clusters. The function <code>cutree(tree, k = NULL, h = NULL)</code> supports both options. Here is an example of cutting the dendrogram to get 3 clusters.</p>
-<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="high-dimensional-visualizations.html#cb428-1" aria-hidden="true" tabindex="-1"></a>clust_hc <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc, <span class="at">k=</span><span class="dv">3</span>)</span>
-<span id="cb428-2"><a href="high-dimensional-visualizations.html#cb428-2" aria-hidden="true" tabindex="-1"></a>clust_hc</span></code></pre></div>
-<pre><code>##         Mazda RX4     Mazda RX4 Wag        Datsun 710 
-##                 1                 1                 1 
-##    Hornet 4 Drive Hornet Sportabout           Valiant 
-##                 2                 2                 2 
-##        Duster 360         Merc 240D          Merc 230 
-##                 3                 1                 1 
-##          Merc 280 
-##                 2</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="high-dimensional-visualizations.html#cb11-1" tabindex="-1"></a>clust_hc <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc, <span class="at">k=</span><span class="dv">3</span>)</span>
+<span id="cb11-2"><a href="high-dimensional-visualizations.html#cb11-2" tabindex="-1"></a>clust_hc</span></code></pre></div>
+<pre><code>##         Mazda RX4     Mazda RX4 Wag        Datsun 710    Hornet 4 Drive 
+##                 1                 1                 1                 2 
+## Hornet Sportabout           Valiant        Duster 360         Merc 240D 
+##                 2                 2                 3                 1 
+##          Merc 230          Merc 280 
+##                 1                 2</code></pre>
 </div>
-<div id="differences-between-k-means-and-hierarchical-clustering" class="section level4" number="5.4.2.4">
-<h4><span class="header-section-number">5.4.2.4</span> Differences between K-Means and hierarchical clustering</h4>
+<div id="differences-between-k-means-and-hierarchical-clustering" class="section level4 hasAnchor" number="5.4.2.4">
+<h4><span class="header-section-number">5.4.2.4</span> Differences between K-Means and hierarchical clustering<a href="high-dimensional-visualizations.html#differences-between-k-means-and-hierarchical-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Both K-means and hierarchical clustering are well established and widely used. Here, we briefly state a few differences that may be considered when deciding which algorithm to apply in practice.</p>
 <p>The time complexity of K-Means clustering is linear, while that of hierarchical clustering is quadratic. This implies that hierarchical clustering can not handle extremely large datasets as efficiently as K-Means clustering.</p>
 <p>In K-Means clustering, we start with a random choice of centroids for each cluster. Hence, the results produced by the algorithm depend on the initialization. Therefore, the results might differ when running the algorithm multiple times. Hierarchical clustering outputs reproducible results.</p>
 <p>Another difference is that K-Means clustering requires the number of clusters a priori. In contrast, the number of clusters we find appropriate in hierarchical clustering can be decided a posteriori by interpreting the dendrogram.</p>
 </div>
 </div>
-<div id="comparing-clusterings-with-the-rand-index" class="section level3" number="5.4.3">
-<h3><span class="header-section-number">5.4.3</span> Comparing clusterings with the Rand index</h3>
+<div id="comparing-clusterings-with-the-rand-index" class="section level3 hasAnchor" number="5.4.3">
+<h3><span class="header-section-number">5.4.3</span> Comparing clusterings with the Rand index<a href="high-dimensional-visualizations.html#comparing-clusterings-with-the-rand-index" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let us first visualize the outcome of K-means and of the hierarchical clustering cut for 3 clusters thanks to the row annotation option of <code>pheatmap</code>.</p>
-<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="high-dimensional-visualizations.html#cb430-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the row annotation data frame</span></span>
-<span id="cb430-2"><a href="high-dimensional-visualizations.html#cb430-2" aria-hidden="true" tabindex="-1"></a>row.ann <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb430-3"><a href="high-dimensional-visualizations.html#cb430-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">kmeans =</span> <span class="fu">paste0</span>(<span class="st">&quot;C&quot;</span>,clust_km<span class="sc">$</span>cluster),</span>
-<span id="cb430-4"><a href="high-dimensional-visualizations.html#cb430-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">hc =</span> <span class="fu">paste0</span>(<span class="st">&quot;C&quot;</span>,clust_hc)</span>
-<span id="cb430-5"><a href="high-dimensional-visualizations.html#cb430-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb430-6"><a href="high-dimensional-visualizations.html#cb430-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb430-7"><a href="high-dimensional-visualizations.html#cb430-7" aria-hidden="true" tabindex="-1"></a><span class="co"># rownames are used to match the matrix rows with the row annotation data frame. </span></span>
-<span id="cb430-8"><a href="high-dimensional-visualizations.html#cb430-8" aria-hidden="true" tabindex="-1"></a><span class="co"># We can now safely reorder the rows of X.</span></span>
-<span id="cb430-9"><a href="high-dimensional-visualizations.html#cb430-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(row.ann) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X) </span>
-<span id="cb430-10"><a href="high-dimensional-visualizations.html#cb430-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb430-11"><a href="high-dimensional-visualizations.html#cb430-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(</span>
-<span id="cb430-12"><a href="high-dimensional-visualizations.html#cb430-12" aria-hidden="true" tabindex="-1"></a>  X,        </span>
-<span id="cb430-13"><a href="high-dimensional-visualizations.html#cb430-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale=</span><span class="st">&#39;none&#39;</span>, <span class="co"># no need to scale, X is scaled</span></span>
-<span id="cb430-14"><a href="high-dimensional-visualizations.html#cb430-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_row =</span> row.ann,</span>
-<span id="cb430-15"><a href="high-dimensional-visualizations.html#cb430-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows=</span><span class="cn">TRUE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span></span>
-<span id="cb430-16"><a href="high-dimensional-visualizations.html#cb430-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-247-1.png" width="576" /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="high-dimensional-visualizations.html#cb13-1" tabindex="-1"></a><span class="co"># create the row annotation data frame</span></span>
+<span id="cb13-2"><a href="high-dimensional-visualizations.html#cb13-2" tabindex="-1"></a>row.ann <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-3"><a href="high-dimensional-visualizations.html#cb13-3" tabindex="-1"></a>  <span class="at">kmeans =</span> <span class="fu">paste0</span>(<span class="st">&quot;C&quot;</span>,clust_km<span class="sc">$</span>cluster),</span>
+<span id="cb13-4"><a href="high-dimensional-visualizations.html#cb13-4" tabindex="-1"></a>  <span class="at">hc =</span> <span class="fu">paste0</span>(<span class="st">&quot;C&quot;</span>,clust_hc)</span>
+<span id="cb13-5"><a href="high-dimensional-visualizations.html#cb13-5" tabindex="-1"></a>  )</span>
+<span id="cb13-6"><a href="high-dimensional-visualizations.html#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="high-dimensional-visualizations.html#cb13-7" tabindex="-1"></a><span class="co"># rownames are used to match the matrix rows with the row annotation data frame. </span></span>
+<span id="cb13-8"><a href="high-dimensional-visualizations.html#cb13-8" tabindex="-1"></a><span class="co"># We can now safely reorder the rows of X.</span></span>
+<span id="cb13-9"><a href="high-dimensional-visualizations.html#cb13-9" tabindex="-1"></a><span class="fu">rownames</span>(row.ann) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(X) </span>
+<span id="cb13-10"><a href="high-dimensional-visualizations.html#cb13-10" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="high-dimensional-visualizations.html#cb13-11" tabindex="-1"></a><span class="fu">pheatmap</span>(</span>
+<span id="cb13-12"><a href="high-dimensional-visualizations.html#cb13-12" tabindex="-1"></a>  X,        </span>
+<span id="cb13-13"><a href="high-dimensional-visualizations.html#cb13-13" tabindex="-1"></a>  <span class="at">scale=</span><span class="st">&#39;none&#39;</span>, <span class="co"># no need to scale, X is scaled</span></span>
+<span id="cb13-14"><a href="high-dimensional-visualizations.html#cb13-14" tabindex="-1"></a>  <span class="at">annotation_row =</span> row.ann,</span>
+<span id="cb13-15"><a href="high-dimensional-visualizations.html#cb13-15" tabindex="-1"></a>  <span class="at">cluster_rows=</span><span class="cn">TRUE</span>, <span class="at">cluster_cols=</span><span class="cn">FALSE</span></span>
+<span id="cb13-16"><a href="high-dimensional-visualizations.html#cb13-16" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-7-1.png" width="576" /></p>
 <p>Comparing clustering results is a challenging task. When clustering into two groups, we could use evaluation measures from classification, which we will introduce later. Moving from two partitions of the data into arbitrarily many groups requires new ideas.</p>
 <p>We remark that a partition is, in our context, the result from a clustering algorithm and, therefore, the divided dataset into clusters. Generally, two partitions (from different clustering algorithms) are considered to be similar when many pairs of points are grouped together in both partitions.</p>
 <p>The Rand index is a measure of the similarity between two partitions. Formally, we introduce the following definitions:</p>
@@ -923,90 +912,95 @@ between these two clusters indicates the height in the dendrogram at which the f
 <span class="math display">\[R = \frac{a + b}{ {n\choose 2} } \]</span></p>
 <p>where <span class="math inline">\({n}\choose{k}\)</span> (reads “n choose 2”), the binomial coefficient for <span class="math inline">\(k=2\)</span>, is the number of pairs of observations and is equal to:</p>
 <p><span class="math display">\[{{n}\choose{2}} = \frac{(n-1) \cdot n }{2}. \]</span></p>
-<div id="properties-of-the-rand-index" class="section level4" number="5.4.3.1">
-<h4><span class="header-section-number">5.4.3.1</span> Properties of the Rand index</h4>
+<div id="properties-of-the-rand-index" class="section level4 hasAnchor" number="5.4.3.1">
+<h4><span class="header-section-number">5.4.3.1</span> Properties of the Rand index<a href="high-dimensional-visualizations.html#properties-of-the-rand-index" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>By definition, the Rand index has values between 0 and 1, including them. A Rand index of 1 means that all pairs that are in the same cluster in the partition <span class="math inline">\(X\)</span> are also in the same cluster in the partition <span class="math inline">\(Y\)</span> <strong>and</strong> all pairs that are not in the same cluster in <span class="math inline">\(X\)</span> are also not in the same cluster in <span class="math inline">\(Y\)</span>. Hence, the two partitions are identical with a Rand index of 1. In general, the higher the Rand index, the more similar are both partitions.</p>
 </div>
-<div id="application-of-the-rand-index" class="section level4" number="5.4.3.2">
-<h4><span class="header-section-number">5.4.3.2</span> Application of the Rand index</h4>
+<div id="application-of-the-rand-index" class="section level4 hasAnchor" number="5.4.3.2">
+<h4><span class="header-section-number">5.4.3.2</span> Application of the Rand index<a href="high-dimensional-visualizations.html#application-of-the-rand-index" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We can compute the Rand index between our k-means result and the cut of the hierarchical clustering for a given number of groups. See exercise sheet.
 <!-- would be great to show it for K-means and the hclust--></p>
 </div>
 </div>
 </div>
-<div id="dimensionality-reduction-with-pca" class="section level2" number="5.5">
-<h2><span class="header-section-number">5.5</span> Dimensionality reduction with PCA</h2>
+<div id="dimensionality-reduction-with-pca" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Dimensionality reduction with PCA<a href="high-dimensional-visualizations.html#dimensionality-reduction-with-pca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A heatmap is a visualization method of choice for data matrices as long as rows and columns are visually resolved because it satisfies the two main data visualization principles, i.e.,: i) having a high data/ink ratio and ii) showing the data as raw as possible.</p>
 <p>However, beyond dimensions exceeding the thousands of variables, dimension reduction techniques are needed. The idea of dimension reduction is simple: if the dimension of our data <span class="math inline">\(p\)</span> is too large, let us consider instead a representation of lower dimension <span class="math inline">\(q\)</span> which retains much of the information of the dataset.</p>
 <p>For Principal Component Analysis (Pearson, 1901), this representation is <em>the projection of the data on the subspace of dimension <span class="math inline">\(q\)</span> that is closest to the data according to the sums of the squared Euclidean distances.</em></p>
 <p>Principal Component Analysis is not only the mother of all data reduction techniques but also still widely used. PCA enjoys several noticeable statistical properties which we will now look at.</p>
-<div id="a-minimal-pca-from-2d-to-1d" class="section level3" number="5.5.1">
-<h3><span class="header-section-number">5.5.1</span> A minimal PCA: From 2D to 1D</h3>
+<div id="a-minimal-pca-from-2d-to-1d" class="section level3 hasAnchor" number="5.5.1">
+<h3><span class="header-section-number">5.5.1</span> A minimal PCA: From 2D to 1D<a href="high-dimensional-visualizations.html#a-minimal-pca-from-2d-to-1d" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To get an intuition of PCA, let us consider reducing a 2-dimensional dataset into a single dimension. This application has no visualization purposes but could help defining a linear combination of two variables into an aggregated score. For example, one can want to summarize the weight and horsepower of the cars into a single score.</p>
-<div id="definition-of-the-first-principal-component" class="section level4" number="5.5.1.1">
-<h4><span class="header-section-number">5.5.1.1</span> Definition of the first principal component</h4>
+<div id="definition-of-the-first-principal-component" class="section level4 hasAnchor" number="5.5.1.1">
+<h4><span class="header-section-number">5.5.1.1</span> Definition of the first principal component<a href="high-dimensional-visualizations.html#definition-of-the-first-principal-component" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Geometrically, we search for a line lying as close as possible to the data, in the sense of least squared Euclidean distances.</p>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-248-1.png" width="288" /></p>
-<p>We will assume all variables to be centered and admit the line passes therefore through the origin. Let us denote <span class="math inline">\(\mathbf w\)</span> a direction vector of the line of length 1.</p>
-<p>The closest point on the line to the observation vector <span class="math inline">\(\mathbf x_i\)</span> is its orthogonal projection <span class="math inline">\(p_{\top}(\mathbf x_i)\)</span> which is equal to the scalar product of the direction vector and the observation vector, times the direction vector:</p>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-8-1.png" width="288" /></p>
+<p>We will assume all variables to be centered and admit the line passes therefore through the origin. Let us denote <span class="math inline">\(\w\)</span> a direction vector of the line of length 1.</p>
+<p>The closest point on the line to the observation vector <span class="math inline">\(\x_i\)</span> is its orthogonal projection <span class="math inline">\(p_{\top}(\x_i)\)</span> which is equal to the scalar product of the direction vector and the observation vector, times the direction vector:</p>
 <p><span class="math display">\[\begin{align}
-p_{\top}(\mathbf x_i) &amp;= (\mathbf w^\top\mathbf x_i)\mathbf w
+p_{\top}(\x_i) &amp;= (\w^\top\x_i)\w
 \end{align}\]</span></p>
-<p>Hence, we look for <span class="math inline">\(\mathbf w\)</span> such that:</p>
+<p>Hence, we look for <span class="math inline">\(\w\)</span> such that:</p>
 <p><span class="math display" id="eq:PCA-min">\[\begin{align}
-\min_{\mathbf w} &amp; \sum_{i=1}^n || \mathbf x_i - (\mathbf w^\top\mathbf x_i)\mathbf w||^2 \\
-\text{subject to} &amp; ||\mathbf w||=1
+\min_{\w} &amp; \sum_{i=1}^n || \x_i - (\w^\top\x_i)\w ||^2 \\
+\text{subject to} &amp; ||\w||=1
 \tag{5.2}
 \end{align}\]</span></p>
-<p>There is typically a unique solution to this optimization problem (up to a sign). This direction vector <span class="math inline">\(\mathbf w\)</span> is called the <em>first principal component</em> (PC1) of the data.</p>
+<p>There is typically a unique solution to this optimization problem (up to a sign). This direction vector <span class="math inline">\(\w\)</span> is called the <em>first principal component</em> (PC1) of the data.</p>
 </div>
-<div id="pc1-maximizes-the-variance-of-the-projected-data" class="section level4" number="5.5.1.2">
-<h4><span class="header-section-number">5.5.1.2</span> PC1 maximizes the variance of the projected data</h4>
-<p>We defined PC1 with a minimization problem (Equation <a href="high-dimensional-visualizations.html#eq:PCA-min">(5.2)</a>). One can also see it as a maximization problem. To this end, consider the orthogonal triangle defined by an observation vector <span class="math inline">\(\mathbf x_i\)</span>, its projection <span class="math inline">\(p_{\top}(\mathbf x_i)\)</span>, and the origin. Pythagoras’ theorem implies that:</p>
+<div id="pc1-maximizes-the-variance-of-the-projected-data" class="section level4 hasAnchor" number="5.5.1.2">
+<h4><span class="header-section-number">5.5.1.2</span> PC1 maximizes the variance of the projected data<a href="high-dimensional-visualizations.html#pc1-maximizes-the-variance-of-the-projected-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We defined PC1 with a minimization problem (Equation <a href="high-dimensional-visualizations.html#eq:PCA-min">(5.2)</a>). One can also see it as a maximization problem. To this end, consider the orthogonal triangle defined by an observation vector <span class="math inline">\(\x_i\)</span>, its projection <span class="math inline">\(p_{\top}(\x_i)\)</span>, and the origin. Pythagoras’ theorem implies that:</p>
 <p><span class="math display">\[\begin{align}
-||\mathbf x_i||^2 = ||p_{\top}(\mathbf x_i)||^2 +  || \mathbf x- p_{\top}(\mathbf x_i) ||^2
+||\x_i||^2 = ||p_{\top}(\x_i)||^2 +  || \x - p_{\top}(\x_i) ||^2
 \end{align}\]</span></p>
-<p>Over the entire dataset, the sum of the <span class="math inline">\(||\mathbf x_i||^2\)</span> is constant independently of the choice of <span class="math inline">\(\mathbf w\)</span>. Therefore minimization problem Equation <a href="high-dimensional-visualizations.html#eq:PCA-min">(5.2)</a> is equivalent to:</p>
+<p>Over the entire dataset, the sum of the <span class="math inline">\(||\x_i||^2\)</span> is constant independently of the choice of <span class="math inline">\(\w\)</span>. Therefore minimization problem Equation <a href="high-dimensional-visualizations.html#eq:PCA-min">(5.2)</a> is equivalent to:</p>
 <p><span class="math display" id="eq:PCA-max">\[\begin{align}
-\max_{\mathbf w} &amp; \sum_{i=1}^n ||p_{\top}(\mathbf x_i)||^2 \\
-\text{subject to} &amp; ||\mathbf w||=1
+\max_{\w} &amp; \sum_{i=1}^n ||p_{\top}(\x_i)||^2 \\
+\text{subject to} &amp; ||\w||=1
 \tag{5.3}
 \end{align}\]</span></p>
 <p>As we have centered the data, the origin is the mean of the data. Hence the sum of squared norms of the observation vectors is <span class="math inline">\(n\)</span> times their total variance. By linearity, the origin is also the mean of the projected data and thus:</p>
-<p><span class="math display">\[\sum_i||p_{\top}(\mathbf x_i)||^2 = n \operatorname{Var}(p_{\top}(\mathbf X))\]</span>
+<p><span class="math display">\[\sum_i||p_{\top}(\x_i)||^2 = n \Var(p_{\top}(\X))\]</span>
 Hence, one can equivalently consider that PC1 maximizes the variance of the projected data.</p>
 <p><strong>Result</strong> PC1 maximizes the variance of the projected data.</p>
 <p>The <em>proportion of variance</em> captured by PC1 is defined as the ratio of the variance of the projected data over the total variance of the data. It is a proportion, hence lies between 0 and 1. The higher it is, the smaller the sum of squared distances, the closer the line is to the data. The proportion of variance hence quantifies how good our dimension reduction is.</p>
 </div>
 </div>
-<div id="pca-in-higher-dimensions" class="section level3" number="5.5.2">
-<h3><span class="header-section-number">5.5.2</span> PCA in higher dimensions</h3>
+<div id="pca-in-higher-dimensions" class="section level3 hasAnchor" number="5.5.2">
+<h3><span class="header-section-number">5.5.2</span> PCA in higher dimensions<a href="high-dimensional-visualizations.html#pca-in-higher-dimensions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In the general case, with <span class="math inline">\(p\)</span> variables and <span class="math inline">\(n\)</span> observations, one searches for the <span class="math inline">\(q\)</span>-dimensional plane that is closest to the data in terms of sums of squared Euclidean distances. This is also the <span class="math inline">\(q\)</span>-dimensional plane that maximizes the variance of the projected data.</p>
 <p>An important property relates principal components to the eigendecomposition of the covariance matrix.</p>
-<p>The covariance matrix is <span class="math inline">\(\frac{1}{n}\mathbf X^{\top}\mathbf X\)</span>. It is a symmetric positive matrix. We denote <span class="math inline">\(\mathbf w_1,...,\mathbf w_j,...\)</span> its eigenvectors ordered by decreasing eigenvalues <span class="math inline">\(\lambda_1 &gt;...&gt; \lambda_j&gt;...\)</span>.</p>
+<p>The covariance matrix is <span class="math inline">\(\frac{1}{n}\X^{\top}\X\)</span>. It is a symmetric positive matrix. We denote <span class="math inline">\(\w_1,...,\w_j,...\)</span> its eigenvectors ordered by decreasing eigenvalues <span class="math inline">\(\lambda_1 &gt;...&gt; \lambda_j&gt;...\)</span>.</p>
 <p><strong>Result</strong>. The PCA <span class="math inline">\(q\)</span>-dimensional plane, i.e., the <span class="math inline">\(q\)</span>-dimensional plane that is closest to the data in terms of sums of squared Euclidean distances, is the plane spanned by the first <span class="math inline">\(q\)</span> eigenvectors of the covariance matrix.</p>
 <p><strong>Result</strong>. The variance explained by the PCA <span class="math inline">\(q\)</span>-dimensional plane equals to the sum of the <span class="math inline">\(q\)</span> first eigenvalues of the covariance matrix.</p>
-<p>See <span class="citation"><a href="#ref-bishop2007" role="doc-biblioref">Bishop</a> (<a href="#ref-bishop2007" role="doc-biblioref">2007</a>)</span> for proofs.</p>
+<p>See <span class="citation">Bishop (<a href="#ref-bishop2007">2007</a>)</span> for proofs.</p>
 <p>These results have several implications:</p>
 <ul>
 <li><p>The PCA planes are nested: the PCA 2D-plane contains PC1, the PCA 3D-plane contains the PCA 2D-plane, etc.</p></li>
 <li><p>We call second principal component (PC2) the second eigenvector of the covariance matrix, etc.</p></li>
 <li><p>The principal components are linearly uncorrelated. This is because the eigenvectors of a positive matrix are orthogonal to each other. If <span class="math inline">\(n&gt;p\)</span> (more observation than variables) the PCs form an orthonormal basis.</p></li>
 </ul>
-<p>A 3D interactive illustration of PCA is available at [<a href="http://www.joyofdata.de/public/pca-3d/" class="uri">http://www.joyofdata.de/public/pca-3d/</a>].</p>
+<p>A 3D illustration of PCA is available at [<a href="https://setosa.io/ev/principal-component-analysis/" class="uri">https://setosa.io/ev/principal-component-analysis/</a>].</p>
 </div>
-<div id="pca-in-r" class="section level3" number="5.5.3">
-<h3><span class="header-section-number">5.5.3</span> PCA in R</h3>
+<div id="pca-in-r" class="section level3 hasAnchor" number="5.5.3">
+<h3><span class="header-section-number">5.5.3</span> PCA in R<a href="high-dimensional-visualizations.html#pca-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>PCA can be easily performed in R by using the built-in function <code>prcomp()</code>.</p>
 <p>In most applications, scaling the data beforehand is important. Because PCA is based on minimizing squared Euclidean distances, scaling allows to not give too much importance to variables living on larger scales than the other ones. Be careful: for legacy reasons, the default of <code>prcomp</code> is to <strong>not</strong> scale the variables.</p>
 <p>In the following examples, we perform PCA on our <code>mat</code> dataset. We set the two arguments <code>scale</code> and <code>center</code> to <code>TRUE</code> so that the data is first centered and scaled before performing PCA.</p>
-<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="high-dimensional-visualizations.html#cb431-1" aria-hidden="true" tabindex="-1"></a>pca_res <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(mat, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb431-2"><a href="high-dimensional-visualizations.html#cb431-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pca_res)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="high-dimensional-visualizations.html#cb15-1" tabindex="-1"></a>pca_res <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(mat, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb15-2"><a href="high-dimensional-visualizations.html#cb15-2" tabindex="-1"></a><span class="fu">names</span>(pca_res)</span></code></pre></div>
 <pre><code>## [1] &quot;sdev&quot;     &quot;rotation&quot; &quot;center&quot;   &quot;scale&quot;    &quot;x&quot;</code></pre>
 <p>The output can be stored in <code>pca_res</code>, which contains information about the center point (<code>center</code>), scaling (<code>scale</code>), standard deviation (<code>sdev</code>) of each principal component, as well as the values of each sample in terms of the principal components (<code>x</code>) and the relationship between the initial variables and the principal components (<code>rotation</code>).</p>
 <p>An overview of the PCA result can be obtained with the function <code>summary()</code>, which describes the standard deviation, proportion of variance and cumulative proportion of variance of each of the resulting principal components (<code>PC1</code>, <code>PC2</code>, …). We remark that the cumulative proportion is always equal to one for the last principal component.</p>
-<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="high-dimensional-visualizations.html#cb433-1" aria-hidden="true" tabindex="-1"></a>pca_sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(pca_res)</span>
-<span id="cb433-2"><a href="high-dimensional-visualizations.html#cb433-2" aria-hidden="true" tabindex="-1"></a>pca_sum</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="high-dimensional-visualizations.html#cb17-1" tabindex="-1"></a>pca_sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(pca_res)</span>
+<span id="cb17-2"><a href="high-dimensional-visualizations.html#cb17-2" tabindex="-1"></a>pca_sum</span></code></pre></div>
 <pre><code>## Importance of components:
 ##                          PC1    PC2    PC3    PC4
 ## Standard deviation     1.586 0.9664 0.6737 0.3105
@@ -1014,55 +1008,44 @@ Hence, one can equivalently consider that PC1 maximizes the variance of the proj
 ## Cumulative Proportion  0.629 0.8624 0.9759 1.0000</code></pre>
 <p>In this example, the first principal component explains 62.9% of the total variance and the second one 23.35%. So, just <code>PC1</code> and <code>PC2</code> can explain approximately 86.24% of the total variance.</p>
 </div>
-<div id="plotting-pca-results-in-r" class="section level3" number="5.5.4">
-<h3><span class="header-section-number">5.5.4</span> Plotting PCA results in R</h3>
+<div id="plotting-pca-results-in-r" class="section level3 hasAnchor" number="5.5.4">
+<h3><span class="header-section-number">5.5.4</span> Plotting PCA results in R<a href="high-dimensional-visualizations.html#plotting-pca-results-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Plotting the results of PCA is particularly important. The so-called <strong>scree plot</strong> is a good first step for visualizing the PCA output, since it may be used as a diagnostic tool to check whether the PCA worked well on the selected dataset or not.</p>
-<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="high-dimensional-visualizations.html#cb435-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_res, <span class="at">type=</span><span class="st">&#39;l&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="high-dimensional-visualizations.html#cb19-1" tabindex="-1"></a><span class="fu">plot</span>(pca_res, <span class="at">type=</span><span class="st">&#39;l&#39;</span>)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/lec-07-scree_plot-1.png" width="384" /></p>
 <p>The scree plot shows the variance in each projected direction. The y-axis contains the eigenvalues, which essentially stand for the amount of variation. We can use a scree plot to select the principal components to keep. If the scree plot has an ‘elbow’ shape, it can be used to decide how many principal components to use for further analysis. For example, we may achieve dimensionality reduction by transforming the original four dimensional data (first four variables of <code>mtcars</code>) to a two-dimensional space by using the first two principal components.</p>
 <p>A variant of the scree plot can be considered by plotting the proportion of the total variance for every principal component.</p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="high-dimensional-visualizations.html#cb436-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_sum<span class="sc">$</span>importance[<span class="dv">2</span>,], <span class="at">type=</span><span class="st">&#39;l&#39;</span>,</span>
-<span id="cb436-2"><a href="high-dimensional-visualizations.html#cb436-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&#39;Principal components&#39;</span>, <span class="at">ylab=</span><span class="st">&quot;Proportion of total variance&quot;</span>)</span>
-<span id="cb436-3"><a href="high-dimensional-visualizations.html#cb436-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(pca_sum<span class="sc">$</span>importance[<span class="dv">2</span>,])</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="high-dimensional-visualizations.html#cb20-1" tabindex="-1"></a><span class="fu">plot</span>(pca_sum<span class="sc">$</span>importance[<span class="dv">2</span>,], <span class="at">type=</span><span class="st">&#39;l&#39;</span>,</span>
+<span id="cb20-2"><a href="high-dimensional-visualizations.html#cb20-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&#39;Principal components&#39;</span>, <span class="at">ylab=</span><span class="st">&quot;Proportion of total variance&quot;</span>)</span>
+<span id="cb20-3"><a href="high-dimensional-visualizations.html#cb20-3" tabindex="-1"></a><span class="fu">points</span>(pca_sum<span class="sc">$</span>importance[<span class="dv">2</span>,])</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/lec-07-scree-plot-variant-1.png" width="384" /></p>
 <p>The <strong>biplot</strong> shows the projection of the data on the first two principal components. It includes both the position of each sample in terms of <code>PC1</code> and <code>PC2</code> and also shows how the initial variables map onto this. The correlation between variables can be derived from the angle between the vectors. Here, a small angle is related to a high correlation.</p>
-<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="high-dimensional-visualizations.html#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(pca_res)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="high-dimensional-visualizations.html#cb21-1" tabindex="-1"></a><span class="fu">biplot</span>(pca_res)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/lec-07-biplot-1.png" width="864" /></p>
 <p>We can access the projection of the original data on the principal components by using the function <code>predict</code> as follows:</p>
-<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="high-dimensional-visualizations.html#cb438-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(pca_res)</span></code></pre></div>
-<pre><code>##                          PC1        PC2         PC3
-## Mazda RX4         -0.4683249  1.6182751  0.17530341
-## Mazda RX4 Wag     -0.1906974  1.2697111 -0.25876251
-## Datsun 710        -2.0776213  0.2274096  1.35795888
-## Hornet 4 Drive    -0.6221540 -1.0190504  0.13515892
-## Hornet Sportabout  1.1556918 -0.7385145  0.28778404
-## Valiant            0.2672733 -1.4381382  0.01578234
-## Duster 360         3.4765710  0.2447894  0.48646675
-## Merc 240D         -1.5716800 -0.3318280 -0.91025054
-## Merc 230          -0.9115278 -0.2945376 -0.37473618
-## Merc 280           0.9424693  0.4618835 -0.91470512
-##                           PC4
-## Mazda RX4          0.17047731
-## Mazda RX4 Wag      0.08957852
-## Datsun 710         0.01780133
-## Hornet 4 Drive    -0.12922895
-## Hornet Sportabout -0.34788481
-## Valiant            0.69558672
-## Duster 360        -0.16580224
-## Merc 240D         -0.26269735
-## Merc 230          -0.26813224
-## Merc 280           0.20030170</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="high-dimensional-visualizations.html#cb22-1" tabindex="-1"></a><span class="fu">predict</span>(pca_res)</span></code></pre></div>
+<pre><code>##                          PC1        PC2         PC3         PC4
+## Mazda RX4         -0.4683249  1.6182751 -0.17530341 -0.17047731
+## Mazda RX4 Wag     -0.1906974  1.2697111  0.25876251 -0.08957852
+## Datsun 710        -2.0776213  0.2274096 -1.35795888 -0.01780133
+## Hornet 4 Drive    -0.6221540 -1.0190504 -0.13515892  0.12922895
+## Hornet Sportabout  1.1556918 -0.7385145 -0.28778404  0.34788481
+## Valiant            0.2672733 -1.4381382 -0.01578234 -0.69558672
+## Duster 360         3.4765710  0.2447894 -0.48646675  0.16580224
+## Merc 240D         -1.5716800 -0.3318280  0.91025054  0.26269735
+## Merc 230          -0.9115278 -0.2945376  0.37473618  0.26813224
+## Merc 280           0.9424693  0.4618835  0.91470512 -0.20030170</code></pre>
 </div>
-<div id="pca-summary" class="section level3" number="5.5.5">
-<h3><span class="header-section-number">5.5.5</span> PCA summary</h3>
+<div id="pca-summary" class="section level3 hasAnchor" number="5.5.5">
+<h3><span class="header-section-number">5.5.5</span> PCA summary<a href="high-dimensional-visualizations.html#pca-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>PCA is a statistical procedure that uses an orthogonal transformation to convert a set of possibly correlated variables into a set of linearly uncorrelated variables, which are denoted as principal components.</p>
 <p>Each principal component explains a fraction of the total variation in the dataset. The first principal component has the largest possible variance. Respectively, the second principal component has the second-largest possible variance.</p>
 <p>In this manner, PCA aims to reduce the number of variables, while preserving as much information from the original dataset as possible. High-dimensional data is often visualized by plotting the first two principal components after performing PCA.</p>
 </div>
-<div id="nonlinear-dimension-reduction" class="section level3" number="5.5.6">
-<h3><span class="header-section-number">5.5.6</span> Nonlinear dimension reduction</h3>
+<div id="nonlinear-dimension-reduction" class="section level3 hasAnchor" number="5.5.6">
+<h3><span class="header-section-number">5.5.6</span> Nonlinear dimension reduction<a href="high-dimensional-visualizations.html#nonlinear-dimension-reduction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>One limitation of PCA is that it is restricted to linear transformation of the data. What if the data lies closer to a parabola rather than a straight line? There are many non-linear alternatives to PCA including Independent Component Analysis, kernel PCA, t-SNE, UMAP. Details of these techniques are beyond the scope of this lecture. However, as long as one uses these techniques as visualization and exploratory tools rather than for making any claim on the data, a profound understanding of their theory is not necessary.</p>
-<p>We illustrate here with one example of a PCA and a UMAP representation of same single-cell gene expression matrix of mouse. The input matrix has 15,604 rows (single cells) and 1,951 columns (genes) and comes for the Tabula muris project.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
+<p>We illustrate here with one example of a PCA and a UMAP representation of same single-cell gene expression matrix of mouse. The input matrix has 15,604 rows (single cells) and 1,951 columns (genes) and comes for the Tabula muris project <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
 <div class="figure"><span style="display:block;" id="fig:single-cell-PCA"></span>
 <img src="assets/img/lec05_single_cell_pca.png" alt="PCA on mouse single-cell transcriptome data. Source: Laura Martens, TUM" width="600px" />
 <p class="caption">
@@ -1077,8 +1060,8 @@ Figure 5.8: UMAP (non-linear dimension reduction) on mouse single-cell transcrip
 </div>
 </div>
 </div>
-<div id="discussion" class="section level2" number="5.6">
-<h2><span class="header-section-number">5.6</span> Discussion</h2>
+<div id="discussion" class="section level2 hasAnchor" number="5.6">
+<h2><span class="header-section-number">5.6</span> Discussion<a href="high-dimensional-visualizations.html#discussion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>Clustering and dimension reduction techniques belong to the family of unsupervised learning methods. Unlike supervised learning methods (e.g. regression, classification) unsupervised learning methods shall discover patterns in the data without being guided by some ground truth.</p></li>
 <li><p>There is no “right” clustering, or “right” subspace in real-life datasets</p></li>
@@ -1086,8 +1069,8 @@ Figure 5.8: UMAP (non-linear dimension reduction) on mouse single-cell transcrip
 <li><p>These hypotheses are then best tested on independent data</p></li>
 </ul>
 </div>
-<div id="summary-3" class="section level2" number="5.7">
-<h2><span class="header-section-number">5.7</span> Summary</h2>
+<div id="summary-3" class="section level2 hasAnchor" number="5.7">
+<h2><span class="header-section-number">5.7</span> Summary<a href="high-dimensional-visualizations.html#summary-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>By now, you should be able to:</p>
 <ul>
 <li>plot data matrices as pretty heatmaps</li>
@@ -1104,15 +1087,14 @@ Figure 5.8: UMAP (non-linear dimension reduction) on mouse single-cell transcrip
 </ul></li>
 </ul>
 </div>
-<div id="resources-1" class="section level2" number="5.8">
-<h2><span class="header-section-number">5.8</span> Resources</h2>
+<div id="resources-1" class="section level2 hasAnchor" number="5.8">
+<h2><span class="header-section-number">5.8</span> Resources<a href="high-dimensional-visualizations.html#resources-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>G. James, D. Witten, T. Hastie and R. Tibshirani. An Introduction to Statistical Learning with Applications in R.
 Book and R code available at:
 <a href="https://www.statlearning.com/" class="uri">https://www.statlearning.com/</a></p>
 <p>Advanced (PCA proofs):
 C. Bishop, Pattern Recognition and Machine Learning. <a href="https://www.microsoft.com/en-us/research/people/cmbishop/prml-book/" class="uri">https://www.microsoft.com/en-us/research/people/cmbishop/prml-book/</a></p>
 
-<div style="page-break-after: always;"></div>
 </div>
 </div>
 <h3>References</h3>
@@ -1123,10 +1105,10 @@ Bishop, Christopher M. 2007. <em>Pattern Recognition and Machine Learning (Infor
 </div>
 <div class="footnotes">
 <hr />
-<ol start="5">
-<li id="fn5"><p><a href="https://deepai.org/machine-learning-glossary-and-terms/one-hot-encoding" class="uri">https://deepai.org/machine-learning-glossary-and-terms/one-hot-encoding</a><a href="high-dimensional-visualizations.html#fnref5" class="footnote-back">↩︎</a></p></li>
-<li id="fn6"><p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_assumptions.html" class="uri">https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_assumptions.html</a><a href="high-dimensional-visualizations.html#fnref6" class="footnote-back">↩︎</a></p></li>
-<li id="fn7"><p><a href="https://tabula-muris.ds.czbiohub.org/" class="uri">https://tabula-muris.ds.czbiohub.org/</a><a href="high-dimensional-visualizations.html#fnref7" class="footnote-back">↩︎</a></p></li>
+<ol start="1">
+<li id="fn1"><p><a href="https://deepai.org/machine-learning-glossary-and-terms/one-hot-encoding" class="uri">https://deepai.org/machine-learning-glossary-and-terms/one-hot-encoding</a><a href="high-dimensional-visualizations.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_assumptions.html" class="uri">https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_assumptions.html</a><a href="high-dimensional-visualizations.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://tabula-muris.ds.czbiohub.org/" class="uri">https://tabula-muris.ds.czbiohub.org/</a><a href="high-dimensional-visualizations.html#fnref3" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -1195,7 +1177,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

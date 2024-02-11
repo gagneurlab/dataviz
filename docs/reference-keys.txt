@@ -432,3 +432,7 @@ expected-value-variance-and-covariance
 probs-sample-estimates
 appendix-lin-reg
 resources-6
+Datasets
+one-column-contains-multiple-variables
+fig:unnamed-chunk-6
+fig:unnamed-chunk-23

@@ -5,25 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Statistical Assessments for Big Data | Data Analysis and Visualization in R (IN2339)</title>
-  <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Statistical Assessments for Big Data | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta property="og:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 9 Statistical Assessments for Big Data | Data Analysis and Visualization in R (IN2339)" />
   
-  <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="twitter:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
 
 
-<meta name="date" content="2022-02-06" />
+<meta name="date" content="2024-02-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="analytical-stat.html"/>
 <link rel="next" href="chap-lin-reg.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,10 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -94,7 +91,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -107,7 +104,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -122,26 +119,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 <style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -161,10 +140,6 @@ div.csl-indent {
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i>Acknowledgments</a></li>
-<li class="chapter" data-level="" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i>Prerequisites</a></li>
-<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i>Datasets</a></li>
-<li class="chapter" data-level="" data-path="feedback.html"><a href="feedback.html"><i class="fa fa-check"></i>Feedback</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#data-science-what-and-why"><i class="fa fa-check"></i>Data Science: What and why?</a></li>
@@ -279,25 +254,28 @@ div.csl-indent {
 <li class="chapter" data-level="3.3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#melting-wide-to-long"><i class="fa fa-check"></i><b>3.3.1</b> Melting (wide to long)</a></li>
 <li class="chapter" data-level="3.3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#casting-long-to-wide"><i class="fa fa-check"></i><b>3.3.2</b> Casting (long to wide)</a></li>
 <li class="chapter" data-level="3.3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#separating-columns"><i class="fa fa-check"></i><b>3.3.3</b> Separating columns</a></li>
-<li class="chapter" data-level="3.3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.3.4</b> Uniting columns</a></li>
-<li class="chapter" data-level="3.3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.3.5</b> Advanced: Columns containing sets of values</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.4</b> Concatenating tables</a></li>
-<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.5</b> Merging tables</a>
+<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#one-column-contains-multiple-variables"><i class="fa fa-check"></i><b>3.4</b> One column contains multiple variables</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.5.1</b> Inner merge</a></li>
-<li class="chapter" data-level="3.5.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.5.2</b> Outer (full) merge</a></li>
-<li class="chapter" data-level="3.5.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.5.3</b> Left merge</a></li>
-<li class="chapter" data-level="3.5.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.5.4</b> Right merge</a></li>
-<li class="chapter" data-level="3.5.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.5.5</b> Merging by several columns</a></li>
+<li class="chapter" data-level="3.4.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.4.1</b> Uniting columns</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.4.2</b> Advanced: Columns containing sets of values</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.6</b> Tidy representations are not unique</a>
+<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.5</b> Concatenating tables</a></li>
+<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.6</b> Merging tables</a>
 <ul>
-<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.6.1</b> Alternative tidy forms of a table</a></li>
-<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.6.2</b> On multiple types of observational units in the same table</a></li>
+<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.6.1</b> Inner merge</a></li>
+<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.6.2</b> Outer (full) merge</a></li>
+<li class="chapter" data-level="3.6.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.6.3</b> Left merge</a></li>
+<li class="chapter" data-level="3.6.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.6.4</b> Right merge</a></li>
+<li class="chapter" data-level="3.6.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.6.5</b> Merging by several columns</a></li>
 </ul></li>
-<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.7</b> Summary</a></li>
-<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.8</b> Tidy data resources</a></li>
+<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.7</b> Tidy representations are not unique</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.7.1</b> Alternative tidy forms of a table</a></li>
+<li class="chapter" data-level="3.7.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.7.2</b> On multiple types of observational units in the same table</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.8</b> Summary</a></li>
+<li class="chapter" data-level="3.9" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.9</b> Tidy data resources</a></li>
 </ul></li>
 <li class="part"><span><b>II Look</b></span></li>
 <li class="chapter" data-level="4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html"><i class="fa fa-check"></i><b>4</b> Low dimensional visualizations</a>
@@ -595,7 +573,7 @@ div.csl-indent {
 <li class="chapter" data-level="A.4" data-path="importing-data.html"><a href="importing-data.html#downloading-files"><i class="fa fa-check"></i><b>A.4</b> Downloading files</a></li>
 <li class="chapter" data-level="A.5" data-path="importing-data.html"><a href="importing-data.html#r-base-importing-functions"><i class="fa fa-check"></i><b>A.5</b> R-base importing functions</a>
 <ul>
-<li><a href="importing-data.html#scan"><code>scan</code></a></li>
+<li class="chapter" data-level="" data-path="importing-data.html"><a href="importing-data.html#scan"><i class="fa fa-check"></i><code>scan</code></a></li>
 </ul></li>
 <li class="chapter" data-level="A.6" data-path="importing-data.html"><a href="importing-data.html#text-versus-binary-files"><i class="fa fa-check"></i><b>A.6</b> Text versus binary files</a></li>
 <li class="chapter" data-level="A.7" data-path="importing-data.html"><a href="importing-data.html#unicode-versus-ascii"><i class="fa fa-check"></i><b>A.7</b> Unicode versus ASCII</a></li>
@@ -652,8 +630,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="big-data-stat" class="section level1" number="9">
-<h1><span class="header-section-number">Chapter 9</span> Statistical Assessments for Big Data</h1>
+<div id="big-data-stat" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Statistical Assessments for Big Data<a href="big-data-stat.html#big-data-stat" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In the last two chapters, we took an in depth look at how to assess the statistical significance of patterns in our data. We know how to compute and interpret <span class="math inline">\(P\)</span>-values to test specific hypotheses in the context of relatively small datasets.</p>
 <p>In this chapter, we will look at what happens when we move to a world where we have large datasets, and are not sure beforehand which specific hypothesis we want to test.
 After reading this chapter, you should:</p>
@@ -662,73 +640,73 @@ After reading this chapter, you should:</p>
 <li>Be able to explain the difference between statistical significance and practical importance</li>
 <li>Understand the problem of multiple testing</li>
 <li>Define the terms FWER and FDR</li>
-<li>Apply the Bonferroni and Benjamim-Hochberg corrections and understand the difference between them</li>
+<li>Apply the Bonferroni and Benjamini-Hochberg corrections and understand the difference between them</li>
 </ul>
-<div id="motivation-statistical-significance-in-a-big-data-context" class="section level2" number="9.1">
-<h2><span class="header-section-number">9.1</span> Motivation: Statistical Significance in a Big Data context</h2>
+<div id="motivation-statistical-significance-in-a-big-data-context" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Motivation: Statistical Significance in a Big Data context<a href="big-data-stat.html#motivation-statistical-significance-in-a-big-data-context" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Imagine a huge consortium of scientists gathers a variety of different demographic, social and health data from millions of Germans. After many days of analysis, they report that:</p>
 <p>“There is a statistically significant association (<span class="math inline">\(P&lt;0.05\)</span>) between drinking coffee and all-cause mortality in university students aged 19-25 whose birthday falls in an odd-numbered month”</p>
 <p>If you are a coffee drinking university student aged 19-25 who was born in an odd-numbered month, should you be worried?</p>
 <p>In this chapter, we will see some reasons why the sentence above - without further information - is not a convincing reason to swear off Espresso forever.</p>
-<p>We will look at two major issues stemming from big data applications. The first issues is the issue of small effect size detection, which is a consequence of having large sample sizes (“large n,” referring to the numbers of rows of a data matrix). The second issue is the issue of multiple testing, which is consequence of assessing many variables (“large p,” referring to the number of columns of a data matrix).</p>
+<p>We will look at two major issues stemming from big data applications. The first one is the issue of small effect size detection, which is a consequence of having large sample sizes (“large n”, referring to the numbers of rows of a data matrix). The second issue is the issue of multiple testing, which is consequence of assessing many variables (“large p”, referring to the number of columns of a data matrix).</p>
 </div>
-<div id="effect-size-actually-important-or-just-significant" class="section level2" number="9.2">
-<h2><span class="header-section-number">9.2</span> Effect Size: Actually important or just significant?</h2>
+<div id="effect-size-actually-important-or-just-significant" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Effect Size: Actually important or just significant?<a href="big-data-stat.html#effect-size-actually-important-or-just-significant" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The first issue we encounter in a big data world is the problem that statistical significance does not necessarily reflect effects of practical relevance. To understand this distinction, we first need to introduce the notion of effect size.</p>
 <p>The <strong>effect size</strong> is a quantitative measure of the magnitude of a phenomenon. Examples of effect sizes are the correlation between two variables, the regression coefficient in a regression, the mean difference, or even the risk with which something happens, such as how many people survive after a heart attack for every one person that does not survive.</p>
 <p>The effect size determines whether an effect is actually important. If we discover that drinking one cup of coffee per day decreases life expectancy by two years on average, this is a substantial effect with large implications for millions of people. If, by contrast, we find that life expectancy is only decreased if you drink 20 cups or more per day, then this is largely irrelevant, as probably no sane person would do this.</p>
-<div id="the-relationship-of-sample-size-and-significance" class="section level3" number="9.2.1">
-<h3><span class="header-section-number">9.2.1</span> The relationship of sample size and significance</h3>
-<p>Assume now that we have a very small effect size. For instance, assume we have two groups, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, that are both normally distributed with variance 1. But <span class="math inline">\(\operatorname{E}[X] = \mu_x = 0\)</span> whereas <span class="math inline">\(\operatorname{E}[Y]=\mu_y=0.01\)</span>. We sample from these distribution and do a <span class="math inline">\(t\)</span>-test to try to reject the null hypothesis that <span class="math inline">\(\operatorname{E}[X]=\operatorname{E}[Y]\)</span> (i.e. the effect size is exactly 0).</p>
+<div id="the-relationship-of-sample-size-and-significance" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> The relationship of sample size and significance<a href="big-data-stat.html#the-relationship-of-sample-size-and-significance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Assume now that we have a very small effect size. For instance, assume we have two groups, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, that are both normally distributed with variance 1. But <span class="math inline">\(\E[X] = \mu_x = 0\)</span> whereas <span class="math inline">\(\E[Y]=\mu_y=0.01\)</span>. We sample from these distribution and do a <span class="math inline">\(t\)</span>-test to try to reject the null hypothesis that <span class="math inline">\(\E[X]=\E[Y]\)</span> (i.e. the effect size is exactly 0).</p>
 <p>If our sample size is small, e.g. <span class="math inline">\(n_x=n_y=10\)</span>, the difference in means is unlikely to be statistically significant.</p>
-<div class="sourceCode" id="cb580"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb580-1"><a href="big-data-stat.html#cb580-1" aria-hidden="true" tabindex="-1"></a>mu_x  <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb580-2"><a href="big-data-stat.html#cb580-2" aria-hidden="true" tabindex="-1"></a>mu_y  <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
-<span id="cb580-3"><a href="big-data-stat.html#cb580-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb580-4"><a href="big-data-stat.html#cb580-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu_x)</span>
-<span id="cb580-5"><a href="big-data-stat.html#cb580-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu_y)</span>
-<span id="cb580-6"><a href="big-data-stat.html#cb580-6" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
-<span id="cb580-7"><a href="big-data-stat.html#cb580-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">c</span>(x,y),</span>
-<span id="cb580-8"><a href="big-data-stat.html#cb580-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), <span class="at">each=</span>n)</span>
-<span id="cb580-9"><a href="big-data-stat.html#cb580-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb580-10"><a href="big-data-stat.html#cb580-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>group, <span class="at">y=</span>value)) <span class="sc">+</span> </span>
-<span id="cb580-11"><a href="big-data-stat.html#cb580-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb580-12"><a href="big-data-stat.html#cb580-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
-<span id="cb580-13"><a href="big-data-stat.html#cb580-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="fu">paste0</span>(<span class="st">&quot;n=&quot;</span>,n)) <span class="sc">+</span> mytheme</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-361-1.png" width="384" /></p>
-<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="big-data-stat.html#cb581-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x,y)<span class="sc">$</span>p.value</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="big-data-stat.html#cb1-1" tabindex="-1"></a>mu_x  <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-2"><a href="big-data-stat.html#cb1-2" tabindex="-1"></a>mu_y  <span class="ot">&lt;-</span> <span class="fl">0.01</span></span>
+<span id="cb1-3"><a href="big-data-stat.html#cb1-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-4"><a href="big-data-stat.html#cb1-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu_x)</span>
+<span id="cb1-5"><a href="big-data-stat.html#cb1-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu_y)</span>
+<span id="cb1-6"><a href="big-data-stat.html#cb1-6" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb1-7"><a href="big-data-stat.html#cb1-7" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">c</span>(x,y),</span>
+<span id="cb1-8"><a href="big-data-stat.html#cb1-8" tabindex="-1"></a>  <span class="at">group =</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), <span class="at">each=</span>n)</span>
+<span id="cb1-9"><a href="big-data-stat.html#cb1-9" tabindex="-1"></a>)</span>
+<span id="cb1-10"><a href="big-data-stat.html#cb1-10" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>group, <span class="at">y=</span>value)) <span class="sc">+</span> </span>
+<span id="cb1-11"><a href="big-data-stat.html#cb1-11" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb1-12"><a href="big-data-stat.html#cb1-12" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb1-13"><a href="big-data-stat.html#cb1-13" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="fu">paste0</span>(<span class="st">&quot;n=&quot;</span>,n)) <span class="sc">+</span> mytheme</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-4-1.png" width="384" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="big-data-stat.html#cb2-1" tabindex="-1"></a><span class="fu">t.test</span>(x,y)<span class="sc">$</span>p.value</span></code></pre></div>
 <pre><code>## [1] 0.1259009</code></pre>
 <p>But things change as we start to increase the sample size:</p>
-<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb583-1"><a href="big-data-stat.html#cb583-1" aria-hidden="true" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">6</span>, <span class="at">length.out=</span><span class="dv">100</span>)) <span class="co"># a exponential grid of values of n </span></span>
-<span id="cb583-2"><a href="big-data-stat.html#cb583-2" aria-hidden="true" tabindex="-1"></a>pvs <span class="ot">&lt;-</span> <span class="fu">sapply</span>( ns,  <span class="co"># for each N... </span></span>
-<span id="cb583-3"><a href="big-data-stat.html#cb583-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(n){</span>
-<span id="cb583-4"><a href="big-data-stat.html#cb583-4" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu_x) <span class="co"># draw N values of x according to N(mu_x, 1) </span></span>
-<span id="cb583-5"><a href="big-data-stat.html#cb583-5" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu_y) <span class="co"># draw N values of y according to N(mu_y, 1) </span></span>
-<span id="cb583-6"><a href="big-data-stat.html#cb583-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t.test</span>(x, y)<span class="sc">$</span>p.value <span class="co"># Welch t-test </span></span>
-<span id="cb583-7"><a href="big-data-stat.html#cb583-7" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb583-8"><a href="big-data-stat.html#cb583-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb583-9"><a href="big-data-stat.html#cb583-9" aria-hidden="true" tabindex="-1"></a><span class="fu">data.table</span>(<span class="at">n=</span>ns, <span class="at">p.value=</span>pvs) <span class="sc">%&gt;%</span></span>
-<span id="cb583-10"><a href="big-data-stat.html#cb583-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>n , <span class="at">y=</span>p.value)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-363-1.png" width="384" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="big-data-stat.html#cb4-1" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">6</span>, <span class="at">length.out=</span><span class="dv">100</span>)) <span class="co"># a exponential grid of values of n </span></span>
+<span id="cb4-2"><a href="big-data-stat.html#cb4-2" tabindex="-1"></a>pvs <span class="ot">&lt;-</span> <span class="fu">sapply</span>( ns,  <span class="co"># for each N... </span></span>
+<span id="cb4-3"><a href="big-data-stat.html#cb4-3" tabindex="-1"></a>  <span class="cf">function</span>(n){</span>
+<span id="cb4-4"><a href="big-data-stat.html#cb4-4" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu_x) <span class="co"># draw N values of x according to N(mu_x, 1) </span></span>
+<span id="cb4-5"><a href="big-data-stat.html#cb4-5" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, mu_y) <span class="co"># draw N values of y according to N(mu_y, 1) </span></span>
+<span id="cb4-6"><a href="big-data-stat.html#cb4-6" tabindex="-1"></a>    <span class="fu">t.test</span>(x, y)<span class="sc">$</span>p.value <span class="co"># Welch t-test </span></span>
+<span id="cb4-7"><a href="big-data-stat.html#cb4-7" tabindex="-1"></a>  }</span>
+<span id="cb4-8"><a href="big-data-stat.html#cb4-8" tabindex="-1"></a>)</span>
+<span id="cb4-9"><a href="big-data-stat.html#cb4-9" tabindex="-1"></a><span class="fu">data.table</span>(<span class="at">n=</span>ns, <span class="at">p.value=</span>pvs) <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="big-data-stat.html#cb4-10" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>n , <span class="at">y=</span>p.value)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-6-1.png" width="384" /></p>
 <p>We see that as the sample size gets bigger and bigger, the <span class="math inline">\(P\)</span>-values quickly drop.</p>
 <p>Once we have a million observations, we can easily reject the null hypothesis that the true effect is zero:</p>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-364-1.png" width="384" /></p>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-7-1.png" width="384" /></p>
 <p>The conclusion is that, as the sample size grows, any true effect, no matter how small, will be detected.</p>
 <p>This creates a problem. In reality, the null hypothesis, will seldom be literally true. Because we live in a complex and interconnected world, many variables will be somewhat correlated, even if the correlation is very weak. The effect size will rarely be exactly <span class="math inline">\(0.0\)</span>.</p>
 <p>This means, if our dataset is big enough (i.e. many hundreds of thousands of datapoints), it is likely that whatever association we test, it will be significant. But many of these associations will likely be too small to be of any practical importance.</p>
 </div>
-<div id="report-p-value-effect-size-and-plot" class="section level3" number="9.2.2">
-<h3><span class="header-section-number">9.2.2</span> Report <span class="math inline">\(P-\)</span>value, effect size, and plot</h3>
+<div id="report-p-value-effect-size-and-plot" class="section level3 hasAnchor" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Report <span class="math inline">\(P-\)</span>value, effect size, and plot<a href="big-data-stat.html#report-p-value-effect-size-and-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Because of this, only reporting that an association is statistically significant is misleading and not particularly helpful. To avoid this problem, we should always report the <span class="math inline">\(P\)</span>-value, an estimate of the effect size and a plot of our data that supports our conclusions.</p>
 <!-- Not convincing example that this would be a serious problem since no one would do that. Do you have a less trivial example in mind?
 
 Also, we should use common sense when reporting effect sizes. It is a lot more understandable if we report the effect of coffee consumption in terms of cups per day, rather than in terms of hectolitre per decade. -->
 </div>
 </div>
-<div id="multiple-testing" class="section level2" number="9.3">
-<h2><span class="header-section-number">9.3</span> Multiple Testing</h2>
+<div id="multiple-testing" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Multiple Testing<a href="big-data-stat.html#multiple-testing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In addition to the problem of detecting very small effects, big data also poses the problem of detecting false effects due to <strong>multiple testing</strong>. We will first discuss why multiple testing can undermine the conclusions we derive from data. Then we will explore ways to guard against being mislead in this way, using a simulated dataset as an example.</p>
-<div id="multiple-testing-in-real-life-p-hacking-and-fishing-expeditions" class="section level3" number="9.3.1">
-<h3><span class="header-section-number">9.3.1</span> Multiple testing in real life: <span class="math inline">\(P-\)</span>Hacking and fishing expeditions</h3>
+<div id="multiple-testing-in-real-life-p-hacking-and-fishing-expeditions" class="section level3 hasAnchor" number="9.3.1">
+<h3><span class="header-section-number">9.3.1</span> Multiple testing in real life: <span class="math inline">\(P-\)</span>Hacking and fishing expeditions<a href="big-data-stat.html#multiple-testing-in-real-life-p-hacking-and-fishing-expeditions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Expressed very simply, multiple testing refers to the issue that, if we test enough hypotheses at a given significance level, say <span class="math inline">\(\alpha=0.05\)</span>, we are bound to eventually get a significant result, <em>even if the null hypothesis is always true</em>.</p>
 <p>Multiple testing is an ever-present problem also in real life data analysis. It appears particularly once we start stratifying large datasets into subgroups, testing a seperate hypothesis for each one.</p>
 <p>Say we want to test the effect of a new medication. We find it has no effect in the general population. But maybe it only works in women? Maybe it affects people of different ages differently? Maybe smokers metabolize it differently to non-smokers? If our data is large enough and we keep stratifying it into subgroups, we are bound to find one where <span class="math inline">\(P&lt;0.05\)</span>, even if our medication is completely useless.</p>
@@ -736,32 +714,32 @@ Also, we should use common sense when reporting effect sizes. It is a lot more u
 <p><img src="assets/img/lec11-stat-testing-II/lec11_f1.png" width="700px" /></p>
 <p><img src="assets/img/lec11-stat-testing-II/lec11_f2.png" width="450px" /></p>
 <p><img src="assets/img/lec11-stat-testing-II/lec11_f3.png" width="500px" /></p>
-<p>This phenomenon is often referred to as “<span class="math inline">\(P\)</span>-hacking” or fishing expedition. It refers to the practice of testing different hypotheses until one finally finds one that yields a significant <span class="math inline">\(P\)</span>-value. For more detail on this issue, the following <a href="https://fivethirtyeight.com/features/science-isnt-broken">article</a> by FiveThirtyEight gives a good overview. In particular, you can interactively “Hack Your Way To Scientific Glory.”</p>
+<p>This phenomenon is often referred to as “<span class="math inline">\(P\)</span>-hacking” or fishing expedition. It refers to the practice of testing different hypotheses until one finally finds one that yields a significant <span class="math inline">\(P\)</span>-value. For more detail on this issue, the following <a href="https://fivethirtyeight.com/features/science-isnt-broken">article</a> by FiveThirtyEight gives a good overview. In particular, you can interactively “Hack Your Way To Scientific Glory”.</p>
 <p>This is not to say that stratifying data and analyzing it in different ways is a bad thing. But it does mean that, when we do so, we should make sure that we apply a correction that accounts for the multiple tests we have performed.</p>
 </div>
-<div id="the-land-of-counterfeit-fake-coins" class="section level3" number="9.3.2">
-<h3><span class="header-section-number">9.3.2</span> The Land of Counterfeit (fake) coins</h3>
+<div id="the-land-of-counterfeit-fake-coins" class="section level3 hasAnchor" number="9.3.2">
+<h3><span class="header-section-number">9.3.2</span> The Land of Counterfeit (fake) coins<a href="big-data-stat.html#the-land-of-counterfeit-fake-coins" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To see multiple testing in action on a concrete example, and to explore ways to correct for it, we simulate a dataset based on flipping coins. We will tell a little fairytale to make the details less dry:</p>
 <p>Long, long ago, in a country far far away, a king suspected counterfeit coins were circulating in his kingdom.
 Original coins were fair: When tossed, each coin has an equal chance to come up heads or tails. Counterfeits instead were more biased towards more heads. The king requested each one of his 1,000 subjects to toss his or her coin (subjects owned only one coin) 20 times.</p>
 </div>
-<div id="simulation" class="section level3" number="9.3.3">
-<h3><span class="header-section-number">9.3.3</span> Simulation</h3>
+<div id="simulation" class="section level3 hasAnchor" number="9.3.3">
+<h3><span class="header-section-number">9.3.3</span> Simulation<a href="big-data-stat.html#simulation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Here we simulate data for this scenario. We (not the king/queen) know that in reality 90% of the subjects own a fair coin. For simplicity, we assume that all counterfeits have probability 0.8 for the head.</p>
-<div class="sourceCode" id="cb584"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb584-1"><a href="big-data-stat.html#cb584-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb584-2"><a href="big-data-stat.html#cb584-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb584-3"><a href="big-data-stat.html#cb584-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb584-4"><a href="big-data-stat.html#cb584-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
-<span id="cb584-5"><a href="big-data-stat.html#cb584-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb584-6"><a href="big-data-stat.html#cb584-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb584-7"><a href="big-data-stat.html#cb584-7" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fl">1e3</span> </span>
-<span id="cb584-8"><a href="big-data-stat.html#cb584-8" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fl">0.9</span><span class="sc">*</span>m </span>
-<span id="cb584-9"><a href="big-data-stat.html#cb584-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">20</span> </span>
-<span id="cb584-10"><a href="big-data-stat.html#cb584-10" aria-hidden="true" tabindex="-1"></a>fair <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;fair&quot;</span>, m0), <span class="fu">rep</span>(<span class="st">&quot;biased&quot;</span>, m<span class="sc">-</span>m0)) </span>
-<span id="cb584-11"><a href="big-data-stat.html#cb584-11" aria-hidden="true" tabindex="-1"></a>heads <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(m,n,<span class="fu">ifelse</span>(fair<span class="sc">==</span><span class="st">&quot;fair&quot;</span>,<span class="fl">0.5</span>,<span class="fl">0.8</span>)) </span>
-<span id="cb584-12"><a href="big-data-stat.html#cb584-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb584-13"><a href="big-data-stat.html#cb584-13" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">fair=</span>fair, <span class="at">heads=</span>heads)  </span></code></pre></div>
-<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb585-1"><a href="big-data-stat.html#cb585-1" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="big-data-stat.html#cb5-1" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb5-2"><a href="big-data-stat.html#cb5-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-3"><a href="big-data-stat.html#cb5-3" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb5-4"><a href="big-data-stat.html#cb5-4" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
+<span id="cb5-5"><a href="big-data-stat.html#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="big-data-stat.html#cb5-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb5-7"><a href="big-data-stat.html#cb5-7" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fl">1e3</span> </span>
+<span id="cb5-8"><a href="big-data-stat.html#cb5-8" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fl">0.9</span><span class="sc">*</span>m </span>
+<span id="cb5-9"><a href="big-data-stat.html#cb5-9" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">20</span> </span>
+<span id="cb5-10"><a href="big-data-stat.html#cb5-10" tabindex="-1"></a>fair <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;fair&quot;</span>, m0), <span class="fu">rep</span>(<span class="st">&quot;biased&quot;</span>, m<span class="sc">-</span>m0)) </span>
+<span id="cb5-11"><a href="big-data-stat.html#cb5-11" tabindex="-1"></a>heads <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(m,n,<span class="fu">ifelse</span>(fair<span class="sc">==</span><span class="st">&quot;fair&quot;</span>,<span class="fl">0.5</span>,<span class="fl">0.8</span>)) </span>
+<span id="cb5-12"><a href="big-data-stat.html#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="big-data-stat.html#cb5-13" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">fair=</span>fair, <span class="at">heads=</span>heads)  </span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="big-data-stat.html#cb6-1" tabindex="-1"></a>dt</span></code></pre></div>
 <pre><code>##         fair heads
 ##    1:   fair    10
 ##    2:   fair     9
@@ -775,27 +753,27 @@ Original coins were fair: When tossed, each coin has an equal chance to come up 
 ##  999: biased    18
 ## 1000: biased    12</code></pre>
 <p>We look now at the distribution of heads for the fair and the biased coins.</p>
-<div class="sourceCode" id="cb587"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb587-1"><a href="big-data-stat.html#cb587-1" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> dt[, .N, by<span class="ot">=</span>.(fair,heads)]</span>
-<span id="cb587-2"><a href="big-data-stat.html#cb587-2" aria-hidden="true" tabindex="-1"></a>dt2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(heads,N)) <span class="sc">+</span> </span>
-<span id="cb587-3"><a href="big-data-stat.html#cb587-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>)  <span class="sc">+</span> </span>
-<span id="cb587-4"><a href="big-data-stat.html#cb587-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> fair, <span class="at">nrow=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb587-5"><a href="big-data-stat.html#cb587-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="st">&quot;Heads&quot;</span>, <span class="dv">0</span><span class="sc">:</span>n) <span class="sc">+</span></span>
-<span id="cb587-6"><a href="big-data-stat.html#cb587-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="st">&quot;Coins&quot;</span>) <span class="sc">+</span></span>
-<span id="cb587-7"><a href="big-data-stat.html#cb587-7" aria-hidden="true" tabindex="-1"></a>  mytheme</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-370-1.png" width="384" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="big-data-stat.html#cb8-1" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> dt[, .N, by<span class="ot">=</span>.(fair,heads)]</span>
+<span id="cb8-2"><a href="big-data-stat.html#cb8-2" tabindex="-1"></a>dt2 <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(heads,N)) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="big-data-stat.html#cb8-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>)  <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="big-data-stat.html#cb8-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> fair, <span class="at">nrow=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="big-data-stat.html#cb8-5" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="st">&quot;Heads&quot;</span>, <span class="dv">0</span><span class="sc">:</span>n) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="big-data-stat.html#cb8-6" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="st">&quot;Coins&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="big-data-stat.html#cb8-7" tabindex="-1"></a>  mytheme</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-13-1.png" width="384" /></p>
 </div>
-<div id="nominal-p-values" class="section level3" number="9.3.4">
-<h3><span class="header-section-number">9.3.4</span> Nominal <span class="math inline">\(P-\)</span>values</h3>
+<div id="nominal-p-values" class="section level3 hasAnchor" number="9.3.4">
+<h3><span class="header-section-number">9.3.4</span> Nominal <span class="math inline">\(P-\)</span>values<a href="big-data-stat.html#nominal-p-values" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The king declares: “I presume innocence, i.e. I will consider the null hypothesis that each coin is fair. I will reject this hypothesis using a one-sided binomial test at <span class="math inline">\(P-\)</span>value &lt;=0.05.”</p>
 <p>The king computes the <span class="math inline">\(P-\)</span>values.</p>
-<div class="sourceCode" id="cb588"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb588-1"><a href="big-data-stat.html#cb588-1" aria-hidden="true" tabindex="-1"></a>dt[,</span>
-<span id="cb588-2"><a href="big-data-stat.html#cb588-2" aria-hidden="true" tabindex="-1"></a>   p.value <span class="sc">:</span><span class="er">=</span> <span class="fu">sapply</span>(</span>
-<span id="cb588-3"><a href="big-data-stat.html#cb588-3" aria-hidden="true" tabindex="-1"></a>     heads,</span>
-<span id="cb588-4"><a href="big-data-stat.html#cb588-4" aria-hidden="true" tabindex="-1"></a>     <span class="cf">function</span>(x)</span>
-<span id="cb588-5"><a href="big-data-stat.html#cb588-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">binom.test</span>(x, <span class="at">n =</span> n, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="sc">$</span>p.value</span>
-<span id="cb588-6"><a href="big-data-stat.html#cb588-6" aria-hidden="true" tabindex="-1"></a>     )</span>
-<span id="cb588-7"><a href="big-data-stat.html#cb588-7" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb588-8"><a href="big-data-stat.html#cb588-8" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="big-data-stat.html#cb9-1" tabindex="-1"></a>dt[,</span>
+<span id="cb9-2"><a href="big-data-stat.html#cb9-2" tabindex="-1"></a>   p.value <span class="sc">:=</span> <span class="fu">sapply</span>(</span>
+<span id="cb9-3"><a href="big-data-stat.html#cb9-3" tabindex="-1"></a>     heads,</span>
+<span id="cb9-4"><a href="big-data-stat.html#cb9-4" tabindex="-1"></a>     <span class="cf">function</span>(x)</span>
+<span id="cb9-5"><a href="big-data-stat.html#cb9-5" tabindex="-1"></a>       <span class="fu">binom.test</span>(x, <span class="at">n =</span> n, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="sc">$</span>p.value</span>
+<span id="cb9-6"><a href="big-data-stat.html#cb9-6" tabindex="-1"></a>     )</span>
+<span id="cb9-7"><a href="big-data-stat.html#cb9-7" tabindex="-1"></a>]</span>
+<span id="cb9-8"><a href="big-data-stat.html#cb9-8" tabindex="-1"></a>dt</span></code></pre></div>
 <pre><code>##         fair heads      p.value
 ##    1:   fair    10 0.5880985260
 ##    2:   fair     9 0.7482776642
@@ -809,13 +787,13 @@ Original coins were fair: When tossed, each coin has an equal chance to come up 
 ##  999: biased    18 0.0002012253
 ## 1000: biased    12 0.2517223358</code></pre>
 <p>We can compute the number of rejected tests:</p>
-<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb590-1"><a href="big-data-stat.html#cb590-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(dt<span class="sc">$</span>p.value<span class="sc">&lt;=</span><span class="fl">0.05</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="big-data-stat.html#cb11-1" tabindex="-1"></a><span class="fu">sum</span>(dt<span class="sc">$</span>p.value<span class="sc">&lt;=</span><span class="fl">0.05</span>)</span></code></pre></div>
 <pre><code>## [1] 104</code></pre>
 <p>The king is furious. There are 104 declared guilty. He requests the death penalty for all of them.</p>
-<div id="explanation-nominal-p-values-can-lead-to-many-false-rejections-when-testing-multiple-hypotheses" class="section level4" number="9.3.4.1">
-<h4><span class="header-section-number">9.3.4.1</span> Explanation: nominal <span class="math inline">\(P\)</span>-values can lead to many false rejections when testing multiple hypotheses</h4>
+<div id="explanation-nominal-p-values-can-lead-to-many-false-rejections-when-testing-multiple-hypotheses" class="section level4 hasAnchor" number="9.3.4.1">
+<h4><span class="header-section-number">9.3.4.1</span> Explanation: nominal <span class="math inline">\(P\)</span>-values can lead to many false rejections when testing multiple hypotheses<a href="big-data-stat.html#explanation-nominal-p-values-can-lead-to-many-false-rejections-when-testing-multiple-hypotheses" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Since we (simulators) know the truth, we can compute the contingency table of rejected tests versus the ground truth:</p>
-<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb592-1"><a href="big-data-stat.html#cb592-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dt[,.(fair, <span class="at">rejected =</span> p.value<span class="sc">&lt;=</span><span class="fl">0.05</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="big-data-stat.html#cb13-1" tabindex="-1"></a><span class="fu">table</span>(dt[,.(fair, <span class="at">rejected =</span> p.value<span class="sc">&lt;=</span><span class="fl">0.05</span>)])</span></code></pre></div>
 <pre><code>##         rejected
 ## fair     FALSE TRUE
 ##   biased    28   72
@@ -832,14 +810,14 @@ Original coins were fair: When tossed, each coin has an equal chance to come up 
 <p>which we just said is equal to <span class="math inline">\(0.05\)</span>! So <span class="math inline">\(p(P&lt;0.05|H_0) = 0.05\)</span>, and the same logic generalizes for any other <span class="math inline">\(\alpha \in [0,1]\)</span>.</p>
 <p>This, in turn, means that when we test 900 fair coins and reject the null hypothesis that the coin is fair whenever <span class="math inline">\(P&lt;0.05\)</span>, then on average we will reject the null hypothesis about <span class="math inline">\(5\%\)</span> of the time, so <span class="math inline">\(900 \times 0.05=45\)</span> times. Thus, in some sense the King actually got lucky that he “only” falsely accused 32.</p>
 <p>Another way of stating this fact is to say that, under the null hypothesis, the <span class="math inline">\(P\)</span>-value follows a uniform distribution on the <span class="math inline">\([0,1]\)</span> interval. Figure <a href="big-data-stat.html#fig:qqplot-fair-biased">9.1</a> illustrates the <span class="math inline">\(P\)</span>-value distribution, compared to the <span class="math inline">\([0,1]\)</span> uniform distribution, for the fair and for the biased coins:</p>
-<div class="sourceCode" id="cb594"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb594-1"><a href="big-data-stat.html#cb594-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">sample =</span> p.value)) <span class="sc">+</span> </span>
-<span id="cb594-2"><a href="big-data-stat.html#cb594-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we make a qqplot comparing the P-values with the [0,1] uniform</span></span>
-<span id="cb594-3"><a href="big-data-stat.html#cb594-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>(<span class="at">distribution =</span>  stats<span class="sc">::</span>qunif) <span class="sc">+</span> </span>
-<span id="cb594-4"><a href="big-data-stat.html#cb594-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we add a diagonal</span></span>
-<span id="cb594-5"><a href="big-data-stat.html#cb594-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope=</span><span class="dv">1</span>, <span class="at">intercept=</span><span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb594-6"><a href="big-data-stat.html#cb594-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we make the plot separately for fair and biased coins</span></span>
-<span id="cb594-7"><a href="big-data-stat.html#cb594-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fair) <span class="sc">+</span></span>
-<span id="cb594-8"><a href="big-data-stat.html#cb594-8" aria-hidden="true" tabindex="-1"></a>  mytheme</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="big-data-stat.html#cb15-1" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">sample =</span> p.value)) <span class="sc">+</span> </span>
+<span id="cb15-2"><a href="big-data-stat.html#cb15-2" tabindex="-1"></a>  <span class="co"># we make a qqplot comparing the P-values with the [0,1] uniform</span></span>
+<span id="cb15-3"><a href="big-data-stat.html#cb15-3" tabindex="-1"></a>  <span class="fu">geom_qq</span>(<span class="at">distribution =</span>  stats<span class="sc">::</span>qunif) <span class="sc">+</span> </span>
+<span id="cb15-4"><a href="big-data-stat.html#cb15-4" tabindex="-1"></a>  <span class="co"># we add a diagonal</span></span>
+<span id="cb15-5"><a href="big-data-stat.html#cb15-5" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope=</span><span class="dv">1</span>, <span class="at">intercept=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="big-data-stat.html#cb15-6" tabindex="-1"></a>  <span class="co"># we make the plot separately for fair and biased coins</span></span>
+<span id="cb15-7"><a href="big-data-stat.html#cb15-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fair) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="big-data-stat.html#cb15-8" tabindex="-1"></a>  mytheme</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:qqplot-fair-biased"></span>
 <img src="dataviz_book_files/figure-html/qqplot-fair-biased-1.png" alt="$P-$value Q-Q plots against the uniform distribution for the fair and the biased coins." width="576" />
 <p class="caption">
@@ -849,15 +827,15 @@ Figure 9.1: <span class="math inline">\(P-\)</span>value Q-Q plots against the u
 <p>We see that the <span class="math inline">\(P\)</span>-values for the fair coins match the uniform distribution quite well (values along diagonal). In contrast, the <span class="math inline">\(P\)</span>-values for the biased coins are excessively small compared to the uniform distribution. This is exactly what we want: small <span class="math inline">\(P-\)</span>values when the null hypothesis does not hold. (Note that the distribution of <span class="math inline">\(P-\)</span>values for discrete statistics actually shows these stairs due to ties. One could visually fix it but this is not a major point).</p>
 </div>
 </div>
-<div id="family-wise-error-rate" class="section level3" number="9.3.5">
-<h3><span class="header-section-number">9.3.5</span> Family-wise error rate</h3>
+<div id="family-wise-error-rate" class="section level3 hasAnchor" number="9.3.5">
+<h3><span class="header-section-number">9.3.5</span> Family-wise error rate<a href="big-data-stat.html#family-wise-error-rate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The queen, who is well-versed in matters of probability, is rightfully appalled at the prospect of many innocent subjects being executed.</p>
-<p>She states: “If they were all innocent, you would declare <span class="math inline">\(0.05 \times 1000=50\)</span> subjects guilty and falsely sentence them to death. We shall not accept that <strong>any</strong> innocent person is killed.”</p>
+<p>She states: “If they were all innocent, you would declare <span class="math inline">\(0.05 \times 1000=50\)</span> subjects guilty and falsely sentence them to death. We shall not accept that <strong>any</strong> innocent person is killed”.</p>
 <p>King: “Mmmh, good point. But we cannot be 100% sure. What if I make sure that there is <strong>at most</strong> 5% chance that an <strong>innocent person is mistakenly killed</strong>?”</p>
 <p>Queen: “Fine.”</p>
 <p>Now the King must control such that the probability that one or more innocent is killed is smaller than 5%. He uses Bonferroni correction, which amounts to multiplying the <span class="math inline">\(P\)</span>-values by m=1,000 or setting them to 1, whichever is smaller (because probability can’t be larger than 1).</p>
-<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb595-1"><a href="big-data-stat.html#cb595-1" aria-hidden="true" tabindex="-1"></a>dt[ , bonferroni <span class="sc">:</span><span class="er">=</span> <span class="fu">p.adjust</span>(p.value, <span class="at">method=</span><span class="st">&quot;bonferroni&quot;</span>)]</span>
-<span id="cb595-2"><a href="big-data-stat.html#cb595-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="big-data-stat.html#cb16-1" tabindex="-1"></a>dt[ , bonferroni <span class="sc">:=</span> <span class="fu">p.adjust</span>(p.value, <span class="at">method=</span><span class="st">&quot;bonferroni&quot;</span>)]</span>
+<span id="cb16-2"><a href="big-data-stat.html#cb16-2" tabindex="-1"></a>dt</span></code></pre></div>
 <pre><code>##         fair heads      p.value bonferroni
 ##    1:   fair    10 0.5880985260  1.0000000
 ##    2:   fair     9 0.7482776642  1.0000000
@@ -871,13 +849,13 @@ Figure 9.1: <span class="math inline">\(P-\)</span>value Q-Q plots against the u
 ##  999: biased    18 0.0002012253  0.2012253
 ## 1000: biased    12 0.2517223358  1.0000000</code></pre>
 <p>Here is the new contingency table. In this case, no innocent person was killed (He did kill 9 guilty people). It could have happened, though, but with less than 5% chance.</p>
-<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb597-1"><a href="big-data-stat.html#cb597-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dt[,.(fair, <span class="at">rejected =</span> bonferroni<span class="sc">&lt;=</span><span class="fl">0.05</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="big-data-stat.html#cb18-1" tabindex="-1"></a><span class="fu">table</span>(dt[,.(fair, <span class="at">rejected =</span> bonferroni<span class="sc">&lt;=</span><span class="fl">0.05</span>)])</span></code></pre></div>
 <pre><code>##         rejected
 ## fair     FALSE TRUE
 ##   biased    91    9
 ##   fair     900    0</code></pre>
-<div id="explanation-the-bonferroni-correction-is-a-very-conservative-method-to-address-multiple-testing" class="section level4" number="9.3.5.1">
-<h4><span class="header-section-number">9.3.5.1</span> Explanation: the Bonferroni correction is a very conservative method to address multiple testing</h4>
+<div id="explanation-the-bonferroni-correction-is-a-very-conservative-method-to-address-multiple-testing" class="section level4 hasAnchor" number="9.3.5.1">
+<h4><span class="header-section-number">9.3.5.1</span> Explanation: the Bonferroni correction is a very conservative method to address multiple testing<a href="big-data-stat.html#explanation-the-bonferroni-correction-is-a-very-conservative-method-to-address-multiple-testing" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To understand how the correction the King applied works, and why it makes sense, we first introduce some notation:</p>
 <p><img src="assets/img/lec11-stat-testing-II/lec11_table_FDR.png" width="500px" /></p>
 <p>The Queen wants to keep <span class="math inline">\(V\)</span>, the number of true null hypotheses which were falsely rejected (leading to an innocent being executed), as low as possible. The King can do that by controlling the so-called Family-wise error rate:</p>
@@ -895,7 +873,7 @@ Figure 9.1: <span class="math inline">\(P-\)</span>value Q-Q plots against the u
 \text{FWER} &amp;= p(V&gt;0) \\
 &amp;= p\left(\{H_{0,1} \text{ rejected\} or } \{H_{0,2}\text{ rejected\} or ... } \{H_{0,m_0} \text{ rejected}\}\right)
 \end{align}\]</span></p>
-<p>Now, among a set of binary random events (here rejection, or not, of each true null hypothesis), the probability that at least one random event realizes is less than or equal to the sum of the probabilities of each random event to realize.<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a> It would be equal to the sum, only if those events were mutually exclusive. We cannot exclude the possibility that rejections of the true null hypotheses are mutually exclusive although in practice this is a very conservative assumption. So, conservatively, we have the following upper bound:</p>
+<p>Now, among a set of binary random events (here rejection, or not, of each true null hypothesis), the probability that at least one random event realizes is less than or equal to the sum of the probabilities of each random event to realize <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. It would be equal to the sum, only if those events were mutually exclusive. We cannot exclude the possibility that rejections of the true null hypotheses are mutually exclusive although in practice this is a very conservative assumption. So, conservatively, we have the following upper bound:</p>
 <p><span class="math display">\[\begin{align}
 \text{FWER} &amp; \leq \sum_{i=1}^{m_0}p\left(H_{0,i}  \text{ rejected}\right)
 \end{align}\]</span></p>
@@ -910,14 +888,14 @@ Moreover, by definition of the <span class="math inline">\(P-\)</span>value, we 
 <p>This control does not require any assumption about dependence among the <span class="math inline">\(P\)</span>-values or about how many of the null hypotheses are true. The drawback is that it is very conservative. If we run 1,000 tests at <span class="math inline">\(\alpha=0.05\)</span>, we will only reject if the (unadjusted) <span class="math inline">\(P\)</span>-value is smaller than <span class="math inline">\(0.00005\)</span>.</p>
 </div>
 </div>
-<div id="false-discovery-rate" class="section level3" number="9.3.6">
-<h3><span class="header-section-number">9.3.6</span> False Discovery Rate</h3>
+<div id="false-discovery-rate" class="section level3 hasAnchor" number="9.3.6">
+<h3><span class="header-section-number">9.3.6</span> False Discovery Rate<a href="big-data-stat.html#false-discovery-rate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The king sleeps on it and comes back angry to the queen.</p>
 <p>King:” If they were all innocent as you assumed, there should have been 50 with a <span class="math inline">\(P-\)</span>value less than 0.05 in the first place. But they were instead 104. There are still a lot of counterfeiters unpunished. What if I introduced a fine rather than the death penalty?”</p>
 <p>Queen: “That is more reasonable. It would be tolerable that <strong>no more</strong> than 5% of fined subjects are <strong>actually innocent</strong>.”</p>
 <p>The king now needs to control for the proportion of innocent people among the subjects called guilty (rejected = True). He uses the False Discovery Rate with Benjamini-Hochberg correction. This controls the expected value of that proportion.</p>
-<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="big-data-stat.html#cb599-1" aria-hidden="true" tabindex="-1"></a>dt[ , BH <span class="sc">:</span><span class="er">=</span> <span class="fu">p.adjust</span>(p.value, <span class="at">method=</span><span class="st">&quot;BH&quot;</span>)]</span>
-<span id="cb599-2"><a href="big-data-stat.html#cb599-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="big-data-stat.html#cb20-1" tabindex="-1"></a>dt[ , BH <span class="sc">:=</span> <span class="fu">p.adjust</span>(p.value, <span class="at">method=</span><span class="st">&quot;BH&quot;</span>)]</span>
+<span id="cb20-2"><a href="big-data-stat.html#cb20-2" tabindex="-1"></a>dt</span></code></pre></div>
 <pre><code>##         fair heads      p.value bonferroni          BH
 ##    1:   fair    10 0.5880985260  1.0000000 0.942465587
 ##    2:   fair     9 0.7482776642  1.0000000 0.965519567
@@ -931,14 +909,14 @@ Moreover, by definition of the <span class="math inline">\(P-\)</span>value, we 
 ##  999: biased    18 0.0002012253  0.2012253 0.009582156
 ## 1000: biased    12 0.2517223358  1.0000000 0.765113483</code></pre>
 <p>Here is the new contingency table:</p>
-<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="big-data-stat.html#cb601-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dt[,.(fair, <span class="at">rejected =</span> BH<span class="sc">&lt;=</span><span class="fl">0.05</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="big-data-stat.html#cb22-1" tabindex="-1"></a><span class="fu">table</span>(dt[,.(fair, <span class="at">rejected =</span> BH<span class="sc">&lt;=</span><span class="fl">0.05</span>)])</span></code></pre></div>
 <pre><code>##         rejected
 ## fair     FALSE TRUE
 ##   biased    56   44
 ##   fair     898    2</code></pre>
 <p>A higher number of counterfeiters were discovered, while the proportion of innocents among the subjects declared guilty (2 out of 46) remained lower than about 5%.</p>
-<div id="explanation-the-benjamini-hochberg-correction-controls-the-false-discovery-rate" class="section level4" number="9.3.6.1">
-<h4><span class="header-section-number">9.3.6.1</span> Explanation: the Benjamini-Hochberg correction controls the False Discovery Rate</h4>
+<div id="explanation-the-benjamini-hochberg-correction-controls-the-false-discovery-rate" class="section level4 hasAnchor" number="9.3.6.1">
+<h4><span class="header-section-number">9.3.6.1</span> Explanation: the Benjamini-Hochberg correction controls the False Discovery Rate<a href="big-data-stat.html#explanation-the-benjamini-hochberg-correction-controls-the-false-discovery-rate" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>When applying the Bonferroni correction, we took a very conservative view: we created a worst-case scenario where <strong>everyone</strong> was innocent, and then minimized the probability of innocents being executed based on this assumption.</p>
 <p>But everyone in the kingdom can see that this worst-case scenario is not correct by looking at the Q-Q plot (this time including all subjects, and not split by the innocent ones and the non-innocent:</p>
 <div class="figure"><span style="display:block;" id="fig:qqplot-all"></span>
@@ -948,8 +926,8 @@ Figure 9.2: <span class="math inline">\(P-\)</span>value Q-Q plots against the u
 </p>
 </div>
 <p>We notice a deviation from the assumption of uniformity at the low end of the distribution. This is due to the presence of the guilty subjects, whose coins do not obey the null hypothesis (the entire population is a mixture of fair and unfair coins, whose respective Q-Q plots are shown in Figure <a href="big-data-stat.html#fig:qqplot-fair-biased">9.1</a>). If we apply the Bonferroni correction, very few of these will be punished. Controlling the Family-wise error rate ensures we have few false positives, but it comes at the cost of many false negatives.</p>
-<p>Instead of conservatively minimizing the probability of false positives, the Benjamini-Hochberg correction<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a> takes a more balanced view and instead controls the so-called <strong>False discovery rate (FDR)</strong> defined as the the expected fraction of false positives among all discoveries:</p>
-<p><span class="math display">\[\operatorname{FDR} = \operatorname{E}[\frac{V}{\max(R,\ 1)}]\]</span>,
+<p>Instead of conservatively minimizing the probability of false positives, the Benjamini-Hochberg correction <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> takes a more balanced view and instead controls the so-called <strong>False discovery rate (FDR)</strong> defined as the expected fraction of false positives among all discoveries:</p>
+<p><span class="math display">\[\operatorname{FDR} = \E[\frac{V}{\max(R,\ 1)}]\]</span>,
 where <span class="math inline">\(\max(R,\ 1)\)</span> ensures the denominator to not be 0.</p>
 <p>To do this, we first order our (unadjusted) <span class="math inline">\(P\)</span>-values. Let the ordered unadjusted <span class="math inline">\(P\)</span>-values be: <span class="math inline">\(P_1 \le P_2 \le \ ... \ \le P_m\)</span>. Let <span class="math inline">\(j\)</span> refer to a rank in this ordering, so <span class="math inline">\(P_j\)</span> is the j-th smallest <span class="math inline">\(P\)</span>-value, and <span class="math inline">\(H_{0,j}\)</span> is the respective null hypothesis.</p>
 <p>To control the FDR at level <span class="math inline">\(\alpha\)</span>, we let:</p>
@@ -961,35 +939,35 @@ where <span class="math inline">\(\max(R,\ 1)\)</span> ensures the denominator t
 <p><span class="math display">\[m_0 \frac{j^*\alpha}{m}\]</span></p>
 <p>false rejections. Overall, we reject <span class="math inline">\(j^*\)</span> times. Thus we get an FDR of:</p>
 <p><span class="math display">\[\frac{ m_0 \frac{j^*\alpha}{m}}{j^*} = \frac{m_0}{m} \alpha \leq \alpha\]</span></p>
-<p>The Benjamini-Hochberg correction is valid for independent test statistics and some types of dependence<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a></p>
+<p>The Benjamini-Hochberg correction is valid for independent test statistics and some types of dependence <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 <p>In R we do:</p>
 <p><code>p.adjust(p_values, method = "BH")</code></p>
 <p>We can also do the Benjamini-Hochberg correction graphically. For this we plot the rank <span class="math inline">\(j\)</span> of <span class="math inline">\(P\)</span>-values against their actual value:</p>
-<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb603-1"><a href="big-data-stat.html#cb603-1" aria-hidden="true" tabindex="-1"></a>dt_rank <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">p.value =</span> <span class="fu">sort</span>(dt<span class="sc">$</span>p.value), <span class="at">j =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>)</span>
-<span id="cb603-2"><a href="big-data-stat.html#cb603-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dt_rank, <span class="fu">aes</span>(<span class="at">x=</span>j,<span class="at">y=</span>p.value)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-379-1.png" width="384" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="big-data-stat.html#cb24-1" tabindex="-1"></a>dt_rank <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">p.value =</span> <span class="fu">sort</span>(dt<span class="sc">$</span>p.value), <span class="at">j =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>)</span>
+<span id="cb24-2"><a href="big-data-stat.html#cb24-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dt_rank, <span class="fu">aes</span>(<span class="at">x=</span>j,<span class="at">y=</span>p.value)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-22-1.png" width="384" /></p>
 <p>Note the visual similarity with the Q-Q plot.</p>
 <p>Next we draw a line with slope <span class="math inline">\(\frac{\alpha}{m}\)</span> and find the largest <span class="math inline">\(P\)</span>-value that falls below this line. We then reject for this test and all those with smaller <span class="math inline">\(P\)</span>-values:</p>
-<div class="sourceCode" id="cb604"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb604-1"><a href="big-data-stat.html#cb604-1" aria-hidden="true" tabindex="-1"></a>dt_rank[ , BH <span class="sc">:</span><span class="er">=</span> <span class="fu">p.adjust</span>(p.value, <span class="at">method=</span><span class="st">&quot;BH&quot;</span>)]</span>
-<span id="cb604-2"><a href="big-data-stat.html#cb604-2" aria-hidden="true" tabindex="-1"></a>dt_rank[ , rejected <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(BH<span class="sc">&lt;=</span><span class="fl">0.05</span>, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)]</span>
-<span id="cb604-3"><a href="big-data-stat.html#cb604-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dt_rank) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>j,<span class="at">y=</span>p.value,<span class="at">color=</span>rejected)) <span class="sc">+</span>   </span>
-<span id="cb604-4"><a href="big-data-stat.html#cb604-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="fu">aes</span>(<span class="at">intercept=</span><span class="dv">0</span>, <span class="at">slope=</span><span class="fl">0.05</span><span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
-<span id="cb604-5"><a href="big-data-stat.html#cb604-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_label(aes(x= 150, y=0.04,label=&quot;Slope: (j*alpha)/m&quot;)) + </span></span>
-<span id="cb604-6"><a href="big-data-stat.html#cb604-6" aria-hidden="true" tabindex="-1"></a>  mytheme</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-380-1.png" width="384" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="big-data-stat.html#cb25-1" tabindex="-1"></a>dt_rank[ , BH <span class="sc">:=</span> <span class="fu">p.adjust</span>(p.value, <span class="at">method=</span><span class="st">&quot;BH&quot;</span>)]</span>
+<span id="cb25-2"><a href="big-data-stat.html#cb25-2" tabindex="-1"></a>dt_rank[ , rejected <span class="sc">:=</span> <span class="fu">ifelse</span>(BH<span class="sc">&lt;=</span><span class="fl">0.05</span>, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)]</span>
+<span id="cb25-3"><a href="big-data-stat.html#cb25-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dt_rank) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>j,<span class="at">y=</span>p.value,<span class="at">color=</span>rejected)) <span class="sc">+</span>   </span>
+<span id="cb25-4"><a href="big-data-stat.html#cb25-4" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="fu">aes</span>(<span class="at">intercept=</span><span class="dv">0</span>, <span class="at">slope=</span><span class="fl">0.05</span><span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="big-data-stat.html#cb25-5" tabindex="-1"></a>  <span class="co">#geom_label(aes(x= 150, y=0.04,label=&quot;Slope: (j*alpha)/m&quot;)) + </span></span>
+<span id="cb25-6"><a href="big-data-stat.html#cb25-6" tabindex="-1"></a>  mytheme</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-23-1.png" width="384" /></p>
 <p>We zoom in a bit on the lower quadrant to make it more clear:</p>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-381-1.png" width="384" /></p>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-24-1.png" width="384" /></p>
 </div>
 </div>
-<div id="overview-figure" class="section level3" number="9.3.7">
-<h3><span class="header-section-number">9.3.7</span> Overview figure</h3>
+<div id="overview-figure" class="section level3 hasAnchor" number="9.3.7">
+<h3><span class="header-section-number">9.3.7</span> Overview figure<a href="big-data-stat.html#overview-figure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The following figure compares the methods once more:</p>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-382-1.png" width="576" /></p>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-25-1.png" width="576" /></p>
 <p>As expected, we see that the nominal <span class="math inline">\(P-\)</span>value cutoff is the most lenient, the FWER one (Bonferroni) the most stringent and the FDR ones (Benjamini-Hochberg) is intermediate.</p>
 </div>
 </div>
-<div id="conclusions" class="section level2" number="9.4">
-<h2><span class="header-section-number">9.4</span> Conclusions</h2>
+<div id="conclusions" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Conclusions<a href="big-data-stat.html#conclusions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In this chapter, we saw some reasons why we need to be careful when we apply hypothesis testing procedures in a big data context. Specifically we saw that as the sample size increases, even very small effects may become significant, but that does not mean that they actually <em>matter</em>. Moreover, we saw that when we run many tests, some are bound to reject the null, even if the null is always true. We thus need to apply a correction.</p>
 <p>Given what we learnt, let us return to the original question:</p>
 <pre><code>Scientists report that:
@@ -1002,8 +980,8 @@ If you are a coffee drinking TUM student aged 19-25 who was born in an odd-numbe
 <li>What is the effect size? After all, there are many thousands of university students in Germany. If enough of them were sampled, then even a small effect may have been detectable</li>
 <li>Was a multiple testing correction applied? The statement refers to some very specific subgroups (by occupation, by age, by birthday), so likely this hypothesis was not the only one which was tested. Thus the mere fact that <span class="math inline">\(P&lt;0.05\)</span> is not convincing.</li>
 </ul>
-<div id="to-remember" class="section level3" number="9.4.1">
-<h3><span class="header-section-number">9.4.1</span> To remember</h3>
+<div id="to-remember" class="section level3 hasAnchor" number="9.4.1">
+<h3><span class="header-section-number">9.4.1</span> To remember<a href="big-data-stat.html#to-remember" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now you should:</p>
 <ul>
 <li>Understand what an effect size is</li>
@@ -1014,8 +992,8 @@ If you are a coffee drinking TUM student aged 19-25 who was born in an odd-numbe
 </ul>
 </div>
 </div>
-<div id="references" class="section level2" number="9.5">
-<h2><span class="header-section-number">9.5</span> References</h2>
+<div id="references" class="section level2 hasAnchor" number="9.5">
+<h2><span class="header-section-number">9.5</span> References<a href="big-data-stat.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>Introduction to Data Science, Rafael Irizarry, Confidence intervals chapter
 <a href="https://rafalab.github.io/dsbook/confidence-intervals.html" class="uri">https://rafalab.github.io/dsbook/confidence-intervals.html</a></p></li>
@@ -1029,10 +1007,10 @@ If you are a coffee drinking TUM student aged 19-25 who was born in an odd-numbe
 </div>
 <div class="footnotes">
 <hr />
-<ol start="24">
-<li id="fn24"><p>Boole’s inequality. See <a href="https://en.wikipedia.org/wiki/Boole%27s_inequality" class="uri">https://en.wikipedia.org/wiki/Boole%27s_inequality</a><a href="big-data-stat.html#fnref24" class="footnote-back">↩︎</a></p></li>
-<li id="fn25"><p>Among the top 100 cited scientific papers of all times. <a href="https://www.nature.com/news/the-top-100-papers-1.16224" class="uri">https://www.nature.com/news/the-top-100-papers-1.16224</a><a href="big-data-stat.html#fnref25" class="footnote-back">↩︎</a></p></li>
-<li id="fn26"><p>While Benjamini-Hochberg is widely used, the independence assumption is questionable in practice. A modified version of the correction, called Benjamini-Yekutieli (<code>p.adjust (...,method="BY")</code>), does not require independence and shall be favored in applications. It goes beyond the scope of this lecture (and exam).<a href="big-data-stat.html#fnref26" class="footnote-back">↩︎</a></p></li>
+<ol start="1">
+<li id="fn1"><p>Boole’s inequality. See <a href="https://en.wikipedia.org/wiki/Boole%27s_inequality" class="uri">https://en.wikipedia.org/wiki/Boole%27s_inequality</a><a href="big-data-stat.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Among the top 100 cited scientific papers of all times. <a href="https://www.nature.com/news/the-top-100-papers-1.16224" class="uri">https://www.nature.com/news/the-top-100-papers-1.16224</a><a href="big-data-stat.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>While Benjamini-Hochberg is widely used, the independence assumption is questionable in practice. A modified version of the correction, called Benjamini-Yekutieli (<code>p.adjust (...,method="BY")</code>), does not require independence and shall be favored in applications. It goes beyond the scope of this lecture (and exam).<a href="big-data-stat.html#fnref3" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -1101,7 +1079,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

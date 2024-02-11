@@ -5,25 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Resampling-based Statistical Assessment | Data Analysis and Visualization in R (IN2339)</title>
-  <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Resampling-based Statistical Assessment | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta property="og:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 7 Resampling-based Statistical Assessment | Data Analysis and Visualization in R (IN2339)" />
   
-  <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="twitter:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
 
 
-<meta name="date" content="2022-02-06" />
+<meta name="date" content="2024-02-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="graph-supported-hypos.html"/>
 <link rel="next" href="analytical-stat.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,10 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -94,7 +91,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -107,7 +104,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -121,6 +118,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -161,10 +162,6 @@ div.csl-indent {
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i>Acknowledgments</a></li>
-<li class="chapter" data-level="" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i>Prerequisites</a></li>
-<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i>Datasets</a></li>
-<li class="chapter" data-level="" data-path="feedback.html"><a href="feedback.html"><i class="fa fa-check"></i>Feedback</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#data-science-what-and-why"><i class="fa fa-check"></i>Data Science: What and why?</a></li>
@@ -279,25 +276,28 @@ div.csl-indent {
 <li class="chapter" data-level="3.3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#melting-wide-to-long"><i class="fa fa-check"></i><b>3.3.1</b> Melting (wide to long)</a></li>
 <li class="chapter" data-level="3.3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#casting-long-to-wide"><i class="fa fa-check"></i><b>3.3.2</b> Casting (long to wide)</a></li>
 <li class="chapter" data-level="3.3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#separating-columns"><i class="fa fa-check"></i><b>3.3.3</b> Separating columns</a></li>
-<li class="chapter" data-level="3.3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.3.4</b> Uniting columns</a></li>
-<li class="chapter" data-level="3.3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.3.5</b> Advanced: Columns containing sets of values</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.4</b> Concatenating tables</a></li>
-<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.5</b> Merging tables</a>
+<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#one-column-contains-multiple-variables"><i class="fa fa-check"></i><b>3.4</b> One column contains multiple variables</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.5.1</b> Inner merge</a></li>
-<li class="chapter" data-level="3.5.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.5.2</b> Outer (full) merge</a></li>
-<li class="chapter" data-level="3.5.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.5.3</b> Left merge</a></li>
-<li class="chapter" data-level="3.5.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.5.4</b> Right merge</a></li>
-<li class="chapter" data-level="3.5.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.5.5</b> Merging by several columns</a></li>
+<li class="chapter" data-level="3.4.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.4.1</b> Uniting columns</a></li>
+<li class="chapter" data-level="3.4.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.4.2</b> Advanced: Columns containing sets of values</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.6</b> Tidy representations are not unique</a>
+<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.5</b> Concatenating tables</a></li>
+<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.6</b> Merging tables</a>
 <ul>
-<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.6.1</b> Alternative tidy forms of a table</a></li>
-<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.6.2</b> On multiple types of observational units in the same table</a></li>
+<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.6.1</b> Inner merge</a></li>
+<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.6.2</b> Outer (full) merge</a></li>
+<li class="chapter" data-level="3.6.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.6.3</b> Left merge</a></li>
+<li class="chapter" data-level="3.6.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.6.4</b> Right merge</a></li>
+<li class="chapter" data-level="3.6.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.6.5</b> Merging by several columns</a></li>
 </ul></li>
-<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.7</b> Summary</a></li>
-<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.8</b> Tidy data resources</a></li>
+<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.7</b> Tidy representations are not unique</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.7.1</b> Alternative tidy forms of a table</a></li>
+<li class="chapter" data-level="3.7.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.7.2</b> On multiple types of observational units in the same table</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.8</b> Summary</a></li>
+<li class="chapter" data-level="3.9" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.9</b> Tidy data resources</a></li>
 </ul></li>
 <li class="part"><span><b>II Look</b></span></li>
 <li class="chapter" data-level="4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html"><i class="fa fa-check"></i><b>4</b> Low dimensional visualizations</a>
@@ -595,7 +595,7 @@ div.csl-indent {
 <li class="chapter" data-level="A.4" data-path="importing-data.html"><a href="importing-data.html#downloading-files"><i class="fa fa-check"></i><b>A.4</b> Downloading files</a></li>
 <li class="chapter" data-level="A.5" data-path="importing-data.html"><a href="importing-data.html#r-base-importing-functions"><i class="fa fa-check"></i><b>A.5</b> R-base importing functions</a>
 <ul>
-<li><a href="importing-data.html#scan"><code>scan</code></a></li>
+<li class="chapter" data-level="" data-path="importing-data.html"><a href="importing-data.html#scan"><i class="fa fa-check"></i><code>scan</code></a></li>
 </ul></li>
 <li class="chapter" data-level="A.6" data-path="importing-data.html"><a href="importing-data.html#text-versus-binary-files"><i class="fa fa-check"></i><b>A.6</b> Text versus binary files</a></li>
 <li class="chapter" data-level="A.7" data-path="importing-data.html"><a href="importing-data.html#unicode-versus-ascii"><i class="fa fa-check"></i><b>A.7</b> Unicode versus ASCII</a></li>
@@ -652,8 +652,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="resampling-stat" class="section level1" number="7">
-<h1><span class="header-section-number">Chapter 7</span> Resampling-based Statistical Assessment</h1>
+<div id="resampling-stat" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Resampling-based Statistical Assessment<a href="resampling-stat.html#resampling-stat" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <!-- We have so far based all our analyses on visualizations. Algorithms have been employed only for helping visualization of high-dimensional datasets.  -->
 <!-- As described in the last Chapter, one of the main goal of data analysis is to identify interesting associations between variables.  -->
 <!--
@@ -665,7 +665,7 @@ flightsLAX <- fread('extdata/flights/flightsLAX.csv')
 ggplot(flightsLAX[ARRIVAL_DELAY>30],aes(AIRLINE,ARRIVAL_DELAY))+geom_violin()
 ```
 
-<img src="dataviz_book_files/figure-html/unnamed-chunk-284-1.png" width="1000px" />
+<img src="dataviz_book_files/figure-html/unnamed-chunk-3-1.png" width="1000px" />
 
 So, we might conclude that if we have the choice, we should not fly with American, correct?
 
@@ -685,19 +685,19 @@ ggplot(flightsLAX[ARRIVAL_DELAY>30],aes(AIRLINE,ARRIVAL_DELAY)) + geom_boxplot()
   scale_y_log10()
 ```
 
-<img src="dataviz_book_files/figure-html/unnamed-chunk-285-1.png" width="1000px" />
+<img src="dataviz_book_files/figure-html/unnamed-chunk-4-1.png" width="1000px" />
 We see that in terms of the median delay, the airlines all look very similar. We see furthermore that the trend of extreme delays from AA seems to be driven by a small number of flights. Given this, we maybe should be skeptical of making strong conclusions.
 
 For the football example, we can be equally skeptical. 
 -->
 <p>This chapter introduces concepts and methods to answer these types of questions. We cover the concept of hypothesis testing and of statistical significance, which is another way of saying that a trend is unlikely to have arisen purely by chance. We also introduce the concept of confidence interval which models our uncertainty when estimating parameters such as the mean of a variable. To this end, this chapter describes two largely applicable computational methods: permutation testing and case resampling. These methods are based on resampling the data at hand, thereby making little modeling assumptions.</p>
-<div id="yeast-dataset" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> The yeast dataset</h2>
-<div id="the-experiment" class="section level3" number="7.1.1">
-<h3><span class="header-section-number">7.1.1</span> The experiment</h3>
+<div id="yeast-dataset" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> The yeast dataset<a href="resampling-stat.html#yeast-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="the-experiment" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> The experiment<a href="resampling-stat.html#the-experiment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This section introduces a dataset that we will use throughout this chapter, and occasionally in the following chapters.</p>
 <p>Yeast is a good old friend of humans. Thanks to yeast, we can make bread, wine, and (not the least for TUM and Munich) beer. Yeast is also very much studied by biologists. The yeast strain that is commonly used in research labs grows poorly on maltose compared to wild yeast strains. Hard to brew malt beer with the lab strain… One may wonder whether the lab strain has acquired a genetic mutation causing this poor fitness in maltose media. If so, on which chromosome, near which gene?</p>
-<p>Our dataset <span class="citation">(<a href="#ref-gagneur2013" role="doc-biblioref">Gagneur et al. 2013</a>)</span> allows addressing these questions (and further yeast genetic questions). The lab strain was crossed with a wild isolate growing well on maltose. Overall, 184 offsprings, also called segregants, were obtained. During a cross, parental chromosomes are recombined at discrete random locations in a process called cross-over.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> Consequently, the chromosomes of the segregants consist of alternated segments inherited from either parent. Yeast has 16 chromosomes. Figure <a href="resampling-stat.html#fig:yeast-cross">7.1</a> illustrates this crossing process for one chromosome.</p>
+<p>Our dataset <span class="citation">(<a href="#ref-gagneur2013">Gagneur et al. 2013</a>)</span> allows addressing these questions (and further yeast genetic questions). The lab strain was crossed with a wild isolate growing well on maltose. Overall, 158 offsprings, also called segregants, were considered. During a cross, parental chromosomes are recombined at discrete random locations in a process called cross-over <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Consequently, the chromosomes of the segregants consist of alternated segments inherited from either parent. Yeast has 16 chromosomes. Figure <a href="resampling-stat.html#fig:yeast-cross">7.1</a> illustrates this crossing process for one chromosome.</p>
 <div class="figure"><span style="display:block;" id="fig:yeast-cross"></span>
 <img src="assets/img/lec09-stat-testing/lec09_yeast_cross.png" alt="Cross of the lab strain and wild isolate. Meiotic recombination implies that chromosomes of the offsprings consist of alternated segments inherited from either parent." width="600px" />
 <p class="caption">
@@ -706,9 +706,9 @@ Figure 7.1: Cross of the lab strain and wild isolate. Meiotic recombination impl
 </div>
 <p>This shuffling of the genetic information is helpful to identify on which chromosomal location(s) genetic variations responsible for the growth rate difference could reside.</p>
 </div>
-<div id="genotype" class="section level3" number="7.1.2">
-<h3><span class="header-section-number">7.1.2</span> Genotype</h3>
-<p>The <code>genotype</code> table reports the genotype of each of the 184 yeast strains at 1,000 genomic locations called genetic markers. At each marker, the genotype values are either “Lab strain” or “Wild isolate” (Figure <a href="resampling-stat.html#fig:genotype-matrix">7.2</a>).</p>
+<div id="genotype" class="section level3 hasAnchor" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Genotype<a href="resampling-stat.html#genotype" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>genotype</code> table reports the genotype of each of the 158 yeast strains at 1,000 genomic locations called genetic markers. At each marker, the genotype values are either “Lab strain” or “Wild isolate” (Figure <a href="resampling-stat.html#fig:genotype-matrix">7.2</a>).</p>
 <div class="figure"><span style="display:block;" id="fig:genotype-matrix"></span>
 <img src="assets/img/lec09-stat-testing/lec09_genotype.png" alt="Sketch of the genotype of segregants (rows) across the 16 chromosomes. The genotypes are provided at 1,000 genomic positions (called markers, vertical line). The colors indicate the genotype (blue: Lab strain, red: Wild isolate)." width="800px" />
 <p class="caption">
@@ -716,10 +716,10 @@ Figure 7.2: Sketch of the genotype of segregants (rows) across the 16 chromosome
 </p>
 </div>
 <p>See below for a section of the data table:</p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="resampling-stat.html#cb476-1" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/eqtl/genotype.txt&quot;</span>)</span>
-<span id="cb476-2"><a href="resampling-stat.html#cb476-2" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> genotype <span class="sc">%&gt;%</span> </span>
-<span id="cb476-3"><a href="resampling-stat.html#cb476-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">id.vars =</span> <span class="st">&#39;strain&#39;</span>, <span class="at">variable.name =</span> <span class="st">&#39;marker&#39;</span>, <span class="at">value.name =</span> <span class="st">&#39;genotype&#39;</span>)</span>
-<span id="cb476-4"><a href="resampling-stat.html#cb476-4" aria-hidden="true" tabindex="-1"></a>genotype</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="resampling-stat.html#cb1-1" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/eqtl/genotype.txt&quot;</span>)</span>
+<span id="cb1-2"><a href="resampling-stat.html#cb1-2" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> genotype <span class="sc">%&gt;%</span> </span>
+<span id="cb1-3"><a href="resampling-stat.html#cb1-3" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">id.vars =</span> <span class="st">&#39;strain&#39;</span>, <span class="at">variable.name =</span> <span class="st">&#39;marker&#39;</span>, <span class="at">value.name =</span> <span class="st">&#39;genotype&#39;</span>)</span>
+<span id="cb1-4"><a href="resampling-stat.html#cb1-4" tabindex="-1"></a>genotype</span></code></pre></div>
 <pre><code>##          strain    marker     genotype
 ##      1: seg_01B     mrk_1   Lab strain
 ##      2: seg_01C     mrk_1 Wild isolate
@@ -733,8 +733,8 @@ Figure 7.2: Sketch of the genotype of segregants (rows) across the 16 chromosome
 ## 157999: seg_50B mrk_13314 Wild isolate
 ## 158000: seg_50D mrk_13314   Lab strain</code></pre>
 <p>If we want to know where the markers are located in the genome, we can consult the <code>marker</code> table. This table reports genomic coordinates of the markers (chromosome, start, and stop):</p>
-<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="resampling-stat.html#cb478-1" aria-hidden="true" tabindex="-1"></a>marker <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/eqtl/marker.txt&quot;</span>)</span>
-<span id="cb478-2"><a href="resampling-stat.html#cb478-2" aria-hidden="true" tabindex="-1"></a>marker</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="resampling-stat.html#cb3-1" tabindex="-1"></a>marker <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/eqtl/marker.txt&quot;</span>)</span>
+<span id="cb3-2"><a href="resampling-stat.html#cb3-2" tabindex="-1"></a>marker</span></code></pre></div>
 <pre><code>##              id chrom  start    end
 ##    1:     mrk_1 chr01   1512   2366
 ##    2:    mrk_14 chr01  29161  29333
@@ -748,12 +748,12 @@ Figure 7.2: Sketch of the genotype of segregants (rows) across the 16 chromosome
 ##  999: mrk_13300 chr16 939647 939679
 ## 1000: mrk_13314 chr16 944640 944667</code></pre>
 </div>
-<div id="growth-rates" class="section level3" number="7.1.3">
-<h3><span class="header-section-number">7.1.3</span> Growth rates</h3>
+<div id="growth-rates" class="section level3 hasAnchor" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> Growth rates<a href="resampling-stat.html#growth-rates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>growth</code> table contains the growth rates expressed in generations per day for each strain in five different growth media. These growth media are YPD (glucose), YPD_BPS (low iron), YPD_Rapa (Rapamycin), YPE (Ethanol), YPMalt (Maltose).</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="resampling-stat.html#cb480-1" aria-hidden="true" tabindex="-1"></a>growth <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/eqtl/growth.txt&quot;</span>)</span>
-<span id="cb480-2"><a href="resampling-stat.html#cb480-2" aria-hidden="true" tabindex="-1"></a>growth <span class="ot">&lt;-</span> growth <span class="sc">%&gt;%</span> <span class="fu">melt</span>(<span class="at">id.vars =</span> <span class="st">&quot;strain&quot;</span>, <span class="at">variable.name =</span> <span class="st">&#39;media&#39;</span>, <span class="at">value.name =</span> <span class="st">&#39;growth_rate&#39;</span>)</span>
-<span id="cb480-3"><a href="resampling-stat.html#cb480-3" aria-hidden="true" tabindex="-1"></a>growth</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="resampling-stat.html#cb5-1" tabindex="-1"></a>growth <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;extdata/eqtl/growth.txt&quot;</span>)</span>
+<span id="cb5-2"><a href="resampling-stat.html#cb5-2" tabindex="-1"></a>growth <span class="ot">&lt;-</span> growth <span class="sc">%&gt;%</span> <span class="fu">melt</span>(<span class="at">id.vars =</span> <span class="st">&quot;strain&quot;</span>, <span class="at">variable.name =</span> <span class="st">&#39;media&#39;</span>, <span class="at">value.name =</span> <span class="st">&#39;growth_rate&#39;</span>)</span>
+<span id="cb5-3"><a href="resampling-stat.html#cb5-3" tabindex="-1"></a>growth</span></code></pre></div>
 <pre><code>##       strain  media growth_rate
 ##   1: seg_01B    YPD   12.603986
 ##   2: seg_01C    YPD   10.791144
@@ -767,94 +767,93 @@ Figure 7.2: Sketch of the genotype of segregants (rows) across the 16 chromosome
 ## 789: seg_50B YPMalt    6.583852
 ## 790: seg_50D YPMalt    7.421968</code></pre>
 </div>
-<div id="genotype-growth-rate-association-in-maltose-at-a-specific-marker" class="section level3" number="7.1.4">
-<h3><span class="header-section-number">7.1.4</span> Genotype-growth rate association in maltose at a specific marker</h3>
+<div id="genotype-growth-rate-association-in-maltose-at-a-specific-marker" class="section level3 hasAnchor" number="7.1.4">
+<h3><span class="header-section-number">7.1.4</span> Genotype-growth rate association in maltose at a specific marker<a href="resampling-stat.html#genotype-growth-rate-association-in-maltose-at-a-specific-marker" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In this Chapter, we focus on a simple, targeted question. We know beforehand that the gene MAL13 is important for maltose metabolism. Could genetic variation between the lab strain and the wild isolate near the gene MAL13 be responsible for the growth difference in maltose?</p>
 <p>Marker 5211, which starts at positions 1069229 of chromosome 07, is the closest marker to the gene MAL13. We thus ask whether genotype at marker 5211 associates with growth rate in maltose.<br />
 To assess this hypothesis, we first create a data table called <code>dt</code> that contains the relevant data and visualize with a boxplot how growth rates distribute depending on the genotype at marker 5211:</p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="resampling-stat.html#cb482-1" aria-hidden="true" tabindex="-1"></a>mk <span class="ot">&lt;-</span> marker[chrom <span class="sc">==</span> <span class="st">&quot;chr07&quot;</span> <span class="sc">&amp;</span> start <span class="sc">==</span> <span class="dv">1069229</span>, id]</span>
-<span id="cb482-2"><a href="resampling-stat.html#cb482-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb482-3"><a href="resampling-stat.html#cb482-3" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
-<span id="cb482-4"><a href="resampling-stat.html#cb482-4" aria-hidden="true" tabindex="-1"></a>  growth[media <span class="sc">==</span> <span class="st">&#39;YPMalt&#39;</span>],</span>
-<span id="cb482-5"><a href="resampling-stat.html#cb482-5" aria-hidden="true" tabindex="-1"></a>  genotype[marker <span class="sc">==</span> mk, .(strain, genotype)],</span>
-<span id="cb482-6"><a href="resampling-stat.html#cb482-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">&#39;strain&#39;</span></span>
-<span id="cb482-7"><a href="resampling-stat.html#cb482-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb482-8"><a href="resampling-stat.html#cb482-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb482-9"><a href="resampling-stat.html#cb482-9" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> dt<span class="sc">%&gt;%</span> </span>
-<span id="cb482-10"><a href="resampling-stat.html#cb482-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(genotype, growth_rate)) <span class="sc">+</span></span>
-<span id="cb482-11"><a href="resampling-stat.html#cb482-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb482-12"><a href="resampling-stat.html#cb482-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">paste0</span>(<span class="st">&quot;Genotype at &quot;</span>, mk)) <span class="sc">+</span> </span>
-<span id="cb482-13"><a href="resampling-stat.html#cb482-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Growth rate in Maltose [Generations/day]&quot;</span>) <span class="sc">+</span></span>
-<span id="cb482-14"><a href="resampling-stat.html#cb482-14" aria-hidden="true" tabindex="-1"></a>  mytheme</span>
-<span id="cb482-15"><a href="resampling-stat.html#cb482-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb482-16"><a href="resampling-stat.html#cb482-16" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-289-1.png" width="384" /></p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="resampling-stat.html#cb483-1" aria-hidden="true" tabindex="-1"></a>dt[genotype <span class="sc">==</span> <span class="st">&#39;Wild isolate&#39;</span>, <span class="fu">median</span>(growth_rate, <span class="at">na.rm=</span>T)] <span class="sc">-</span> </span>
-<span id="cb483-2"><a href="resampling-stat.html#cb483-2" aria-hidden="true" tabindex="-1"></a>    dt[genotype <span class="sc">==</span> <span class="st">&#39;Lab strain&#39;</span>, <span class="fu">median</span>(growth_rate, <span class="at">na.rm=</span>T)]</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="resampling-stat.html#cb7-1" tabindex="-1"></a>mk <span class="ot">&lt;-</span> marker[chrom <span class="sc">==</span> <span class="st">&quot;chr07&quot;</span> <span class="sc">&amp;</span> start <span class="sc">==</span> <span class="dv">1069229</span>, id]</span>
+<span id="cb7-2"><a href="resampling-stat.html#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="resampling-stat.html#cb7-3" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
+<span id="cb7-4"><a href="resampling-stat.html#cb7-4" tabindex="-1"></a>  growth[media <span class="sc">==</span> <span class="st">&#39;YPMalt&#39;</span>],</span>
+<span id="cb7-5"><a href="resampling-stat.html#cb7-5" tabindex="-1"></a>  genotype[marker <span class="sc">==</span> mk, .(strain, genotype)],</span>
+<span id="cb7-6"><a href="resampling-stat.html#cb7-6" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">&#39;strain&#39;</span></span>
+<span id="cb7-7"><a href="resampling-stat.html#cb7-7" tabindex="-1"></a>  )</span>
+<span id="cb7-8"><a href="resampling-stat.html#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="resampling-stat.html#cb7-9" tabindex="-1"></a>p <span class="ot">&lt;-</span> dt<span class="sc">%&gt;%</span> </span>
+<span id="cb7-10"><a href="resampling-stat.html#cb7-10" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(genotype, growth_rate)) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="resampling-stat.html#cb7-11" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb7-12"><a href="resampling-stat.html#cb7-12" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">paste0</span>(<span class="st">&quot;Genotype at &quot;</span>, mk)) <span class="sc">+</span> </span>
+<span id="cb7-13"><a href="resampling-stat.html#cb7-13" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Growth rate in Maltose [Generations/day]&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="resampling-stat.html#cb7-14" tabindex="-1"></a>  mytheme</span>
+<span id="cb7-15"><a href="resampling-stat.html#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="resampling-stat.html#cb7-16" tabindex="-1"></a>p</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-8-1.png" width="384" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="resampling-stat.html#cb8-1" tabindex="-1"></a>dt[genotype <span class="sc">==</span> <span class="st">&#39;Wild isolate&#39;</span>, <span class="fu">median</span>(growth_rate, <span class="at">na.rm=</span>T)] <span class="sc">-</span> </span>
+<span id="cb8-2"><a href="resampling-stat.html#cb8-2" tabindex="-1"></a>    dt[genotype <span class="sc">==</span> <span class="st">&#39;Lab strain&#39;</span>, <span class="fu">median</span>(growth_rate, <span class="at">na.rm=</span>T)]</span></code></pre></div>
 <pre><code>## [1] 2.172018</code></pre>
 <p>We see that genotype at that marker indeed associates with a strong difference in growth rates in the Maltose media, with a difference between the medians of 2.17 generations per day.</p>
 <p>But, as we already discussed in the motivating section, we need to be careful before making any conclusions. Maybe the pattern we see is an artifact of random variation and would disappear if we had more data. In the following we approach this issue with two concepts. We first look at statistical hypothesis testing, assessing whether the association could have arisen by chance due to sampling variation. Next, we will consider parameter uncertainty, which will provide error bars around our difference of medians estimate.</p>
 </div>
 </div>
-<div id="statistical-hypothesis-testing" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Statistical hypothesis testing</h2>
+<div id="statistical-hypothesis-testing" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Statistical hypothesis testing<a href="resampling-stat.html#statistical-hypothesis-testing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Statistical hypothesis testing, often just referred to as hypothesis testing, is a method to assess whether an observed trend could have arisen by chance. We first describe intuitively a specific hypothesis testing method called permutation testing, to then describe the general concept.</p>
-<div id="permut-test-build-up" class="section level3" number="7.2.1">
-<h3><span class="header-section-number">7.2.1</span> Permutation testing: An intuitive build-up</h3>
+<div id="permut-test-build-up" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Permutation testing: An intuitive build-up<a href="resampling-stat.html#permut-test-build-up" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We take the proverbial “Devil’s Advocate” standpoint. We consider the possibility that such a large difference of growth rate medians could often arise by chance, would we make arbitrary groups of the same size than those defined by the genotype.</p>
 <p>To simulate such random data, we permute the values of the genotype keeping the growth rate values fixed. To permute values of a vector we can use the R function <code>sample()</code> with default parameters as in the example below:</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="resampling-stat.html#cb485-1" aria-hidden="true" tabindex="-1"></a>LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="resampling-stat.html#cb10-1" tabindex="-1"></a>LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code></pre></div>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot;</code></pre>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="resampling-stat.html#cb487-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span></code></pre></div>
-<pre><code>## [1] &quot;H&quot; &quot;E&quot; &quot;G&quot; &quot;B&quot; &quot;F&quot; &quot;C&quot; &quot;D&quot; &quot;A&quot;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="resampling-stat.html#cb12-1" tabindex="-1"></a><span class="fu">sample</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span></code></pre></div>
+<pre><code>## [1] &quot;F&quot; &quot;B&quot; &quot;H&quot; &quot;E&quot; &quot;G&quot; &quot;D&quot; &quot;C&quot; &quot;A&quot;</code></pre>
 <p>We now shuffle the genotype column. To keep the original data safe, we work on <code>dt_permuted</code>, a copy of the table <code>dt</code>.</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="resampling-stat.html#cb489-1" aria-hidden="true" tabindex="-1"></a>dt_permuted <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt)</span>
-<span id="cb489-2"><a href="resampling-stat.html#cb489-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0</span>) <span class="co"># the seed of the random number generator</span></span>
-<span id="cb489-3"><a href="resampling-stat.html#cb489-3" aria-hidden="true" tabindex="-1"></a>dt_permuted[ , genotype<span class="sc">:</span><span class="er">=</span><span class="fu">sample</span>(genotype)]</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="resampling-stat.html#cb14-1" tabindex="-1"></a>dt_permuted <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt)</span>
+<span id="cb14-2"><a href="resampling-stat.html#cb14-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0</span>) <span class="co"># the seed of the random number generator</span></span>
+<span id="cb14-3"><a href="resampling-stat.html#cb14-3" tabindex="-1"></a>dt_permuted[ , genotype<span class="sc">:=</span><span class="fu">sample</span>(genotype)]</span></code></pre></div>
 <p>For this simulated data, the boxplot looks less impressive:</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="resampling-stat.html#cb490-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The %+% operator updates the dataset of a ggplot object</span></span>
-<span id="cb490-2"><a href="resampling-stat.html#cb490-2" aria-hidden="true" tabindex="-1"></a><span class="co"># convenient, isn&#39;t it?</span></span>
-<span id="cb490-3"><a href="resampling-stat.html#cb490-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">%+%</span> dt_permuted </span>
-<span id="cb490-4"><a href="resampling-stat.html#cb490-4" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-293-1.png" width="384" /></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="resampling-stat.html#cb15-1" tabindex="-1"></a><span class="co"># The %+% operator updates the dataset of a ggplot object</span></span>
+<span id="cb15-2"><a href="resampling-stat.html#cb15-2" tabindex="-1"></a><span class="co"># convenient, isn&#39;t it?</span></span>
+<span id="cb15-3"><a href="resampling-stat.html#cb15-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">%+%</span> dt_permuted </span>
+<span id="cb15-4"><a href="resampling-stat.html#cb15-4" tabindex="-1"></a>p</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-12-1.png" width="384" /></p>
 <p>We can also recompute the difference of medians. To not have repeated code, let us define a function (See Appendix <a href="appendix-r-programming.html#appendix-r-programming">B</a>) that takes a table as input. We check immediately that our function properly returns the original difference of medians when applied to <code>dt</code>.</p>
-<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="resampling-stat.html#cb491-1" aria-hidden="true" tabindex="-1"></a>diff_median <span class="ot">&lt;-</span> <span class="cf">function</span>(tab){</span>
-<span id="cb491-2"><a href="resampling-stat.html#cb491-2" aria-hidden="true" tabindex="-1"></a>  tab[genotype <span class="sc">==</span> <span class="st">&#39;Wild isolate&#39;</span>, <span class="fu">median</span>(growth_rate, <span class="at">na.rm=</span>T)] <span class="sc">-</span> </span>
-<span id="cb491-3"><a href="resampling-stat.html#cb491-3" aria-hidden="true" tabindex="-1"></a>    tab[genotype <span class="sc">==</span> <span class="st">&#39;Lab strain&#39;</span>, <span class="fu">median</span>(growth_rate, <span class="at">na.rm=</span>T)]</span>
-<span id="cb491-4"><a href="resampling-stat.html#cb491-4" aria-hidden="true" tabindex="-1"></a>} </span>
-<span id="cb491-5"><a href="resampling-stat.html#cb491-5" aria-hidden="true" tabindex="-1"></a>T_obs <span class="ot">&lt;-</span> <span class="fu">diff_median</span>(dt)</span>
-<span id="cb491-6"><a href="resampling-stat.html#cb491-6" aria-hidden="true" tabindex="-1"></a>T_obs</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="resampling-stat.html#cb16-1" tabindex="-1"></a>diff_median <span class="ot">&lt;-</span> <span class="cf">function</span>(tab){</span>
+<span id="cb16-2"><a href="resampling-stat.html#cb16-2" tabindex="-1"></a>  tab[genotype <span class="sc">==</span> <span class="st">&#39;Wild isolate&#39;</span>, <span class="fu">median</span>(growth_rate, <span class="at">na.rm=</span>T)] <span class="sc">-</span> </span>
+<span id="cb16-3"><a href="resampling-stat.html#cb16-3" tabindex="-1"></a>    tab[genotype <span class="sc">==</span> <span class="st">&#39;Lab strain&#39;</span>, <span class="fu">median</span>(growth_rate, <span class="at">na.rm=</span>T)]</span>
+<span id="cb16-4"><a href="resampling-stat.html#cb16-4" tabindex="-1"></a>} </span>
+<span id="cb16-5"><a href="resampling-stat.html#cb16-5" tabindex="-1"></a>T_obs <span class="ot">&lt;-</span> <span class="fu">diff_median</span>(dt)</span>
+<span id="cb16-6"><a href="resampling-stat.html#cb16-6" tabindex="-1"></a>T_obs</span></code></pre></div>
 <pre><code>## [1] 2.172018</code></pre>
 <p>The difference of medians in this permuted dataset is now only 0.21 generations per day:</p>
-<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="resampling-stat.html#cb493-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff_median</span>(dt_permuted)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="resampling-stat.html#cb18-1" tabindex="-1"></a><span class="fu">diff_median</span>(dt_permuted)</span></code></pre></div>
 <pre><code>## [1] 0.2135481</code></pre>
 <p>This is not fully convincing yet. Maybe our “devil’s advocate” has been unlucky with this one randomization. However, we can easily repeat this operation many times, e.g. 1,000 times. We denote the number of permutations <span class="math inline">\(m\)</span>. We iterate <span class="math inline">\(m\)</span> times using a for loop (See Appendix <a href="appendix-r-programming.html#appendix-r-programming">B</a>). We record the difference of medians of the i-th iteration in a vector called <code>T_permuted</code>.</p>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="resampling-stat.html#cb495-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of permutations</span></span>
-<span id="cb495-2"><a href="resampling-stat.html#cb495-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">1000</span> </span>
-<span id="cb495-3"><a href="resampling-stat.html#cb495-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb495-4"><a href="resampling-stat.html#cb495-4" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize T_permuted with missing values</span></span>
-<span id="cb495-5"><a href="resampling-stat.html#cb495-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (safer than with 0&#39;s)</span></span>
-<span id="cb495-6"><a href="resampling-stat.html#cb495-6" aria-hidden="true" tabindex="-1"></a>T_permuted <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, m)</span>
-<span id="cb495-7"><a href="resampling-stat.html#cb495-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb495-8"><a href="resampling-stat.html#cb495-8" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate for i=1 to m</span></span>
-<span id="cb495-9"><a href="resampling-stat.html#cb495-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m){</span>
-<span id="cb495-10"><a href="resampling-stat.html#cb495-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># permute the genotype column in place </span></span>
-<span id="cb495-11"><a href="resampling-stat.html#cb495-11" aria-hidden="true" tabindex="-1"></a>  dt_permuted[ , genotype<span class="sc">:</span><span class="er">=</span><span class="fu">sample</span>(genotype)]</span>
-<span id="cb495-12"><a href="resampling-stat.html#cb495-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># store the difference of medians in the i-th entry of T_permuted</span></span>
-<span id="cb495-13"><a href="resampling-stat.html#cb495-13" aria-hidden="true" tabindex="-1"></a>  T_permuted[i] <span class="ot">&lt;-</span> <span class="fu">diff_median</span>(dt_permuted)</span>
-<span id="cb495-14"><a href="resampling-stat.html#cb495-14" aria-hidden="true" tabindex="-1"></a>} </span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="resampling-stat.html#cb20-1" tabindex="-1"></a><span class="co"># number of permutations</span></span>
+<span id="cb20-2"><a href="resampling-stat.html#cb20-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">1000</span> </span>
+<span id="cb20-3"><a href="resampling-stat.html#cb20-3" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="resampling-stat.html#cb20-4" tabindex="-1"></a><span class="co"># initialize T_permuted with missing values</span></span>
+<span id="cb20-5"><a href="resampling-stat.html#cb20-5" tabindex="-1"></a><span class="co"># (safer than with 0&#39;s)</span></span>
+<span id="cb20-6"><a href="resampling-stat.html#cb20-6" tabindex="-1"></a>T_permuted <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, m)</span>
+<span id="cb20-7"><a href="resampling-stat.html#cb20-7" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="resampling-stat.html#cb20-8" tabindex="-1"></a><span class="co"># iterate for i=1 to m</span></span>
+<span id="cb20-9"><a href="resampling-stat.html#cb20-9" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m){</span>
+<span id="cb20-10"><a href="resampling-stat.html#cb20-10" tabindex="-1"></a>  <span class="co"># permute the genotype column in place </span></span>
+<span id="cb20-11"><a href="resampling-stat.html#cb20-11" tabindex="-1"></a>  dt_permuted[ , genotype<span class="sc">:=</span><span class="fu">sample</span>(genotype)]</span>
+<span id="cb20-12"><a href="resampling-stat.html#cb20-12" tabindex="-1"></a>  <span class="co"># store the difference of medians in the i-th entry of T_permuted</span></span>
+<span id="cb20-13"><a href="resampling-stat.html#cb20-13" tabindex="-1"></a>  T_permuted[i] <span class="ot">&lt;-</span> <span class="fu">diff_median</span>(dt_permuted)</span>
+<span id="cb20-14"><a href="resampling-stat.html#cb20-14" tabindex="-1"></a>} </span></code></pre></div>
 <p>Let us look at how these values distribute with a histogram and mark our original observation with a vertical line:</p>
-<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="resampling-stat.html#cb496-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( <span class="fu">data.table</span>(T_permuted), <span class="fu">aes</span>(<span class="at">x =</span> T_permuted) ) <span class="sc">+</span> </span>
-<span id="cb496-2"><a href="resampling-stat.html#cb496-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
-<span id="cb496-3"><a href="resampling-stat.html#cb496-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>( <span class="fu">aes</span>(<span class="at">xintercept=</span>T_obs, <span class="at">color =</span> <span class="st">&quot;T_obs&quot;</span>) )</span></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
-## `binwidth`.</code></pre>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-297-1.png" width="480" /></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="resampling-stat.html#cb21-1" tabindex="-1"></a><span class="fu">ggplot</span>( <span class="fu">data.table</span>(T_permuted), <span class="fu">aes</span>(<span class="at">x =</span> T_permuted) ) <span class="sc">+</span> </span>
+<span id="cb21-2"><a href="resampling-stat.html#cb21-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
+<span id="cb21-3"><a href="resampling-stat.html#cb21-3" tabindex="-1"></a>  <span class="fu">geom_vline</span>( <span class="fu">aes</span>(<span class="at">xintercept=</span>T_obs, <span class="at">color =</span> <span class="st">&quot;T_obs&quot;</span>) )</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-16-1.png" width="480" /></p>
 <p>The observed difference of medians stands far out from the distribution of the permuted data. We never observed a difference equal or larger than the original one among 1,000 permutations. We can conclude it is unlikely that such a large difference could have arisen by chance.</p>
 <p>This empirical approach is quite intuitive. Let us now formalize it and precisely specify the underlying assumptions in order to understand when and how we can apply it.</p>
 </div>
-<div id="concepts-of-statistical-hypothesis-testing" class="section level3" number="7.2.2">
-<h3><span class="header-section-number">7.2.2</span> Concepts of Statistical Hypothesis Testing</h3>
+<div id="concepts-of-statistical-hypothesis-testing" class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Concepts of Statistical Hypothesis Testing<a href="resampling-stat.html#concepts-of-statistical-hypothesis-testing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We just implemented one type of Hypothesis test. Figure <a href="resampling-stat.html#fig:hypothesis-test-overview">7.3</a> provides an overview of Hypothesis testing.</p>
 <div class="figure"><span style="display:block;" id="fig:hypothesis-test-overview"></span>
 <img src="assets/img/lec09-stat-testing/lec10_Stat-testing-overview.png" alt="We assume an underlying random process (i.e. 'Nature'). We collected data which is a particular realization of this random process, and from this data we computed a test statistic. In the bottom row, we now play the role of the Devil's advocate and assume that the underlying random process conforms to the null hypothesis. Based on this assumption, different realizations of the dataset could arise as different realizations of the random process, for which the test statistics would get different values. Then we compute how likely it is to observe the test statistics as extreme as, or more extreme than the ones we got from our actual data. We use this probability to reject or not the null hypothesis." width="800px" />
@@ -862,22 +861,22 @@ To assess this hypothesis, we first create a data table called <code>dt</code> t
 Figure 7.3: We assume an underlying random process (i.e. ‘Nature’). We collected data which is a particular realization of this random process, and from this data we computed a test statistic. In the bottom row, we now play the role of the Devil’s advocate and assume that the underlying random process conforms to the null hypothesis. Based on this assumption, different realizations of the dataset could arise as different realizations of the random process, for which the test statistics would get different values. Then we compute how likely it is to observe the test statistics as extreme as, or more extreme than the ones we got from our actual data. We use this probability to reject or not the null hypothesis.
 </p>
 </div>
-<div id="test-statistic" class="section level4" number="7.2.2.1">
-<h4><span class="header-section-number">7.2.2.1</span> Test statistic</h4>
+<div id="test-statistic" class="section level4 hasAnchor" number="7.2.2.1">
+<h4><span class="header-section-number">7.2.2.1</span> Test statistic<a href="resampling-stat.html#test-statistic" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To develop our test, we first need to define a <strong>test statistic</strong> (Figure <a href="resampling-stat.html#fig:hypothesis-test-overview">7.3</a>). This is a single number that summarizes the data and captures the trend. The more extreme the test statistic, the stronger the trend.</p>
 <p>The test statistic is often denoted <span class="math inline">\(T\)</span>.</p>
 <p>Here we have considered the difference of the medians:<br />
 <span class="math display">\[ T = \operatorname{median}_{i \in \text{Wild}} (y_i) - \operatorname{median}_{i \in \text{Lab}} (y_i)\]</span></p>
 <p>We could equally consider the difference of the means, or the difference of the means divided by the within-group standard deviation, etc. Some statistics are more useful than others, because one can work analytically with them (see next chapter) or because they are more sensitive. Clearly, if we had considered as test statistics the difference between just two random values of each group rather than the difference of medians, discriminating the observed data from the permuted ones would have been more difficult.</p>
 </div>
-<div id="the-null-hypothesis" class="section level4" number="7.2.2.2">
-<h4><span class="header-section-number">7.2.2.2</span> The Null Hypothesis</h4>
+<div id="the-null-hypothesis" class="section level4 hasAnchor" number="7.2.2.2">
+<h4><span class="header-section-number">7.2.2.2</span> The Null Hypothesis<a href="resampling-stat.html#the-null-hypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Our test statistic is calculated from a limited number of observations. In our data we see a large difference in median growth rates, but maybe if we had much more data, this difference would disappear, or even change sign. To assess this, we need a negative control. We get such a negative control by setting a <strong>null hypothesis</strong> <span class="math inline">\(H_0\)</span>, i.e by assuming that the trend we observe is <em>not</em> real and arose purely by chance (Figure <a href="resampling-stat.html#fig:hypothesis-test-overview">7.3</a>).</p>
-<p>The null hypothesis can be compared to the proverbial “Devil’s Advocate.” To test whether a trend is real, we take the skeptical position and assume it is not. It is the same thing we also did in the football example, when we assumed that the friend was just guessing the outcome of the games.</p>
+<p>The null hypothesis can be compared to the proverbial “Devil’s Advocate”. To test whether a trend is real, we take the skeptical position and assume it is not. It is the same thing we also did in the football example, when we assumed that the friend was just guessing the outcome of the games.</p>
 <p>The exact null hypothesis depends on the problem. In our example, the null hypothesis was statistical independence of genotype and growth rate. It can also be that a mean is 0, a Pearson correlation is 0, etc.</p>
 </div>
-<div id="the-p-value" class="section level4" number="7.2.2.3">
-<h4><span class="header-section-number">7.2.2.3</span> The <span class="math inline">\(P\)</span>-value</h4>
+<div id="the-p-value" class="section level4 hasAnchor" number="7.2.2.3">
+<h4><span class="header-section-number">7.2.2.3</span> The <span class="math inline">\(P\)</span>-value<a href="resampling-stat.html#the-p-value" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Under the null hypothesis <span class="math inline">\(H_0\)</span>, the test statistic <span class="math inline">\(T\)</span> follows a certain distribution <span class="math inline">\(p(T|H_0)\)</span>. The <span class="math inline">\(P\)</span>-value is the probability of obtaining a test statistic the same as or more extreme than the one we actually observed, under the assumption that the null hypothesis is true (See Figure <a href="resampling-stat.html#fig:hypothesis-test-overview">7.3</a>).</p>
 <p>The formal definition of the <span class="math inline">\(P\)</span>-value depends on whether we take “more extreme” to mean greater, less, or either way:</p>
 <ul>
@@ -887,11 +886,11 @@ Figure 7.3: We assume an underlying random process (i.e. ‘Nature’). We coll
 </ul>
 <p>The null hypothesis is said to be <strong>rejected</strong> for sufficiently small <span class="math inline">\(P\)</span>-values. In this case we say the result is <strong>statistically significant</strong>. It is common practice in the scientific literature to set a significance level of <span class="math inline">\(\alpha=0.05\)</span> and rejecting the null hypothesis if <span class="math inline">\(P&lt;\alpha\)</span>.</p>
 <p>We can explore this definition visually. Assume <span class="math inline">\(p(T|H_0)\)</span>, the distribution of the test statistic under the null hypothesis, looks like this:</p>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-298-1.png" width="384" /></p>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-17-1.png" width="384" /></p>
 <p>Now assume the test statistic we observe is <span class="math inline">\(T_\text{obs}=15\)</span>. Then the one-sided <span class="math inline">\(P\)</span>-value is given by the shaded area which corresponds to <span class="math inline">\(p(T \geq T_\text{obs}| H_0)\)</span>:</p>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-299-1.png" width="384" /></p>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-18-1.png" width="384" /></p>
 <p>For the two-tailed test, we are not expecting the test statistic to be on the upper or the lower side a priori. We therefore consider where it turned out to be (upper or lower) and double the probability. Graphically, we are summing up the area under the curve on the tail of the observed test statistic (upper or lower) with the equi-probable one of the other tail.</p>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-300-1.png" width="384" /></p>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-19-1.png" width="384" /></p>
 <p>This also explains the rather complicated formulation for the two-sided <span class="math inline">\(P\)</span>-value, which we recall is:</p>
 <p><span class="math inline">\(P = 2\min \{p(T \leq T_\text{obs}| H_0), p(T \geq T_\text{obs}| H_0) \}\)</span></p>
 <p>The <span class="math inline">\(\min\)</span> in this formula is to select the correct tail. If our observed test-statistic is more towards the right tail, as in the above picture, then <span class="math inline">\(p(T \geq T_\text{obs}| H_0)\)</span> will be smaller than <span class="math inline">\(p(T \leq T_\text{obs}| H_0)\)</span>, so the minimum will correctly select the right tail. Then we double this probability, to account for the possibility of observing equally extreme events on the other tail.</p>
@@ -900,25 +899,26 @@ Figure 7.3: We assume an underlying random process (i.e. ‘Nature’). We coll
 In a two-tailed test, we allow both options. We test <span class="math inline">\(H_0\)</span>: true difference is zero vs. <span class="math inline">\(H_1\)</span> (alternative): true difference is not zero, and we do not care if it ends up being smaller or larger.
 In most scenarios the two-tailed test will be most appropriate, as generally there is no reason to privilege effects in one direction over another direction.
 A one-tailed test will only make sense if you have very good reason (before looking at the data!) that only the effect in one direction is important.</p>
+<p>Note also that in the one-sided case the null hypothesis remains that the true difference is 0. It is not (unlike sometimes confusingly stated) the complementary of the alternative, e.g. that the true difference is less than or equal to 0. Indeed, the p-value can be only computed if we assume a specific value for the difference.</p>
 </div>
-<div id="some-intuition-on-hypothesis-testing-and-the-p-value" class="section level4" number="7.2.2.4">
-<h4><span class="header-section-number">7.2.2.4</span> Some intuition on Hypothesis Testing and the <span class="math inline">\(P\)</span>-value</h4>
+<div id="some-intuition-on-hypothesis-testing-and-the-p-value" class="section level4 hasAnchor" number="7.2.2.4">
+<h4><span class="header-section-number">7.2.2.4</span> Some intuition on Hypothesis Testing and the <span class="math inline">\(P\)</span>-value<a href="resampling-stat.html#some-intuition-on-hypothesis-testing-and-the-p-value" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To get some intuition on how to interpret the <span class="math inline">\(P\)</span>-value and this idea of rejecting the null hypothesis, think about a legal trial. Suppose a murder has been committed, and a man has been accused of being the murderer. Under German law he is considered innocent until proven guilty. So, our null hypothesis is that the man is innocent. But we also collect some evidence. For example, we discover that the murder weapon had his finger prints on it, that a witness saw him near the crime scene and that he bought chemicals used to dispose of corpses one day before the crime. None of these facts constitute hard proof that he did commit the crime, but assuming he was innocent, it would require a lot of unlikely coincidences. This corresponds to a scenario where the <span class="math inline">\(P\)</span>-value is low. Thus, we reject the null hypothesis of innocence and convict him.</p>
 <p>Conversely, imagine another trial, where the only evidence we have is that an old lady, who sees rather badly, thinks she <em>maybe</em> saw the accused near the crime scene. This corresponds to a scenario where the <span class="math inline">\(P\)</span>-value is high. The accused could be guilty, but it also does not seem implausible that he is innocent and the old lady is just mistaking him for someone else. If we start convicting people based on such flimsy evidence, the jail would quickly be full of innocent people. So we do not reject the null hypothesis of innocence.</p>
 </div>
-<div id="what-the-p-value-is-not" class="section level4" number="7.2.2.5">
-<h4><span class="header-section-number">7.2.2.5</span> What the <span class="math inline">\(P\)</span>-value is not</h4>
+<div id="what-the-p-value-is-not" class="section level4 hasAnchor" number="7.2.2.5">
+<h4><span class="header-section-number">7.2.2.5</span> What the <span class="math inline">\(P\)</span>-value is not<a href="resampling-stat.html#what-the-p-value-is-not" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The <span class="math inline">\(P\)</span>-value is <em>not</em> the probability of the observed test statistic given that the null hypothesis is true:</p>
 <p><span class="math display">\[p(T \geq T_\text{obs}| H_0) \neq p(T=T_\text{obs} | H_0)\]</span></p>
 <p>The problem with basing a test on <span class="math inline">\(p(T=T_\text{obs} | H_0)\)</span> is that it is dependent on the space of possibilities. This is most apparent for continuous variables: if <span class="math inline">\(T\)</span> is continuous, then the probability of observing a specific value for the test-statistic, such as <span class="math inline">\(T=0.34257385692956\)</span>, will be zero (recall that, for continuous variables, probabilities are nonzero for intervals only). So <span class="math inline">\(p(T=T_\text{obs} | H_0) = 0\)</span> for all <span class="math inline">\(T\)</span>, thus this would not give useful <span class="math inline">\(P\)</span>-values.</p>
 <p>Also, the <span class="math inline">\(P\)</span>-value is <em>not</em> the probability that the null hypothesis is true given the data:</p>
 <p><span class="math display">\[p(T \geq T_\text{obs}| H_0) \neq p(H_0 |T=T_\text{obs})\]</span></p>
-<p>Consider again the example with the old lady witness. Surely we cannot convict someone of a murder on such weak evidence, thus we do not reject the null hypothesis of innocence. This being said, we also have no evidence to suggest the accused actually is innocent, so we should not conclude that this is definitely the case either! In other words: “absence of evidence is not evidence of absence.”</p>
+<p>Consider again the example with the old lady witness. Surely we cannot convict someone of a murder on such weak evidence, thus we do not reject the null hypothesis of innocence. This being said, we also have no evidence to suggest the accused actually is innocent, so we should not conclude that this is definitely the case either! In other words: “absence of evidence is not evidence of absence”.</p>
 <p>Related to this, it is important to note the terminology we used above: when the <span class="math inline">\(P\)</span>-value is less than the chosen significance level, we <strong>reject</strong> the null hypothesis. But, in this framework, there is no mechanism to accept the null hypothesis. We can only <em>fail to reject</em> it.</p>
 </div>
 </div>
-<div id="permutation-testing-formally" class="section level3" number="7.2.3">
-<h3><span class="header-section-number">7.2.3</span> Permutation testing, formally</h3>
+<div id="permutation-testing-formally" class="section level3 hasAnchor" number="7.2.3">
+<h3><span class="header-section-number">7.2.3</span> Permutation testing, formally<a href="resampling-stat.html#permutation-testing-formally" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Formally, the strategy we implemented in Section (<a href="resampling-stat.html#permut-test-build-up">7.2.1</a>) is a permutation test.</p>
 <p>Generally a permutation test is used to test the statistical dependence between two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. In our example, we had one quantitative and one qualitative but they can be of any kind.</p>
 <p>The test statistics can be any measure that captures the dependence.</p>
@@ -928,132 +928,131 @@ A one-tailed test will only make sense if you have very good reason (before look
 <p><span class="math display">\[ H_0: x \perp y\]</span></p>
 <p>Hence, under the <span class="math inline">\(H_0\)</span>, the data generation process of <span class="math inline">\(x\)</span> is independent of the one of <span class="math inline">\(y\)</span>. Combined with the i.i.d. assumption, this implies that the values of <span class="math inline">\(x_i\)</span> could have occurred in any other order with the very same likelihood.</p>
 <p>This gives us a mechanisms to simulate data under the null (Figure <a href="resampling-stat.html#fig:hypothesis-test-overview">7.3</a>).</p>
-<p>An exact permutation test considers all possible distinct permutation (See next chapter). With a large number of observations as here (<span class="math inline">\(n=184\)</span>), we can also draw enough random permutations to have decent idea of the distribution of <span class="math inline">\(p(T|H_0)\)</span>.</p>
+<p>An exact permutation test considers all possible distinct permutation (See next chapter). With a large number of observations as here (<span class="math inline">\(n=158\)</span>), we can also draw enough random permutations to have decent idea of the distribution of <span class="math inline">\(p(T|H_0)\)</span>.</p>
 <p>For a one-sided <span class="math inline">\(P\)</span>-value we do:</p>
 <ul>
 <li><span class="math inline">\(m\)</span> be the number of random (Monte Carlo) permutations</li>
 <li><span class="math inline">\(r = \#\{T^* \geq T_\text{obs}\}\)</span> be the number of these random permutations that produce a test statistic greater than or equal to that calculated for the actual data.</li>
 </ul>
-<p>Then the estimated one-sided <span class="math inline">\(P\)</span>-value, <span class="math inline">\(\hat P\)</span> is <span class="citation">(<a href="#ref-davison_hinkley_1997" role="doc-biblioref">Davison and Hinkley 1997</a>; <a href="#ref-Phipson2010" role="doc-biblioref">Phipson and Smyth 2010</a>)</span></p>
+<p>Then the estimated one-sided <span class="math inline">\(P\)</span>-value, <span class="math inline">\(\hat P\)</span> is <span class="citation">(<a href="#ref-davison_hinkley_1997">Davison and Hinkley 1997</a>; <a href="#ref-Phipson2010">Phipson and Smyth 2010</a>)</span></p>
 <p><span class="math display" id="eq:permut-p-val">\[\begin{align}
 \hat P = \frac{r+1}{m+1}
 \tag{7.1}
 \end{align}\]</span></p>
-<p>Permutation <span class="math inline">\(P\)</span>-values should never be zero <span class="citation">(<a href="#ref-Phipson2010" role="doc-biblioref">Phipson and Smyth 2010</a>)</span>. Do not use <span class="math inline">\(\frac{r}{m}\)</span> as often done!</p>
+<p>Permutation <span class="math inline">\(P\)</span>-values should never be zero <span class="citation">(<a href="#ref-Phipson2010">Phipson and Smyth 2010</a>)</span>. Do not use <span class="math inline">\(\frac{r}{m}\)</span> as often done!</p>
 <p>In our case, we observed no single permutation with larger test statistics. Hence <span class="math inline">\(r=0\)</span>. We thus get:</p>
 <p><span class="math display">\[ \hat P = \frac{1}{1001} \simeq 0.001\]</span>
 So, if we assume that the null hypothesis is true, the probability of observing a difference in median growth rates as, or more, extreme as the ones we actually observed, is less than one in one thousand. We would thus need to be quite unlucky to get results like this by chance. So, we reject the null hypothesis and we say that the association between genotype at marker 5211 and growth rates in maltose is statistically significant.</p>
 </div>
 </div>
-<div id="confidence-intervals-quantifying-uncertainty-in-parameter-estimates" class="section level2" number="7.3">
-<h2><span class="header-section-number">7.3</span> Confidence intervals: Quantifying uncertainty in parameter estimates</h2>
+<div id="confidence-intervals-quantifying-uncertainty-in-parameter-estimates" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Confidence intervals: Quantifying uncertainty in parameter estimates<a href="resampling-stat.html#confidence-intervals-quantifying-uncertainty-in-parameter-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Hypothesis testing is a very effective way to guard us from being fooled by random patterns in our data. But it only answers a very specific question.</p>
 <p>For the yeast example, we observed a difference of median growth rates of about 2.2 between yeast strains with different genotypes at marker 5211. Based on our permutation test, we rejected the null hypothesis that growth rate in Maltose is independent of the genotype at marker 5211. In other words, we concluded that the true difference in growth rates is unlikely to be zero. But does that mean that 2.2 is a good estimate of the true difference of median growth rates? How certain are we about this number?</p>
 <p>We often face scenarios like this one, where we would like to estimate a certain quantity and report on the uncertainty of this estimate. This framework is called parameter estimation, and it is summarized in the following diagram:</p>
 <p><img src="assets/img/lec09-stat-testing/lec10_Parameter-estimation-overview.png" width="800px" /></p>
 <p>As before, there is a random process which produced our data, on which we compute summary statistics. But rather than just rejecting a null hypothesis, we now want to <em>infer</em> a parameter from our summary statistics, and also get an idea how precise our inference is. The confidence interval is a method to quantify our uncertainty about a parameter estimate. note that in this scenario we do not need ways of assessing the distribution under a null data generation process, but rather under the actual data generation process.</p>
-<div id="repeating-experiments-to-quantify-uncertainty" class="section level3" number="7.3.1">
-<h3><span class="header-section-number">7.3.1</span> Repeating experiments to quantify uncertainty</h3>
+<div id="repeating-experiments-to-quantify-uncertainty" class="section level3 hasAnchor" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Repeating experiments to quantify uncertainty<a href="resampling-stat.html#repeating-experiments-to-quantify-uncertainty" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will first show the intuition behind the confidence interval and show how it can be computed in practice. Only then will we formally define it.</p>
 <p>Imagine we have an unlimited budget and can repeat the entire yeast experiment 100 times. Every time we follow the same experimental protocol, and every time we compute the difference of median growth rates between yeast strains with different genotypes at marker 5211. This gives us a distribution of parameter estimates (note that, if the null hypothesis is true, this corresponds to the null distribution).</p>
 <p>Assume we get the following distribution:</p>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-302-1.png" width="672" /></p>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>We see that many estimates are quite close to the one we measured in our first experiment. However, we also see that we get a range of results.</p>
 <p>We do not know the true difference of medians, and in theory any of these estimates could be correct. So one way we could quantify our uncertainty is by reporting the full range of estimates we computed. However, this interval can quickly become very big. If we do the same experiment very often, it is quite plausible that we will have a bad day at some point and, for example, contaminate the samples, leading to an estimate that is very different than the others. We don’t want the size of our interval to be entirely determined by one or two such outliers.</p>
 <p>A more robust alternative is to report an interval that covers the central <span class="math inline">\(95\%\)</span> of the values we got:</p>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-303-1.png" width="672" /></p>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>This interval thus covers the estimates derived from 95 of our 100 experiments, and only excludes the 5 most extreme ones. It seems very plausible that the true difference of medians, whatever it is, is somewhere in this interval, unless we got quite unlucky.</p>
 </div>
-<div id="simulating-repeated-experiments" class="section level3" number="7.3.2">
-<h3><span class="header-section-number">7.3.2</span> Simulating repeated experiments</h3>
+<div id="simulating-repeated-experiments" class="section level3 hasAnchor" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> Simulating repeated experiments<a href="resampling-stat.html#simulating-repeated-experiments" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The method of repeating experiments is a great way to quantify uncertainty. But in practice, we usually have to work with the data we actually have and cannot just rerun every experiment many times. This would be way too expensive and time consuming.</p>
 <p>What we can do, however, is simulate reruns of the experiment by sampling from the data we already have. To this end, the concept of a cumulative distribution function will be useful.</p>
-<div id="empirical-distribution" class="section level4" number="7.3.2.1">
-<h4><span class="header-section-number">7.3.2.1</span> Empirical distribution</h4>
+<div id="empirical-distribution" class="section level4 hasAnchor" number="7.3.2.1">
+<h4><span class="header-section-number">7.3.2.1</span> Empirical distribution<a href="resampling-stat.html#empirical-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Consider a random variable <span class="math inline">\(X\)</span> and a random sample of <span class="math inline">\(n\)</span> independent realizations drawn from it: <span class="math inline">\(\{x_1, x_2,...x_n\}\)</span>. The empirical distribution is the distribution that gives equal probability to each of these observations.</p>
 <p>A single random draw from the empirical distribution amounts to picking one data point with probability <span class="math inline">\(\frac{1}{n}\)</span>. Independent random draws of any size <span class="math inline">\(m\)</span> are thus equivalent to sampling <strong>with replacement</strong>.</p>
 <p>In R this is obtained using the sample function:</p>
-<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="resampling-stat.html#cb498-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb498-2"><a href="resampling-stat.html#cb498-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>) <span class="co"># 20 random numbers normally distributed </span></span>
-<span id="cb498-3"><a href="resampling-stat.html#cb498-3" aria-hidden="true" tabindex="-1"></a>xrnd <span class="ot">&lt;-</span> <span class="fu">sample</span>(x, <span class="dv">15</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="co"># 15 random draws from the data in x </span></span>
-<span id="cb498-4"><a href="resampling-stat.html#cb498-4" aria-hidden="true" tabindex="-1"></a>xrnd</span></code></pre></div>
-<pre><code>##  [1] -1.20807618 -0.19515038 -0.59916772 -0.19515038
-##  [5]  0.92552126 -0.19515038  1.10177950  0.74139013
-##  [9]  0.01874617 -0.25647839 -0.25647839  0.98744470
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="resampling-stat.html#cb23-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb23-2"><a href="resampling-stat.html#cb23-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>) <span class="co"># 20 random numbers normally distributed </span></span>
+<span id="cb23-3"><a href="resampling-stat.html#cb23-3" tabindex="-1"></a>xrnd <span class="ot">&lt;-</span> <span class="fu">sample</span>(x, <span class="dv">15</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="co"># 15 random draws from the data in x </span></span>
+<span id="cb23-4"><a href="resampling-stat.html#cb23-4" tabindex="-1"></a>xrnd</span></code></pre></div>
+<pre><code>##  [1] -1.20807618 -0.19515038 -0.59916772 -0.19515038  0.92552126 -0.19515038
+##  [7]  1.10177950  0.74139013  0.01874617 -0.25647839 -0.25647839  0.98744470
 ## [13] -0.23823356  0.01874617 -1.62667268</code></pre>
 <p>A fundamental result is that the empirical distribution converges to the underlying distribution. This is best seen when considering cumulative distribution function. The empirical cumulative distribution function (eCDF) is a step function that jumps up by <span class="math inline">\(1/n\)</span> at each of the <span class="math inline">\(n\)</span> data points.</p>
 <p><span class="math display">\[F_n(x) = \frac{1}{n}\sum_{i=1..n}I_{x_i \leq x}\]</span></p>
 <p>In R, it is obtained by ecdf().</p>
-<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="resampling-stat.html#cb500-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ecdf</span>(x))</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-305-1.png" width="672" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="resampling-stat.html#cb25-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ecdf</span>(x))</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>The eCDF tells us, for any value <span class="math inline">\(x\)</span>, the proportion of observations less than or equal to <span class="math inline">\(x\)</span>. For example, from the ecdf above, we see that about half of the observations are less than or equal to <span class="math inline">\(0\)</span>. This is equivalent to saying that the eCDF tells us, for any value <span class="math inline">\(x\)</span>, that the probability of one randomly picked observation among <span class="math inline">\(\{x_1, x_2,...x_n\}\)</span> is less than or equal to <span class="math inline">\(x\)</span>. Hence, the eCDF is nothing else that the cumulative distribution of the process of randomly drawing from <span class="math inline">\(\{x_1, x_2,...x_n\}\)</span>.</p>
 <p>The empirical distribution function converges almost surely to the distribution function of <span class="math inline">\(X\)</span>. This means that as <span class="math inline">\(n\)</span> goes to infinity, the empirical distribution and the actual distribution will become more and more alike:</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="resampling-stat.html#cb501-1" aria-hidden="true" tabindex="-1"></a>x_small <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">5</span>)</span>
-<span id="cb501-2"><a href="resampling-stat.html#cb501-2" aria-hidden="true" tabindex="-1"></a>x_middle <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
-<span id="cb501-3"><a href="resampling-stat.html#cb501-3" aria-hidden="true" tabindex="-1"></a>x_big <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)</span>
-<span id="cb501-4"><a href="resampling-stat.html#cb501-4" aria-hidden="true" tabindex="-1"></a>x_lbl <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;small_n&quot;</span>, <span class="dv">5</span>), <span class="fu">rep</span>(<span class="st">&quot;medium_n&quot;</span>, <span class="dv">20</span>), <span class="fu">rep</span>(<span class="st">&quot;large_n&quot;</span>, <span class="dv">200</span>))</span>
-<span id="cb501-5"><a href="resampling-stat.html#cb501-5" aria-hidden="true" tabindex="-1"></a>x_combined <span class="ot">&lt;-</span> <span class="fu">c</span>(x_small, x_middle, x_big)</span>
-<span id="cb501-6"><a href="resampling-stat.html#cb501-6" aria-hidden="true" tabindex="-1"></a>dt_ecdf <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">sample_size =</span> x_lbl, <span class="at">x =</span> x_combined)</span>
-<span id="cb501-7"><a href="resampling-stat.html#cb501-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt_ecdf) <span class="sc">+</span> <span class="fu">stat_ecdf</span>(<span class="fu">aes</span>(x, <span class="at">colour =</span> sample_size)) <span class="sc">+</span></span>
-<span id="cb501-8"><a href="resampling-stat.html#cb501-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> pnorm) <span class="sc">+</span> </span>
-<span id="cb501-9"><a href="resampling-stat.html#cb501-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Fn(x)&quot;</span>)</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-306-1.png" width="672" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="resampling-stat.html#cb26-1" tabindex="-1"></a>x_small <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">5</span>)</span>
+<span id="cb26-2"><a href="resampling-stat.html#cb26-2" tabindex="-1"></a>x_middle <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
+<span id="cb26-3"><a href="resampling-stat.html#cb26-3" tabindex="-1"></a>x_big <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)</span>
+<span id="cb26-4"><a href="resampling-stat.html#cb26-4" tabindex="-1"></a>x_lbl <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;small_n&quot;</span>, <span class="dv">5</span>), <span class="fu">rep</span>(<span class="st">&quot;medium_n&quot;</span>, <span class="dv">20</span>), <span class="fu">rep</span>(<span class="st">&quot;large_n&quot;</span>, <span class="dv">200</span>))</span>
+<span id="cb26-5"><a href="resampling-stat.html#cb26-5" tabindex="-1"></a>x_combined <span class="ot">&lt;-</span> <span class="fu">c</span>(x_small, x_middle, x_big)</span>
+<span id="cb26-6"><a href="resampling-stat.html#cb26-6" tabindex="-1"></a>dt_ecdf <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">sample_size =</span> x_lbl, <span class="at">x =</span> x_combined)</span>
+<span id="cb26-7"><a href="resampling-stat.html#cb26-7" tabindex="-1"></a><span class="fu">ggplot</span>(dt_ecdf) <span class="sc">+</span> <span class="fu">stat_ecdf</span>(<span class="fu">aes</span>(x, <span class="at">colour =</span> sample_size)) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="resampling-stat.html#cb26-8" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> pnorm) <span class="sc">+</span> </span>
+<span id="cb26-9"><a href="resampling-stat.html#cb26-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Fn(x)&quot;</span>)</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>The implication is that drawing from the empirical distribution is a justified proxy for drawing from the actual underlying distribution. It is more accurate with large sample sizes.</p>
 </div>
-<div id="case-resampling-bootstrap" class="section level4" number="7.3.2.2">
-<h4><span class="header-section-number">7.3.2.2</span> Case resampling bootstrap</h4>
+<div id="case-resampling-bootstrap" class="section level4 hasAnchor" number="7.3.2.2">
+<h4><span class="header-section-number">7.3.2.2</span> Case resampling bootstrap<a href="resampling-stat.html#case-resampling-bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Using this idea of drawing from the empirical distribution function, we can simulate experiments. After all, an experiment is like drawing from the true distribution, so if our empirical distribution is close enough to the true distribution, then drawing from it is comparable to doing a new experiment.</p>
 <p>Concretely, we take a sample of size <span class="math inline">\(n\)</span>, with replacement, from our observed data, to make a new dataset. This is called the case resampling bootstrap.</p>
 <p>Of course, this “new” data will resemble the old data. But, provided that <span class="math inline">\(n\)</span> is not extremely small, it will almost certainly not be the same. This is because we are sampling with replacement, meaning that we will select some data points several times, and other points may not be selected at all.</p>
 <p>Let us perform one bootstrap for the yeast data and recompute the difference of median growth rates:</p>
-<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="resampling-stat.html#cb502-1" aria-hidden="true" tabindex="-1"></a>dt_resampled <span class="ot">&lt;-</span> </span>
-<span id="cb502-2"><a href="resampling-stat.html#cb502-2" aria-hidden="true" tabindex="-1"></a>  dt[<span class="fu">sample</span>(<span class="fu">nrow</span>(dt), <span class="at">replace =</span> <span class="cn">TRUE</span>)]</span>
-<span id="cb502-3"><a href="resampling-stat.html#cb502-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diff_median</span>(dt_resampled)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="resampling-stat.html#cb27-1" tabindex="-1"></a>dt_resampled <span class="ot">&lt;-</span> </span>
+<span id="cb27-2"><a href="resampling-stat.html#cb27-2" tabindex="-1"></a>  dt[<span class="fu">sample</span>(<span class="fu">nrow</span>(dt), <span class="at">replace =</span> <span class="cn">TRUE</span>)]</span>
+<span id="cb27-3"><a href="resampling-stat.html#cb27-3" tabindex="-1"></a><span class="fu">diff_median</span>(dt_resampled)</span></code></pre></div>
 <pre><code>## [1] 2.666546</code></pre>
 <p>As we see, this value is indeed somewhat different from the one we computed from our original sample.</p>
 </div>
 </div>
-<div id="quantifying-uncertainty-using-the-case-resampling-bootstrap" class="section level3" number="7.3.3">
-<h3><span class="header-section-number">7.3.3</span> Quantifying uncertainty using the case resampling bootstrap</h3>
+<div id="quantifying-uncertainty-using-the-case-resampling-bootstrap" class="section level3 hasAnchor" number="7.3.3">
+<h3><span class="header-section-number">7.3.3</span> Quantifying uncertainty using the case resampling bootstrap<a href="resampling-stat.html#quantifying-uncertainty-using-the-case-resampling-bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now let us do <span class="math inline">\(R\)</span> random simulations of the data by case resampling. Each gives a random value for the parameter denoted <span class="math inline">\(T_i^*\)</span>. Let’s rank them by increasing order and denote them:</p>
 <p><span class="math display">\[T^*_1 \leq T^*_2 \leq ... \leq T^*_R\]</span>
 We can do this for our yeast data and visualize the result as a histogram of parameter estimates.</p>
-<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="resampling-stat.html#cb504-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of random simulations</span></span>
-<span id="cb504-2"><a href="resampling-stat.html#cb504-2" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="dv">1000</span> </span>
-<span id="cb504-3"><a href="resampling-stat.html#cb504-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb504-4"><a href="resampling-stat.html#cb504-4" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize T_boot with missing values</span></span>
-<span id="cb504-5"><a href="resampling-stat.html#cb504-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (safer than with 0&#39;s)</span></span>
-<span id="cb504-6"><a href="resampling-stat.html#cb504-6" aria-hidden="true" tabindex="-1"></a>T_bootstrap <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
-<span id="cb504-7"><a href="resampling-stat.html#cb504-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb504-8"><a href="resampling-stat.html#cb504-8" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate for i=1 to R</span></span>
-<span id="cb504-9"><a href="resampling-stat.html#cb504-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>R){</span>
-<span id="cb504-10"><a href="resampling-stat.html#cb504-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># sample the original data with same size with replacement</span></span>
-<span id="cb504-11"><a href="resampling-stat.html#cb504-11" aria-hidden="true" tabindex="-1"></a>  dt_boot <span class="ot">&lt;-</span> dt[<span class="fu">sample</span>(<span class="fu">nrow</span>(dt), <span class="at">replace=</span><span class="cn">TRUE</span>)]</span>
-<span id="cb504-12"><a href="resampling-stat.html#cb504-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># store the difference of medians in the i-th entry of T_bootstrap</span></span>
-<span id="cb504-13"><a href="resampling-stat.html#cb504-13" aria-hidden="true" tabindex="-1"></a>  T_bootstrap[i] <span class="ot">&lt;-</span> <span class="fu">diff_median</span>(dt_boot)</span>
-<span id="cb504-14"><a href="resampling-stat.html#cb504-14" aria-hidden="true" tabindex="-1"></a>} </span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="resampling-stat.html#cb29-1" tabindex="-1"></a><span class="co"># number of random simulations</span></span>
+<span id="cb29-2"><a href="resampling-stat.html#cb29-2" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="dv">1000</span> </span>
+<span id="cb29-3"><a href="resampling-stat.html#cb29-3" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="resampling-stat.html#cb29-4" tabindex="-1"></a><span class="co"># initialize T_boot with missing values</span></span>
+<span id="cb29-5"><a href="resampling-stat.html#cb29-5" tabindex="-1"></a><span class="co"># (safer than with 0&#39;s)</span></span>
+<span id="cb29-6"><a href="resampling-stat.html#cb29-6" tabindex="-1"></a>T_bootstrap <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>)</span>
+<span id="cb29-7"><a href="resampling-stat.html#cb29-7" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="resampling-stat.html#cb29-8" tabindex="-1"></a><span class="co"># iterate for i=1 to R</span></span>
+<span id="cb29-9"><a href="resampling-stat.html#cb29-9" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>R){</span>
+<span id="cb29-10"><a href="resampling-stat.html#cb29-10" tabindex="-1"></a>  <span class="co"># sample the original data with same size with replacement</span></span>
+<span id="cb29-11"><a href="resampling-stat.html#cb29-11" tabindex="-1"></a>  dt_boot <span class="ot">&lt;-</span> dt[<span class="fu">sample</span>(<span class="fu">nrow</span>(dt), <span class="at">replace=</span><span class="cn">TRUE</span>)]</span>
+<span id="cb29-12"><a href="resampling-stat.html#cb29-12" tabindex="-1"></a>  <span class="co"># store the difference of medians in the i-th entry of T_bootstrap</span></span>
+<span id="cb29-13"><a href="resampling-stat.html#cb29-13" tabindex="-1"></a>  T_bootstrap[i] <span class="ot">&lt;-</span> <span class="fu">diff_median</span>(dt_boot)</span>
+<span id="cb29-14"><a href="resampling-stat.html#cb29-14" tabindex="-1"></a>} </span></code></pre></div>
 <p>The 95% bootstrap percentile confidence interval can now be obtained using the quantiles.</p>
 <p>More concretely, we use the same idea as we had in the beginning when we actually repeated experiments: we again try to cover the central <span class="math inline">\((1-\alpha)*100\%\)</span> of the distribution of estimates, where we can choose <span class="math inline">\((1-\alpha)*100\%\)</span> to be larger or smaller depending on how conservative we want to be.</p>
 <p>This is achieved by using the interval:</p>
 <p><span class="math display">\[ ( T^*_{(R+1)\alpha/2}, T^*_{(R+1)(1-\alpha/2)} )\]</span></p>
 <p>To get a concrete feeling of what this means, assume <span class="math inline">\(R=99\)</span> and <span class="math inline">\(\alpha=0.1\)</span>. Then, <span class="math inline">\((R+1)\alpha/2 = 5\)</span> and <span class="math inline">\((R+1)(1-\alpha/2) = 95\)</span>. Thus our <span class="math inline">\(90\%\)</span> interval is given by <span class="math inline">\((T^*_{5},T^*_{95})\)</span>, i.e. the interval ranging from the 5-th smallest bootstrap parameter estimate to the 95-th smallest bootstrap parameter estimate. It is nothing else than the interval containing 90% of the bootstrap estimates and with equal fraction of the remaining bootstrap estimates on either side (so-called “equi-tailed”).</p>
 <p>In R, we can use the quantile function to compute this. For <span class="math inline">\((1-\alpha)*100\% = 95\%\)</span> interval, we do:</p>
-<div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb505-1"><a href="resampling-stat.html#cb505-1" aria-hidden="true" tabindex="-1"></a>conf_int <span class="ot">&lt;-</span> <span class="fu">quantile</span>(T_bootstrap, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
-<span id="cb505-2"><a href="resampling-stat.html#cb505-2" aria-hidden="true" tabindex="-1"></a>conf_int</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="resampling-stat.html#cb30-1" tabindex="-1"></a>conf_int <span class="ot">&lt;-</span> <span class="fu">quantile</span>(T_bootstrap, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
+<span id="cb30-2"><a href="resampling-stat.html#cb30-2" tabindex="-1"></a>conf_int</span></code></pre></div>
 <pre><code>##    2.5%   97.5% 
 ## 1.74471 2.93088</code></pre>
 <p>The following plot shows the entire distribution along with the observed value and the 95% bootstrap percentile confidence interval.</p>
-<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb507-1"><a href="resampling-stat.html#cb507-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.table</span>(T_bootstrap), <span class="fu">aes</span>(T_bootstrap)) <span class="sc">+</span></span>
-<span id="cb507-2"><a href="resampling-stat.html#cb507-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">30</span>) <span class="sc">+</span> </span>
-<span id="cb507-3"><a href="resampling-stat.html#cb507-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>T_obs, <span class="at">color =</span> <span class="st">&quot;T_obs&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb507-4"><a href="resampling-stat.html#cb507-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>conf_int[<span class="dv">1</span>], <span class="at">color=</span><span class="st">&quot;CI&quot;</span>), <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb507-5"><a href="resampling-stat.html#cb507-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>conf_int[<span class="dv">2</span>], <span class="at">color=</span><span class="st">&quot;CI&quot;</span>), <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb507-6"><a href="resampling-stat.html#cb507-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cbPalette) <span class="sc">+</span></span>
-<span id="cb507-7"><a href="resampling-stat.html#cb507-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;estimated difference of median growth rates&quot;</span>)</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-310-1.png" width="384" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="resampling-stat.html#cb32-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.table</span>(T_bootstrap), <span class="fu">aes</span>(T_bootstrap)) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="resampling-stat.html#cb32-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">30</span>) <span class="sc">+</span> </span>
+<span id="cb32-3"><a href="resampling-stat.html#cb32-3" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>T_obs, <span class="at">color =</span> <span class="st">&quot;T_obs&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="resampling-stat.html#cb32-4" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>conf_int[<span class="dv">1</span>], <span class="at">color=</span><span class="st">&quot;CI&quot;</span>), <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="resampling-stat.html#cb32-5" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>conf_int[<span class="dv">2</span>], <span class="at">color=</span><span class="st">&quot;CI&quot;</span>), <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="resampling-stat.html#cb32-6" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cbPalette) <span class="sc">+</span></span>
+<span id="cb32-7"><a href="resampling-stat.html#cb32-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;estimated difference of median growth rates&quot;</span>)</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-29-1.png" width="384" /></p>
 </div>
-<div id="confidence-intervals-formal-definition" class="section level3" number="7.3.4">
-<h3><span class="header-section-number">7.3.4</span> Confidence Intervals: Formal definition</h3>
+<div id="confidence-intervals-formal-definition" class="section level3 hasAnchor" number="7.3.4">
+<h3><span class="header-section-number">7.3.4</span> Confidence Intervals: Formal definition<a href="resampling-stat.html#confidence-intervals-formal-definition" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let us now define a confidence interval formally.</p>
 <p>A <strong>confidence interval</strong> of confidence level <span class="math inline">\(1-\alpha\)</span> for a parameter <span class="math inline">\(\theta\)</span> is an interval <span class="math inline">\(C = (a,b)\)</span>, which would the data generation process be repeated, would contain the parameter with probability <span class="math inline">\(1-\alpha\)</span>, i.e. <span class="math inline">\(p(\theta \in C)=1-\alpha\)</span>. A typical value is <span class="math inline">\(\alpha=0.05\)</span> which leads to 95% confidence intervals.</p>
 <p>Note that <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are functions of the data and thus <span class="math inline">\(C\)</span> is the random variable here, not <span class="math inline">\(\theta\)</span>!</p>
@@ -1063,59 +1062,58 @@ We can do this for our yeast data and visualize the result as a histogram of par
 <!-- NB: the only proof I found that the case resampling is a confidence interval assumes the existence of a monotone normalizing transformation. The author adds "an exact normalizing distribution will rarely exist but there may exist approximate normalizing transformations". So, in effect, I am a bit unsure of the theoretical basis of this  -->
 <p>There are other ways to compute confidence intervals, which usually require making further assumptions, such as that the data is normally distributed. See Davison AC, Hinkley DV (1997) for an overview.</p>
 </div>
-<div id="visualizing-the-formal-definition-of-confidence-intervals" class="section level3" number="7.3.5">
-<h3><span class="header-section-number">7.3.5</span> Visualizing the formal definition of Confidence Intervals</h3>
+<div id="visualizing-the-formal-definition-of-confidence-intervals" class="section level3 hasAnchor" number="7.3.5">
+<h3><span class="header-section-number">7.3.5</span> Visualizing the formal definition of Confidence Intervals<a href="resampling-stat.html#visualizing-the-formal-definition-of-confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To visualize the meaning of this definition, we will now consider an example where we know the true value of the parameter. Specifically we assume that we are trying to use the sample mean as estimate of the true mean of a standard normal distribution. Thus, the true mean is zero.</p>
 <p>Firstly, let us run the experiment:</p>
-<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="resampling-stat.html#cb508-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
-<span id="cb508-2"><a href="resampling-stat.html#cb508-2" aria-hidden="true" tabindex="-1"></a>exp_1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>) <span class="co"># original data (30 values drawn from the standard normal distribution)</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="resampling-stat.html#cb33-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb33-2"><a href="resampling-stat.html#cb33-2" tabindex="-1"></a>exp_1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>) <span class="co"># original data (30 values drawn from the standard normal distribution)</span></span></code></pre></div>
 <p>Now we compute the sample mean and do a bootstrap resampling:</p>
-<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="resampling-stat.html#cb509-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute observed sample mean</span></span>
-<span id="cb509-2"><a href="resampling-stat.html#cb509-2" aria-hidden="true" tabindex="-1"></a>observed_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(exp_1)</span>
-<span id="cb509-3"><a href="resampling-stat.html#cb509-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb509-4"><a href="resampling-stat.html#cb509-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Do bootstrap and compute sample mean for each simulation</span></span>
-<span id="cb509-5"><a href="resampling-stat.html#cb509-5" aria-hidden="true" tabindex="-1"></a>boot <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(i){<span class="fu">sample</span>(exp_1, <span class="dv">30</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)})</span>
-<span id="cb509-6"><a href="resampling-stat.html#cb509-6" aria-hidden="true" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">sapply</span>(boot, mean)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="resampling-stat.html#cb34-1" tabindex="-1"></a><span class="co"># Compute observed sample mean</span></span>
+<span id="cb34-2"><a href="resampling-stat.html#cb34-2" tabindex="-1"></a>observed_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(exp_1)</span>
+<span id="cb34-3"><a href="resampling-stat.html#cb34-3" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="resampling-stat.html#cb34-4" tabindex="-1"></a><span class="co"># Do bootstrap and compute sample mean for each simulation</span></span>
+<span id="cb34-5"><a href="resampling-stat.html#cb34-5" tabindex="-1"></a>boot <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(i){<span class="fu">sample</span>(exp_1, <span class="dv">30</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)})</span>
+<span id="cb34-6"><a href="resampling-stat.html#cb34-6" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">sapply</span>(boot, mean)</span></code></pre></div>
 <p>This creates a distribution of estimates. We build our <span class="math inline">\(95\%\)</span> case resampling bootstrap confidence interval:</p>
-<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="resampling-stat.html#cb510-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% C.I. is given by the 2.5% and the 97.5% quantile</span></span>
-<span id="cb510-2"><a href="resampling-stat.html#cb510-2" aria-hidden="true" tabindex="-1"></a>conf_int <span class="ot">=</span> <span class="fu">quantile</span>(sample_means, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
-<span id="cb510-3"><a href="resampling-stat.html#cb510-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot histogram </span></span>
-<span id="cb510-4"><a href="resampling-stat.html#cb510-4" aria-hidden="true" tabindex="-1"></a>bootstrap_tbl <span class="ot">=</span> <span class="fu">data.table</span>(<span class="at">means =</span> sample_means)</span>
-<span id="cb510-5"><a href="resampling-stat.html#cb510-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> bootstrap_tbl, <span class="fu">aes</span>(<span class="at">x =</span> means)) <span class="sc">+</span> </span>
-<span id="cb510-6"><a href="resampling-stat.html#cb510-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
-<span id="cb510-7"><a href="resampling-stat.html#cb510-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>observed_mean, <span class="at">color=</span><span class="st">&quot;observed&quot;</span>))  <span class="sc">+</span> </span>
-<span id="cb510-8"><a href="resampling-stat.html#cb510-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;true&quot;</span>))  <span class="sc">+</span> </span>
-<span id="cb510-9"><a href="resampling-stat.html#cb510-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>conf_int[<span class="dv">1</span>], <span class="at">color=</span><span class="st">&quot;CI&quot;</span>), <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb510-10"><a href="resampling-stat.html#cb510-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>conf_int[<span class="dv">2</span>], <span class="at">color=</span><span class="st">&quot;CI&quot;</span>), <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb510-11"><a href="resampling-stat.html#cb510-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">&quot;Legend&quot;</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="at">true=</span><span class="st">&quot;black&quot;</span>, <span class="at">observed =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">CI =</span> <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
-## `binwidth`.</code></pre>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-313-1.png" width="672" /></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="resampling-stat.html#cb35-1" tabindex="-1"></a><span class="co"># 95% C.I. is given by the 2.5% and the 97.5% quantile</span></span>
+<span id="cb35-2"><a href="resampling-stat.html#cb35-2" tabindex="-1"></a>conf_int <span class="ot">=</span> <span class="fu">quantile</span>(sample_means, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
+<span id="cb35-3"><a href="resampling-stat.html#cb35-3" tabindex="-1"></a><span class="co"># Plot histogram </span></span>
+<span id="cb35-4"><a href="resampling-stat.html#cb35-4" tabindex="-1"></a>bootstrap_tbl <span class="ot">=</span> <span class="fu">data.table</span>(<span class="at">means =</span> sample_means)</span>
+<span id="cb35-5"><a href="resampling-stat.html#cb35-5" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> bootstrap_tbl, <span class="fu">aes</span>(<span class="at">x =</span> means)) <span class="sc">+</span> </span>
+<span id="cb35-6"><a href="resampling-stat.html#cb35-6" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
+<span id="cb35-7"><a href="resampling-stat.html#cb35-7" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>observed_mean, <span class="at">color=</span><span class="st">&quot;observed&quot;</span>))  <span class="sc">+</span> </span>
+<span id="cb35-8"><a href="resampling-stat.html#cb35-8" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&quot;true&quot;</span>))  <span class="sc">+</span> </span>
+<span id="cb35-9"><a href="resampling-stat.html#cb35-9" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>conf_int[<span class="dv">1</span>], <span class="at">color=</span><span class="st">&quot;CI&quot;</span>), <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb35-10"><a href="resampling-stat.html#cb35-10" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>conf_int[<span class="dv">2</span>], <span class="at">color=</span><span class="st">&quot;CI&quot;</span>), <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb35-11"><a href="resampling-stat.html#cb35-11" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">&quot;Legend&quot;</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="at">true=</span><span class="st">&quot;black&quot;</span>, <span class="at">observed =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">CI =</span> <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <p>We see that our interval covers all but the most extreme estimates (the tails of the distribution). It also covers the true value, which is slightly lower than the observed value.</p>
-<p>It now remains to show that this interval keeps what it promises, namely that we capture the true value about <span class="math inline">\(95\%\)</span> of the time if we repeat the “experiment.”</p>
-<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="resampling-stat.html#cb512-1" aria-hidden="true" tabindex="-1"></a>rerun_experiment <span class="ot">&lt;-</span> <span class="cf">function</span>(j) {</span>
-<span id="cb512-2"><a href="resampling-stat.html#cb512-2" aria-hidden="true" tabindex="-1"></a>  exp <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>)</span>
-<span id="cb512-3"><a href="resampling-stat.html#cb512-3" aria-hidden="true" tabindex="-1"></a>  boot <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(i){<span class="fu">sample</span>(exp, <span class="dv">30</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)})</span>
-<span id="cb512-4"><a href="resampling-stat.html#cb512-4" aria-hidden="true" tabindex="-1"></a>  sample_means <span class="ot">&lt;-</span> <span class="fu">sapply</span>(boot, mean)</span>
-<span id="cb512-5"><a href="resampling-stat.html#cb512-5" aria-hidden="true" tabindex="-1"></a>  conf_int <span class="ot">=</span> <span class="fu">quantile</span>(sample_means, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
-<span id="cb512-6"><a href="resampling-stat.html#cb512-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(conf_int)</span>
-<span id="cb512-7"><a href="resampling-stat.html#cb512-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb512-8"><a href="resampling-stat.html#cb512-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb512-9"><a href="resampling-stat.html#cb512-9" aria-hidden="true" tabindex="-1"></a>rerun <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, rerun_experiment)</span></code></pre></div>
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="resampling-stat.html#cb513-1" aria-hidden="true" tabindex="-1"></a>intervals <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="fu">t</span>(rerun))</span>
-<span id="cb513-2"><a href="resampling-stat.html#cb513-2" aria-hidden="true" tabindex="-1"></a>intervals[, idx <span class="sc">:</span><span class="er">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>]</span>
-<span id="cb513-3"><a href="resampling-stat.html#cb513-3" aria-hidden="true" tabindex="-1"></a>intervals[, mid <span class="sc">:</span><span class="er">=</span> (<span class="st">`</span><span class="at">97.5%</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">2.5%</span><span class="st">`</span>)<span class="sc">/</span><span class="dv">2</span>]</span>
-<span id="cb513-4"><a href="resampling-stat.html#cb513-4" aria-hidden="true" tabindex="-1"></a>intervals[, contains_true <span class="sc">:</span><span class="er">=</span> ((<span class="st">`</span><span class="at">97.5%</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (<span class="st">`</span><span class="at">2.5%</span><span class="st">`</span> <span class="sc">&lt;=</span> <span class="dv">0</span>))]</span>
-<span id="cb513-5"><a href="resampling-stat.html#cb513-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> intervals, <span class="fu">aes</span>(mid, idx, <span class="at">color=</span>contains_true)) <span class="sc">+</span> </span>
-<span id="cb513-6"><a href="resampling-stat.html#cb513-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="st">`</span><span class="at">2.5%</span><span class="st">`</span>, <span class="at">xmax=</span><span class="st">`</span><span class="at">97.5%</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb513-7"><a href="resampling-stat.html#cb513-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="dv">0</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;estimated mean&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;experiment number&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb513-8"><a href="resampling-stat.html#cb513-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">&quot;Error bar contains</span><span class="sc">\n</span><span class="st">true mean&quot;</span>)</span></code></pre></div>
-<p><img src="dataviz_book_files/figure-html/unnamed-chunk-315-1.png" width="672" /></p>
+<p>It now remains to show that this interval keeps what it promises, namely that we capture the true value about <span class="math inline">\(95\%\)</span> of the time if we repeat the “experiment”.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="resampling-stat.html#cb37-1" tabindex="-1"></a>rerun_experiment <span class="ot">&lt;-</span> <span class="cf">function</span>(j) {</span>
+<span id="cb37-2"><a href="resampling-stat.html#cb37-2" tabindex="-1"></a>  exp <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>)</span>
+<span id="cb37-3"><a href="resampling-stat.html#cb37-3" tabindex="-1"></a>  boot <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, <span class="cf">function</span>(i){<span class="fu">sample</span>(exp, <span class="dv">30</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)})</span>
+<span id="cb37-4"><a href="resampling-stat.html#cb37-4" tabindex="-1"></a>  sample_means <span class="ot">&lt;-</span> <span class="fu">sapply</span>(boot, mean)</span>
+<span id="cb37-5"><a href="resampling-stat.html#cb37-5" tabindex="-1"></a>  conf_int <span class="ot">=</span> <span class="fu">quantile</span>(sample_means, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
+<span id="cb37-6"><a href="resampling-stat.html#cb37-6" tabindex="-1"></a>  <span class="fu">return</span>(conf_int)</span>
+<span id="cb37-7"><a href="resampling-stat.html#cb37-7" tabindex="-1"></a>}</span>
+<span id="cb37-8"><a href="resampling-stat.html#cb37-8" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="resampling-stat.html#cb37-9" tabindex="-1"></a>rerun <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, rerun_experiment)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="resampling-stat.html#cb38-1" tabindex="-1"></a>intervals <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="fu">t</span>(rerun))</span>
+<span id="cb38-2"><a href="resampling-stat.html#cb38-2" tabindex="-1"></a>intervals[, idx <span class="sc">:=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>]</span>
+<span id="cb38-3"><a href="resampling-stat.html#cb38-3" tabindex="-1"></a>intervals[, mid <span class="sc">:=</span> (<span class="st">`</span><span class="at">97.5%</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">2.5%</span><span class="st">`</span>)<span class="sc">/</span><span class="dv">2</span>]</span>
+<span id="cb38-4"><a href="resampling-stat.html#cb38-4" tabindex="-1"></a>intervals[, contains_true <span class="sc">:=</span> ((<span class="st">`</span><span class="at">97.5%</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="dv">0</span>) <span class="sc">&amp;</span> (<span class="st">`</span><span class="at">2.5%</span><span class="st">`</span> <span class="sc">&lt;=</span> <span class="dv">0</span>))]</span>
+<span id="cb38-5"><a href="resampling-stat.html#cb38-5" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> intervals, <span class="fu">aes</span>(mid, idx, <span class="at">color=</span>contains_true)) <span class="sc">+</span> </span>
+<span id="cb38-6"><a href="resampling-stat.html#cb38-6" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="st">`</span><span class="at">2.5%</span><span class="st">`</span>, <span class="at">xmax=</span><span class="st">`</span><span class="at">97.5%</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb38-7"><a href="resampling-stat.html#cb38-7" tabindex="-1"></a>   <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span><span class="dv">0</span>)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;estimated mean&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;experiment number&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb38-8"><a href="resampling-stat.html#cb38-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">&quot;Error bar contains</span><span class="sc">\n</span><span class="st">true mean&quot;</span>)</span></code></pre></div>
+<p><img src="dataviz_book_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 <p>This plot shows for each repetition of the experiment the confidence interval we computed. The true mean is at 0, but in every experiment, the estimated mean (or sample mean) and deviates from the true mean. The boundaries of the 95% confidence intervals as well are random variables. They fluctuate from experiment to experiment. We want these confidence intervals to contain the true mean 95% of the time. The confidence intervals which contain the true mean (0, marked by the black line) are in blue, those that do not are in red. We see that most of the time, our interval does indeed capture the true value.</p>
 <p>In fact we capture the true value <span class="math inline">\(92\%\)</span> of the time. This is slightly worse than what we expected, but that is not too surprising because the simulation procedure we have used above is approximate. If we use more bootstrap samples, and replicate our experiment more often, we will reach the <span class="math inline">\(95\%\)</span>.</p>
 </div>
-<div id="hypothesis-testing-with-the-confidence-interval" class="section level3" number="7.3.6">
-<h3><span class="header-section-number">7.3.6</span> Hypothesis testing with the Confidence Interval</h3>
+<div id="hypothesis-testing-with-the-confidence-interval" class="section level3 hasAnchor" number="7.3.6">
+<h3><span class="header-section-number">7.3.6</span> Hypothesis testing with the Confidence Interval<a href="resampling-stat.html#hypothesis-testing-with-the-confidence-interval" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>It is relatively common in the scientific literature to perform hypothesis tests using the confidence interval. If our null hypothesis is that a given parameter, e.g. a mean, is zero, and our <span class="math inline">\((1-\alpha)*100\%\)</span> confidence interval for this parameter does not include zero, we could say that we reject the null hypothesis at a significance level of <span class="math inline">\(\alpha\)</span>. In that sense, hypothesis tests and confidence intervals are related.</p>
 <p>This being said, in this chapter we have used approximate methods to compute <span class="math inline">\(P\)</span>-values and confidence intervals. Thus it need not necessarily be the case that if one of them rejects, the other will too (although, most of the time, they should agree).</p>
 <p>In analyses where two groups are compared, as in our yeast example where median growth rates are compared between genotypes, people will often use a different procedure to test hypotheses using the confidence interval. In this procedure, we construct a <span class="math inline">\(95\%\)</span> confidence interval for the median growth rate of each genotype separately. We then reject the null hypothesis if and only if the confidence intervals do not overlap.</p>
@@ -1123,10 +1121,10 @@ We can do this for our yeast data and visualize the result as a histogram of par
 In the next chapter, we will give a technical reason for this.</p>
 </div>
 </div>
-<div id="discussion-1" class="section level2" number="7.4">
-<h2><span class="header-section-number">7.4</span> Discussion</h2>
+<div id="discussion-1" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Discussion<a href="resampling-stat.html#discussion-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In this chapter we explored ways to avoid being fooled by randomness. Specifically, we discussed hypothesis testing, which is our go-to method to distinguish statistically significant results from noise, and we discussed confidence intervals, which help us to know how uncertain we are about quantities we estimate from our data.</p>
-<p>Cares should be taken though. Many misuses of <span class="math inline">\(P\)</span>-values in the scientific literature have been reported, the most obvious being to repeat an experiments until one finally gets P&lt;0.05 and only report this observation in a publication. See <span class="citation"><a href="#ref-Wasserstein2016" role="doc-biblioref">Wasserstein and Lazar</a> (<a href="#ref-Wasserstein2016" role="doc-biblioref">2016</a>)</span> for an extensive discussion.</p>
+<p>Cares should be taken though. Many misuses of <span class="math inline">\(P\)</span>-values in the scientific literature have been reported, the most obvious being to repeat an experiments until one finally gets P&lt;0.05 and only report this observation in a publication. See <span class="citation">Wasserstein and Lazar (<a href="#ref-Wasserstein2016">2016</a>)</span> for an extensive discussion.</p>
 <p>We have looked only at resampling strategies: permutation testing as Hypothesis testing when assessing statistical dependence of variables, and case resampling for confidence intervals. Resampling methods have the advantage that they are simple to implement and make little assumptions about the underlying distribution. However, they are compute intensive. We finally noticed that the i.i.d. assumption may be violated in practice. Therefore, careful thinking of possible hidden dependencies (such as confounders) shall be done when applying these methods.</p>
 <!-- This being said, we are not always fooled randomly. In fact, frequently, we will be fooled *systematically*. This can happen due to **confounding**, which was not addressed in this chapter. Confounding occurs when there is some other variable, which we did not consider in our analysis, which drives our results. -->
 <!-- As an example, we might find a statistically significant relationship between the amount of ice cream consumed on a given day and the number of people who receive a sunburn. We could then spend a lot of time interpreting this. Maybe eating ice cream makes people more susceptible to sunburn? Or maybe people who get sunburn are likely to eat ice cream to help get over the pain? But there is a confounder here, namely the season. On a hot summer day, people eat ice cream and get sunburned. On a cold winter day, people do not ice cream and they also do not get sunburned. The statistically significant relationship is explained by this confounder.  -->
@@ -1134,8 +1132,8 @@ In the next chapter, we will give a technical reason for this.</p>
 <!-- Another limit that we should keep in mind is that statistical significance does not necessarily imply *practical* importance. If a study says that "there is a statistically significant relationship between drinking coffee and all-cause mortality", it sounds scary. But it makes a big difference whether this means that drinking a cup a day leads to an average life-span reduction of several years, or whether it means that drinking 10 cups a day leads to an average life-span reduction of several days. -->
 <!-- Thus, to assess whether a significant trend we observe actually matters in practice, we need to determine the effect size. This will also be discussed in a later chapter.  -->
 </div>
-<div id="conclusion" class="section level2" number="7.5">
-<h2><span class="header-section-number">7.5</span> Conclusion</h2>
+<div id="conclusion" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Conclusion<a href="resampling-stat.html#conclusion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>By now you should be able to:</p>
 <ul>
 <li>Understand what we mean when we say a result is statistically significant</li>
@@ -1145,12 +1143,6 @@ In the next chapter, we will give a technical reason for this.</p>
 <li>Use case resampling to compute bootstrap confidence intervals</li>
 </ul>
 
-<!-- Things I am unsure about: -->
-<!-- 1) The fixed margins assumption of fisher seems almost always wrong in practice, but we never seem to care -->
-<!-- Does it matter? I wrote that "Note that this assumption is often violated in practice, as in the example above where we randomly sampled patients rather than sampling a fixed amount from each subgroup. But Fisher's exact test is nevertheless applied because we usually assume that the margin totals do not contain information about the relationship of interest."  -->
-<!-- Is this a correct summary? -->
-<!-- 2) I am not 100% sure I understand the distinction of parametric/non-parametric super well. I would be happy if someone could check the section "Parametric and Non-Parametric Tests" to make sure it is correct. -->
-<!-- It makes sense in the abstract, but I find it a bit hard to distinguish them in practice. The binomial test is one example. It looks parametric (it assumes that the underlying data is iid bernoulli and the null hypothesis is framed in terms of the bernoulli parameter p) but the sign test is also a binomial test and its definetely nonparametric. So it sort of depends on how you frame it?  -->
 </div>
 </div>
 <h3>References</h3>
@@ -1170,8 +1162,8 @@ Wasserstein, Ronald L., and Nicole A. Lazar. 2016. <span>“The ASA Statement on
 </div>
 <div class="footnotes">
 <hr />
-<ol start="13">
-<li id="fn13"><p> See <a href="https://en.wikipedia.org/wiki/Chromosomal_crossover">Wikipedia</a> and <a href="https://www.khanacademy.org/science/biology/classical-genetics/chromosomal-basis-of-genetics/a/linkage-mapping">Khan Academy</a> <a href="resampling-stat.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<ol start="1">
+<li id="fn1"><p> See <a href="https://en.wikipedia.org/wiki/Chromosomal_crossover">Wikipedia</a> and <a href="https://www.khanacademy.org/science/biology/classical-genetics/chromosomal-basis-of-genetics/a/linkage-mapping">Khan Academy</a> <a href="resampling-stat.html#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -1240,7 +1232,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
