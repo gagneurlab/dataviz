@@ -61,7 +61,7 @@ from `data.frame`.
 
 Alternatively, we can read files from disk and process them using `data.table`. The easiest way to do so is to use the function `fread()`. Here is an example using a subset of the Kaggle flight and airports dataset that is limited to flights going in or to the Los Angeles airport. We refer to the description of the Kaggle flights and airports challenge for more details [https://www.kaggle.com/tylerx/flights-and-airports-data]. 
 
-To run the following code, save the comma-separated value file `flightsLAX.csv` into a local folder of your choice and replace the string `"path_to_file"` with the actual path to your `flightsLAX.csv` file. For example `"path_to_file"` could be substituted with `"/Users/samantha/mydataviz_folder/extdata"`. See Appendix I "Importing data" for more details.
+We provide the file `flightsLAX.csv` as part of our datasets (See Datasets). To run the following code, save the comma-separated value file `flightsLAX.csv` into a local folder of your choice and replace the string `"path_to_file"` with the actual path to your `flightsLAX.csv` file. For example `"path_to_file"` could be substituted with `"/Users/samantha/mydataviz_folder/extdata"`. See Appendix I "Importing data" for more details.
 
 ```{r, eval=FALSE}
 flights <- fread('path_to_file/flightsLAX.csv')

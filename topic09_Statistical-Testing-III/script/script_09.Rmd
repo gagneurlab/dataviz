@@ -26,7 +26,7 @@ After reading this chapter, you should:
 * Be able to explain the difference between statistical significance and practical importance
 * Understand the problem of multiple testing
 * Define the terms FWER and FDR
-* Apply the Bonferroni and Benjamim-Hochberg corrections and understand the difference between them
+* Apply the Bonferroni and Benjamini-Hochberg corrections and understand the difference between them
 
 ## Motivation: Statistical Significance in a Big Data context
 
@@ -38,7 +38,7 @@ If you are a coffee drinking university student aged 19-25 who was born in an od
 
 In this chapter, we will see some reasons why the sentence above - without further information - is not a convincing reason to swear off Espresso forever.
 
-We will look at two major issues stemming from big data applications. The first issues is the issue of small effect size detection, which is a consequence of having large sample sizes ("large n", referring to the numbers of rows of a data matrix). The second issue is the issue of multiple testing, which is consequence of assessing many variables ("large p", referring to the number of columns of a data matrix). 
+We will look at two major issues stemming from big data applications. The first one is the issue of small effect size detection, which is a consequence of having large sample sizes ("large n", referring to the numbers of rows of a data matrix). The second issue is the issue of multiple testing, which is consequence of assessing many variables ("large p", referring to the number of columns of a data matrix). 
 
 ## Effect Size: Actually important or just significant?
 
@@ -380,7 +380,7 @@ ggplot(dt, aes(sample = p.value)) +
 
 We notice a deviation from the assumption of uniformity at the low end of the distribution. This is due to the presence of the guilty subjects, whose coins do not obey the null hypothesis (the entire population is a mixture of fair and unfair coins, whose respective Q-Q plots are shown in Figure \@ref(fig:qqplot-fair-biased)). If we apply the Bonferroni correction, very few of these will be punished. Controlling the Family-wise error rate ensures we have few false positives, but it comes at the cost of many false negatives.
 
-Instead of conservatively minimizing the probability of false positives, the Benjamini-Hochberg correction ^[Among the top 100 cited scientific papers of all times. https://www.nature.com/news/the-top-100-papers-1.16224] takes a more balanced view and instead controls the so-called **False discovery rate (FDR)** defined as the the expected fraction of false positives among all discoveries:
+Instead of conservatively minimizing the probability of false positives, the Benjamini-Hochberg correction ^[Among the top 100 cited scientific papers of all times. https://www.nature.com/news/the-top-100-papers-1.16224] takes a more balanced view and instead controls the so-called **False discovery rate (FDR)** defined as the expected fraction of false positives among all discoveries:
 
 $$\operatorname{FDR} = \E[\frac{V}{\max(R,\ 1)}]$$,
 where $\max(R,\ 1)$ ensures the denominator to not be 0.

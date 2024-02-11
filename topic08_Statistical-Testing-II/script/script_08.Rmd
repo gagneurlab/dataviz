@@ -412,7 +412,7 @@ For a two-sided test, the alternative hypothesis is "the probability of an obser
 Consider first that we rank all observed values (and ignore ties), e.g.: 
 $$ x_5 < y_{10} < y_{12} < y_3 < x_4 < x_{17} < ... $$
 
-The idea of the the Wilcoxon rank-sum test is that under the null hypothesis, the $x_i$'s and $y_i$'s should be well interleaved in this ranking. In contrast, if say $X$ tend to be smaller than $Y$, then the $x_i$'s will get lower ranks. The test statistics is therefore based on the sum of the ranks of the realizations of one the two variables.
+The idea of the Wilcoxon rank-sum test is that under the null hypothesis, the $x_i$'s and $y_i$'s should be well interleaved in this ranking. In contrast, if say $X$ tend to be smaller than $Y$, then the $x_i$'s will get lower ranks. The test statistics is therefore based on the sum of the ranks of the realizations of one the two variables.
 
 Specifically, we define the quantity $U_x$ as:
 
@@ -981,7 +981,7 @@ We can set the confidence level with the `conf.level` parameter. So if we want a
 binom.test(sum(x), length(x), conf.level=0.99)$conf.int
 ```
 
-For some tests, you first need to set conf.int to TRUE to recieve a confidence interval:
+For some tests, you first need to set conf.int to TRUE to receive a confidence interval:
 
 ```{r, echo=TRUE}
 wilcox.test(growth_rate ~ genotype, data=dt, conf.int=TRUE)

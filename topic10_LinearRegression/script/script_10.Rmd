@@ -162,9 +162,104 @@ we obtain that:
 
 The differences between the observed values and their expected values denoted $\epsilon_i = y_i - (\beta_0 + \beta_1x_i)$ are called the errors. Hence, maximizing the likelihood of this model is equivalent to minimizing the sum of the squared errors. One talks about **least squares estimates** (LSE).
 
-```{r, echo=FALSE, fig.cap="\\label{fig:linModel} Visualization of a Linear Regression model.", fig.height=5}
-knitr::include_graphics("assets/img/lec12_linear_model_geometric0.png")
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="\\label{fig:linModel} Linear regression. Data generation model (left) and least squares fit (right). The data points (black) are the same on both panels and simulated according to the linear regression assumptions. Note that the fitted line (right) does not coincide with the underlying 'true' model (left) and fits closer to the data points.", fig.height = 5, fig.width = 8}
+# Load necessary libraries
+library(ggplot2)
+library(cowplot)
+
+# Sample data points with noise
+set.seed(1) # Ensures reproducibility
+x <- c(1, 2, 3, 4) # Independent variable
+beta_0 <-1
+beta_1 <-1
+eps_sd <-1
+y_true <- beta_0 + beta_1*x
+y <- y_true + rnorm(4, sd = eps_sd) # Dependent variable with added noise
+
+# Linear model
+model <- lm(y ~ x)
+
+# Fitted values and residuals
+fitted_values <- predict(model)
+residuals <- residuals(model)
+
+# Data frame for ggplot
+data <- data.frame(x = x, y_true = y_true, y = y, fitted = fitted_values, residuals = residuals)
+
+# Calculate intercept and slope for the equation display
+intercept <- coef(model)[1]
+slope <- coef(model)[2]
+
+## Line equations
+expectation_equation <- expression(E(y ~ "|" ~ x) == beta[0] + beta[1] * x)
+fit_equation <- expression(hat(y) == hat(beta)[0] + hat(beta)[1] * x)
+
+# Prepare labels for the third data point and its residual
+data$label <- ifelse(data$x == 3, paste("x[", data$x, "] = ", data$x, ", y[", data$x, "] = ", round(data$y, 2), sep=""), "")
+data$residual_label <- ifelse(data$x == 3, paste("hat(epsilon)[", data$x, "]"), "")
+
+## global plot lims
+xlims <- c(min(data$x)-0.5, max(data$x)+2)
+ylims <- c(min(data$y)-0.5, max(data$y)+1.5)
+
+## global color scheme  
+data_color <- "black"
+expectation_color <- "#F8766D"
+fit_color <- "#3366FF"
+
+##############
+# Plot data generation model
+##############
+p1 <- ggplot(data, aes(x = x, y = y)) +
+  geom_point(aes(y = y_true), color = expectation_color) + # expected points
+  geom_abline(intercept = beta_0, slope = beta_1, color = expectation_color, linetype = "solid") + # true expectation line
+  geom_segment(
+    aes(x=x, xend = x, y=y_true, yend = y),
+    arrow = arrow(type = "closed", length = unit(0.2, "cm")),
+    color = expectation_color ) + # errors with arrows geom_text(aes(label = label), hjust = 1.5, vjust = 2, color = "darkblue") + # Label the third data point with "xi, yi"
+  geom_point(color = data_color) + # Data points 
+  geom_text(data = subset(data, x == 3), aes(label = "paste('(', 'x'[i], ',', ' ', 'y'[i], ')')"), parse = TRUE, nudge_x = -0.3, nudge_y = -0.3, color = data_color) +
+  annotate("text", x = x[3] -0.5, y = y_true[3] + 0.4, label = "paste('(', 'x'[i], ',', ' ', E(y[i]), ')')", parse = TRUE, color = expectation_color) + # Label fitted points with mathematical notation
+  geom_text(aes(x = x[3] + 0.2, y = (y[3] + y_true[3])/2, label = "epsilon[i]"), parse = TRUE,  color = expectation_color) +
+  geom_text(aes(x = max(x)+2, y = max(y) + 0.6), label = expectation_equation, parse = TRUE, hjust = 1, color=expectation_color) +
+  xlim(xlims) + ylim (ylims) +
+  ggtitle("Data generation model") +
+  theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) # Remove x and y axis ticks
+
+
+##############
+# Plot fit
+##############
+
+p2 <- ggplot(data, aes(x = x, y = y)) +
+  geom_point(aes(y = fitted), color = fit_color ) + # Fitted points
+  geom_abline(intercept = intercept, slope = slope, color = fit_color , linetype = "solid") + # Fitted line
+  geom_segment(
+    aes(x=x, xend = x, y=fitted, yend = y),
+    arrow = arrow(type = "closed", length = unit(0.2, "cm")),
+      color = fit_color  ) + # Residuals with arrows geom_text(aes(label = label), hjust = 1.5, vjust = 2, color = "darkblue") + # Label the third data point with "xi, yi"
+  geom_point(color = data_color) + # Original data points 
+  geom_text(data = subset(data, x == 3), aes(label = "paste('(', 'x'[i], ',', ' ', 'y'[i], ')')"), parse = TRUE, nudge_x = -0.3, nudge_y = -0.3, color = data_color) +
+ annotate("text", x = 3 -0.3, y = fitted_values[3] + 0.5, label = "paste('(', 'x'[i], ',', ' ', hat(y)[i], ')')", parse = TRUE, color = fit_color ) + # Label fitted points with mathematical notation
+geom_text(aes(x = x[3]+0.2, y = (y[3] + fitted[3])/2, label = "hat(epsilon)[i]"), parse = TRUE,  color = fit_color ) +
+geom_text(aes(x = max(x) + 2, y = max(fitted)+0.5), label = fit_equation, parse = TRUE, hjust = 1, color=fit_color ) +
+  xlim(xlims) + ylim (ylims) +
+  ggtitle("Least squares fit") +
+  theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold")) # Remove x and y axis ticks
+
+
+#####
+## combined plot
+#####
+
+combined_plot <- plot_grid(p1, p2, ncol = 2)
+print(combined_plot)
+
 ```
+
 
 ### Interpretation of the fitted coefficients 
 Minimizing the squared errors for a linear model can be solved analytically (see Appendix \@ref(appendix-lin-reg)). We obtain that our estimated conditional expected value, denoted $\hat y$ is:
@@ -254,7 +349,7 @@ First, we compute the model predictions:
 $$\hat{y}_i = \hat{\beta_0} + \hat{\beta_1} x_i .$$
 
 Then, we compute the _residuals_ (by comparing the predictions with the actual values)
-$$\hat{\epsilon}_i = \hat{y}_i - y_i ,$$
+$$\hat{\epsilon}_i = y_i - \hat{y}_i ,$$
 
 and the _residual sum of squares_
 $$RSS = \sum_{i=1}^N \hat{\epsilon}_i^2 .$$
@@ -292,7 +387,9 @@ Hence, if the modeling assumptions hold, the estimates are unbiased, meaning tha
 
 Another result allows us to build a hypothesis test, namely:
 $$p\left(\frac{\hat{\beta_1} - \beta_1}{\hat{se}(\hat{\beta_1})}\right) = t_{n-2}\left(\frac{\hat{\beta_1} - \beta_1}{\hat{se}(\hat{\beta_1})}\right)$$
-where $t_{n-2}$ denotes the student's $t$ distribution with $n-2$ degrees of freedom. As for the t-test presented for comparing two groups in Section \@ref(student-t), the degrees of freedom is equal to the number of data points $n$ minus two, the number of model parameters ($\beta_0$ and $\beta_1$). 
+where $t_{n-2}$ denotes the student's $t$ distribution with $n-2$ degrees of freedom and 
+$$\hat{se}(\hat{\beta_1}) = \sqrt{\frac{1}{n-2}\frac{\sum_i(y_i-\bar{y_i})^2}{\sum_i(x_i-\bar{x_i})^2}}$$
+As for the t-test presented for comparing two groups in Section \@ref(student-t), the degrees of freedom is equal to the number of data points $n$ minus two, the number of model parameters ($\beta_0$ and $\beta_1$). 
 
 
 Remember, the $P-$value of a statistical test is the **probability** of the value of a **test statistic** being at least as extreme as the one observed in our data **under the null hypothesis**.
@@ -303,12 +400,7 @@ In our case we can formulate the null hypothesis, that $y$ does not depend on $x
 * The test statistic is $\hat{t} = \frac{\hat{\beta_1} - \beta_1}{\hat{se}(\hat{\beta_1})} = \frac{\hat{\beta_1}}{\hat{se}(\hat{\beta_1})}$
 * The probability under the null model is $P(t \geq \hat{t}), \mbox{where } t \sim t_{n-2}$
 
-We reject the null hypothesis at significance level $\alpha$ (= 0.05):
-
-* Accept $H_0$ if $P(|t| \geq |\hat{t}|) > \alpha$
-* Reject $H_0$ if $P(|t| \geq |\hat{t}|) \leq \alpha$
-
-How do we do this in R? The `summary(fit)` function helps us here. It reports t-statistics (`t value`) and $P-$values (`Pr(>|t|)`) for each estimate.
+How do we do this in R? The `summary(fit)` function helps us here. It reports t-statistics (`t value`) and two-sided $P-$values under `Pr(>|t|)`. Indeed, $P(|t| \geq |\hat{t}|)$ yields the two-sided p-value because the Student's t-distribution is symmetric. 
 
 
 ```{r}
@@ -495,7 +587,7 @@ $\epsilon_i \sim N(0, \sigma^2)$ that is i.i.d. (independently and identically  
 
 The model can be written in matrix notation
 $$ \y = \X \bs{\beta} + \bs{\epsilon} $$
-here the matrix $\X$ is of dimension $(n \times p + 1)$ where each row $i$ corresponds to the vector $\x_i$ with a 1 prepended to accommodate the intercept. The error is distributed as $\bs{\epsilon} \sim N(\mathbf{0}, \bs\Sigma)$ as a multivariate Gaussian with covariance $\bs\Sigma = \sigma^2 \I$ (i.i.d).
+here the matrix $\X$ is of dimension $n \times (p + 1)$ where each row $i$ corresponds to the vector $\x_i$ with a 1 prepended to accommodate the intercept. The error is distributed as $\bs{\epsilon} \sim N(\mathbf{0}, \bs\Sigma)$ as a multivariate Gaussian with covariance $\bs\Sigma = \sigma^2 \I$ (i.i.d).
 
 In the same way as for the simple linear model, parameters can be estimated by finding the LSE. For multiple linear regression, we obtain
 $$\hat{\bs{\beta}} = (\X^\top\X)^{-1}\X^\top \y$$

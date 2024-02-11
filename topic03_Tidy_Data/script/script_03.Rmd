@@ -20,7 +20,7 @@ The following code chunks load libraries and tables used throughout this chapter
   library(tidyr) # separate, unite, ...
 ```
 
-```{r, echo=TRUE, warning=FALSE}
+```{r echo=TRUE, warning=FALSE}
 DATADIR <- "extdata"
 
 election_results <- fread(

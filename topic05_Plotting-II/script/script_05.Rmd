@@ -513,7 +513,7 @@ These results have several implications:
 
 * The principal components are linearly uncorrelated. This is because the eigenvectors of a positive matrix are orthogonal to each other. If $n>p$ (more observation than variables) the PCs form an orthonormal basis. 
 
-A 3D interactive illustration of PCA is available at [http://www.joyofdata.de/public/pca-3d/].
+A 3D illustration of PCA is available at [https://setosa.io/ev/principal-component-analysis/].
 
 ### PCA in R
 

@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 # (PART) Get {-}
 # R basics
@@ -15,16 +15,14 @@ Rstudio is a software that allows to program in R and interactively analyse data
  knitr::include_graphics( "assets/img/RStudio.png")
 ```
 
-* the main script section, for writing scripts [top left section] (Ctrl+1 to focus)
-* the console tab, for typing R commands directly [bottom left section as tab] (Ctrl+2 to focus)
-* the terminal tab, for direct access to your system shell [bottom left section] (Shift+Alt+T to focus)
+* the main script section, for writing scripts [top left section]
+* the console tab, for typing R commands directly [bottom left section as tab]
+* the terminal tab, for direct access to your system shell [bottom left section]
 * the plot tab, where you see the last plot generated [bottom right section as tab]
-* the help tab, with useful documentation of R functions [bottom right section as tab] (F1 on the name of a function or Ctrl+3)
+* the help tab, with useful documentation of R functions [bottom right section as tab]
 * the history tab, with the list of the R commands used [top right section as tab]
 * the environment tab, with the created variables and functions loaded [top right section as tab]
 * and the packages tab, with the available/loaded R packages [bottom right section as tab]
-
-Check the View menu to find out the rest of useful shortcuts!
 
 
 ## First steps with R
@@ -303,7 +301,7 @@ rm(str)
 This tells us much more about the object. We see that the table has 51 rows (50 states plus DC) and five variables (stored as columns). We can show the first six lines using the function `head`:
 
 ```{r}
-head(murders)  # same as murders[1:6]
+head(murders)  # same as murders[1:6,]
 ```
 
 In this dataset, each state is considered an observation and five variables are reported for each state.

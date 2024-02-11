@@ -532,7 +532,7 @@ $\mathrm{FDR}=\mathrm{E}\left[\frac{F P}{T P+F P}\right]=\mathrm{E}\left[1-\frac
 
 ### Choosing a classification cutoff
 
-Many classification methods do not directly assign a class, but rather output a quantitative score. For instance, the logistic regression predicts a probability. Other methods may output a real number that is not aimed to represent a probability yet for which the larger, the more likely the class is positive. This would be the case if we had insisted in using linear regression as we first attempted at the start of this Chapter, but it is also the case if we use the logit instead of the predicted probability in logistic regression or for modern classifiers like support-vector machines ^[https://en.wikipedia.org/wiki/Support-vector_machine].  
+Many classification methods do not directly assign a class, but rather output a quantitative score. For instance, the logistic regression predicts a probability. Other methods may output a real number that is not aimed to represent a probability yet for which the larger, the more likely the class is positive. This would be the case if we had insisted in using linear regression as we first attempted at the start of this Chapter, but it is also the case if we use the logit instead of the predicted probability in logistic regression or for classifiers reporting a score on an arbitrary scale like support vector machines ^[https://en.wikipedia.org/wiki/Support-vector_machine].  
 
 Hence, we typically need to set a _cutoff_ above which we classify as “positive”. Previously we defined our cutoff at $\mu=0.5$ or $\operatorname{logit}(\mu)=0$, but it was an arbitrary decision, we could have chosen a different one. The choice of the cutoff influences the performance metrics.
 
@@ -566,7 +566,7 @@ Now imagine we move our cutoff in the way of the next figure:
 knitr::include_graphics("assets/img/lec13_heights_cutoff_fn.png")
 ```
 
-Now, every female student is classified as such (True negative (TP)), however some male students are classified as female (False negative (FN)). Choosing the cutoff is a trade-off between sensitivity and specificity. How the trade-off is made is problem-dependent.
+Now, every female student is classified as such (True negative (TN)), however some male students are classified as female (False negative (FN)). Choosing the cutoff is a trade-off between sensitivity and specificity. How the trade-off is made is problem-dependent.
 
 
 ### ROC curve

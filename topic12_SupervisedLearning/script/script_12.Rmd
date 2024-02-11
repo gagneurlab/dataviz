@@ -88,7 +88,7 @@ Analyzing whether our built model is generalizing well and capturing the trend o
 
 As an example, we consider a polynomial curve fitting as a regression task with a dataset of $n =10$ points shown in Figure \@ref(fig:poly1) , each comprising an observation of the input variable $x$ along with the corresponding outcome variable $y$. In this example, the data is generated from the function $$f(x)=\sin(2πx)$$ (shown in blue) with added random noise from a normal distribution.
 
-```{r poly1, echo=F, fig.cap="Data set of $N =10$ points  with a blue curve showing the function $sin(2πx)$ used to generate the data"}
+```{r poly1, echo=F, fig.width=3,fig.height=3, fig.cap="Data set of $N =10$ points  with a blue curve showing the function $sin(2πx)$ used to generate the data"}
 set.seed(13)
 N <- 9
 x <- seq(0, 1, length.out = N)
@@ -111,12 +111,12 @@ p
 
 
 
-Assuming that we do not know the function plotted in the blue curve, the goal is to predict the value of $y$ for some new arbitrary value of $x$. For this, we want to exploit the given dataset of $n$ data points in order to make predictions of the value $y$ of the outcome variable for some new value $x$, which involves implicitly trying to discover the underlying function $f(x)=\sin(2πx)$. This is a difficult problem considering that we have to generalize from a finite dataset of only $n$ points. Furthermore, the given data points are include noise, and so for a given $x$, there is a certain uncertainty regarding the correct value for $y$.
+Assuming that we do not know the function plotted in the blue curve, the goal is to predict the value of $y$ for some new arbitrary value of $x$. For this, we want to exploit the given dataset of $n$ data points in order to make predictions of the value $y$ of the outcome variable for some new value $x$, which involves implicitly trying to discover the underlying function $f(x)=\sin(2πx)$. This is a difficult problem considering that we have to generalize from a finite dataset of only $n$ points. Furthermore, the given data points include noise, and so for a given $x$, there is a certain uncertainty regarding the correct value for $y$.
 
 We consider a simple approach based on curve fitting to make predictions for a given value of $x$. More precisely, we fit the data using a polynomial function of the form:
 
 $$
-y(x, \bs\beta) = \beta_0 + \beta_1x + \beta_2x^2 + ... + \beta_mx^m = \sum_{j=0}^m w_j x^j
+y(x, \bs\beta) = \beta_0 + \beta_1x + \beta_2x^2 + ... + \beta_mx^m = \sum_{j=0}^m \beta_j x^j
 $$
 
 
@@ -126,7 +126,7 @@ As described in Chapter  \@ref(chap-lin-reg), an optimal linear model (with opti
 
 Selecting different values for the order $m$ of the polynomial has a huge impact on the resulting model. In Figure \@ref(fig:poly2), we show four examples of the results of fitting polynomials with different orders $m = 0, 1, 3$ and $9$ to our dataset of $n=10$ points.
 
-```{r poly2, echo=F, fig.cap="Plots of polynomials having various orders $M$, shown as green curves, fitted to the considered data set with underlying expected value function in blue."}
+```{r poly2, echo=F, fig.width=4,fig.height=4, fig.cap="Plots of polynomials having various orders $M$, shown as green curves, fitted to the considered data set with underlying expected value function in blue."}
 ## Trick for m=9 add one more point
 ## Somehow needed for poly() because number of unique points cannot be smaller than degree of polynomial 
 library(patchwork)
@@ -170,7 +170,7 @@ the function $\sin(2πx)$. The fitted curve considers each deviation in the data
 
 It is particularly interesting to examine the behavior of a given model as the size of the data set varies. We can see that, for a given model complexity, the over-fitting problem become less severe as the size of the data set increases.  In our example, by considering not only $10$, but $n=15$ or $n=100$ data points, we observe that increasing the size of the data set reduces the over-fitting problem (see Figure \@ref(fig:poly3)).
 
-```{r poly3, echo=FALSE, fig.cap="Polynomial curve fitting with $n=15$ and $n=100$ data points and polynomial order $m=9$ in green and $\\sin(2πx)$ in blue."}
+```{r poly3, echo=FALSE, fig.cap="Polynomial curve fitting with $n=15$ and $n=100$ data points and polynomial order $m=9$ in green and $\\sin(2πx)$ in blue.", fig.width=6,fig.height=3}
 set.seed(13)
 get_poly_dt <- function(N, x_pred){
   x <- seq(0, 1, length.out = N)
@@ -245,7 +245,7 @@ In the previous example of the polynomial curve fitting, we can split the data c
 <!-- * early stopping (or early termination) and -->
 <!-- * cross-validation (which will be introduced in the following section). -->
 
-<!-- More precisely, early termination is referred to stopping the the training process before the model’s ability to generalize weakens as it begins to over-fit the training data. Graphically, this can be explained with the following figure: -->
+<!-- More precisely, early termination is referred to stopping the training process before the model’s ability to generalize weakens as it begins to over-fit the training data. Graphically, this can be explained with the following figure: -->
 
 <!-- ```{r early stopiing, out.width = "300px", echo=FALSE, fig.cap="Graphical explanation of early-termination, meaning to stop the training process when the difference between the testing and training error starts to increase notably."} -->
 <!-- knitr::include_graphics("assets/img/topic12_supervised_learning/early_stopping.png") -->
@@ -293,19 +293,19 @@ head(simulated_dt, n=10)
 
 We observe that the dataset contains repeated measures and that the between replicate simulated trend is `x=y`
 
-```{r, echo=F}
+```{r, echo=F,fig.width=3,fig.height=3}
 ggplot(simulated_dt, aes(x,y)) + geom_point(alpha=0.7) + theme_bw()
 ```
 
 Performing cross-validation at the level of individual data points will favor models that learn the clusters:
 
-```{r, echo=F}
+```{r, echo=F, fig.width=3,fig.height=3}
 ggplot(simulated_dt, aes(x,y)) + geom_point(alpha=0.7) + geom_smooth(span = 0.15) + theme_bw()
 ```
 
 We need to perform cross-validation at the cluster level to learn the trend across clusters. However, this is difficult without application knowledge. Visualization techniques can help. Application areas may have their own strategies. In genetics, models are required to be replicated on independent populations (genetic associations on say Swedes must be replicated among say Germans). The issue also arises with temporal data. Cross-validation cannot be done by taking random subsets of past data points. For temporal data, it is common practice (and common sense) to test models my mimicking predictions of future time points. See a broader discussion of this issue by @Roberts2017.
 
-```{r, echo=F}
+```{r, echo=F, fig.width=3,fig.height=3}
 ggplot(simulated_dt, aes(x,y)) + geom_point(alpha=0.7) + geom_smooth(span = 0.15, se=FALSE) +
   geom_smooth(method='lm', se = FALSE, color="grey") + theme_bw()
 ```
@@ -370,9 +370,9 @@ lr_fit$finalModel
 
 ## Random Forests as alternative models
 
-There is a plethora of supervised learning algorithms out there. Providing a reasonable survey of them is out of the scope of this module. We therefore introduce here a single supervised learning method beyond linear and logistic regression which is working well in many situations: Random forests. Just as linear and logistic regression, should be the first baseline models to try, random forests can be seen as the first non-interpretable supervised learning model to give a shoot for. From this basis, many other options can be considered, often depending on the application areas.
+There is a plethora of supervised learning algorithms out there. Providing a reasonable survey of them is out of the scope of this module. We therefore introduce here a single supervised learning method beyond linear and logistic regression which is working well in many situations: Random forests. Just as linear and logistic regression should be the first baseline models to try, random forests can be seen as the first non-interpretable supervised learning model to give a shoot for. From this basis, many other options can be considered, often depending on the application areas.
 
-Random forests can be applied to both regression and classification tasks in supervised learning. In this section, we introduce random forests as a further type of model for solving both tasks, as these are easy to understand and achieve state-of-the-art performance in many prediction tasks. 
+Random forests can be applied to both regression and classification tasks. In this section, we introduce random forests as a further type of model for solving both tasks, as these are easy to understand and achieve state-of-the-art performance in many prediction tasks. 
 
 Random forests are based on decision trees. More precisely, they are an instance of tree-based ensemble learning, which is a strategy robust to over-fitting and allows fitting very flexible functions. Each random forest is an ensemble of several decision trees, which are machine learning models for both classification and regression tasks and will be introduced in the following section. 
 
@@ -390,7 +390,7 @@ knitr::include_graphics("assets/img/topic12_supervised_learning/dt_reg.png")
 
 After the training is finalized, the tree regions the players into three regions: players who have played for four or fewer years, players who have played for five or more years and who made fewer than 118 hits last year, and players who have played for five or more years and who made at least 118 hits last year. A graphical representation of this resulting segmentation can be observed in Figure \@ref(fig:dt2). 
 
-```{r dt2, echo=FALSE, fig.cap="Illustration of the resulting three regions from the trained decision tree based on Hits and Years."}
+```{r dt2, echo=FALSE, fig.width=4, fig.height=4, fig.cap="Illustration of the resulting three regions from the trained decision tree based on Hits and Years."}
 #knitr::include_graphics("assets/img/topic12_supervised_learning/dt_reg2.png")
 
 rf_sim <-data.table( x = rnorm(500, sd=8, mean=1),
@@ -426,7 +426,7 @@ Decision trees are easy to interpret. In our example, we can interpret the tree 
 
 * If a player is more experienced, the number of hits that he made in the previous year is important for determining his salary.
 
-Now... why and how did we choose the feature `Years` and the threshold of `4.5` for the top split? Overall, the goal of a decision tree for regression tasks is to find the optional regions $R_1, R_2, ..., R_J$ that minimize the residual residual sum of squares (RSS) given by:
+Now... why and how did we choose the feature `Years` and the threshold of `4.5` for the top split? Overall, the goal of a decision tree for regression tasks is to find the optional regions $R_1, R_2, ..., R_J$ that minimize the residual sum of squares (RSS) given by:
 
 $$
 \sum_{j=1}^J \sum_{i\in R_j} (y_i - \hat{y}_{R_j})^2,
@@ -445,7 +445,7 @@ Note that finding optimal values for thresholds and features can be achieved qui
 
 The iterative process of finding features and thresholds that define splitting rules continues until a stopping criterion is met. This prevents to consider every possible partition of the training dataset. Stopping criteria include setting a minimum number of samples in a region or defining a maximum number of resulting regions. 
 
-Once the regions $R_1,...,R_J$ have been created, we can predict the outcome of any given sample (from the test set) by assigning this sample to a region and returning the the mean of the training observations in the region to which that (test) sample belongs.
+Once the regions $R_1,...,R_J$ have been created, we can predict the outcome of any given sample (from the test set) by assigning this sample to a region and returning the mean of the training observations in the region to which that (test) sample belongs.
 
 #### Decision trees for classification tasks
 
@@ -493,7 +493,7 @@ play_tennis_dt[Day==1, Outlook := "Sunny"]
 play_tennis_dt
 ```
 
-Figure \@ref(fig:dt3) shows an example of a decision tree for solving the described classification task.The initial splitting rule tests whether the value of the `Outlook` feature of each sample is either sunny or rainy. Samples with the feature value being sunny are passed to the right node. If the outlook is rainy for a subset of the initial samples in the dataset, these samples are passed to the left node. Here, a second feature test is performed. This test involves checking the humidity feature for all samples. If the humidity value is normal, a third splitting rule is defined for checking whether the day is windy or not. In total, four regions results from the training process of the decision tree. 
+Figure \@ref(fig:dt3) shows an example of a decision tree for solving the described classification task.The initial splitting rule tests whether the value of the `Outlook` feature of each sample is either sunny or rainy. Samples with the feature value being sunny are passed to the right node. If the outlook is rainy for a subset of the initial samples in the dataset, these samples are passed to the left node. Here, a second feature test is performed. This test involves checking the humidity feature for all samples. If the humidity value is normal, a third splitting rule is defined for checking whether the day is windy or not. In total, four regions result from the training process of the decision tree. 
 
 ```{r dt3, out.width = "300px", echo=FALSE, fig.cap="Example of a decision tree for the binary classification task of deciding whether to play tennis or not based on the features Outlook, Humidity and Windy."}
 knitr::include_graphics("assets/img/topic12_supervised_learning/dt_class.png")
@@ -537,11 +537,11 @@ The specific steps for building a random forest can be formulated as follows:
 
 2. For every observation in the test set, form a prediction $\hat{y}_j$ using tree $T_j$
 
-3. For continuous outcomes, form a final prediction with the average  $\hat{y} =\frac{1}{B}\sum_{j=1}^B \hat{y}_j$. For categorical outcomes, predict $\hat{y}$ with majority vote (most frequent class among  $\hat{y}_1, ..., \hat{y}_B$.
+3. For continuous outcomes, form a final prediction with the average  $\hat{y} =\frac{1}{B}\sum_{j=1}^B \hat{y}_j$. For categorical outcomes, predict $\hat{y}$ with majority vote (most frequent class among $\hat{y}_1, ..., \hat{y}_B$).
 
 Now... how do we assure that the decision trees are different in the random forest, even if they are trained on the same training dataset? For this, we use randomness in two ways. Let $N$ be the number of observations in the training set. To create the trees $T_1,T_2,...,T_B$ from the training set we do the following with the feature and sample selection:
 
-1. Create a bootstrap training set by sampling $N$ observations from the training set with replacement. In this manner, each tree is trained on a different dataset.
+1. Create a bootstrap training set by sampling $N$ observations from the training set with replacement. In this manner, each tree is trained on a different dataset. A technique also called bagging (from bootstrap aggregating).
 
 2. Randomly select a subset of the features to be included in the building of each tree so that not all features are considered for each tree. A different random subset is selected for each tree. This reduces correlation between trees in the forest and prevents over-fitting.
 

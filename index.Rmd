@@ -19,10 +19,10 @@ lof: no
 graphics: yes
 urlcolor: blue
 geometry: left=1.5in, right=1.5in, top=1.25in, bottom=1.25in
-description: TODO This book introduces concepts and skills that can help you tackle
+description: This book introduces concepts and skills that can help you tackle
   real-world data analysis challenges. It covers concepts from probability, statistical
   inference, linear regression and machine learning and helps you develop skills such
-  as R programming, data wrangling with dplyr, data visualization with ggplot2, file
+  as R programming, data wrangling with data.table, data visualization with ggplot2, file
   organization with UNIX/Linux shell, version control with GitHub, and reproducible
   document preparation with R markdown.
 site: bookdown::bookdown_site
@@ -54,7 +54,7 @@ We leveraged work from colleagues who helped creating lecture slides since 2017:
 # Prerequisites {-}
 Basics in probabilities are required. Chapters 13-15 ("Introduction to Statistics with R", "Probability" and "Random variables") of the Book "Introduction to Data Science" https://rafalab.github.io/dsbook/ make a good refresher. Make sure all concepts are familiar to you. Check your knowledge by trying the exercises. 
 
-# Datasets {-}
+# Datasets {.unnumbered}
 Datasets used in this script are available to download as a compressed file [here](http://shorturl.at/otwxO).
 
 # Feedback {-}

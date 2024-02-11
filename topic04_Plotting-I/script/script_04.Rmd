@@ -431,7 +431,7 @@ We then construct a histogram of the Human Development Index variable.
 ggplot(ind, aes(HDI)) + geom_histogram() + mytheme
 ```
 
-By default, the number of bins in `ggplot2` is 30. We can simply change this by defining the number of desired bins in the `bins` argument of the `geom_histogram()` function:
+By default, the number of bins in `ggplot2` is 30 ^[There does not seem to be any widely accepted heuristics to choose the number of bins of a histogram based on data. We recommend trying different values if the default seems to be suboptimal.]. We can simply change this by defining the number of desired bins in the `bins` argument of the `geom_histogram()` function:
 
 ```{r, warning=FALSE, message=FALSE}
 ggplot(ind, aes(HDI)) + geom_histogram(bins=10) + mytheme

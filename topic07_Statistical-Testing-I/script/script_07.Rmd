@@ -71,7 +71,7 @@ This section introduces a dataset that we will use throughout this chapter, and 
 
 Yeast is a good old friend of humans. Thanks to yeast, we can make bread, wine, and (not the least for TUM and Munich) beer. Yeast is also very much studied by biologists. The yeast strain that is commonly used in research labs grows poorly on maltose compared to wild yeast strains. Hard to brew malt beer with the lab strain... One may wonder whether the lab strain has acquired a genetic mutation causing this poor fitness in maltose media. If so, on which chromosome, near which gene? 
 
-Our dataset [@gagneur2013] allows addressing these questions (and further yeast genetic questions). The lab strain was crossed with a wild isolate growing well on maltose. Overall, 184 offsprings, also called segregants, were obtained. During a cross, parental chromosomes are recombined at discrete random locations in a process called cross-over ^[ See [Wikipedia](https://en.wikipedia.org/wiki/Chromosomal_crossover) and [Khan Academy](https://www.khanacademy.org/science/biology/classical-genetics/chromosomal-basis-of-genetics/a/linkage-mapping) ]. Consequently, the chromosomes of the segregants consist of alternated segments inherited from either parent. Yeast has 16 chromosomes. Figure \@ref(fig:yeast-cross) illustrates this crossing process for one chromosome.
+Our dataset [@gagneur2013] allows addressing these questions (and further yeast genetic questions). The lab strain was crossed with a wild isolate growing well on maltose. Overall, 158 offsprings, also called segregants, were considered. During a cross, parental chromosomes are recombined at discrete random locations in a process called cross-over ^[ See [Wikipedia](https://en.wikipedia.org/wiki/Chromosomal_crossover) and [Khan Academy](https://www.khanacademy.org/science/biology/classical-genetics/chromosomal-basis-of-genetics/a/linkage-mapping) ]. Consequently, the chromosomes of the segregants consist of alternated segments inherited from either parent. Yeast has 16 chromosomes. Figure \@ref(fig:yeast-cross) illustrates this crossing process for one chromosome.
 
 ```{r yeast-cross, out.width = "600px", echo=FALSE, fig.cap="Cross of the lab strain and wild isolate. Meiotic recombination implies that chromosomes of the offsprings consist of alternated segments inherited from either parent."}
 knitr::include_graphics("assets/img/lec09-stat-testing/lec09_yeast_cross.png")
@@ -81,7 +81,7 @@ This shuffling of the genetic information is helpful to identify on which chromo
 
 ### Genotype 
 
-The `genotype` table reports the genotype of each of the 184 yeast strains at 1,000 genomic locations called genetic markers. At each marker, the genotype values are either "Lab strain" or "Wild isolate" (Figure \@ref(fig:genotype-matrix)).
+The `genotype` table reports the genotype of each of the 158 yeast strains at 1,000 genomic locations called genetic markers. At each marker, the genotype values are either "Lab strain" or "Wild isolate" (Figure \@ref(fig:genotype-matrix)).
 
 ```{r genotype-matrix, out.width = "800px", echo=FALSE, fig.cap="Sketch of the genotype of segregants (rows) across the 16 chromosomes. The genotypes are provided at 1,000 genomic positions (called markers, vertical line). The colors indicate the genotype (blue: Lab strain, red: Wild isolate)."}
 knitr::include_graphics("assets/img/lec09-stat-testing/lec09_genotype.png")
@@ -323,6 +323,8 @@ In a two-tailed test, we allow both options. We test $H_0$: true difference is z
 In most scenarios the two-tailed test will be most appropriate, as generally there is no reason to privilege effects in one direction over another direction.
 A one-tailed test will only make sense if you have very good reason (before looking at the data!) that only the effect in one direction is important.
 
+Note also that in the one-sided case the null hypothesis remains that the true difference is 0. It is not (unlike sometimes confusingly stated) the complementary of the alternative, e.g. that the true difference is less than or equal to 0. Indeed, the p-value can be only computed if we assume a specific value for the difference.  
+
 #### Some intuition on Hypothesis Testing and the $P$-value
 
 To get some intuition on how to interpret the $P$-value and this idea of rejecting the null hypothesis, think about a legal trial. Suppose a murder has been committed, and a man has been accused of being the murderer. Under German law he is considered innocent until proven guilty. So, our null hypothesis is that the man is innocent. But we also collect some evidence. For example, we discover that the murder weapon had his finger prints on it, that a witness saw him near the crime scene and that he bought chemicals used to dispose of corpses one day before the crime. None of these facts constitute hard proof that he did commit the crime, but assuming he was innocent, it would require a lot of unlikely coincidences. This corresponds to a scenario where the $P$-value is low. Thus, we reject the null hypothesis of innocence and convict him. 
@@ -363,7 +365,7 @@ Hence, under the $H_0$, the data generation process of $x$ is independent of the
 
 This gives us a mechanisms to simulate data under the null (Figure \@ref(fig:hypothesis-test-overview)). 
 
-An exact permutation test considers all possible distinct permutation (See next chapter). With a large number of observations as here ($n=184$), we can also draw enough random permutations to have decent idea of the distribution of $p(T|H_0)$.
+An exact permutation test considers all possible distinct permutation (See next chapter). With a large number of observations as here ($n=158$), we can also draw enough random permutations to have decent idea of the distribution of $p(T|H_0)$.
 
 For a one-sided $P$-value we do:
 
