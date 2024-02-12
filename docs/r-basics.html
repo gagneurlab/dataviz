@@ -51,6 +51,8 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -122,6 +124,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -140,6 +164,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i>Acknowledgments</a></li>
+<li class="chapter" data-level="" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i>Datasets</a></li>
+<li class="chapter" data-level="" data-path="feedback.html"><a href="feedback.html"><i class="fa fa-check"></i>Feedback</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#data-science-what-and-why"><i class="fa fa-check"></i>Data Science: What and why?</a></li>
@@ -254,28 +282,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#melting-wide-to-long"><i class="fa fa-check"></i><b>3.3.1</b> Melting (wide to long)</a></li>
 <li class="chapter" data-level="3.3.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#casting-long-to-wide"><i class="fa fa-check"></i><b>3.3.2</b> Casting (long to wide)</a></li>
 <li class="chapter" data-level="3.3.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#separating-columns"><i class="fa fa-check"></i><b>3.3.3</b> Separating columns</a></li>
+<li class="chapter" data-level="3.3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.3.4</b> Uniting columns</a></li>
+<li class="chapter" data-level="3.3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.3.5</b> Advanced: Columns containing sets of values</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#one-column-contains-multiple-variables"><i class="fa fa-check"></i><b>3.4</b> One column contains multiple variables</a>
+<li class="chapter" data-level="3.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.4</b> Concatenating tables</a></li>
+<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.5</b> Merging tables</a>
 <ul>
-<li class="chapter" data-level="3.4.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#uniting-columns"><i class="fa fa-check"></i><b>3.4.1</b> Uniting columns</a></li>
-<li class="chapter" data-level="3.4.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values"><i class="fa fa-check"></i><b>3.4.2</b> Advanced: Columns containing sets of values</a></li>
+<li class="chapter" data-level="3.5.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.5.1</b> Inner merge</a></li>
+<li class="chapter" data-level="3.5.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.5.2</b> Outer (full) merge</a></li>
+<li class="chapter" data-level="3.5.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.5.3</b> Left merge</a></li>
+<li class="chapter" data-level="3.5.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.5.4</b> Right merge</a></li>
+<li class="chapter" data-level="3.5.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.5.5</b> Merging by several columns</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#concatenating-tables"><i class="fa fa-check"></i><b>3.5</b> Concatenating tables</a></li>
-<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-tables"><i class="fa fa-check"></i><b>3.6</b> Merging tables</a>
+<li class="chapter" data-level="3.6" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.6</b> Tidy representations are not unique</a>
 <ul>
-<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#inner-merge"><i class="fa fa-check"></i><b>3.6.1</b> Inner merge</a></li>
-<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#outer-full-merge"><i class="fa fa-check"></i><b>3.6.2</b> Outer (full) merge</a></li>
-<li class="chapter" data-level="3.6.3" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#left-merge"><i class="fa fa-check"></i><b>3.6.3</b> Left merge</a></li>
-<li class="chapter" data-level="3.6.4" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#right-merge"><i class="fa fa-check"></i><b>3.6.4</b> Right merge</a></li>
-<li class="chapter" data-level="3.6.5" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#merging-by-several-columns"><i class="fa fa-check"></i><b>3.6.5</b> Merging by several columns</a></li>
+<li class="chapter" data-level="3.6.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.6.1</b> Alternative tidy forms of a table</a></li>
+<li class="chapter" data-level="3.6.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.6.2</b> On multiple types of observational units in the same table</a></li>
 </ul></li>
-<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-not-unique"><i class="fa fa-check"></i><b>3.7</b> Tidy representations are not unique</a>
-<ul>
-<li class="chapter" data-level="3.7.1" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#alternative-tidy-forms-of-a-table"><i class="fa fa-check"></i><b>3.7.1</b> Alternative tidy forms of a table</a></li>
-<li class="chapter" data-level="3.7.2" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#on-multiple-types-of-observational-units-in-the-same-table"><i class="fa fa-check"></i><b>3.7.2</b> On multiple types of observational units in the same table</a></li>
-</ul></li>
-<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.8</b> Summary</a></li>
-<li class="chapter" data-level="3.9" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.9</b> Tidy data resources</a></li>
+<li class="chapter" data-level="3.7" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#summary-1"><i class="fa fa-check"></i><b>3.7</b> Summary</a></li>
+<li class="chapter" data-level="3.8" data-path="tidy-data-and-combining-tables.html"><a href="tidy-data-and-combining-tables.html#tidy-data-resources"><i class="fa fa-check"></i><b>3.8</b> Tidy data resources</a></li>
 </ul></li>
 <li class="part"><span><b>II Look</b></span></li>
 <li class="chapter" data-level="4" data-path="low-dimensional-visualizations.html"><a href="low-dimensional-visualizations.html"><i class="fa fa-check"></i><b>4</b> Low dimensional visualizations</a>

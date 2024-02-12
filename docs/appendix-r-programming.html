@@ -5,25 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>B R programming | Data Analysis and Visualization in R (IN2339)</title>
-  <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="B R programming | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta property="og:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="B R programming | Data Analysis and Visualization in R (IN2339)" />
   
-  <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="twitter:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
 
 
-<meta name="date" content="2022-02-06" />
+<meta name="date" content="2024-02-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="importing-data.html"/>
 <link rel="next" href="additonal-plotting-tools.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -94,7 +93,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -107,7 +106,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -121,6 +120,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -595,7 +598,7 @@ div.csl-indent {
 <li class="chapter" data-level="A.4" data-path="importing-data.html"><a href="importing-data.html#downloading-files"><i class="fa fa-check"></i><b>A.4</b> Downloading files</a></li>
 <li class="chapter" data-level="A.5" data-path="importing-data.html"><a href="importing-data.html#r-base-importing-functions"><i class="fa fa-check"></i><b>A.5</b> R-base importing functions</a>
 <ul>
-<li><a href="importing-data.html#scan"><code>scan</code></a></li>
+<li class="chapter" data-level="" data-path="importing-data.html"><a href="importing-data.html#scan"><i class="fa fa-check"></i><code>scan</code></a></li>
 </ul></li>
 <li class="chapter" data-level="A.6" data-path="importing-data.html"><a href="importing-data.html#text-versus-binary-files"><i class="fa fa-check"></i><b>A.6</b> Text versus binary files</a></li>
 <li class="chapter" data-level="A.7" data-path="importing-data.html"><a href="importing-data.html#unicode-versus-ascii"><i class="fa fa-check"></i><b>A.7</b> Unicode versus ASCII</a></li>
@@ -652,72 +655,72 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="appendix-r-programming" class="section level1" number="14">
-<h1><span class="header-section-number">B</span> R programming</h1>
+<div id="appendix-r-programming" class="section level1 hasAnchor" number="14">
+<h1><span class="header-section-number">B</span> R programming<a href="appendix-r-programming.html#appendix-r-programming" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>This Appendix covers the basic concepts of programming with R including control flow and functions. It is largely based on Rafael Irizzary’s book Introduction to Data Science [<a href="https://rafalab.github.io/dsbook/" class="uri">https://rafalab.github.io/dsbook/</a>].</p>
-<div id="pipe" class="section level2" number="14.1">
-<h2><span class="header-section-number">B.1</span> The pipe operator</h2>
-<p>The pipe operator, denoted <code>%&gt;%</code> is a very convenient operator provided by the package <code>magrittr</code>. The pipe operator forwards a value, or the result of an expression, into the next function call or expression. The way to read an R line usiung the pipe operator is with the word “then.” For example, the following commands will complete exactly the same task:</p>
-<div class="sourceCode" id="cb754"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb754-1"><a href="appendix-r-programming.html#cb754-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)  <span class="co"># for pipe operator %&gt;%</span></span>
-<span id="cb754-2"><a href="appendix-r-programming.html#cb754-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb754-3"><a href="appendix-r-programming.html#cb754-3" aria-hidden="true" tabindex="-1"></a><span class="do">## First assignment without pipe operator</span></span>
-<span id="cb754-4"><a href="appendix-r-programming.html#cb754-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb754-5"><a href="appendix-r-programming.html#cb754-5" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(x, <span class="dv">10</span>)</span>
-<span id="cb754-6"><a href="appendix-r-programming.html#cb754-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb754-7"><a href="appendix-r-programming.html#cb754-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Second assignment with pipe operator Take x then compute log in base 10</span></span>
-<span id="cb754-8"><a href="appendix-r-programming.html#cb754-8" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%&gt;%</span></span>
-<span id="cb754-9"><a href="appendix-r-programming.html#cb754-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div id="pipe" class="section level2 hasAnchor" number="14.1">
+<h2><span class="header-section-number">B.1</span> The pipe operator<a href="appendix-r-programming.html#pipe" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The pipe operator, denoted <code>%&gt;%</code> is a very convenient operator provided by the package <code>magrittr</code>. The pipe operator forwards a value, or the result of an expression, into the next function call or expression. The way to read an R line usiung the pipe operator is with the word “then”. For example, the following commands will complete exactly the same task:</p>
+<div class="sourceCode" id="cb757"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb757-1"><a href="appendix-r-programming.html#cb757-1" tabindex="-1"></a><span class="fu">library</span>(magrittr)  <span class="co"># for pipe operator %&gt;%</span></span>
+<span id="cb757-2"><a href="appendix-r-programming.html#cb757-2" tabindex="-1"></a></span>
+<span id="cb757-3"><a href="appendix-r-programming.html#cb757-3" tabindex="-1"></a><span class="do">## First assignment without pipe operator</span></span>
+<span id="cb757-4"><a href="appendix-r-programming.html#cb757-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb757-5"><a href="appendix-r-programming.html#cb757-5" tabindex="-1"></a><span class="fu">log</span>(x, <span class="dv">10</span>)</span>
+<span id="cb757-6"><a href="appendix-r-programming.html#cb757-6" tabindex="-1"></a></span>
+<span id="cb757-7"><a href="appendix-r-programming.html#cb757-7" tabindex="-1"></a><span class="do">## Second assignment with pipe operator Take x then compute log in base 10</span></span>
+<span id="cb757-8"><a href="appendix-r-programming.html#cb757-8" tabindex="-1"></a>x <span class="sc">%&gt;%</span></span>
+<span id="cb757-9"><a href="appendix-r-programming.html#cb757-9" tabindex="-1"></a>    <span class="fu">log</span>(<span class="dv">10</span>)</span></code></pre></div>
 <p>By default, the pipe operator forwards its left value into the first argument of the function call on its right. It is possible to specify another argument than the first one by using the <code>.</code> character.</p>
-<div class="sourceCode" id="cb755"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb755-1"><a href="appendix-r-programming.html#cb755-1" aria-hidden="true" tabindex="-1"></a><span class="do">## This computes log(x,10) Take x, then take the log in base 10</span></span>
-<span id="cb755-2"><a href="appendix-r-programming.html#cb755-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%&gt;%</span></span>
-<span id="cb755-3"><a href="appendix-r-programming.html#cb755-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(<span class="dv">10</span>)</span>
-<span id="cb755-4"><a href="appendix-r-programming.html#cb755-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb755-5"><a href="appendix-r-programming.html#cb755-5" aria-hidden="true" tabindex="-1"></a><span class="do">## This too, where the base b=10 is forwarded to the second argument of log()</span></span>
-<span id="cb755-6"><a href="appendix-r-programming.html#cb755-6" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb755-7"><a href="appendix-r-programming.html#cb755-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Take b, then take the log of x in base b</span></span>
-<span id="cb755-8"><a href="appendix-r-programming.html#cb755-8" aria-hidden="true" tabindex="-1"></a>b <span class="sc">%&gt;%</span></span>
-<span id="cb755-9"><a href="appendix-r-programming.html#cb755-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(x, .)</span></code></pre></div>
+<div class="sourceCode" id="cb758"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb758-1"><a href="appendix-r-programming.html#cb758-1" tabindex="-1"></a><span class="do">## This computes log(x,10) Take x, then take the log in base 10</span></span>
+<span id="cb758-2"><a href="appendix-r-programming.html#cb758-2" tabindex="-1"></a>x <span class="sc">%&gt;%</span></span>
+<span id="cb758-3"><a href="appendix-r-programming.html#cb758-3" tabindex="-1"></a>    <span class="fu">log</span>(<span class="dv">10</span>)</span>
+<span id="cb758-4"><a href="appendix-r-programming.html#cb758-4" tabindex="-1"></a></span>
+<span id="cb758-5"><a href="appendix-r-programming.html#cb758-5" tabindex="-1"></a><span class="do">## This too, where the base b=10 is forwarded to the second argument of log()</span></span>
+<span id="cb758-6"><a href="appendix-r-programming.html#cb758-6" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb758-7"><a href="appendix-r-programming.html#cb758-7" tabindex="-1"></a><span class="co"># Take b, then take the log of x in base b</span></span>
+<span id="cb758-8"><a href="appendix-r-programming.html#cb758-8" tabindex="-1"></a>b <span class="sc">%&gt;%</span></span>
+<span id="cb758-9"><a href="appendix-r-programming.html#cb758-9" tabindex="-1"></a>    <span class="fu">log</span>(x, .)</span></code></pre></div>
 <p>When performing several (nested) functions, the advantage of the pipe operator becomes particularly notable, since it allows clearer code readability and prevents bugs.</p>
 </div>
-<div id="conditionals" class="section level2" number="14.2">
-<h2><span class="header-section-number">B.2</span> Conditional expressions</h2>
+<div id="conditionals" class="section level2 hasAnchor" number="14.2">
+<h2><span class="header-section-number">B.2</span> Conditional expressions<a href="appendix-r-programming.html#conditionals" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Conditional expressions are one of the basic features of programming. They are used for what is called <em>flow control</em>. The most common conditional expression is the if-else statement. In R, we can actually perform quite a bit of data analysis without conditionals. However, they do come up occasionally, and you will need them once you start writing your own functions and packages.</p>
 <p>Here is a very simple example showing the general structure of an if-else statement. The basic idea is to print the reciprocal of <code>a</code> unless <code>a</code> is 0:</p>
-<div class="sourceCode" id="cb756"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb756-1"><a href="appendix-r-programming.html#cb756-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb756-2"><a href="appendix-r-programming.html#cb756-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb756-3"><a href="appendix-r-programming.html#cb756-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (a <span class="sc">!=</span> <span class="dv">0</span>) {</span>
-<span id="cb756-4"><a href="appendix-r-programming.html#cb756-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="dv">1</span><span class="sc">/</span>a)</span>
-<span id="cb756-5"><a href="appendix-r-programming.html#cb756-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb756-6"><a href="appendix-r-programming.html#cb756-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;No reciprocal for 0.&quot;</span>)</span>
-<span id="cb756-7"><a href="appendix-r-programming.html#cb756-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb759"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb759-1"><a href="appendix-r-programming.html#cb759-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb759-2"><a href="appendix-r-programming.html#cb759-2" tabindex="-1"></a></span>
+<span id="cb759-3"><a href="appendix-r-programming.html#cb759-3" tabindex="-1"></a><span class="cf">if</span> (a <span class="sc">!=</span> <span class="dv">0</span>) {</span>
+<span id="cb759-4"><a href="appendix-r-programming.html#cb759-4" tabindex="-1"></a>    <span class="fu">print</span>(<span class="dv">1</span><span class="sc">/</span>a)</span>
+<span id="cb759-5"><a href="appendix-r-programming.html#cb759-5" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb759-6"><a href="appendix-r-programming.html#cb759-6" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;No reciprocal for 0.&quot;</span>)</span>
+<span id="cb759-7"><a href="appendix-r-programming.html#cb759-7" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;No reciprocal for 0.&quot;</code></pre>
 <p>Let’s look at one more example using the US murders data frame:</p>
-<div class="sourceCode" id="cb758"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb758-1"><a href="appendix-r-programming.html#cb758-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb758-2"><a href="appendix-r-programming.html#cb758-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(murders)</span>
-<span id="cb758-3"><a href="appendix-r-programming.html#cb758-3" aria-hidden="true" tabindex="-1"></a>murder_rate <span class="ot">&lt;-</span> murders<span class="sc">$</span>total<span class="sc">/</span>murders<span class="sc">$</span>population <span class="sc">*</span> <span class="fl">1e+05</span></span></code></pre></div>
+<div class="sourceCode" id="cb761"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb761-1"><a href="appendix-r-programming.html#cb761-1" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb761-2"><a href="appendix-r-programming.html#cb761-2" tabindex="-1"></a><span class="fu">data</span>(murders)</span>
+<span id="cb761-3"><a href="appendix-r-programming.html#cb761-3" tabindex="-1"></a>murder_rate <span class="ot">&lt;-</span> murders<span class="sc">$</span>total<span class="sc">/</span>murders<span class="sc">$</span>population <span class="sc">*</span> <span class="fl">1e+05</span></span></code></pre></div>
 <p>Here is a very simple example that tells us which states, if any, have a murder rate lower than 0.5 per 100,000. The <code>if</code> statement protects us from the case in which no state satisfies the condition.</p>
-<div class="sourceCode" id="cb759"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb759-1"><a href="appendix-r-programming.html#cb759-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which.min</span>(murder_rate)</span>
-<span id="cb759-2"><a href="appendix-r-programming.html#cb759-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb759-3"><a href="appendix-r-programming.html#cb759-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (murder_rate[ind] <span class="sc">&lt;</span> <span class="fl">0.5</span>) {</span>
-<span id="cb759-4"><a href="appendix-r-programming.html#cb759-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(murders<span class="sc">$</span>state[ind])</span>
-<span id="cb759-5"><a href="appendix-r-programming.html#cb759-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb759-6"><a href="appendix-r-programming.html#cb759-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;No state has murder rate that low&quot;</span>)</span>
-<span id="cb759-7"><a href="appendix-r-programming.html#cb759-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb762"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb762-1"><a href="appendix-r-programming.html#cb762-1" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which.min</span>(murder_rate)</span>
+<span id="cb762-2"><a href="appendix-r-programming.html#cb762-2" tabindex="-1"></a></span>
+<span id="cb762-3"><a href="appendix-r-programming.html#cb762-3" tabindex="-1"></a><span class="cf">if</span> (murder_rate[ind] <span class="sc">&lt;</span> <span class="fl">0.5</span>) {</span>
+<span id="cb762-4"><a href="appendix-r-programming.html#cb762-4" tabindex="-1"></a>    <span class="fu">print</span>(murders<span class="sc">$</span>state[ind])</span>
+<span id="cb762-5"><a href="appendix-r-programming.html#cb762-5" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb762-6"><a href="appendix-r-programming.html#cb762-6" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;No state has murder rate that low&quot;</span>)</span>
+<span id="cb762-7"><a href="appendix-r-programming.html#cb762-7" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;Vermont&quot;</code></pre>
 <p>If we try it again with a rate of 0.25, we get a different answer:</p>
-<div class="sourceCode" id="cb761"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb761-1"><a href="appendix-r-programming.html#cb761-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (murder_rate[ind] <span class="sc">&lt;</span> <span class="fl">0.25</span>) {</span>
-<span id="cb761-2"><a href="appendix-r-programming.html#cb761-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(murders<span class="sc">$</span>state[ind])</span>
-<span id="cb761-3"><a href="appendix-r-programming.html#cb761-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb761-4"><a href="appendix-r-programming.html#cb761-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;No state has a murder rate that low.&quot;</span>)</span>
-<span id="cb761-5"><a href="appendix-r-programming.html#cb761-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb764"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb764-1"><a href="appendix-r-programming.html#cb764-1" tabindex="-1"></a><span class="cf">if</span> (murder_rate[ind] <span class="sc">&lt;</span> <span class="fl">0.25</span>) {</span>
+<span id="cb764-2"><a href="appendix-r-programming.html#cb764-2" tabindex="-1"></a>    <span class="fu">print</span>(murders<span class="sc">$</span>state[ind])</span>
+<span id="cb764-3"><a href="appendix-r-programming.html#cb764-3" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb764-4"><a href="appendix-r-programming.html#cb764-4" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;No state has a murder rate that low.&quot;</span>)</span>
+<span id="cb764-5"><a href="appendix-r-programming.html#cb764-5" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;No state has a murder rate that low.&quot;</code></pre>
 <p>A related function that is very useful is <code>ifelse</code>. This function takes three arguments: a logical and two possible answers. If the logical is <code>TRUE</code>, the value in the second argument is returned and if <code>FALSE</code>, the value in the third argument is returned. Here is an example:</p>
-<div class="sourceCode" id="cb763"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb763-1"><a href="appendix-r-programming.html#cb763-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb763-2"><a href="appendix-r-programming.html#cb763-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(a <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span>a, <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb766"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb766-1"><a href="appendix-r-programming.html#cb766-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb766-2"><a href="appendix-r-programming.html#cb766-2" tabindex="-1"></a><span class="fu">ifelse</span>(a <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span>a, <span class="cn">NA</span>)</span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
 <p>The function is particularly useful because it works on vectors. It examines each entry of the logical vector and returns elements from the vector provided in the second argument, if the entry is <code>TRUE</code>, or elements from the vector provided in the third argument, if the entry is <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb765-1"><a href="appendix-r-programming.html#cb765-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb765-2"><a href="appendix-r-programming.html#cb765-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(a <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span>a, <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb768"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb768-1"><a href="appendix-r-programming.html#cb768-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb768-2"><a href="appendix-r-programming.html#cb768-2" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(a <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span>a, <span class="cn">NA</span>)</span></code></pre></div>
 This table helps us see what happened:
 <table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -828,86 +831,86 @@ NA
 </tbody>
 </table>
 <p>Here is an example of how this function can be readily used to replace all the missing values in a vector with zeros:</p>
-<div class="sourceCode" id="cb766"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb766-1"><a href="appendix-r-programming.html#cb766-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(na_example)</span>
-<span id="cb766-2"><a href="appendix-r-programming.html#cb766-2" aria-hidden="true" tabindex="-1"></a>no_nas <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(na_example), <span class="dv">0</span>, na_example)</span>
-<span id="cb766-3"><a href="appendix-r-programming.html#cb766-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(no_nas))</span></code></pre></div>
+<div class="sourceCode" id="cb769"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb769-1"><a href="appendix-r-programming.html#cb769-1" tabindex="-1"></a><span class="fu">data</span>(na_example)</span>
+<span id="cb769-2"><a href="appendix-r-programming.html#cb769-2" tabindex="-1"></a>no_nas <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(na_example), <span class="dv">0</span>, na_example)</span>
+<span id="cb769-3"><a href="appendix-r-programming.html#cb769-3" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(no_nas))</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <p>Two other useful functions are <code>any</code> and <code>all</code>. The <code>any</code> function takes a vector of logicals and returns <code>TRUE</code> if any of the entries is <code>TRUE</code>. The <code>all</code> function takes a vector of logicals and returns <code>TRUE</code> if all of the entries are <code>TRUE</code>. Here is an example:</p>
-<div class="sourceCode" id="cb768"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb768-1"><a href="appendix-r-programming.html#cb768-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
-<span id="cb768-2"><a href="appendix-r-programming.html#cb768-2" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(z)</span></code></pre></div>
+<div class="sourceCode" id="cb771"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb771-1"><a href="appendix-r-programming.html#cb771-1" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb771-2"><a href="appendix-r-programming.html#cb771-2" tabindex="-1"></a><span class="fu">any</span>(z)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb770"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb770-1"><a href="appendix-r-programming.html#cb770-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(z)</span></code></pre></div>
+<div class="sourceCode" id="cb773"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb773-1"><a href="appendix-r-programming.html#cb773-1" tabindex="-1"></a><span class="fu">all</span>(z)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 </div>
-<div id="defining-functions" class="section level2" number="14.3">
-<h2><span class="header-section-number">B.3</span> Defining functions</h2>
+<div id="defining-functions" class="section level2 hasAnchor" number="14.3">
+<h2><span class="header-section-number">B.3</span> Defining functions<a href="appendix-r-programming.html#defining-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As you become more experienced, you will find yourself needing to perform the same operations over and over. A simple example is computing averages. We can compute the average of a vector <code>x</code> using the <code>sum</code> and <code>length</code> functions: <code>sum(x)/length(x)</code>. Because we do this repeatedly, it is much more efficient to write a function that performs this operation. This particular operation is so common that someone already wrote the <code>mean</code> function and it is included in base R. However, you will encounter situations in which the function does not already exist, so R permits you to write your own. A simple version of a function that computes the average can be defined like this:</p>
-<div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb772-1"><a href="appendix-r-programming.html#cb772-1" aria-hidden="true" tabindex="-1"></a>avg <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb772-2"><a href="appendix-r-programming.html#cb772-2" aria-hidden="true" tabindex="-1"></a>    s <span class="ot">&lt;-</span> <span class="fu">sum</span>(x)</span>
-<span id="cb772-3"><a href="appendix-r-programming.html#cb772-3" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb772-4"><a href="appendix-r-programming.html#cb772-4" aria-hidden="true" tabindex="-1"></a>    s<span class="sc">/</span>n</span>
-<span id="cb772-5"><a href="appendix-r-programming.html#cb772-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb775"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb775-1"><a href="appendix-r-programming.html#cb775-1" tabindex="-1"></a>avg <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb775-2"><a href="appendix-r-programming.html#cb775-2" tabindex="-1"></a>    s <span class="ot">&lt;-</span> <span class="fu">sum</span>(x)</span>
+<span id="cb775-3"><a href="appendix-r-programming.html#cb775-3" tabindex="-1"></a>    n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb775-4"><a href="appendix-r-programming.html#cb775-4" tabindex="-1"></a>    s<span class="sc">/</span>n</span>
+<span id="cb775-5"><a href="appendix-r-programming.html#cb775-5" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now <code>avg</code> is a function that computes the mean:</p>
-<div class="sourceCode" id="cb773"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb773-1"><a href="appendix-r-programming.html#cb773-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
-<span id="cb773-2"><a href="appendix-r-programming.html#cb773-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">mean</span>(x), <span class="fu">avg</span>(x))</span></code></pre></div>
+<div class="sourceCode" id="cb776"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb776-1"><a href="appendix-r-programming.html#cb776-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb776-2"><a href="appendix-r-programming.html#cb776-2" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">mean</span>(x), <span class="fu">avg</span>(x))</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Notice that variables defined inside a function are not saved in the workspace. So while we use <code>s</code> and <code>n</code> when we call <code>avg</code>, the values are created and changed only during the call. Here is an illustrative example:</p>
-<div class="sourceCode" id="cb775"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb775-1"><a href="appendix-r-programming.html#cb775-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb775-2"><a href="appendix-r-programming.html#cb775-2" aria-hidden="true" tabindex="-1"></a><span class="fu">avg</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb778"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb778-1"><a href="appendix-r-programming.html#cb778-1" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb778-2"><a href="appendix-r-programming.html#cb778-2" tabindex="-1"></a><span class="fu">avg</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] 5.5</code></pre>
-<div class="sourceCode" id="cb777"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb777-1"><a href="appendix-r-programming.html#cb777-1" aria-hidden="true" tabindex="-1"></a>s</span></code></pre></div>
+<div class="sourceCode" id="cb780"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb780-1"><a href="appendix-r-programming.html#cb780-1" tabindex="-1"></a>s</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p>Note how <code>s</code> is still 3 after we call <code>avg</code>.</p>
 <p>In general, functions are objects, so we assign them to variable names with <code>&lt;-</code>. The function <code>function</code> tells R you are about to define a function. The general form of a function definition looks like this:</p>
-<div class="sourceCode" id="cb779"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb779-1"><a href="appendix-r-programming.html#cb779-1" aria-hidden="true" tabindex="-1"></a>my_function <span class="ot">&lt;-</span> <span class="cf">function</span>(VARIABLE_NAME) {</span>
-<span id="cb779-2"><a href="appendix-r-programming.html#cb779-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># perform operations on VARIABLE_NAME and calculate VALUE</span></span>
-<span id="cb779-3"><a href="appendix-r-programming.html#cb779-3" aria-hidden="true" tabindex="-1"></a>    VALUE</span>
-<span id="cb779-4"><a href="appendix-r-programming.html#cb779-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb782"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb782-1"><a href="appendix-r-programming.html#cb782-1" tabindex="-1"></a>my_function <span class="ot">&lt;-</span> <span class="cf">function</span>(VARIABLE_NAME) {</span>
+<span id="cb782-2"><a href="appendix-r-programming.html#cb782-2" tabindex="-1"></a>    <span class="co"># perform operations on VARIABLE_NAME and calculate VALUE</span></span>
+<span id="cb782-3"><a href="appendix-r-programming.html#cb782-3" tabindex="-1"></a>    VALUE</span>
+<span id="cb782-4"><a href="appendix-r-programming.html#cb782-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>The functions you define can have multiple arguments as well as default values. For example, we can define a function that computes either the arithmetic or geometric average depending on a user defined variable like this:</p>
-<div class="sourceCode" id="cb780"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb780-1"><a href="appendix-r-programming.html#cb780-1" aria-hidden="true" tabindex="-1"></a>avg <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">arithmetic =</span> <span class="cn">TRUE</span>) {</span>
-<span id="cb780-2"><a href="appendix-r-programming.html#cb780-2" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb780-3"><a href="appendix-r-programming.html#cb780-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(arithmetic, <span class="fu">sum</span>(x)<span class="sc">/</span>n, <span class="fu">prod</span>(x)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>n))</span>
-<span id="cb780-4"><a href="appendix-r-programming.html#cb780-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb783"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb783-1"><a href="appendix-r-programming.html#cb783-1" tabindex="-1"></a>avg <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">arithmetic =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb783-2"><a href="appendix-r-programming.html#cb783-2" tabindex="-1"></a>    n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb783-3"><a href="appendix-r-programming.html#cb783-3" tabindex="-1"></a>    <span class="fu">ifelse</span>(arithmetic, <span class="fu">sum</span>(x)<span class="sc">/</span>n, <span class="fu">prod</span>(x)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>n))</span>
+<span id="cb783-4"><a href="appendix-r-programming.html#cb783-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>We will learn more about how to create functions through experience as we face more complex tasks.</p>
 </div>
-<div id="namespaces" class="section level2" number="14.4">
-<h2><span class="header-section-number">B.4</span> Namespaces</h2>
+<div id="namespaces" class="section level2 hasAnchor" number="14.4">
+<h2><span class="header-section-number">B.4</span> Namespaces<a href="appendix-r-programming.html#namespaces" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Once you start becoming more of an R expert user, you will likely need to load several add-on packages for some of your analysis. Once you start doing this, it is likely that two packages use the same name for two different functions. And often these functions do completely different things.
-Functions of diffrenet packages live in different <em>namespaces</em>. R will follow a certain order when searching for a function in these <em>namespaces</em>. You can see the order by typing:</p>
-<div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb781-1"><a href="appendix-r-programming.html#cb781-1" aria-hidden="true" tabindex="-1"></a><span class="fu">search</span>()</span></code></pre></div>
+Functions of different packages live in different <em>namespaces</em>. R will follow a certain order when searching for a function in these <em>namespaces</em>. You can see the order by typing:</p>
+<div class="sourceCode" id="cb784"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb784-1"><a href="appendix-r-programming.html#cb784-1" tabindex="-1"></a><span class="fu">search</span>()</span></code></pre></div>
 <p>The first entry in this list is the global environment which includes all the objects you define.</p>
 <p>If we want to be absolutely sure that R uses the function of specific package, we shall use double colons (<code>::</code>). For instance to force R to use the <code>filter</code> of the <strong>stats</strong> package, we can use</p>
-<div class="sourceCode" id="cb782"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb782-1"><a href="appendix-r-programming.html#cb782-1" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span>filter</span></code></pre></div>
+<div class="sourceCode" id="cb785"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb785-1"><a href="appendix-r-programming.html#cb785-1" tabindex="-1"></a>stats<span class="sc">::</span>filter</span></code></pre></div>
 <p>Also note that if we want to use a function in a package without loading the entire package, we can use the double colon as well.</p>
-<p>For more on this more advanced topic we recommend the R packages book<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a>.</p>
+<p>For more on this more advanced topic we recommend the R packages book<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a>.</p>
 </div>
-<div id="for-loops" class="section level2" number="14.5">
-<h2><span class="header-section-number">B.5</span> For-loops</h2>
+<div id="for-loops" class="section level2 hasAnchor" number="14.5">
+<h2><span class="header-section-number">B.5</span> For-loops<a href="appendix-r-programming.html#for-loops" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The formula for the sum of the series <span class="math inline">\(1+2+\dots+n\)</span> is <span class="math inline">\(n(n+1)/2\)</span>. What if we weren’t sure that was the right function? How could we check? Using what we learned about functions we can create one that computes the <span class="math inline">\(S_n\)</span>:</p>
-<div class="sourceCode" id="cb783"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb783-1"><a href="appendix-r-programming.html#cb783-1" aria-hidden="true" tabindex="-1"></a>compute_s_n <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
-<span id="cb783-2"><a href="appendix-r-programming.html#cb783-2" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n</span>
-<span id="cb783-3"><a href="appendix-r-programming.html#cb783-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(x)</span>
-<span id="cb783-4"><a href="appendix-r-programming.html#cb783-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb786"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb786-1"><a href="appendix-r-programming.html#cb786-1" tabindex="-1"></a>compute_s_n <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb786-2"><a href="appendix-r-programming.html#cb786-2" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb786-3"><a href="appendix-r-programming.html#cb786-3" tabindex="-1"></a>    <span class="fu">sum</span>(x)</span>
+<span id="cb786-4"><a href="appendix-r-programming.html#cb786-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>How can we compute <span class="math inline">\(S_n\)</span> for various values of <span class="math inline">\(n\)</span>, say <span class="math inline">\(n=1,\dots,25\)</span>? Do we write 25 lines of code calling <code>compute_s_n</code>? No, that is what for-loops are for in programming. In this case, we are performing exactly the same task over and over, and the only thing that is changing is the value of <span class="math inline">\(n\)</span>. For-loops let us define the range that our variable takes (in our example <span class="math inline">\(n=1,\dots,10\)</span>), then change the value and evaluate expression as you <em>loop</em>.</p>
 <p>Perhaps the simplest example of a for-loop is this useless piece of code:</p>
-<div class="sourceCode" id="cb784"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb784-1"><a href="appendix-r-programming.html#cb784-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
-<span id="cb784-2"><a href="appendix-r-programming.html#cb784-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
-<span id="cb784-3"><a href="appendix-r-programming.html#cb784-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb787-1"><a href="appendix-r-programming.html#cb787-1" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb787-2"><a href="appendix-r-programming.html#cb787-2" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
+<span id="cb787-3"><a href="appendix-r-programming.html#cb787-3" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] 1
 ## [1] 2
 ## [1] 3
 ## [1] 4
 ## [1] 5</code></pre>
 <p>Here is the for-loop we would write for our <span class="math inline">\(S_n\)</span> example:</p>
-<div class="sourceCode" id="cb786"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb786-1"><a href="appendix-r-programming.html#cb786-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">25</span></span>
-<span id="cb786-2"><a href="appendix-r-programming.html#cb786-2" aria-hidden="true" tabindex="-1"></a>s_n <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length =</span> m)  <span class="co"># create an empty vector</span></span>
-<span id="cb786-3"><a href="appendix-r-programming.html#cb786-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m) {</span>
-<span id="cb786-4"><a href="appendix-r-programming.html#cb786-4" aria-hidden="true" tabindex="-1"></a>    s_n[n] <span class="ot">&lt;-</span> <span class="fu">compute_s_n</span>(n)</span>
-<span id="cb786-5"><a href="appendix-r-programming.html#cb786-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb789"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb789-1"><a href="appendix-r-programming.html#cb789-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb789-2"><a href="appendix-r-programming.html#cb789-2" tabindex="-1"></a>s_n <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length =</span> m)  <span class="co"># create an empty vector</span></span>
+<span id="cb789-3"><a href="appendix-r-programming.html#cb789-3" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m) {</span>
+<span id="cb789-4"><a href="appendix-r-programming.html#cb789-4" tabindex="-1"></a>    s_n[n] <span class="ot">&lt;-</span> <span class="fu">compute_s_n</span>(n)</span>
+<span id="cb789-5"><a href="appendix-r-programming.html#cb789-5" tabindex="-1"></a>}</span></code></pre></div>
 <p>In each iteration <span class="math inline">\(n=1\)</span>, <span class="math inline">\(n=2\)</span>, etc…, we compute <span class="math inline">\(S_n\)</span> and store it in the <span class="math inline">\(n\)</span>th entry of <code>s_n</code>.</p>
 <p>Now we can create a plot to search for a pattern:</p>
-<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb787-1"><a href="appendix-r-programming.html#cb787-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>m</span>
-<span id="cb787-2"><a href="appendix-r-programming.html#cb787-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n, s_n)</span></code></pre></div>
+<div class="sourceCode" id="cb790"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb790-1"><a href="appendix-r-programming.html#cb790-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>m</span>
+<span id="cb790-2"><a href="appendix-r-programming.html#cb790-2" tabindex="-1"></a><span class="fu">plot</span>(n, s_n)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/sum-of-consecutive-squares-1.png" width="50%" height="250px" style="display: block; margin: auto;" /></p>
 <p>If you noticed that it appears to be a quadratic, you are on the right track because the formula is <span class="math inline">\(n(n+1)/2\)</span>.
 <!--
@@ -918,15 +921,11 @@ which we can confirm with a table:
 head(data.frame(s_n = s_n, formula = n * (n + 1)/2))
 ```
 
-```
-##   s_n formula
-## 1   1       1
-## 2   3       3
-## 3   6       6
-## 4  10      10
-## 5  15      15
-## 6  21      21
-```
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["s_n"],"name":[1],"type":["int"],"align":["right"]},{"label":["formula"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","_rn_":"1"},{"1":"3","2":"3","_rn_":"2"},{"1":"6","2":"6","_rn_":"3"},{"1":"10","2":"10","_rn_":"4"},{"1":"15","2":"15","_rn_":"5"},{"1":"21","2":"21","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 
 We can also overlay the two results by using the function `lines` to draw a line over the previously plotted points:
 
@@ -940,32 +939,32 @@ lines(n, n * (n + 1)/2)
 
 --></p>
 </div>
-<div id="vectorization" class="section level2" number="14.6">
-<h2><span class="header-section-number">B.6</span> Vectorization and functionals</h2>
+<div id="vectorization" class="section level2 hasAnchor" number="14.6">
+<h2><span class="header-section-number">B.6</span> Vectorization and functionals<a href="appendix-r-programming.html#vectorization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Although for-loops are an important concept to understand, in R we rarely use them. As you learn more R, you will realize that <em>vectorization</em> is preferred over for-loops since it results in shorter and clearer code. We already saw examples in the Vector Arithmetic section. A <em>vectorized</em> function is a function that will apply the same operation on each of the vectors.</p>
-<div class="sourceCode" id="cb788"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb788-1"><a href="appendix-r-programming.html#cb788-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb788-2"><a href="appendix-r-programming.html#cb788-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb791"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb791-1"><a href="appendix-r-programming.html#cb791-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb791-2"><a href="appendix-r-programming.html#cb791-2" tabindex="-1"></a><span class="fu">sqrt</span>(x)</span></code></pre></div>
 <pre><code>##  [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751 2.828427
 ##  [9] 3.000000 3.162278</code></pre>
-<div class="sourceCode" id="cb790"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb790-1"><a href="appendix-r-programming.html#cb790-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb790-2"><a href="appendix-r-programming.html#cb790-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> y</span></code></pre></div>
+<div class="sourceCode" id="cb793"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb793-1"><a href="appendix-r-programming.html#cb793-1" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb793-2"><a href="appendix-r-programming.html#cb793-2" tabindex="-1"></a>x <span class="sc">*</span> y</span></code></pre></div>
 <pre><code>##  [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
 <p>To make this calculation, there is no need for for-loops. However, not all functions work this way. For instance, the function we just wrote, <code>compute_s_n</code>, does not work element-wise since it is expecting a scalar. This piece of code does not run the function on each entry of <code>n</code>:</p>
-<div class="sourceCode" id="cb792"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb792-1"><a href="appendix-r-programming.html#cb792-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span></span>
-<span id="cb792-2"><a href="appendix-r-programming.html#cb792-2" aria-hidden="true" tabindex="-1"></a><span class="fu">compute_s_n</span>(n)</span></code></pre></div>
+<div class="sourceCode" id="cb795"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb795-1"><a href="appendix-r-programming.html#cb795-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span></span>
+<span id="cb795-2"><a href="appendix-r-programming.html#cb795-2" tabindex="-1"></a><span class="fu">compute_s_n</span>(n)</span></code></pre></div>
 <p><em>Functionals</em> are functions that help us apply the same function to each entry in a vector, matrix, data frame, or list. Here we cover the functional that operates on numeric, logical, and character vectors: <code>sapply</code>.</p>
 <p>The function <code>sapply</code> permits us to perform element-wise operations on any function. Here is how it works:</p>
-<div class="sourceCode" id="cb793"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb793-1"><a href="appendix-r-programming.html#cb793-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb793-2"><a href="appendix-r-programming.html#cb793-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(x, sqrt)</span></code></pre></div>
+<div class="sourceCode" id="cb796"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb796-1"><a href="appendix-r-programming.html#cb796-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb796-2"><a href="appendix-r-programming.html#cb796-2" tabindex="-1"></a><span class="fu">sapply</span>(x, sqrt)</span></code></pre></div>
 <pre><code>##  [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751 2.828427
 ##  [9] 3.000000 3.162278</code></pre>
 <p>Each element of <code>x</code> is passed on to the function <code>sqrt</code> and the result is returned. These results are concatenated. In this case, the result is a vector of the same length as the original <code>x</code>. This implies that the for-loop above can be written as follows:</p>
-<div class="sourceCode" id="cb795"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb795-1"><a href="appendix-r-programming.html#cb795-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span></span>
-<span id="cb795-2"><a href="appendix-r-programming.html#cb795-2" aria-hidden="true" tabindex="-1"></a>s_n <span class="ot">&lt;-</span> <span class="fu">sapply</span>(n, compute_s_n)</span></code></pre></div>
+<div class="sourceCode" id="cb798"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb798-1"><a href="appendix-r-programming.html#cb798-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span></span>
+<span id="cb798-2"><a href="appendix-r-programming.html#cb798-2" tabindex="-1"></a>s_n <span class="ot">&lt;-</span> <span class="fu">sapply</span>(n, compute_s_n)</span></code></pre></div>
 <p>Other functionals are <code>apply</code>, <code>lapply</code>, <code>tapply</code>, <code>mapply</code>, <code>vapply</code>, and <code>replicate</code>. We mostly use <code>sapply</code>, <code>apply</code>, and <code>replicate</code> in this book, but we recommend familiarizing yourselves with the others as they can be very useful.</p>
 </div>
-<div id="r-markdown" class="section level2" number="14.7">
-<h2><span class="header-section-number">B.7</span> R Markdown</h2>
+<div id="r-markdown" class="section level2 hasAnchor" number="14.7">
+<h2><span class="header-section-number">B.7</span> R Markdown<a href="appendix-r-programming.html#r-markdown" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p></li>
 <li><p>Simply go to File –&gt; New File –&gt; R Markdown</p></li>
@@ -974,8 +973,8 @@ lines(n, n * (n + 1)/2)
 <li><p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.</p></li>
 </ul>
 </div>
-<div id="resources-5" class="section level2" number="14.8">
-<h2><span class="header-section-number">B.8</span> Resources</h2>
+<div id="resources-5" class="section level2 hasAnchor" number="14.8">
+<h2><span class="header-section-number">B.8</span> Resources<a href="appendix-r-programming.html#resources-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>Advanced R by Hadley Wickham <a href="http://adv-r.had.co.nz/">Advanced R</a></p></li>
 <li><p>In-depth documentations:</p>
@@ -994,8 +993,8 @@ lines(n, n * (n + 1)/2)
 </div>
 <div class="footnotes">
 <hr />
-<ol start="53">
-<li id="fn53"><p><a href="http://r-pkgs.had.co.nz/namespace.html" class="uri">http://r-pkgs.had.co.nz/namespace.html</a><a href="appendix-r-programming.html#fnref53" class="footnote-back">↩︎</a></p></li>
+<ol start="54">
+<li id="fn54"><p><a href="http://r-pkgs.had.co.nz/namespace.html" class="uri">http://r-pkgs.had.co.nz/namespace.html</a><a href="appendix-r-programming.html#fnref54" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -1064,7 +1063,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

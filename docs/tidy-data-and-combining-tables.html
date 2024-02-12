@@ -22,7 +22,7 @@
 
 
 
-<meta name="date" content="2024-02-10" />
+<meta name="date" content="2024-02-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -51,6 +51,8 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -162,6 +164,10 @@ div.csl-indent {
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i>Acknowledgments</a></li>
+<li class="chapter" data-level="" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="datasets.html"><a href="datasets.html"><i class="fa fa-check"></i>Datasets</a></li>
+<li class="chapter" data-level="" data-path="feedback.html"><a href="feedback.html"><i class="fa fa-check"></i>Feedback</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#data-science-what-and-why"><i class="fa fa-check"></i>Data Science: What and why?</a></li>
@@ -661,47 +667,47 @@ div.csl-indent {
 <div id="datasets-used-in-this-chapter" class="section level3 hasAnchor" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> Datasets used in this chapter<a href="tidy-data-and-combining-tables.html#datasets-used-in-this-chapter" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The following code chunks load libraries and tables used throughout this chapter.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tidy-data-and-combining-tables.html#cb1-1" tabindex="-1"></a>  <span class="fu">library</span>(data.table) <span class="co"># melt, dcast, ...</span></span>
-<span id="cb1-2"><a href="tidy-data-and-combining-tables.html#cb1-2" tabindex="-1"></a>  <span class="fu">library</span>(tidyr) <span class="co"># separate, unite, ...</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="tidy-data-and-combining-tables.html#cb2-1" tabindex="-1"></a>DATADIR <span class="ot">&lt;-</span> <span class="st">&quot;extdata&quot;</span></span>
-<span id="cb2-2"><a href="tidy-data-and-combining-tables.html#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="tidy-data-and-combining-tables.html#cb2-3" tabindex="-1"></a>election_results <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
-<span id="cb2-4"><a href="tidy-data-and-combining-tables.html#cb2-4" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;US-pres16results.csv&quot;</span>), </span>
-<span id="cb2-5"><a href="tidy-data-and-combining-tables.html#cb2-5" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
-<span id="cb2-6"><a href="tidy-data-and-combining-tables.html#cb2-6" tabindex="-1"></a>  )</span>
-<span id="cb2-7"><a href="tidy-data-and-combining-tables.html#cb2-7" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="tidy-data-and-combining-tables.html#cb2-8" tabindex="-1"></a>election_results <span class="ot">&lt;-</span> election_results[</span>
-<span id="cb2-9"><a href="tidy-data-and-combining-tables.html#cb2-9" tabindex="-1"></a>  <span class="fu">is.na</span>(county) <span class="sc">&amp;</span> st <span class="sc">!=</span> <span class="st">&quot;US&quot;</span>,</span>
-<span id="cb2-10"><a href="tidy-data-and-combining-tables.html#cb2-10" tabindex="-1"></a>  .(cand, st, votes, total_votes)</span>
-<span id="cb2-11"><a href="tidy-data-and-combining-tables.html#cb2-11" tabindex="-1"></a>  ]</span>
-<span id="cb2-12"><a href="tidy-data-and-combining-tables.html#cb2-12" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="tidy-data-and-combining-tables.html#cb2-13" tabindex="-1"></a><span class="fu">setnames</span>(election_results, <span class="st">&quot;cand&quot;</span>, <span class="st">&quot;candidate&quot;</span>)</span>
-<span id="cb2-14"><a href="tidy-data-and-combining-tables.html#cb2-14" tabindex="-1"></a><span class="fu">setnames</span>(election_results, <span class="st">&quot;st&quot;</span>, <span class="st">&quot;state&quot;</span>)</span>
-<span id="cb2-15"><a href="tidy-data-and-combining-tables.html#cb2-15" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="tidy-data-and-combining-tables.html#cb2-16" tabindex="-1"></a>table1 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
-<span id="cb2-17"><a href="tidy-data-and-combining-tables.html#cb2-17" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table1_alternate.csv&quot;</span>), </span>
-<span id="cb2-18"><a href="tidy-data-and-combining-tables.html#cb2-18" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
-<span id="cb2-19"><a href="tidy-data-and-combining-tables.html#cb2-19" tabindex="-1"></a>  ) </span>
-<span id="cb2-20"><a href="tidy-data-and-combining-tables.html#cb2-20" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="tidy-data-and-combining-tables.html#cb2-21" tabindex="-1"></a>table2 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
-<span id="cb2-22"><a href="tidy-data-and-combining-tables.html#cb2-22" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table2_alternate.csv&quot;</span>), </span>
-<span id="cb2-23"><a href="tidy-data-and-combining-tables.html#cb2-23" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
-<span id="cb2-24"><a href="tidy-data-and-combining-tables.html#cb2-24" tabindex="-1"></a>  ) </span>
-<span id="cb2-25"><a href="tidy-data-and-combining-tables.html#cb2-25" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="tidy-data-and-combining-tables.html#cb2-26" tabindex="-1"></a>table3 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
-<span id="cb2-27"><a href="tidy-data-and-combining-tables.html#cb2-27" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table3_alternate.csv&quot;</span>), </span>
-<span id="cb2-28"><a href="tidy-data-and-combining-tables.html#cb2-28" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
-<span id="cb2-29"><a href="tidy-data-and-combining-tables.html#cb2-29" tabindex="-1"></a>  )</span>
-<span id="cb2-30"><a href="tidy-data-and-combining-tables.html#cb2-30" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="tidy-data-and-combining-tables.html#cb2-31" tabindex="-1"></a>table4 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
-<span id="cb2-32"><a href="tidy-data-and-combining-tables.html#cb2-32" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table4_alternate.csv&quot;</span>), </span>
-<span id="cb2-33"><a href="tidy-data-and-combining-tables.html#cb2-33" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
-<span id="cb2-34"><a href="tidy-data-and-combining-tables.html#cb2-34" tabindex="-1"></a>  ) </span>
-<span id="cb2-35"><a href="tidy-data-and-combining-tables.html#cb2-35" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="tidy-data-and-combining-tables.html#cb2-36" tabindex="-1"></a>table5 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
-<span id="cb2-37"><a href="tidy-data-and-combining-tables.html#cb2-37" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table5_alternate.csv&quot;</span>), </span>
-<span id="cb2-38"><a href="tidy-data-and-combining-tables.html#cb2-38" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
-<span id="cb2-39"><a href="tidy-data-and-combining-tables.html#cb2-39" tabindex="-1"></a>  ) </span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="tidy-data-and-combining-tables.html#cb298-1" tabindex="-1"></a>  <span class="fu">library</span>(data.table) <span class="co"># melt, dcast, ...</span></span>
+<span id="cb298-2"><a href="tidy-data-and-combining-tables.html#cb298-2" tabindex="-1"></a>  <span class="fu">library</span>(tidyr) <span class="co"># separate, unite, ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="tidy-data-and-combining-tables.html#cb299-1" tabindex="-1"></a>DATADIR <span class="ot">&lt;-</span> <span class="st">&quot;extdata&quot;</span></span>
+<span id="cb299-2"><a href="tidy-data-and-combining-tables.html#cb299-2" tabindex="-1"></a></span>
+<span id="cb299-3"><a href="tidy-data-and-combining-tables.html#cb299-3" tabindex="-1"></a>election_results <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
+<span id="cb299-4"><a href="tidy-data-and-combining-tables.html#cb299-4" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;US-pres16results.csv&quot;</span>), </span>
+<span id="cb299-5"><a href="tidy-data-and-combining-tables.html#cb299-5" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
+<span id="cb299-6"><a href="tidy-data-and-combining-tables.html#cb299-6" tabindex="-1"></a>  )</span>
+<span id="cb299-7"><a href="tidy-data-and-combining-tables.html#cb299-7" tabindex="-1"></a></span>
+<span id="cb299-8"><a href="tidy-data-and-combining-tables.html#cb299-8" tabindex="-1"></a>election_results <span class="ot">&lt;-</span> election_results[</span>
+<span id="cb299-9"><a href="tidy-data-and-combining-tables.html#cb299-9" tabindex="-1"></a>  <span class="fu">is.na</span>(county) <span class="sc">&amp;</span> st <span class="sc">!=</span> <span class="st">&quot;US&quot;</span>,</span>
+<span id="cb299-10"><a href="tidy-data-and-combining-tables.html#cb299-10" tabindex="-1"></a>  .(cand, st, votes, total_votes)</span>
+<span id="cb299-11"><a href="tidy-data-and-combining-tables.html#cb299-11" tabindex="-1"></a>  ]</span>
+<span id="cb299-12"><a href="tidy-data-and-combining-tables.html#cb299-12" tabindex="-1"></a></span>
+<span id="cb299-13"><a href="tidy-data-and-combining-tables.html#cb299-13" tabindex="-1"></a><span class="fu">setnames</span>(election_results, <span class="st">&quot;cand&quot;</span>, <span class="st">&quot;candidate&quot;</span>)</span>
+<span id="cb299-14"><a href="tidy-data-and-combining-tables.html#cb299-14" tabindex="-1"></a><span class="fu">setnames</span>(election_results, <span class="st">&quot;st&quot;</span>, <span class="st">&quot;state&quot;</span>)</span>
+<span id="cb299-15"><a href="tidy-data-and-combining-tables.html#cb299-15" tabindex="-1"></a></span>
+<span id="cb299-16"><a href="tidy-data-and-combining-tables.html#cb299-16" tabindex="-1"></a>table1 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
+<span id="cb299-17"><a href="tidy-data-and-combining-tables.html#cb299-17" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table1_alternate.csv&quot;</span>), </span>
+<span id="cb299-18"><a href="tidy-data-and-combining-tables.html#cb299-18" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
+<span id="cb299-19"><a href="tidy-data-and-combining-tables.html#cb299-19" tabindex="-1"></a>  ) </span>
+<span id="cb299-20"><a href="tidy-data-and-combining-tables.html#cb299-20" tabindex="-1"></a></span>
+<span id="cb299-21"><a href="tidy-data-and-combining-tables.html#cb299-21" tabindex="-1"></a>table2 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
+<span id="cb299-22"><a href="tidy-data-and-combining-tables.html#cb299-22" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table2_alternate.csv&quot;</span>), </span>
+<span id="cb299-23"><a href="tidy-data-and-combining-tables.html#cb299-23" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
+<span id="cb299-24"><a href="tidy-data-and-combining-tables.html#cb299-24" tabindex="-1"></a>  ) </span>
+<span id="cb299-25"><a href="tidy-data-and-combining-tables.html#cb299-25" tabindex="-1"></a></span>
+<span id="cb299-26"><a href="tidy-data-and-combining-tables.html#cb299-26" tabindex="-1"></a>table3 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
+<span id="cb299-27"><a href="tidy-data-and-combining-tables.html#cb299-27" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table3_alternate.csv&quot;</span>), </span>
+<span id="cb299-28"><a href="tidy-data-and-combining-tables.html#cb299-28" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
+<span id="cb299-29"><a href="tidy-data-and-combining-tables.html#cb299-29" tabindex="-1"></a>  )</span>
+<span id="cb299-30"><a href="tidy-data-and-combining-tables.html#cb299-30" tabindex="-1"></a></span>
+<span id="cb299-31"><a href="tidy-data-and-combining-tables.html#cb299-31" tabindex="-1"></a>table4 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
+<span id="cb299-32"><a href="tidy-data-and-combining-tables.html#cb299-32" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table4_alternate.csv&quot;</span>), </span>
+<span id="cb299-33"><a href="tidy-data-and-combining-tables.html#cb299-33" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
+<span id="cb299-34"><a href="tidy-data-and-combining-tables.html#cb299-34" tabindex="-1"></a>  ) </span>
+<span id="cb299-35"><a href="tidy-data-and-combining-tables.html#cb299-35" tabindex="-1"></a></span>
+<span id="cb299-36"><a href="tidy-data-and-combining-tables.html#cb299-36" tabindex="-1"></a>table5 <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
+<span id="cb299-37"><a href="tidy-data-and-combining-tables.html#cb299-37" tabindex="-1"></a>  <span class="fu">file.path</span>(DATADIR, <span class="st">&quot;table5_alternate.csv&quot;</span>), </span>
+<span id="cb299-38"><a href="tidy-data-and-combining-tables.html#cb299-38" tabindex="-1"></a>  <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">&quot;NULL&quot;</span>, <span class="st">&quot;NA&quot;</span>), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
+<span id="cb299-39"><a href="tidy-data-and-combining-tables.html#cb299-39" tabindex="-1"></a>  ) </span></code></pre></div>
 </div>
 </div>
 <div id="tidy-and-untidy-data" class="section level2 hasAnchor" number="3.2">
@@ -718,8 +724,8 @@ div.csl-indent {
 <li>Each <strong>observation</strong> has its own <strong>row</strong>.</li>
 <li>Each <strong>value</strong> has its own <strong>cell</strong>.</li>
 </ol>
-<p>The following dataset from the 2016 US presidential vote<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> is an example of a tidy dataset:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="tidy-data-and-combining-tables.html#cb3-1" tabindex="-1"></a><span class="fu">head</span>(election_results)</span></code></pre></div>
+<p>The following dataset from the 2016 US presidential vote<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> is an example of a tidy dataset:</p>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="tidy-data-and-combining-tables.html#cb300-1" tabindex="-1"></a><span class="fu">head</span>(election_results)</span></code></pre></div>
 <pre><code>##          candidate state   votes total_votes
 ## 1: Hillary Clinton    CA 5931283     9631972
 ## 2:    Donald Trump    CA 3184721     9631972
@@ -783,7 +789,7 @@ This point is discussed in Section <a href="tidy-data-and-combining-tables.html#
 <h3><span class="header-section-number">3.3.1</span> Melting (wide to long)<a href="tidy-data-and-combining-tables.html#melting-wide-to-long" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>One of the most used operations to obtain tidy data is to transform a wide table into a long table. This operation, which transforms a wide table into a long table is called melting, by analogy with melting a piece of metal. It is useful in particular when data is untidy because column headers are values, and not variable names.</p>
 <p>As an example, consider the table below which reports vote counts for two US states, California and Florida. In this table, the column names CA and FL are values of the variable <em>state</em>. Therefore, we can say that this table is in an untidy format:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="tidy-data-and-combining-tables.html#cb5-1" tabindex="-1"></a>table4</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="tidy-data-and-combining-tables.html#cb302-1" tabindex="-1"></a>table4</span></code></pre></div>
 <pre><code>##          candidate      CA      FL
 ## 1: Hillary Clinton 5931283 4485745
 ## 2:    Donald Trump 3184721 4605515
@@ -791,11 +797,11 @@ This point is discussed in Section <a href="tidy-data-and-combining-tables.html#
 ## 4:      Jill Stein  166311   64019</code></pre>
 <p><img src="assets/img/lec05_tidy-gather_alternate.png" alt="Melting the election dataset" />
 This can be achieved by using the <strong>data.table</strong> function <code>melt()</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="tidy-data-and-combining-tables.html#cb7-1" tabindex="-1"></a><span class="fu">melt</span>(table4,</span>
-<span id="cb7-2"><a href="tidy-data-and-combining-tables.html#cb7-2" tabindex="-1"></a>     <span class="at">id.vars =</span> <span class="st">&quot;candidate&quot;</span>,</span>
-<span id="cb7-3"><a href="tidy-data-and-combining-tables.html#cb7-3" tabindex="-1"></a>     <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">&quot;CA&quot;</span>, <span class="st">&quot;FL&quot;</span>),</span>
-<span id="cb7-4"><a href="tidy-data-and-combining-tables.html#cb7-4" tabindex="-1"></a>     <span class="at">variable.name =</span> <span class="st">&quot;state&quot;</span>,</span>
-<span id="cb7-5"><a href="tidy-data-and-combining-tables.html#cb7-5" tabindex="-1"></a>     <span class="at">value.name =</span> <span class="st">&quot;votes&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="tidy-data-and-combining-tables.html#cb304-1" tabindex="-1"></a><span class="fu">melt</span>(table4,</span>
+<span id="cb304-2"><a href="tidy-data-and-combining-tables.html#cb304-2" tabindex="-1"></a>     <span class="at">id.vars =</span> <span class="st">&quot;candidate&quot;</span>,</span>
+<span id="cb304-3"><a href="tidy-data-and-combining-tables.html#cb304-3" tabindex="-1"></a>     <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">&quot;CA&quot;</span>, <span class="st">&quot;FL&quot;</span>),</span>
+<span id="cb304-4"><a href="tidy-data-and-combining-tables.html#cb304-4" tabindex="-1"></a>     <span class="at">variable.name =</span> <span class="st">&quot;state&quot;</span>,</span>
+<span id="cb304-5"><a href="tidy-data-and-combining-tables.html#cb304-5" tabindex="-1"></a>     <span class="at">value.name =</span> <span class="st">&quot;votes&quot;</span>)</span></code></pre></div>
 <pre><code>##          candidate state   votes
 ## 1: Hillary Clinton    CA 5931283
 ## 2:    Donald Trump    CA 3184721
@@ -812,7 +818,7 @@ This can be achieved by using the <strong>data.table</strong> function <code>mel
 <div id="casting-long-to-wide" class="section level3 hasAnchor" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Casting (long to wide)<a href="tidy-data-and-combining-tables.html#casting-long-to-wide" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The other way around also happens frequently. It is helpful when multiple variables are stored in one column. In the table below, multiple values, namely the number of votes for a candidate and the total number of votes, are reported in one column. It is not easy to compute the percentage of votes given to a candidate in this format. To tidy up this table we have to separate those values into two columns:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="tidy-data-and-combining-tables.html#cb9-1" tabindex="-1"></a>table2</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="tidy-data-and-combining-tables.html#cb306-1" tabindex="-1"></a>table2</span></code></pre></div>
 <pre><code>##          candidate state        type   value
 ## 1: Hillary Clinton    CA       votes 5931283
 ## 2: Hillary Clinton    CA total_votes 9631972
@@ -826,9 +832,9 @@ This can be achieved by using the <strong>data.table</strong> function <code>mel
 </div>
 <p>This operation, which transforms a long table into a wide table is called casting, following up with the metal forging analogy employed with the term “melting”.</p>
 <p>Data table casting can be achieved using the <code>dcast()</code> function whose most frequent usage is:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="tidy-data-and-combining-tables.html#cb11-1" tabindex="-1"></a><span class="fu">dcast</span>(data, formula, <span class="at">value.var =</span> <span class="fu">guess</span>(data))</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="tidy-data-and-combining-tables.html#cb308-1" tabindex="-1"></a><span class="fu">dcast</span>(data, formula, <span class="at">value.var =</span> <span class="fu">guess</span>(data))</span></code></pre></div>
 <p>Casting requires specifying which column contains the categories by which the new columns should be created. This is provided via the <code>formula</code> argument. Setting <code>formula</code> to be <code>... ~ type</code> instructs <code>dcast</code> to create new columns in the table containing the categories named in the column “type” and that all other columns will get rearranged accordingly. Furthermore, we force the argument <code>value.var</code>, which refers to which column the values have to be extracted from, to be “value” rather than letting <code>dcast</code> guessing as by default. The call is then:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="tidy-data-and-combining-tables.html#cb12-1" tabindex="-1"></a><span class="fu">dcast</span>(table2, ... <span class="sc">~</span> type,  <span class="at">value.var =</span> <span class="st">&quot;value&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="tidy-data-and-combining-tables.html#cb309-1" tabindex="-1"></a><span class="fu">dcast</span>(table2, ... <span class="sc">~</span> type,  <span class="at">value.var =</span> <span class="st">&quot;value&quot;</span>)</span></code></pre></div>
 <pre><code>##          candidate state total_votes   votes
 ## 1:    Donald Trump    CA     9631972 3184721
 ## 2:    Gary Johnson    CA     9631972  308392
@@ -838,16 +844,16 @@ This can be achieved by using the <strong>data.table</strong> function <code>mel
 <div id="separating-columns" class="section level3 hasAnchor" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Separating columns<a href="tidy-data-and-combining-tables.html#separating-columns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Sometimes single variables can be spread across multiple columns as in the following table.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="tidy-data-and-combining-tables.html#cb14-1" tabindex="-1"></a><span class="do">## One column contains multiple variables</span></span>
-<span id="cb14-2"><a href="tidy-data-and-combining-tables.html#cb14-2" tabindex="-1"></a><span class="fu">print</span>(table3)</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="tidy-data-and-combining-tables.html#cb311-1" tabindex="-1"></a><span class="do">## One column contains multiple variables</span></span>
+<span id="cb311-2"><a href="tidy-data-and-combining-tables.html#cb311-2" tabindex="-1"></a><span class="fu">print</span>(table3)</span></code></pre></div>
 <pre><code>##          candidate state      proportion
 ## 1: Hillary Clinton    CA 5931283/9631972
 ## 2:    Donald Trump    CA 3184721/9631972
 ## 3:    Gary Johnson    CA  308392/9631972</code></pre>
 <p>The number of votes per candidate is displayed in the numerator of the <code>proportion</code> column and the total number in the denominator.</p>
 <p>We can solve both problems using the <code>separate()</code> function from the <code>tidyr</code> package. The code below splits up the <code>proportion</code> column into two columns, one containing the votes and the other one containing the total votes. By default, columns are separated by any non-alphanumerical character (such as “,”, “;”, “/”,…).</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="tidy-data-and-combining-tables.html#cb16-1" tabindex="-1"></a><span class="fu">separate</span>(table3, <span class="at">col =</span> proportion,</span>
-<span id="cb16-2"><a href="tidy-data-and-combining-tables.html#cb16-2" tabindex="-1"></a>         <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;votes&quot;</span>, <span class="st">&quot;total_votes&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="tidy-data-and-combining-tables.html#cb313-1" tabindex="-1"></a><span class="fu">separate</span>(table3, <span class="at">col =</span> proportion,</span>
+<span id="cb313-2"><a href="tidy-data-and-combining-tables.html#cb313-2" tabindex="-1"></a>         <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;votes&quot;</span>, <span class="st">&quot;total_votes&quot;</span>))</span></code></pre></div>
 <pre><code>##         candidate state   votes total_votes
 ## 1 Hillary Clinton    CA 5931283     9631972
 ## 2    Donald Trump    CA 3184721     9631972
@@ -858,7 +864,7 @@ The drawing above visualizes the operation performed above.</p>
 <div id="uniting-columns" class="section level3 hasAnchor" number="3.3.4">
 <h3><span class="header-section-number">3.3.4</span> Uniting columns<a href="tidy-data-and-combining-tables.html#uniting-columns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In this example the first and last names are separated columns without a real need for it (we will not be interested in computing any statistics over all Hillary’s):</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="tidy-data-and-combining-tables.html#cb18-1" tabindex="-1"></a>table5</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="tidy-data-and-combining-tables.html#cb315-1" tabindex="-1"></a>table5</span></code></pre></div>
 <pre><code>##       name surname state   votes total_votes
 ## 1: Hillary Clinton    CA 5931283     9631972
 ## 2:  Donald   Trump    CA 3184721     9631972
@@ -866,7 +872,7 @@ The drawing above visualizes the operation performed above.</p>
 ## 4:    Jill   Stein    CA  166311     9631972
 ## 5:  Gloria La Riva    CA   41265     9631972</code></pre>
 <p>We unite multiple variables into a single variable with the function <code>unite()</code> from the <code>tidyr</code> package:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="tidy-data-and-combining-tables.html#cb20-1" tabindex="-1"></a><span class="fu">unite</span>(table5, <span class="at">col =</span> candidate, name, surname, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="tidy-data-and-combining-tables.html#cb317-1" tabindex="-1"></a><span class="fu">unite</span>(table5, <span class="at">col =</span> candidate, name, surname, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
 <pre><code>##         candidate state   votes total_votes
 ## 1 Hillary Clinton    CA 5931283     9631972
 ## 2    Donald Trump    CA 3184721     9631972
@@ -882,9 +888,9 @@ The drawing above visualizes the operation performed above.</p>
 <div id="advanced-columns-containing-sets-of-values" class="section level3 hasAnchor" number="3.3.5">
 <h3><span class="header-section-number">3.3.5</span> Advanced: Columns containing sets of values<a href="tidy-data-and-combining-tables.html#advanced-columns-containing-sets-of-values" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Kaggle, a machine learning platform, conducts a yearly survey among its users. Below are a few columns of the answers from the 2017 survey. In those columns, we observe another type of untidy data. In this survey, multiple choice questions were asked from which multiple answers could be selected. For each individual the selected answers are concatenated into a string.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="tidy-data-and-combining-tables.html#cb22-1" tabindex="-1"></a><span class="fu">options</span>(<span class="at">width =</span> <span class="dv">60</span>)</span>
-<span id="cb22-2"><a href="tidy-data-and-combining-tables.html#cb22-2" tabindex="-1"></a>survey <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&#39;extdata/kaggle-survey-2017/multipleChoiceResponses.csv&#39;</span>)</span>
-<span id="cb22-3"><a href="tidy-data-and-combining-tables.html#cb22-3" tabindex="-1"></a>survey[, .(LanguageRecommendationSelect, LearningPlatformSelect, PastJobTitlesSelect)]</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="tidy-data-and-combining-tables.html#cb319-1" tabindex="-1"></a><span class="fu">options</span>(<span class="at">width =</span> <span class="dv">60</span>)</span>
+<span id="cb319-2"><a href="tidy-data-and-combining-tables.html#cb319-2" tabindex="-1"></a>survey <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&#39;extdata/kaggle-survey-2017/multipleChoiceResponses.csv&#39;</span>)</span>
+<span id="cb319-3"><a href="tidy-data-and-combining-tables.html#cb319-3" tabindex="-1"></a>survey[, .(LanguageRecommendationSelect, LearningPlatformSelect, PastJobTitlesSelect)]</span></code></pre></div>
 <pre><code>##        LanguageRecommendationSelect
 ##     1:                           F#
 ##     2:                       Python
@@ -937,13 +943,13 @@ The drawing above visualizes the operation performed above.</p>
 <!-- This way we can see that over 3300 of all survey participants answered in the survey that they acquired their data science skills in "College/University". -->
 <!-- #### Melting columns with variable length -->
 <p>Below is one solution of how the <code>LearningPlatformSelect</code> column could be transformed into a tidy format. We make use here of the handy pipe operator denoted <code>%&gt;%</code> from the <code>magrittr</code> package (See Appendix <a href="appendix-r-programming.html#pipe">B.1</a>).</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="tidy-data-and-combining-tables.html#cb24-1" tabindex="-1"></a>survey_split <span class="ot">&lt;-</span> survey[,<span class="fu">tstrsplit</span>(LearningPlatformSelect, <span class="st">&#39;,&#39;</span>)]</span>
-<span id="cb24-2"><a href="tidy-data-and-combining-tables.html#cb24-2" tabindex="-1"></a>survey_split[, individual <span class="sc">:=</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(survey)]</span>
-<span id="cb24-3"><a href="tidy-data-and-combining-tables.html#cb24-3" tabindex="-1"></a>LearningPlatformMelt <span class="ot">&lt;-</span> <span class="fu">melt</span>(survey_split, </span>
-<span id="cb24-4"><a href="tidy-data-and-combining-tables.html#cb24-4" tabindex="-1"></a>                             <span class="at">id.vars =</span> <span class="st">&#39;individual&#39;</span>,</span>
-<span id="cb24-5"><a href="tidy-data-and-combining-tables.html#cb24-5" tabindex="-1"></a>                             <span class="at">na.rm =</span> <span class="cn">TRUE</span>)[, variable <span class="sc">:=</span> <span class="cn">NULL</span>]</span>
-<span id="cb24-6"><a href="tidy-data-and-combining-tables.html#cb24-6" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="tidy-data-and-combining-tables.html#cb24-7" tabindex="-1"></a>LearningPlatformMelt[<span class="fu">order</span>(individual)] <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="tidy-data-and-combining-tables.html#cb321-1" tabindex="-1"></a>survey_split <span class="ot">&lt;-</span> survey[,<span class="fu">tstrsplit</span>(LearningPlatformSelect, <span class="st">&#39;,&#39;</span>)]</span>
+<span id="cb321-2"><a href="tidy-data-and-combining-tables.html#cb321-2" tabindex="-1"></a>survey_split[, individual <span class="sc">:=</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(survey)]</span>
+<span id="cb321-3"><a href="tidy-data-and-combining-tables.html#cb321-3" tabindex="-1"></a>LearningPlatformMelt <span class="ot">&lt;-</span> <span class="fu">melt</span>(survey_split, </span>
+<span id="cb321-4"><a href="tidy-data-and-combining-tables.html#cb321-4" tabindex="-1"></a>                             <span class="at">id.vars =</span> <span class="st">&#39;individual&#39;</span>,</span>
+<span id="cb321-5"><a href="tidy-data-and-combining-tables.html#cb321-5" tabindex="-1"></a>                             <span class="at">na.rm =</span> <span class="cn">TRUE</span>)[, variable <span class="sc">:=</span> <span class="cn">NULL</span>]</span>
+<span id="cb321-6"><a href="tidy-data-and-combining-tables.html#cb321-6" tabindex="-1"></a></span>
+<span id="cb321-7"><a href="tidy-data-and-combining-tables.html#cb321-7" tabindex="-1"></a>LearningPlatformMelt[<span class="fu">order</span>(individual)] <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##    individual              value
 ## 1:          1 College/University
 ## 2:          1        Conferences
@@ -957,9 +963,9 @@ The drawing above visualizes the operation performed above.</p>
 <p>One frequently has to concatenate (i.e. append) tables with a same format. Such tables may already be loaded into a list or shall be read from multiple files.</p>
 <p>For instance, assume a service generates a new file of data per day in a given directory. One is interested in analyzing the files of multiple days jointly. This requires to list all files of the directory, to read each file and to concatenate them into one.</p>
 <p>Here is an example with daily COVID-19 data. We first get all file names of the directory into a character vector called <code>files</code>:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="tidy-data-and-combining-tables.html#cb26-1" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&#39;path_to_your_directory&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="tidy-data-and-combining-tables.html#cb27-1" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&#39;extdata/cov_concatenate&#39;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb27-2"><a href="tidy-data-and-combining-tables.html#cb27-2" tabindex="-1"></a><span class="fu">head</span>(files)</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="tidy-data-and-combining-tables.html#cb323-1" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&#39;path_to_your_directory&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="tidy-data-and-combining-tables.html#cb324-1" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&#39;extdata/cov_concatenate&#39;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb324-2"><a href="tidy-data-and-combining-tables.html#cb324-2" tabindex="-1"></a><span class="fu">head</span>(files)</span></code></pre></div>
 <pre><code>## [1] &quot;extdata/cov_concatenate/covid_cases_01_03_2020.csv&quot;
 ## [2] &quot;extdata/cov_concatenate/covid_cases_02_03_2020.csv&quot;
 ## [3] &quot;extdata/cov_concatenate/covid_cases_03_03_2020.csv&quot;
@@ -967,13 +973,13 @@ The drawing above visualizes the operation performed above.</p>
 ## [5] &quot;extdata/cov_concatenate/covid_cases_05_03_2020.csv&quot;
 ## [6] &quot;extdata/cov_concatenate/covid_cases_06_03_2020.csv&quot;</code></pre>
 <p>Next, we load all file contents with <code>fread</code> using <code>lapply</code>, which passes the function <code>fread</code> to every element in the list <code>files</code> and returns a list of data.tables called <code>tables</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="tidy-data-and-combining-tables.html#cb29-1" tabindex="-1"></a><span class="co"># name the list elements by the filenames </span></span>
-<span id="cb29-2"><a href="tidy-data-and-combining-tables.html#cb29-2" tabindex="-1"></a><span class="fu">names</span>(files) <span class="ot">&lt;-</span> <span class="fu">basename</span>(files)</span>
-<span id="cb29-3"><a href="tidy-data-and-combining-tables.html#cb29-3" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="tidy-data-and-combining-tables.html#cb29-4" tabindex="-1"></a><span class="co"># read all files at once into a list of data.tables</span></span>
-<span id="cb29-5"><a href="tidy-data-and-combining-tables.html#cb29-5" tabindex="-1"></a>tables <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, fread)</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="tidy-data-and-combining-tables.html#cb326-1" tabindex="-1"></a><span class="co"># name the list elements by the filenames </span></span>
+<span id="cb326-2"><a href="tidy-data-and-combining-tables.html#cb326-2" tabindex="-1"></a><span class="fu">names</span>(files) <span class="ot">&lt;-</span> <span class="fu">basename</span>(files)</span>
+<span id="cb326-3"><a href="tidy-data-and-combining-tables.html#cb326-3" tabindex="-1"></a></span>
+<span id="cb326-4"><a href="tidy-data-and-combining-tables.html#cb326-4" tabindex="-1"></a><span class="co"># read all files at once into a list of data.tables</span></span>
+<span id="cb326-5"><a href="tidy-data-and-combining-tables.html#cb326-5" tabindex="-1"></a>tables <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, fread)</span></code></pre></div>
 <p>Let us now look at the first table:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="tidy-data-and-combining-tables.html#cb30-1" tabindex="-1"></a><span class="fu">head</span>(tables[[<span class="dv">1</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="tidy-data-and-combining-tables.html#cb327-1" tabindex="-1"></a><span class="fu">head</span>(tables[[<span class="dv">1</span>]])</span></code></pre></div>
 <pre><code>##    cases deaths countriesAndTerritories geoId
 ## 1:    54      0                 Germany    DE
 ## 2:   240      8                   Italy    IT
@@ -985,10 +991,10 @@ The drawing above visualizes the operation performed above.</p>
 ## 2:                                                  1.8638311</code></pre>
 <p>We notice that the variable <code>date</code> is only encoded in the file path so that we additionally need to introduce a new variable in the new table, which defines, from which list the original table came from. We do this to avoid losing information. In this manner, we can state which case / population numbers came from which country.</p>
 <p>To do so, we can use the <code>data.table</code> function <code>rbindlist()</code> which gives us the option to introduce a new column <code>idcol</code> containing the list names:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="tidy-data-and-combining-tables.html#cb32-1" tabindex="-1"></a><span class="co"># bind all tables into one using rbindlist, </span></span>
-<span id="cb32-2"><a href="tidy-data-and-combining-tables.html#cb32-2" tabindex="-1"></a><span class="co"># keeping the list names (the filenames) as an id column. </span></span>
-<span id="cb32-3"><a href="tidy-data-and-combining-tables.html#cb32-3" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(tables, <span class="at">idcol =</span> <span class="st">&#39;filepath&#39;</span>)</span>
-<span id="cb32-4"><a href="tidy-data-and-combining-tables.html#cb32-4" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="tidy-data-and-combining-tables.html#cb329-1" tabindex="-1"></a><span class="co"># bind all tables into one using rbindlist, </span></span>
+<span id="cb329-2"><a href="tidy-data-and-combining-tables.html#cb329-2" tabindex="-1"></a><span class="co"># keeping the list names (the filenames) as an id column. </span></span>
+<span id="cb329-3"><a href="tidy-data-and-combining-tables.html#cb329-3" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(tables, <span class="at">idcol =</span> <span class="st">&#39;filepath&#39;</span>)</span>
+<span id="cb329-4"><a href="tidy-data-and-combining-tables.html#cb329-4" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
 <pre><code>##                      filepath cases deaths
 ## 1: covid_cases_01_03_2020.csv    54      0
 ## 2: covid_cases_01_03_2020.csv   240      8
@@ -1021,11 +1027,11 @@ The drawing above visualizes the operation performed above.</p>
 <div id="merging-tables" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Merging tables<a href="tidy-data-and-combining-tables.html#merging-tables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Merging two data tables into one by common column(s) is frequently needed. This can be achieved using the <code>merge</code> function whose core signature is:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="tidy-data-and-combining-tables.html#cb34-1" tabindex="-1"></a><span class="fu">merge</span>(</span>
-<span id="cb34-2"><a href="tidy-data-and-combining-tables.html#cb34-2" tabindex="-1"></a>  x, y,                                  <span class="co"># tables to merge</span></span>
-<span id="cb34-3"><a href="tidy-data-and-combining-tables.html#cb34-3" tabindex="-1"></a>  <span class="at">by =</span> <span class="cn">NULL</span>, <span class="at">by.x =</span> <span class="cn">NULL</span>, <span class="at">by.y =</span> <span class="cn">NULL</span>,   <span class="co"># by which columns</span></span>
-<span id="cb34-4"><a href="tidy-data-and-combining-tables.html#cb34-4" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">FALSE</span>, <span class="at">all.x =</span> all, <span class="at">all.y =</span> all  <span class="co"># types of merge</span></span>
-<span id="cb34-5"><a href="tidy-data-and-combining-tables.html#cb34-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="tidy-data-and-combining-tables.html#cb331-1" tabindex="-1"></a><span class="fu">merge</span>(</span>
+<span id="cb331-2"><a href="tidy-data-and-combining-tables.html#cb331-2" tabindex="-1"></a>  x, y,                                  <span class="co"># tables to merge</span></span>
+<span id="cb331-3"><a href="tidy-data-and-combining-tables.html#cb331-3" tabindex="-1"></a>  <span class="at">by =</span> <span class="cn">NULL</span>, <span class="at">by.x =</span> <span class="cn">NULL</span>, <span class="at">by.y =</span> <span class="cn">NULL</span>,   <span class="co"># by which columns</span></span>
+<span id="cb331-4"><a href="tidy-data-and-combining-tables.html#cb331-4" tabindex="-1"></a>  <span class="at">all =</span> <span class="cn">FALSE</span>, <span class="at">all.x =</span> all, <span class="at">all.y =</span> all  <span class="co"># types of merge</span></span>
+<span id="cb331-5"><a href="tidy-data-and-combining-tables.html#cb331-5" tabindex="-1"></a>)</span></code></pre></div>
 <p>The four types of merges (also commonly called joins) are:</p>
 <ul>
 <li><strong>Inner (default)</strong>: consider only rows with matching values in the <code>by</code> columns.</li>
@@ -1034,16 +1040,16 @@ The drawing above visualizes the operation performed above.</p>
 <li><strong>Right (all.y)</strong>: consider all rows from <code>y</code>, even if they have no matching row in <code>x</code>.</li>
 </ul>
 <p>We now provide examples of each type using the following made up tables:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="tidy-data-and-combining-tables.html#cb35-1" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">p_id =</span> <span class="fu">c</span>(<span class="st">&quot;G008&quot;</span>, <span class="st">&quot;F027&quot;</span>, <span class="st">&quot;L051&quot;</span>), </span>
-<span id="cb35-2"><a href="tidy-data-and-combining-tables.html#cb35-2" tabindex="-1"></a>                  <span class="at">value =</span> <span class="fu">rnorm</span>(<span class="dv">3</span>)) </span>
-<span id="cb35-3"><a href="tidy-data-and-combining-tables.html#cb35-3" tabindex="-1"></a>dt1</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="tidy-data-and-combining-tables.html#cb332-1" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">p_id =</span> <span class="fu">c</span>(<span class="st">&quot;G008&quot;</span>, <span class="st">&quot;F027&quot;</span>, <span class="st">&quot;L051&quot;</span>), </span>
+<span id="cb332-2"><a href="tidy-data-and-combining-tables.html#cb332-2" tabindex="-1"></a>                  <span class="at">value =</span> <span class="fu">rnorm</span>(<span class="dv">3</span>)) </span>
+<span id="cb332-3"><a href="tidy-data-and-combining-tables.html#cb332-3" tabindex="-1"></a>dt1</span></code></pre></div>
 <pre><code>##    p_id      value
-## 1: G008 -1.4149366
-## 2: F027  0.1814549
-## 3: L051  0.4557288</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="tidy-data-and-combining-tables.html#cb37-1" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">p_id =</span> <span class="fu">c</span>(<span class="st">&quot;G008&quot;</span>, <span class="st">&quot;F027&quot;</span>, <span class="st">&quot;U093&quot;</span>), </span>
-<span id="cb37-2"><a href="tidy-data-and-combining-tables.html#cb37-2" tabindex="-1"></a>                  <span class="at">country =</span> <span class="fu">c</span>(<span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;USA&quot;</span>)) </span>
-<span id="cb37-3"><a href="tidy-data-and-combining-tables.html#cb37-3" tabindex="-1"></a>dt2</span></code></pre></div>
+## 1: G008  0.1671914
+## 2: F027 -1.1082661
+## 3: L051 -0.7501615</code></pre>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="tidy-data-and-combining-tables.html#cb334-1" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">p_id =</span> <span class="fu">c</span>(<span class="st">&quot;G008&quot;</span>, <span class="st">&quot;F027&quot;</span>, <span class="st">&quot;U093&quot;</span>), </span>
+<span id="cb334-2"><a href="tidy-data-and-combining-tables.html#cb334-2" tabindex="-1"></a>                  <span class="at">country =</span> <span class="fu">c</span>(<span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;USA&quot;</span>)) </span>
+<span id="cb334-3"><a href="tidy-data-and-combining-tables.html#cb334-3" tabindex="-1"></a>dt2</span></code></pre></div>
 <pre><code>##    p_id country
 ## 1: G008 Germany
 ## 2: F027  France
@@ -1051,76 +1057,76 @@ The drawing above visualizes the operation performed above.</p>
 <div id="inner-merge" class="section level3 hasAnchor" number="3.5.1">
 <h3><span class="header-section-number">3.5.1</span> Inner merge<a href="tidy-data-and-combining-tables.html#inner-merge" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>An inner merge returns only rows with matching values in the <code>by</code> columns and discards all other rows:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="tidy-data-and-combining-tables.html#cb39-1" tabindex="-1"></a><span class="co"># Inner merge, default one, all = FALSE</span></span>
-<span id="cb39-2"><a href="tidy-data-and-combining-tables.html#cb39-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb39-3"><a href="tidy-data-and-combining-tables.html#cb39-3" tabindex="-1"></a>m   </span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="tidy-data-and-combining-tables.html#cb336-1" tabindex="-1"></a><span class="co"># Inner merge, default one, all = FALSE</span></span>
+<span id="cb336-2"><a href="tidy-data-and-combining-tables.html#cb336-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb336-3"><a href="tidy-data-and-combining-tables.html#cb336-3" tabindex="-1"></a>m   </span></code></pre></div>
 <pre><code>##    p_id      value country
-## 1: F027  0.1814549  France
-## 2: G008 -1.4149366 Germany</code></pre>
+## 1: F027 -1.1082661  France
+## 2: G008  0.1671914 Germany</code></pre>
 <p>Note that the row order got changed after the merging. To prevent this and, therefore, to keep the original ordering we can use the argument <code>sort</code> and set it to <code>FALSE</code>:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="tidy-data-and-combining-tables.html#cb41-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">FALSE</span>, <span class="at">sort =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb41-2"><a href="tidy-data-and-combining-tables.html#cb41-2" tabindex="-1"></a>m</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="tidy-data-and-combining-tables.html#cb338-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">FALSE</span>, <span class="at">sort =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb338-2"><a href="tidy-data-and-combining-tables.html#cb338-2" tabindex="-1"></a>m</span></code></pre></div>
 <pre><code>##    p_id      value country
-## 1: G008 -1.4149366 Germany
-## 2: F027  0.1814549  France</code></pre>
+## 1: G008  0.1671914 Germany
+## 2: F027 -1.1082661  France</code></pre>
 <p>Note that the column order is preserved after merging.</p>
 </div>
 <div id="outer-full-merge" class="section level3 hasAnchor" number="3.5.2">
 <h3><span class="header-section-number">3.5.2</span> Outer (full) merge<a href="tidy-data-and-combining-tables.html#outer-full-merge" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>An outer merge returns all rows and columns from <code>x</code> and <code>y</code>. If there are no matching values in <code>p_id</code>, it yields missing values (<code>NA</code>):</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="tidy-data-and-combining-tables.html#cb43-1" tabindex="-1"></a><span class="co"># Outer (full) merge, all = TRUE</span></span>
-<span id="cb43-2"><a href="tidy-data-and-combining-tables.html#cb43-2" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="tidy-data-and-combining-tables.html#cb340-1" tabindex="-1"></a><span class="co"># Outer (full) merge, all = TRUE</span></span>
+<span id="cb340-2"><a href="tidy-data-and-combining-tables.html#cb340-2" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##    p_id      value country
-## 1: F027  0.1814549  France
-## 2: G008 -1.4149366 Germany
-## 3: L051  0.4557288    &lt;NA&gt;
+## 1: F027 -1.1082661  France
+## 2: G008  0.1671914 Germany
+## 3: L051 -0.7501615    &lt;NA&gt;
 ## 4: U093         NA     USA</code></pre>
 </div>
 <div id="left-merge" class="section level3 hasAnchor" number="3.5.3">
 <h3><span class="header-section-number">3.5.3</span> Left merge<a href="tidy-data-and-combining-tables.html#left-merge" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Returns all rows from <code>x</code>, even if they have no matching row in <code>y</code>. Rows from <code>x</code> with no matching <code>p_id</code> in <code>y</code> lead to missing values (<code>NA</code>).</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="tidy-data-and-combining-tables.html#cb45-1" tabindex="-1"></a><span class="co"># Left merge, all.x = TRUE</span></span>
-<span id="cb45-2"><a href="tidy-data-and-combining-tables.html#cb45-2" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="tidy-data-and-combining-tables.html#cb342-1" tabindex="-1"></a><span class="co"># Left merge, all.x = TRUE</span></span>
+<span id="cb342-2"><a href="tidy-data-and-combining-tables.html#cb342-2" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##    p_id      value country
-## 1: F027  0.1814549  France
-## 2: G008 -1.4149366 Germany
-## 3: L051  0.4557288    &lt;NA&gt;</code></pre>
+## 1: F027 -1.1082661  France
+## 2: G008  0.1671914 Germany
+## 3: L051 -0.7501615    &lt;NA&gt;</code></pre>
 </div>
 <div id="right-merge" class="section level3 hasAnchor" number="3.5.4">
 <h3><span class="header-section-number">3.5.4</span> Right merge<a href="tidy-data-and-combining-tables.html#right-merge" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Returns all rows from <code>y</code>, even if they have no matching row in <code>x</code>. Rows from <code>y</code> with no matching <code>p_id</code> in <code>x</code> lead to missing values (<code>NA</code>).</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="tidy-data-and-combining-tables.html#cb47-1" tabindex="-1"></a><span class="co"># Right, all.y = TRUE</span></span>
-<span id="cb47-2"><a href="tidy-data-and-combining-tables.html#cb47-2" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all.y =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="tidy-data-and-combining-tables.html#cb344-1" tabindex="-1"></a><span class="co"># Right, all.y = TRUE</span></span>
+<span id="cb344-2"><a href="tidy-data-and-combining-tables.html#cb344-2" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by =</span> <span class="st">&quot;p_id&quot;</span>, <span class="at">all.y =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##    p_id      value country
-## 1: F027  0.1814549  France
-## 2: G008 -1.4149366 Germany
+## 1: F027 -1.1082661  France
+## 2: G008  0.1671914 Germany
 ## 3: U093         NA     USA</code></pre>
 </div>
 <div id="merging-by-several-columns" class="section level3 hasAnchor" number="3.5.5">
 <h3><span class="header-section-number">3.5.5</span> Merging by several columns<a href="tidy-data-and-combining-tables.html#merging-by-several-columns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Merging can also be done using several columns. Here are two made-up tables to illustrate this use case:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="tidy-data-and-combining-tables.html#cb49-1" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">firstname =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>), </span>
-<span id="cb49-2"><a href="tidy-data-and-combining-tables.html#cb49-2" tabindex="-1"></a>                  <span class="at">lastname =</span> <span class="fu">c</span>(<span class="st">&quot;Coop&quot;</span>, <span class="st">&quot;Smith&quot;</span>, <span class="st">&quot;Smith&quot;</span>), <span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb49-3"><a href="tidy-data-and-combining-tables.html#cb49-3" tabindex="-1"></a>dt1</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="tidy-data-and-combining-tables.html#cb346-1" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">firstname =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>), </span>
+<span id="cb346-2"><a href="tidy-data-and-combining-tables.html#cb346-2" tabindex="-1"></a>                  <span class="at">lastname =</span> <span class="fu">c</span>(<span class="st">&quot;Coop&quot;</span>, <span class="st">&quot;Smith&quot;</span>, <span class="st">&quot;Smith&quot;</span>), <span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb346-3"><a href="tidy-data-and-combining-tables.html#cb346-3" tabindex="-1"></a>dt1</span></code></pre></div>
 <pre><code>##    firstname lastname x
 ## 1:     Alice     Coop 1
 ## 2:     Alice    Smith 2
 ## 3:       Bob    Smith 3</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="tidy-data-and-combining-tables.html#cb51-1" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">firstname =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Bob&quot;</span>), </span>
-<span id="cb51-2"><a href="tidy-data-and-combining-tables.html#cb51-2" tabindex="-1"></a>                  <span class="at">lastname =</span> <span class="fu">c</span>(<span class="st">&quot;Coop&quot;</span>, <span class="st">&quot;Marley&quot;</span>, <span class="st">&quot;Smith&quot;</span>),</span>
-<span id="cb51-3"><a href="tidy-data-and-combining-tables.html#cb51-3" tabindex="-1"></a>                  <span class="at">y=</span>LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb51-4"><a href="tidy-data-and-combining-tables.html#cb51-4" tabindex="-1"></a>dt2</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="tidy-data-and-combining-tables.html#cb348-1" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">firstname =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Bob&quot;</span>), </span>
+<span id="cb348-2"><a href="tidy-data-and-combining-tables.html#cb348-2" tabindex="-1"></a>                  <span class="at">lastname =</span> <span class="fu">c</span>(<span class="st">&quot;Coop&quot;</span>, <span class="st">&quot;Marley&quot;</span>, <span class="st">&quot;Smith&quot;</span>),</span>
+<span id="cb348-3"><a href="tidy-data-and-combining-tables.html#cb348-3" tabindex="-1"></a>                  <span class="at">y=</span>LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb348-4"><a href="tidy-data-and-combining-tables.html#cb348-4" tabindex="-1"></a>dt2</span></code></pre></div>
 <pre><code>##    firstname lastname y
 ## 1:     Alice     Coop A
 ## 2:       Bob   Marley B
 ## 3:       Bob    Smith C</code></pre>
 <p>We merge now <code>dt1</code> and <code>dt2</code> by first name and last name:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="tidy-data-and-combining-tables.html#cb53-1" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;firstname&quot;</span>, <span class="st">&quot;lastname&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="tidy-data-and-combining-tables.html#cb350-1" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;firstname&quot;</span>, <span class="st">&quot;lastname&quot;</span>))</span></code></pre></div>
 <pre><code>##    firstname lastname x y
 ## 1:     Alice     Coop 1 A
 ## 2:       Bob    Smith 3 C</code></pre>
 <p>Notice that merging by first name only gives a different result (as expected):</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="tidy-data-and-combining-tables.html#cb55-1" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by=</span><span class="st">&quot;firstname&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="tidy-data-and-combining-tables.html#cb352-1" tabindex="-1"></a><span class="fu">merge</span>(dt1, dt2, <span class="at">by=</span><span class="st">&quot;firstname&quot;</span>)</span></code></pre></div>
 <pre><code>##    firstname lastname.x x lastname.y y
 ## 1:     Alice       Coop 1       Coop A
 ## 2:     Alice      Smith 2       Coop A
@@ -1138,8 +1144,8 @@ The drawing above visualizes the operation performed above.</p>
 Here is an example based on Fisher’s Iris dataset. This classic dataset contains measurements of 4 different attributes for 150 iris flowers from 3 different species. See <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set" class="uri">https://en.wikipedia.org/wiki/Iris_flower_data_set</a>.</p>
 <p><img src="assets/img/lec03_iris.png" width="40%" style="display: block; margin: auto;" /></p>
 <p>Here is one tidy representation where each row represents one flower:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="tidy-data-and-combining-tables.html#cb57-1" tabindex="-1"></a><span class="co"># Iris dataset, usual representation</span></span>
-<span id="cb57-2"><a href="tidy-data-and-combining-tables.html#cb57-2" tabindex="-1"></a>iris_dt[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="tidy-data-and-combining-tables.html#cb354-1" tabindex="-1"></a><span class="co"># Iris dataset, usual representation</span></span>
+<span id="cb354-2"><a href="tidy-data-and-combining-tables.html#cb354-2" tabindex="-1"></a>iris_dt[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span></code></pre></div>
 <pre><code>##    Flower Sepal.Length Sepal.Width Petal.Length Petal.Width
 ## 1:    F_1          5.1         3.5          1.4         0.2
 ## 2:    F_2          4.9         3.0          1.4         0.2
@@ -1149,8 +1155,8 @@ Here is an example based on Fisher’s Iris dataset. This classic dataset contai
 ## 2:  setosa
 ## 3:  setosa</code></pre>
 <p>Here is another tidy representation where each row represents one measurement:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="tidy-data-and-combining-tables.html#cb59-1" tabindex="-1"></a><span class="co"># Another tidy representation</span></span>
-<span id="cb59-2"><a href="tidy-data-and-combining-tables.html#cb59-2" tabindex="-1"></a>iris_melt[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="tidy-data-and-combining-tables.html#cb356-1" tabindex="-1"></a><span class="co"># Another tidy representation</span></span>
+<span id="cb356-2"><a href="tidy-data-and-combining-tables.html#cb356-2" tabindex="-1"></a>iris_melt[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span></code></pre></div>
 <pre><code>##    Flower Species    Attribute value
 ## 1:    F_1  setosa Sepal.Length   5.1
 ## 2:    F_2  setosa Sepal.Length   4.9
@@ -1191,11 +1197,11 @@ Here is an example based on Fisher’s Iris dataset. This classic dataset contai
 ## 3:        p018           c002            1</code></pre>
 <p>The three-table representation, where each table has unique entries is called a normalized representation. Normalized representations ensure that no multiple types of observational units are stored in the same table. It is a good habit to have normalized representations for database back-ends because it facilitates maintenance of the data consistency by reducing redundancy. One should not enter all customer details at each order but do it one central place and link the information with a customer number.</p>
 <p>However, on the data analysis side (front-end), we are not interested in maintaining a database (back-end), rather in having the desired data in a ready-to-use format which depends on our needs. To this end, the merge table is very handy and can be the common denominator of multiple analyses like:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="tidy-data-and-combining-tables.html#cb65-1" tabindex="-1"></a><span class="co"># vectorized operations e.g. total price of each order</span></span>
-<span id="cb65-2"><a href="tidy-data-and-combining-tables.html#cb65-2" tabindex="-1"></a>prod_dt[, totalPrice <span class="sc">:=</span> quantOrdered <span class="sc">*</span> price]</span>
-<span id="cb65-3"><a href="tidy-data-and-combining-tables.html#cb65-3" tabindex="-1"></a></span>
-<span id="cb65-4"><a href="tidy-data-and-combining-tables.html#cb65-4" tabindex="-1"></a><span class="co"># group by operations, e.g. number of products per states </span></span>
-<span id="cb65-5"><a href="tidy-data-and-combining-tables.html#cb65-5" tabindex="-1"></a>prod_dt[, N_prod <span class="sc">:=</span> .N, by <span class="ot">=</span> state]</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="tidy-data-and-combining-tables.html#cb362-1" tabindex="-1"></a><span class="co"># vectorized operations e.g. total price of each order</span></span>
+<span id="cb362-2"><a href="tidy-data-and-combining-tables.html#cb362-2" tabindex="-1"></a>prod_dt[, totalPrice <span class="sc">:=</span> quantOrdered <span class="sc">*</span> price]</span>
+<span id="cb362-3"><a href="tidy-data-and-combining-tables.html#cb362-3" tabindex="-1"></a></span>
+<span id="cb362-4"><a href="tidy-data-and-combining-tables.html#cb362-4" tabindex="-1"></a><span class="co"># group by operations, e.g. number of products per states </span></span>
+<span id="cb362-5"><a href="tidy-data-and-combining-tables.html#cb362-5" tabindex="-1"></a>prod_dt[, N_prod <span class="sc">:=</span> .N, by <span class="ot">=</span> state]</span></code></pre></div>
 <p>Hence, the choice of the representation (normalized or not) depends on the context: back-end or front-end.</p>
 </div>
 </div>
@@ -1228,6 +1234,7 @@ H. Wickham, Journal of Statistical Software, 2014, Volume 59, Issue 10 <a href="
 <!-- Interesting blog post: -->
 <!--   * <http://simplystatistics.org/2016/02/17/non-tidy-data/> -->
 
+<div style="page-break-after: always;"></div>
 </div>
 </div>
 
@@ -1241,8 +1248,8 @@ Wickham, Hadley. 2014. <span>“Tidy Data.”</span> <em>Journal of Statistical 
 </div>
 <div class="footnotes">
 <hr />
-<ol start="1">
-<li id="fn1"><p><a href="https://www.kaggle.com/stevepalley/2016uspresidentialvotebycounty?select=pres16results.csv" class="uri">https://www.kaggle.com/stevepalley/2016uspresidentialvotebycounty?select=pres16results.csv</a><a href="tidy-data-and-combining-tables.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<ol start="3">
+<li id="fn3"><p><a href="https://www.kaggle.com/stevepalley/2016uspresidentialvotebycounty?select=pres16results.csv" class="uri">https://www.kaggle.com/stevepalley/2016uspresidentialvotebycounty?select=pres16results.csv</a><a href="tidy-data-and-combining-tables.html#fnref3" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

@@ -5,25 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Graphically supported hypotheses | Data Analysis and Visualization in R (IN2339)</title>
-  <meta name="description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Graphically supported hypotheses | Data Analysis and Visualization in R (IN2339)" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta property="og:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 6 Graphically supported hypotheses | Data Analysis and Visualization in R (IN2339)" />
   
-  <meta name="twitter:description" content="TODO This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with dplyr, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
+  <meta name="twitter:description" content="This book introduces concepts and skills that can help you tackle real-world data analysis challenges. It covers concepts from probability, statistical inference, linear regression and machine learning and helps you develop skills such as R programming, data wrangling with data.table, data visualization with ggplot2, file organization with UNIX/Linux shell, version control with GitHub, and reproducible document preparation with R markdown." />
   
 
 
 
-<meta name="date" content="2022-02-06" />
+<meta name="date" content="2024-02-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="high-dimensional-visualizations.html"/>
 <link rel="next" href="resampling-stat.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -94,7 +93,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -107,7 +106,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -121,6 +120,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -595,7 +598,7 @@ div.csl-indent {
 <li class="chapter" data-level="A.4" data-path="importing-data.html"><a href="importing-data.html#downloading-files"><i class="fa fa-check"></i><b>A.4</b> Downloading files</a></li>
 <li class="chapter" data-level="A.5" data-path="importing-data.html"><a href="importing-data.html#r-base-importing-functions"><i class="fa fa-check"></i><b>A.5</b> R-base importing functions</a>
 <ul>
-<li><a href="importing-data.html#scan"><code>scan</code></a></li>
+<li class="chapter" data-level="" data-path="importing-data.html"><a href="importing-data.html#scan"><i class="fa fa-check"></i><code>scan</code></a></li>
 </ul></li>
 <li class="chapter" data-level="A.6" data-path="importing-data.html"><a href="importing-data.html#text-versus-binary-files"><i class="fa fa-check"></i><b>A.6</b> Text versus binary files</a></li>
 <li class="chapter" data-level="A.7" data-path="importing-data.html"><a href="importing-data.html#unicode-versus-ascii"><i class="fa fa-check"></i><b>A.7</b> Unicode versus ASCII</a></li>
@@ -652,8 +655,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="graph-supported-hypos" class="section level1" number="6">
-<h1><span class="header-section-number">Chapter 6</span> Graphically supported hypotheses</h1>
+<div id="graph-supported-hypos" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Graphically supported hypotheses<a href="graph-supported-hypos.html#graph-supported-hypos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In the last 2 chapters we presented the different types of plots. We now consider the task of structuring and presenting an entire analysis. We want to be able to provide novel insights from a dataset. Guided by the scientific method, a major aspect will be to give strong support for testable hypotheses. This is important in basic research to suggest experimental validations (does this gene affect growth?), but also for decision makers in public health (does smoking cause cancer?), public governance (would investing in education benefit economy?) or in the industry (would modifying a process increase productivity, modifying a product increases sales, etc.?).</p>
 <p>This chapter covers:</p>
 <ul>
@@ -661,27 +664,27 @@ div.csl-indent {
 <li><p>how correlation and causation relate to each other</p></li>
 <li><p>good practices to organize reports and presentations and to have visuals to convey one’s main message</p></li>
 </ul>
-<div id="descriptive-vs.-associative-plots" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Descriptive vs. associative plots</h2>
+<div id="descriptive-vs.-associative-plots" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Descriptive vs. associative plots<a href="graph-supported-hypos.html#descriptive-vs.-associative-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A typical data analysis starts with an exploration of the data. These are illustrated with descriptive plots showing how the data is distributed. This allows the audience and oneself to get familiar with the dataset in an unbiased fashion (e.g. number of participants in study, age and sex distributions). Afterwards, one typically highlights some interesting relationships between variables, often in order to suggest a testable, causal relationship. We call the latter types of plots associative plots.</p>
-<div id="descriptive-plots" class="section level3" number="6.1.1">
-<h3><span class="header-section-number">6.1.1</span> Descriptive plots</h3>
+<div id="descriptive-plots" class="section level3 hasAnchor" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Descriptive plots<a href="graph-supported-hypos.html#descriptive-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Descriptive plots allow exploring how a variable or a set of variables distribute. For a univariate data these are histograms, single boxplots or violin plots. For multivariate data these are clustered heatmaps, PCA projections, etc.</p>
 <p>Descriptive plots correspond to descriptions of the distribution <span class="math inline">\(p(X)\)</span>, where <span class="math inline">\(X\)</span> is the variable we want to explore. In machine learning terms, they correspond to methods from unsupervised learning, e.g. k-means clustering, hierarchical clustering, PCA.</p>
 <p>As an example, we can consider the <code>diamonds</code> dataset which contains the prices and other attributes of several diamonds. To first visualize the distribution of the weights (<code>carat</code>) of the diamonds, we can build a histogram:</p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="graph-supported-hypos.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(carat)) <span class="sc">+</span> <span class="fu">geom_histogram</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="graph-supported-hypos.html#cb442-1" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(carat)) <span class="sc">+</span> <span class="fu">geom_histogram</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/carat-distrib-1.png" width="672" /></p>
 </div>
-<div id="associative-plots" class="section level3" number="6.1.2">
-<h3><span class="header-section-number">6.1.2</span> Associative plots</h3>
+<div id="associative-plots" class="section level3 hasAnchor" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Associative plots<a href="graph-supported-hypos.html#associative-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Associative plots show how a variable depends on another variable.</p>
 <p>For such plots, one typically uses the y-axis for the response variable (e.g. survival rate, skin cancer occurrence) and the x-axis for the explanatory variables (e.g drug dose, sun exposure). Suitable plots are side-by-side boxplots, scatter plots, etc.</p>
 <p>Associative plots are graphical representation of the conditional distributions <span class="math inline">\(p(y|x)\)</span> (pronounced “p of y given x”), where <span class="math inline">\(y\)</span> is the response and <span class="math inline">\(x\)</span> is the explanatory variable(s). When the conditional distribution <span class="math inline">\(p(y|x)\)</span> actually depends on <span class="math inline">\(x\)</span>, we say that <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are dependent. For instance, a scatterplot can show the trend that the response <span class="math inline">\(y\)</span> increases on average as <span class="math inline">\(x\)</span> increases. A boxplot can show that characteristic values of the distribution of <span class="math inline">\(y\)</span> (quartiles, median) depend on the value of the category <span class="math inline">\(x\)</span>, etc.</p>
 <p>In machine learning terms, associative plots correspond to methods from supervised learning (e.g. regression, classification). For instance, one can build a predictor that predicts the risk of skin cancer <strong>given</strong> the age and sun exposure of a person.</p>
 <p>Based on the same <code>diamonds</code> dataset, we can now construct an associative plot to graphically support the hypothesis that the price of a diamond increases with increasing weight (carat):</p>
-<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="graph-supported-hypos.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(carat, price)) <span class="sc">+</span> </span>
-<span id="cb441-2"><a href="graph-supported-hypos.html#cb441-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.05</span>) <span class="sc">+</span> <span class="co"># alpha: point transparency</span></span>
-<span id="cb441-3"><a href="graph-supported-hypos.html#cb441-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="graph-supported-hypos.html#cb443-1" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(carat, price)) <span class="sc">+</span> </span>
+<span id="cb443-2"><a href="graph-supported-hypos.html#cb443-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.05</span>) <span class="sc">+</span> <span class="co"># alpha: point transparency</span></span>
+<span id="cb443-3"><a href="graph-supported-hypos.html#cb443-3" tabindex="-1"></a>  <span class="fu">stat_smooth</span>() <span class="sc">+</span> mytheme</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:price-vs-carat"></span>
 <img src="dataviz_book_files/figure-html/price-vs-carat-1.png" alt="Price increases nearly linearly with carat" width="384" />
 <p class="caption">
@@ -689,14 +692,14 @@ Figure 6.1: Price increases nearly linearly with carat
 </p>
 </div>
 </div>
-<div id="correctly-using-descriptive-and-associative-plots" class="section level3" number="6.1.3">
-<h3><span class="header-section-number">6.1.3</span> Correctly using descriptive and associative plots</h3>
+<div id="correctly-using-descriptive-and-associative-plots" class="section level3 hasAnchor" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Correctly using descriptive and associative plots<a href="graph-supported-hypos.html#correctly-using-descriptive-and-associative-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Claims are often not well supported with descriptive plots. For instance, claiming that “The experiments are reproducible because the replicate samples group together on the projection of the first PCA 2D-plane” is wrong. PCA is a visualization designed to capture the joint distribution of all data and not to assess reproducibility between given pair of samples. Instead claims are better supported using associative plots between an appropriate response variable on the y-axis against an appropriate dependent variable on the x-axis. In this example, we want to claim that there is a higher similarity between replicate experiments than across experiments from different conditions. To this end, one can create a boxplot that shows the distribution of the correlation between pairs of samples (y-axis) for two categories (x-axis): pairs of replicate samples and pairs of sample from different conditions.</p>
 <!-- TODO: add a concrete example. the latter one makes sense for biologists in omics applications, probably not very concrete for others-->
 </div>
 </div>
-<div id="correlation-and-causation" class="section level2" number="6.2">
-<h2><span class="header-section-number">6.2</span> Correlation and causation</h2>
+<div id="correlation-and-causation" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Correlation and causation<a href="graph-supported-hypos.html#correlation-and-causation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>One goal of data analysis is to provide a hypothesis about the underlying causal mechanisms.</p>
 <p>Causal conclusions can be established in specific cases where the data has been gathered in a controlled fashion. This includes experimental perturbations where a single variable is changed and every other condition is kept the same. For instance, one can vary the dose of a drug given to a bacteria and measure its growth, in otherwise identical growth conditions. Randomized controlled trials constitute another example where a treatment and its placebo are administered to a cohort randomly, therefore preventing by design associations with other factors.</p>
 <p>However, most of the time, we have access to observational data, i.e data sampled without the possibility to control the conditions. With observational data, we can assess statistical dependencies, or associations, between variables such as correlations, enrichments, etc. However, these do not necessarily imply a causal link.</p>
@@ -706,15 +709,15 @@ Figure 6.1: Price increases nearly linearly with carat
 <li>The causal relationship is reverse</li>
 <li>The association is induced by a third variable</li>
 </ul>
-<p>Associations between variables that are not due to a causal relationship are sometimes called “spurious correlations.” We prefer however to not use the term spurious correlation because genuine statistical dependencies that are non-causal are widespread. It is not the correlations that are spurious, but their causal interpretation.</p>
-<div id="the-association-is-not-statistically-supported" class="section level3" number="6.2.1">
-<h3><span class="header-section-number">6.2.1</span> The association is not statistically supported</h3>
+<p>Associations between variables that are not due to a causal relationship are sometimes called “spurious correlations”. We prefer however to not use the term spurious correlation because genuine statistical dependencies that are non-causal are widespread. It is not the correlations that are spurious, but their causal interpretation.</p>
+<div id="the-association-is-not-statistically-supported" class="section level3 hasAnchor" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> The association is not statistically supported<a href="graph-supported-hypos.html#the-association-is-not-statistically-supported" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Often, the observed association between variables arose by chance. Would the data collection be repeated, or performed for a longer period of time, the association would not show up any longer. There are two main reasons for this:</p>
 <ol style="list-style-type: decimal">
-<li><p>The association is driven by few data points. Graphically showing all data points including outliers can help (See Anscombe’s quartet).<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> Hypothesis testing can be used to assess this possibility (See next Chapters).</p></li>
+<li><p>The association is driven by few data points. Graphically showing all data points including outliers can help (See Anscombe’s quartet <a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>). Hypothesis testing can be used to assess this possibility (See next Chapters).</p></li>
 <li><p>The dataset includes so many variables that the chance to have one pair of variables associating is high. This is generally called data dredging, data fishing, data snooping, or cherry picking. An example of data dredging would be if we look through many results produced by a random process and pick the one that shows a relationship that supports a theory we want to defend. An example is given in Figure <a href="graph-supported-hypos.html#fig:missamerica-murder">6.2</a>.</p></li>
 </ol>
-<p>In the statistical literature, this problem is called “multiple testing.” It will be treated in a later chapter.</p>
+<p>In the statistical literature, this problem is called “multiple testing”. It will be treated in a later chapter.</p>
 <div class="figure"><span style="display:block;" id="fig:missamerica-murder"></span>
 <img src="assets/img/lec06_tylervigen_missamerica_murders.png" alt="Example of a correlation discovered in a dataset with a very large set of variables. Source: http://www.tylervigen.com/spurious-correlations."  />
 <p class="caption">
@@ -722,10 +725,10 @@ Figure 6.2: Example of a correlation discovered in a dataset with a very large s
 </p>
 </div>
 </div>
-<div id="reversing-cause-and-effect" class="section level3" number="6.2.2">
-<h3><span class="header-section-number">6.2.2</span> Reversing cause and effect</h3>
+<div id="reversing-cause-and-effect" class="section level3 hasAnchor" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> Reversing cause and effect<a href="graph-supported-hypos.html#reversing-cause-and-effect" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We now assume the association did not arise by chance. Unlike causal relationships, statistical dependencies are symmetric (if A correlates with B, then B correlates with A). Hence, a typical mistake are claims where cause and effects are reversed.</p>
-<p>A form of this claim actually made it into an op-ed in the New York Times titled Parental Involvement Is Overrated<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>. Consider this quote from the article:</p>
+<p>A form of this claim actually made it into an op-ed in the New York Times titled Parental Involvement Is Overrated<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>. Consider this quote from the article:</p>
 <blockquote>
 <blockquote>
 <p>When we examined whether regular help with homework had a positive impact on children’s academic performance, we were quite startled by what we found. Regardless of a family’s social class, racial or ethnic background, or a child’s grade level, consistent homework help almost never improved test scores or grades… Even more surprising to us was that when parents regularly helped with homework, kids usually performed worse.</p>
@@ -741,8 +744,8 @@ Figure 6.2: Example of a correlation discovered in a dataset with a very large s
 </ul>
 <p>There is no firm way to decide the direction of causality from a mere association. It is therefore important to consider and discuss both possibilities when interpreting a correlation.</p>
 </div>
-<div id="the-association-is-induced-by-a-third-variable" class="section level3" number="6.2.3">
-<h3><span class="header-section-number">6.2.3</span> The association is induced by a third variable</h3>
+<div id="the-association-is-induced-by-a-third-variable" class="section level3 hasAnchor" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> The association is induced by a third variable<a href="graph-supported-hypos.html#the-association-is-induced-by-a-third-variable" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Another general issue is when an association is due to a third variable. There are several scenarios.</p>
 <p>Given two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, we will now consider three basic configurations where a third variable <span class="math inline">\(z\)</span> could be causally related to them and how this affects associations between the variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> (Figure <a href="graph-supported-hypos.html#fig:causal-diagrams">6.3</a>). We show causal relationships using causal diagrams where variables are nodes and causal links are depicted as directed arrows. We denote <span class="math inline">\(x \perp y\)</span> when variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are statistically independent and <span class="math inline">\(x \not\perp y\)</span> when they are dependent. Also, <span class="math inline">\((x \perp y) | z\)</span> means that <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are independent given <span class="math inline">\(z\)</span>.</p>
 <div class="figure"><span style="display:block;" id="fig:causal-diagrams"></span>
@@ -751,8 +754,8 @@ Figure 6.2: Example of a correlation discovered in a dataset with a very large s
 Figure 6.3: Elementary causal diagrams involving two variables of interest X and Y and a third variable Z.
 </p>
 </div>
-<div id="common-cause" class="section level4" number="6.2.3.1">
-<h4><span class="header-section-number">6.2.3.1</span> Common cause</h4>
+<div id="common-cause" class="section level4 hasAnchor" number="6.2.3.1">
+<h4><span class="header-section-number">6.2.3.1</span> Common cause<a href="graph-supported-hypos.html#common-cause" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The statistical dependency between two variables can be due to a common cause. For instance, it had been reported that among students, smokers had higher university degrees than non-smokers. This association was due to student age as a common cause. With time, students are more likely to have started smoking and to have advanced further in their studies.</p>
 <p>Plots can help to identify such situations. One can stratify by age and show that this positive association vanishes. This rules out a causal association because a causal association is expected to hold for all ages (or at least at some age).</p>
 <!-- ### Confounding   -->
@@ -775,59 +778,59 @@ Figure 6.3: Elementary causal diagrams involving two variables of interest X and
 </ol>
 <p>We then repeat this process <span class="math inline">\(n=1,000\)</span> times.</p>
 <p>In R this can done with the following code:</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="graph-supported-hypos.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="do">###############</span></span>
-<span id="cb442-2"><a href="graph-supported-hypos.html#cb442-2" aria-hidden="true" tabindex="-1"></a><span class="do">## common cause</span></span>
-<span id="cb442-3"><a href="graph-supported-hypos.html#cb442-3" aria-hidden="true" tabindex="-1"></a><span class="do">## x &lt;- z -&gt; y</span></span>
-<span id="cb442-4"><a href="graph-supported-hypos.html#cb442-4" aria-hidden="true" tabindex="-1"></a><span class="do">###############</span></span>
-<span id="cb442-5"><a href="graph-supported-hypos.html#cb442-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0</span>)</span>
-<span id="cb442-6"><a href="graph-supported-hypos.html#cb442-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb442-7"><a href="graph-supported-hypos.html#cb442-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span> <span class="co"># number of draws</span></span>
-<span id="cb442-8"><a href="graph-supported-hypos.html#cb442-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb442-9"><a href="graph-supported-hypos.html#cb442-9" aria-hidden="true" tabindex="-1"></a><span class="co"># z: n draws of the binomial</span></span>
-<span id="cb442-10"><a href="graph-supported-hypos.html#cb442-10" aria-hidden="true" tabindex="-1"></a><span class="co"># with 2 trials and prob=0.5 </span></span>
-<span id="cb442-11"><a href="graph-supported-hypos.html#cb442-11" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">2</span>, <span class="at">prob=</span><span class="fl">0.5</span>) </span>
-<span id="cb442-12"><a href="graph-supported-hypos.html#cb442-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb442-13"><a href="graph-supported-hypos.html#cb442-13" aria-hidden="true" tabindex="-1"></a><span class="co"># x: Gaussian with mean z</span></span>
-<span id="cb442-14"><a href="graph-supported-hypos.html#cb442-14" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span>z, <span class="at">sd=</span><span class="dv">1</span>)</span>
-<span id="cb442-15"><a href="graph-supported-hypos.html#cb442-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb442-16"><a href="graph-supported-hypos.html#cb442-16" aria-hidden="true" tabindex="-1"></a><span class="co"># y: Gaussian with mean 2*z</span></span>
-<span id="cb442-17"><a href="graph-supported-hypos.html#cb442-17" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span><span class="dv">2</span><span class="sc">*</span>z, <span class="at">sd=</span><span class="dv">1</span>)</span>
-<span id="cb442-18"><a href="graph-supported-hypos.html#cb442-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb442-19"><a href="graph-supported-hypos.html#cb442-19" aria-hidden="true" tabindex="-1"></a><span class="co"># gather into a data table</span></span>
-<span id="cb442-20"><a href="graph-supported-hypos.html#cb442-20" aria-hidden="true" tabindex="-1"></a><span class="co"># we make z a factor for convenience with plotting functions</span></span>
-<span id="cb442-21"><a href="graph-supported-hypos.html#cb442-21" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
-<span id="cb442-22"><a href="graph-supported-hypos.html#cb442-22" aria-hidden="true" tabindex="-1"></a>    x,y, </span>
-<span id="cb442-23"><a href="graph-supported-hypos.html#cb442-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">z =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">&quot;z=&quot;</span>,z))</span>
-<span id="cb442-24"><a href="graph-supported-hypos.html#cb442-24" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="graph-supported-hypos.html#cb444-1" tabindex="-1"></a><span class="do">###############</span></span>
+<span id="cb444-2"><a href="graph-supported-hypos.html#cb444-2" tabindex="-1"></a><span class="do">## common cause</span></span>
+<span id="cb444-3"><a href="graph-supported-hypos.html#cb444-3" tabindex="-1"></a><span class="do">## x &lt;- z -&gt; y</span></span>
+<span id="cb444-4"><a href="graph-supported-hypos.html#cb444-4" tabindex="-1"></a><span class="do">###############</span></span>
+<span id="cb444-5"><a href="graph-supported-hypos.html#cb444-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0</span>)</span>
+<span id="cb444-6"><a href="graph-supported-hypos.html#cb444-6" tabindex="-1"></a></span>
+<span id="cb444-7"><a href="graph-supported-hypos.html#cb444-7" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span> <span class="co"># number of draws</span></span>
+<span id="cb444-8"><a href="graph-supported-hypos.html#cb444-8" tabindex="-1"></a></span>
+<span id="cb444-9"><a href="graph-supported-hypos.html#cb444-9" tabindex="-1"></a><span class="co"># z: n draws of the binomial</span></span>
+<span id="cb444-10"><a href="graph-supported-hypos.html#cb444-10" tabindex="-1"></a><span class="co"># with 2 trials and prob=0.5 </span></span>
+<span id="cb444-11"><a href="graph-supported-hypos.html#cb444-11" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">2</span>, <span class="at">prob=</span><span class="fl">0.5</span>) </span>
+<span id="cb444-12"><a href="graph-supported-hypos.html#cb444-12" tabindex="-1"></a></span>
+<span id="cb444-13"><a href="graph-supported-hypos.html#cb444-13" tabindex="-1"></a><span class="co"># x: Gaussian with mean z</span></span>
+<span id="cb444-14"><a href="graph-supported-hypos.html#cb444-14" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span>z, <span class="at">sd=</span><span class="dv">1</span>)</span>
+<span id="cb444-15"><a href="graph-supported-hypos.html#cb444-15" tabindex="-1"></a></span>
+<span id="cb444-16"><a href="graph-supported-hypos.html#cb444-16" tabindex="-1"></a><span class="co"># y: Gaussian with mean 2*z</span></span>
+<span id="cb444-17"><a href="graph-supported-hypos.html#cb444-17" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span><span class="dv">2</span><span class="sc">*</span>z, <span class="at">sd=</span><span class="dv">1</span>)</span>
+<span id="cb444-18"><a href="graph-supported-hypos.html#cb444-18" tabindex="-1"></a></span>
+<span id="cb444-19"><a href="graph-supported-hypos.html#cb444-19" tabindex="-1"></a><span class="co"># gather into a data table</span></span>
+<span id="cb444-20"><a href="graph-supported-hypos.html#cb444-20" tabindex="-1"></a><span class="co"># we make z a factor for convenience with plotting functions</span></span>
+<span id="cb444-21"><a href="graph-supported-hypos.html#cb444-21" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb444-22"><a href="graph-supported-hypos.html#cb444-22" tabindex="-1"></a>    x,y, </span>
+<span id="cb444-23"><a href="graph-supported-hypos.html#cb444-23" tabindex="-1"></a>    <span class="at">z =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">&quot;z=&quot;</span>,z))</span>
+<span id="cb444-24"><a href="graph-supported-hypos.html#cb444-24" tabindex="-1"></a>  )</span></code></pre></div>
 <p>We check whether the simulations worked. First, <span class="math inline">\(z\)</span> distributes as expected with about 25% draws with 0 heads, 50% with one head, and 25% with 2 heads:</p>
-<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="graph-supported-hypos.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(z)</span></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="graph-supported-hypos.html#cb445-1" tabindex="-1"></a><span class="fu">table</span>(z)</span></code></pre></div>
 <pre><code>## z
 ##   0   1   2 
 ## 244 506 250</code></pre>
 <p>Second, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> depend on <span class="math inline">\(z\)</span>:</p>
-<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="graph-supported-hypos.html#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>z, <span class="at">y=</span>x)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="graph-supported-hypos.html#cb447-1" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>z, <span class="at">y=</span>x)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-255-1.png" width="384" /></p>
-<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="graph-supported-hypos.html#cb446-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>z, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="graph-supported-hypos.html#cb448-1" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>z, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-256-1.png" width="384" /></p>
 <p>As a consequence, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> correlate with each other:</p>
-<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="graph-supported-hypos.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can pick different formulae in geom_smooth</span></span>
-<span id="cb447-2"><a href="graph-supported-hypos.html#cb447-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="graph-supported-hypos.html#cb449-1" tabindex="-1"></a><span class="co"># You can pick different formulae in geom_smooth</span></span>
+<span id="cb449-2"><a href="graph-supported-hypos.html#cb449-2" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>()</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-257-1.png" width="384" /></p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="graph-supported-hypos.html#cb448-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x,y)</span></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="graph-supported-hypos.html#cb450-1" tabindex="-1"></a><span class="fu">cor</span>(x,y)</span></code></pre></div>
 <pre><code>## [1] 0.4535741</code></pre>
 <p>This correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> is due to the common cause <span class="math inline">\(z\)</span>. To show evidence for this issue, one can plot stratified by the values of <span class="math inline">\(z\)</span>. In each group, there is no association between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
-<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="graph-supported-hypos.html#cb450-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>z) <span class="sc">+</span> <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="graph-supported-hypos.html#cb452-1" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>z) <span class="sc">+</span> <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-259-1.png" width="1152" /></p>
 <p>Moreover, one can compute the correlation also stratified by the value of <span class="math inline">\(z\)</span>. We see that in each group the correlation is near 0.</p>
-<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="graph-supported-hypos.html#cb451-1" aria-hidden="true" tabindex="-1"></a>dt[, .(<span class="at">correlation=</span><span class="fu">cor</span>(x,y)), by<span class="ot">=</span>z]</span></code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="graph-supported-hypos.html#cb453-1" tabindex="-1"></a>dt[, .(<span class="at">correlation=</span><span class="fu">cor</span>(x,y)), by<span class="ot">=</span>z]</span></code></pre></div>
 <pre><code>##      z   correlation
 ## 1: z=2 -0.0005907227
 ## 2: z=1  0.0457336976
 ## 3: z=0 -0.0107107309</code></pre>
 <p>In our simulation, conditioning on a third variable has ruled out direct correlation and, therefore, causation. Statistically speaking, we can state that the two variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> <em>are</em> correlated, but their correlation is explained by <span class="math inline">\(z\)</span>. Conditioned on <span class="math inline">\(z\)</span>, their correlation is basically zero. This rules out a causal relationship from one to the other. Correlation never proves causation. However, conditioning can rule out causation.</p>
 </div>
-<div id="indirect-association" class="section level4" number="6.2.3.2">
-<h4><span class="header-section-number">6.2.3.2</span> Indirect association</h4>
+<div id="indirect-association" class="section level4 hasAnchor" number="6.2.3.2">
+<h4><span class="header-section-number">6.2.3.2</span> Indirect association<a href="graph-supported-hypos.html#indirect-association" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We now simulate the case of an indirect association. To this end we consider the following process:</p>
 <ol style="list-style-type: decimal">
 <li>We toss a coin once. We record <span class="math inline">\(x=1\)</span> if it is a head, and <span class="math inline">\(x=0\)</span> if it is a tail.</li>
@@ -835,45 +838,45 @@ Figure 6.3: Elementary causal diagrams involving two variables of interest X and
 <li>We draw a value <span class="math inline">\(y\)</span> randomly according to a Gaussian distribution with mean equal to <span class="math inline">\(z\)</span> and standard deviation 0.5. Hence, <span class="math inline">\(y\)</span> will be a random real number that tend to have higher values with higher values of <span class="math inline">\(z\)</span>.</li>
 </ol>
 <p>The following R code simulates such data:</p>
-<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="graph-supported-hypos.html#cb453-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first step:  tossing a coin once</span></span>
-<span id="cb453-2"><a href="graph-supported-hypos.html#cb453-2" aria-hidden="true" tabindex="-1"></a><span class="co"># record x=1 if head, x=0 if tail.</span></span>
-<span id="cb453-3"><a href="graph-supported-hypos.html#cb453-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">size=</span><span class="dv">1</span>, <span class="at">prob=</span><span class="fl">0.5</span>)</span>
-<span id="cb453-4"><a href="graph-supported-hypos.html#cb453-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb453-5"><a href="graph-supported-hypos.html#cb453-5" aria-hidden="true" tabindex="-1"></a><span class="co"># second step</span></span>
-<span id="cb453-6"><a href="graph-supported-hypos.html#cb453-6" aria-hidden="true" tabindex="-1"></a><span class="co"># if x=0, toss the coin once, if x=1, toss the coins twice</span></span>
-<span id="cb453-7"><a href="graph-supported-hypos.html#cb453-7" aria-hidden="true" tabindex="-1"></a><span class="co"># record z the number of heads of this second step. </span></span>
-<span id="cb453-8"><a href="graph-supported-hypos.html#cb453-8" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">size=</span>x<span class="sc">+</span><span class="dv">1</span>, <span class="at">prob=</span><span class="fl">0.5</span>) </span>
-<span id="cb453-9"><a href="graph-supported-hypos.html#cb453-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb453-10"><a href="graph-supported-hypos.html#cb453-10" aria-hidden="true" tabindex="-1"></a><span class="do">## y: Gaussian with mean=z</span></span>
-<span id="cb453-11"><a href="graph-supported-hypos.html#cb453-11" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span>z, <span class="at">sd=</span><span class="fl">0.5</span>)</span>
-<span id="cb453-12"><a href="graph-supported-hypos.html#cb453-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb453-13"><a href="graph-supported-hypos.html#cb453-13" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
-<span id="cb453-14"><a href="graph-supported-hypos.html#cb453-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">&quot;x=&quot;</span>,x)),</span>
-<span id="cb453-15"><a href="graph-supported-hypos.html#cb453-15" aria-hidden="true" tabindex="-1"></a>  y, </span>
-<span id="cb453-16"><a href="graph-supported-hypos.html#cb453-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">&quot;z=&quot;</span>,z))</span>
-<span id="cb453-17"><a href="graph-supported-hypos.html#cb453-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="graph-supported-hypos.html#cb455-1" tabindex="-1"></a><span class="co"># first step:  tossing a coin once</span></span>
+<span id="cb455-2"><a href="graph-supported-hypos.html#cb455-2" tabindex="-1"></a><span class="co"># record x=1 if head, x=0 if tail.</span></span>
+<span id="cb455-3"><a href="graph-supported-hypos.html#cb455-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">size=</span><span class="dv">1</span>, <span class="at">prob=</span><span class="fl">0.5</span>)</span>
+<span id="cb455-4"><a href="graph-supported-hypos.html#cb455-4" tabindex="-1"></a></span>
+<span id="cb455-5"><a href="graph-supported-hypos.html#cb455-5" tabindex="-1"></a><span class="co"># second step</span></span>
+<span id="cb455-6"><a href="graph-supported-hypos.html#cb455-6" tabindex="-1"></a><span class="co"># if x=0, toss the coin once, if x=1, toss the coins twice</span></span>
+<span id="cb455-7"><a href="graph-supported-hypos.html#cb455-7" tabindex="-1"></a><span class="co"># record z the number of heads of this second step. </span></span>
+<span id="cb455-8"><a href="graph-supported-hypos.html#cb455-8" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="at">size=</span>x<span class="sc">+</span><span class="dv">1</span>, <span class="at">prob=</span><span class="fl">0.5</span>) </span>
+<span id="cb455-9"><a href="graph-supported-hypos.html#cb455-9" tabindex="-1"></a></span>
+<span id="cb455-10"><a href="graph-supported-hypos.html#cb455-10" tabindex="-1"></a><span class="do">## y: Gaussian with mean=z</span></span>
+<span id="cb455-11"><a href="graph-supported-hypos.html#cb455-11" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean=</span>z, <span class="at">sd=</span><span class="fl">0.5</span>)</span>
+<span id="cb455-12"><a href="graph-supported-hypos.html#cb455-12" tabindex="-1"></a></span>
+<span id="cb455-13"><a href="graph-supported-hypos.html#cb455-13" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb455-14"><a href="graph-supported-hypos.html#cb455-14" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">&quot;x=&quot;</span>,x)),</span>
+<span id="cb455-15"><a href="graph-supported-hypos.html#cb455-15" tabindex="-1"></a>  y, </span>
+<span id="cb455-16"><a href="graph-supported-hypos.html#cb455-16" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="st">&quot;z=&quot;</span>,z))</span>
+<span id="cb455-17"><a href="graph-supported-hypos.html#cb455-17" tabindex="-1"></a>)</span></code></pre></div>
 <p>We see that <span class="math inline">\(y\)</span> associates with <span class="math inline">\(x\)</span>:</p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="graph-supported-hypos.html#cb454-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="graph-supported-hypos.html#cb456-1" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-262-1.png" width="384" /></p>
 <p>However this association vanishes when we condition on <span class="math inline">\(z\)</span>:</p>
-<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="graph-supported-hypos.html#cb455-1" aria-hidden="true" tabindex="-1"></a><span class="do">## y does not associate with x given z</span></span>
-<span id="cb455-2"><a href="graph-supported-hypos.html#cb455-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>z)</span></code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="graph-supported-hypos.html#cb457-1" tabindex="-1"></a><span class="do">## y does not associate with x given z</span></span>
+<span id="cb457-2"><a href="graph-supported-hypos.html#cb457-2" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>z)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-263-1.png" width="1152" /></p>
 <p>Conditioning on the third variable has helped ruling out a direct causal relation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. Note, however, that in this simulation there is an indirect causal relation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. From an observational data point of view, the situation is very similar to the common cause situation. Interpretations from the application field are needed to suggest whether such data supports an indirect association or a common cause.</p>
 <p>A concrete example of an indirect association is provided by Rafael Irizzary in his book “Introduction to Data Science” which we reproduce in the following.</p>
 <p>For this, we consider the admission data from six U.C. Berkeley majors on 1973. The data shows at first sight that more men were being admitted than women: 44% men were admitted compared to 30% women. We can load the data and compute the percent of men and women that were accepted like this:</p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="graph-supported-hypos.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb456-2"><a href="graph-supported-hypos.html#cb456-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(admissions)</span>
-<span id="cb456-3"><a href="graph-supported-hypos.html#cb456-3" aria-hidden="true" tabindex="-1"></a>admissions <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(admissions)</span>
-<span id="cb456-4"><a href="graph-supported-hypos.html#cb456-4" aria-hidden="true" tabindex="-1"></a>admissions[, <span class="fu">sum</span>(admitted<span class="sc">*</span>applicants)<span class="sc">/</span><span class="fu">sum</span>(applicants), by<span class="ot">=</span>gender]</span></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="graph-supported-hypos.html#cb458-1" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb458-2"><a href="graph-supported-hypos.html#cb458-2" tabindex="-1"></a><span class="fu">data</span>(admissions)</span>
+<span id="cb458-3"><a href="graph-supported-hypos.html#cb458-3" tabindex="-1"></a>admissions <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(admissions)</span>
+<span id="cb458-4"><a href="graph-supported-hypos.html#cb458-4" tabindex="-1"></a>admissions[, <span class="fu">sum</span>(admitted<span class="sc">*</span>applicants)<span class="sc">/</span><span class="fu">sum</span>(applicants), by<span class="ot">=</span>gender]</span></code></pre></div>
 <pre><code>##    gender       V1
 ## 1:    men 44.51951
 ## 2:  women 30.33351</code></pre>
 <p>Closer inspection shows a paradoxical result. Here are the percent admissions by major:</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="graph-supported-hypos.html#cb458-1" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span> admissions[, <span class="fu">c</span>(<span class="st">&#39;major&#39;</span>, <span class="st">&#39;gender&#39;</span>, <span class="st">&#39;admitted&#39;</span>)] <span class="sc">%&gt;%</span> </span>
-<span id="cb458-2"><a href="graph-supported-hypos.html#cb458-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dcast</span>(...<span class="sc">~</span>gender, <span class="at">value.var=</span><span class="st">&#39;admitted&#39;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb458-3"><a href="graph-supported-hypos.html#cb458-3" aria-hidden="true" tabindex="-1"></a>    .[, women_minus_men <span class="sc">:</span><span class="er">=</span> women <span class="sc">-</span> men]</span>
-<span id="cb458-4"><a href="graph-supported-hypos.html#cb458-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(stats)</span></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="graph-supported-hypos.html#cb460-1" tabindex="-1"></a>stats <span class="ot">&lt;-</span> admissions[, <span class="fu">c</span>(<span class="st">&#39;major&#39;</span>, <span class="st">&#39;gender&#39;</span>, <span class="st">&#39;admitted&#39;</span>)] <span class="sc">%&gt;%</span> </span>
+<span id="cb460-2"><a href="graph-supported-hypos.html#cb460-2" tabindex="-1"></a>  <span class="fu">dcast</span>(...<span class="sc">~</span>gender, <span class="at">value.var=</span><span class="st">&#39;admitted&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb460-3"><a href="graph-supported-hypos.html#cb460-3" tabindex="-1"></a>    .[, women_minus_men <span class="sc">:=</span> women <span class="sc">-</span> men]</span>
+<span id="cb460-4"><a href="graph-supported-hypos.html#cb460-4" tabindex="-1"></a><span class="fu">head</span>(stats)</span></code></pre></div>
 <pre><code>##    major men women women_minus_men
 ## 1:     A  62    82              20
 ## 2:     B  63    68               5
@@ -885,40 +888,40 @@ Figure 6.3: Elementary causal diagrams involving two variables of interest X and
 <p>The paradox is that analyzing the totals suggests a dependence between admission and gender, but when the data is grouped by major, this dependence seems to disappear. What’s going on? This actually can happen if an uncounted confounder is driving most of the variability.</p>
 <p>We define three variables: <span class="math inline">\(X\)</span> is 1 for men and 0 for women, <span class="math inline">\(Y\)</span> is 1 for those admitted and 0 otherwise, and <span class="math inline">\(Z\)</span> quantifies the selectivity of the major. A gender bias claim would be based on the fact that <span class="math inline">\(\mbox{Pr}(Y=1 | X = x)\)</span> is higher for <span class="math inline">\(x=1\)</span> than <span class="math inline">\(x=0\)</span>. However, <span class="math inline">\(Z\)</span> is an important confounder to consider. Clearly <span class="math inline">\(Z\)</span> is associated with <span class="math inline">\(Y\)</span>, as the more selective a major, the lower <span class="math inline">\(\mbox{Pr}(Y=1 | Z = z)\)</span>. But is major selectivity <span class="math inline">\(Z\)</span> associated with gender <span class="math inline">\(X\)</span>?</p>
 <p>One way to see this is to plot the total percent admitted to a major versus the percent of women that made up the applicants:</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="graph-supported-hypos.html#cb460-1" aria-hidden="true" tabindex="-1"></a>admissions <span class="sc">%&gt;%</span> </span>
-<span id="cb460-2"><a href="graph-supported-hypos.html#cb460-2" aria-hidden="true" tabindex="-1"></a>  .[, .(<span class="fu">sum</span>(admitted <span class="sc">*</span> applicants)<span class="sc">/</span><span class="fu">sum</span>(applicants),</span>
-<span id="cb460-3"><a href="graph-supported-hypos.html#cb460-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sum</span>(applicants <span class="sc">*</span> (gender<span class="sc">==</span><span class="st">&quot;women&quot;</span>)) <span class="sc">/</span><span class="fu">sum</span>(applicants) <span class="sc">*</span> <span class="dv">100</span>), by<span class="ot">=</span>major] <span class="sc">%&gt;%</span></span>
-<span id="cb460-4"><a href="graph-supported-hypos.html#cb460-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(V1, V2, <span class="at">label =</span> major)) <span class="sc">+</span></span>
-<span id="cb460-5"><a href="graph-supported-hypos.html#cb460-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&#39;Major Selectivity&#39;</span>, <span class="at">y=</span><span class="st">&#39;Percent Women Applicants&#39;</span>) <span class="sc">+</span> mytheme</span></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="graph-supported-hypos.html#cb462-1" tabindex="-1"></a>admissions <span class="sc">%&gt;%</span> </span>
+<span id="cb462-2"><a href="graph-supported-hypos.html#cb462-2" tabindex="-1"></a>  .[, .(<span class="fu">sum</span>(admitted <span class="sc">*</span> applicants)<span class="sc">/</span><span class="fu">sum</span>(applicants),</span>
+<span id="cb462-3"><a href="graph-supported-hypos.html#cb462-3" tabindex="-1"></a>        <span class="fu">sum</span>(applicants <span class="sc">*</span> (gender<span class="sc">==</span><span class="st">&quot;women&quot;</span>)) <span class="sc">/</span><span class="fu">sum</span>(applicants) <span class="sc">*</span> <span class="dv">100</span>), by<span class="ot">=</span>major] <span class="sc">%&gt;%</span></span>
+<span id="cb462-4"><a href="graph-supported-hypos.html#cb462-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(V1, V2, <span class="at">label =</span> major)) <span class="sc">+</span></span>
+<span id="cb462-5"><a href="graph-supported-hypos.html#cb462-5" tabindex="-1"></a>  <span class="fu">geom_text</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&#39;Major Selectivity&#39;</span>, <span class="at">y=</span><span class="st">&#39;Percent Women Applicants&#39;</span>) <span class="sc">+</span> mytheme</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/uc-berkeley-majors-1.png" width="672" /></p>
 <p>There seems to be association. The plot suggests that women were much more likely to apply to the two “hard” majors: gender and major’s selectivity are confounded. Compare, for example, major B and major E. Major E is much harder to enter than major B and over 60% of applicants to major E were women, while less than 30% of the applicants of major B were women.</p>
 <p>The following plot shows the number of applicants that were admitted and those that were not by gender and major:</p>
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="graph-supported-hypos.html#cb461-1" aria-hidden="true" tabindex="-1"></a>admissions_plot <span class="ot">&lt;-</span> admissions[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">yes =</span> <span class="fu">round</span>(admitted<span class="sc">/</span><span class="dv">100</span><span class="sc">*</span>applicants), </span>
-<span id="cb461-2"><a href="graph-supported-hypos.html#cb461-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">no =</span> <span class="fu">round</span>(applicants <span class="sc">-</span> admitted<span class="sc">/</span><span class="dv">100</span><span class="sc">*</span>applicants )),</span>
-<span id="cb461-3"><a href="graph-supported-hypos.html#cb461-3" aria-hidden="true" tabindex="-1"></a>           by<span class="ot">=</span>.(major, gender)] <span class="sc">%&gt;%</span></span>
-<span id="cb461-4"><a href="graph-supported-hypos.html#cb461-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">measure.vars=</span><span class="fu">c</span>(<span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>), <span class="at">value.name=</span><span class="st">&#39;number_of_students&#39;</span>,</span>
-<span id="cb461-5"><a href="graph-supported-hypos.html#cb461-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">variable.name=</span><span class="st">&#39;admission&#39;</span>) </span>
-<span id="cb461-6"><a href="graph-supported-hypos.html#cb461-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb461-7"><a href="graph-supported-hypos.html#cb461-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(admissions_plot, <span class="fu">aes</span>(gender, number_of_students, <span class="at">fill =</span> admission)) <span class="sc">+</span></span>
-<span id="cb461-8"><a href="graph-supported-hypos.html#cb461-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
-<span id="cb461-9"><a href="graph-supported-hypos.html#cb461-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> major)</span></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="graph-supported-hypos.html#cb463-1" tabindex="-1"></a>admissions_plot <span class="ot">&lt;-</span> admissions[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">yes =</span> <span class="fu">round</span>(admitted<span class="sc">/</span><span class="dv">100</span><span class="sc">*</span>applicants), </span>
+<span id="cb463-2"><a href="graph-supported-hypos.html#cb463-2" tabindex="-1"></a>                <span class="at">no =</span> <span class="fu">round</span>(applicants <span class="sc">-</span> admitted<span class="sc">/</span><span class="dv">100</span><span class="sc">*</span>applicants )),</span>
+<span id="cb463-3"><a href="graph-supported-hypos.html#cb463-3" tabindex="-1"></a>           by<span class="ot">=</span>.(major, gender)] <span class="sc">%&gt;%</span></span>
+<span id="cb463-4"><a href="graph-supported-hypos.html#cb463-4" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">measure.vars=</span><span class="fu">c</span>(<span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>), <span class="at">value.name=</span><span class="st">&#39;number_of_students&#39;</span>,</span>
+<span id="cb463-5"><a href="graph-supported-hypos.html#cb463-5" tabindex="-1"></a>       <span class="at">variable.name=</span><span class="st">&#39;admission&#39;</span>) </span>
+<span id="cb463-6"><a href="graph-supported-hypos.html#cb463-6" tabindex="-1"></a></span>
+<span id="cb463-7"><a href="graph-supported-hypos.html#cb463-7" tabindex="-1"></a><span class="fu">ggplot</span>(admissions_plot, <span class="fu">aes</span>(gender, number_of_students, <span class="at">fill =</span> admission)) <span class="sc">+</span></span>
+<span id="cb463-8"><a href="graph-supported-hypos.html#cb463-8" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb463-9"><a href="graph-supported-hypos.html#cb463-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> major)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-266-1.png" width="672" /></p>
 <p>The visualization breaks down the acceptances by major. This breakdown allows us to see that the majority of accepted men came from two majors: A and B. It also lets us see that few women applied to these majors.</p>
 <p>Changing the position to <code>"fill"</code> in <code>geom_bar()</code> returns the following plot:</p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="graph-supported-hypos.html#cb462-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(admissions_plot, <span class="fu">aes</span>(gender, number_of_students, <span class="at">fill =</span> admission)) <span class="sc">+</span></span>
-<span id="cb462-2"><a href="graph-supported-hypos.html#cb462-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
-<span id="cb462-3"><a href="graph-supported-hypos.html#cb462-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;proportion admitted&quot;</span>) <span class="sc">+</span></span>
-<span id="cb462-4"><a href="graph-supported-hypos.html#cb462-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> major)</span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="graph-supported-hypos.html#cb464-1" tabindex="-1"></a><span class="fu">ggplot</span>(admissions_plot, <span class="fu">aes</span>(gender, number_of_students, <span class="at">fill =</span> admission)) <span class="sc">+</span></span>
+<span id="cb464-2"><a href="graph-supported-hypos.html#cb464-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
+<span id="cb464-3"><a href="graph-supported-hypos.html#cb464-3" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;proportion admitted&quot;</span>) <span class="sc">+</span></span>
+<span id="cb464-4"><a href="graph-supported-hypos.html#cb464-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> major)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-267-1.png" width="672" /></p>
 <p>Setting <code>"fill"</code> as the position argument makes each set of stacked bars to have the same height. This makes it easier to compare proportions across groups. However, note that it can be hard to compare some groups with increasing number of stacked bars.</p>
 <p>Altogether, this data suggests the following causal interpretation:</p>
 <p><span class="math inline">\(\text{Gender} \rightarrow \text{Major} \rightarrow \text{Admission}\)</span></p>
 <p>In this interpretation of this data, women are proportionally less admitted because they choose more selective majors. Hence the association is correct, causal, in the right orientation, but it is indirect.</p>
 </div>
-<div id="common-consequence" class="section level4" number="6.2.3.3">
-<h4><span class="header-section-number">6.2.3.3</span> Common consequence</h4>
+<div id="common-consequence" class="section level4 hasAnchor" number="6.2.3.3">
+<h4><span class="header-section-number">6.2.3.3</span> Common consequence<a href="graph-supported-hypos.html#common-consequence" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The last elementary situation is the case where the third variable is a common consequence.
-One fun imaginary example is given by Judea Pearl in “The Book of Why”<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> about talent and beauty among Hollywood stars.</p>
+One fun imaginary example is given by Judea Pearl in “The Book of Why” <a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> about talent and beauty among Hollywood stars.</p>
 <p>We assume that:</p>
 <ul>
 <li>Talent for acting is a quantitative value that is randomly distributed among the human population.</li>
@@ -932,33 +935,33 @@ One fun imaginary example is given by Judea Pearl in “The Book of Why”<a hre
 <li>let <span class="math inline">\(z=1\)</span> if <span class="math inline">\(x+y&gt;1\)</span></li>
 </ul>
 <p>The following code simulates such data:</p>
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="graph-supported-hypos.html#cb463-1" aria-hidden="true" tabindex="-1"></a><span class="do">#############</span></span>
-<span id="cb463-2"><a href="graph-supported-hypos.html#cb463-2" aria-hidden="true" tabindex="-1"></a><span class="do">## common consequence x-&gt;z&lt;-y</span></span>
-<span id="cb463-3"><a href="graph-supported-hypos.html#cb463-3" aria-hidden="true" tabindex="-1"></a><span class="do">#############</span></span>
-<span id="cb463-4"><a href="graph-supported-hypos.html#cb463-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)  <span class="co"># talent for acting</span></span>
-<span id="cb463-5"><a href="graph-supported-hypos.html#cb463-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)  <span class="co"># beauty</span></span>
-<span id="cb463-6"><a href="graph-supported-hypos.html#cb463-6" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> x<span class="sc">+</span>y <span class="sc">&gt;</span> <span class="dv">1</span>  </span>
-<span id="cb463-7"><a href="graph-supported-hypos.html#cb463-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb463-8"><a href="graph-supported-hypos.html#cb463-8" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(x, y, z)</span></code></pre></div>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="graph-supported-hypos.html#cb465-1" tabindex="-1"></a><span class="do">#############</span></span>
+<span id="cb465-2"><a href="graph-supported-hypos.html#cb465-2" tabindex="-1"></a><span class="do">## common consequence x-&gt;z&lt;-y</span></span>
+<span id="cb465-3"><a href="graph-supported-hypos.html#cb465-3" tabindex="-1"></a><span class="do">#############</span></span>
+<span id="cb465-4"><a href="graph-supported-hypos.html#cb465-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)  <span class="co"># talent for acting</span></span>
+<span id="cb465-5"><a href="graph-supported-hypos.html#cb465-5" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)  <span class="co"># beauty</span></span>
+<span id="cb465-6"><a href="graph-supported-hypos.html#cb465-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> x<span class="sc">+</span>y <span class="sc">&gt;</span> <span class="dv">1</span>  </span>
+<span id="cb465-7"><a href="graph-supported-hypos.html#cb465-7" tabindex="-1"></a></span>
+<span id="cb465-8"><a href="graph-supported-hypos.html#cb465-8" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(x, y, z)</span></code></pre></div>
 <p>In our simulated population, beauty and talent for acting do not correlate:</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="graph-supported-hypos.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="do">## x and y do not associate</span></span>
-<span id="cb464-2"><a href="graph-supported-hypos.html#cb464-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&#39;Talent for acting&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Beauty&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="graph-supported-hypos.html#cb466-1" tabindex="-1"></a><span class="do">## x and y do not associate</span></span>
+<span id="cb466-2"><a href="graph-supported-hypos.html#cb466-2" tabindex="-1"></a><span class="fu">ggplot</span>(dt, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&#39;Talent for acting&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Beauty&#39;</span>)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-269-1.png" width="384" /></p>
-<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="graph-supported-hypos.html#cb465-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x,y)</span></code></pre></div>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="graph-supported-hypos.html#cb467-1" tabindex="-1"></a><span class="fu">cor</span>(x,y)</span></code></pre></div>
 <pre><code>## [1] -0.03192247</code></pre>
 <p>The fun paradox comes when we restrict our analysis to the Hollywood stars:</p>
-<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="graph-supported-hypos.html#cb467-1" aria-hidden="true" tabindex="-1"></a><span class="do">## x associates with y when z is TRUE</span></span>
-<span id="cb467-2"><a href="graph-supported-hypos.html#cb467-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dt[z <span class="sc">==</span> <span class="cn">TRUE</span>], <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&#39;Talent for acting&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Beauty&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="graph-supported-hypos.html#cb469-1" tabindex="-1"></a><span class="do">## x associates with y when z is TRUE</span></span>
+<span id="cb469-2"><a href="graph-supported-hypos.html#cb469-2" tabindex="-1"></a><span class="fu">ggplot</span>(dt[z <span class="sc">==</span> <span class="cn">TRUE</span>], <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&#39;Talent for acting&#39;</span>, <span class="at">y =</span> <span class="st">&#39;Beauty&#39;</span>)</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-270-1.png" width="384" /></p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="graph-supported-hypos.html#cb468-1" aria-hidden="true" tabindex="-1"></a>dt[z, <span class="fu">cor</span>(x,y)]</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="graph-supported-hypos.html#cb470-1" tabindex="-1"></a>dt[z, <span class="fu">cor</span>(x,y)]</span></code></pre></div>
 <pre><code>## [1] -0.5843082</code></pre>
 <p>Hence, beautiful Hollywood stars tend to act worse than than less beautiful stars.</p>
-<p>This paradox is known as Berkson’s paradox.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> Berkson originally reported the paradox on patient data collected in a hospital. As these patients are in the hospital because they are sick, risk factors for their diseases, which do not correlate in the general population, happen to negatively correlate among them. Studies based on hospital data only can suffer from such bias.</p>
+<p>This paradox is known as Berkson’s paradox <a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>. Berkson originally reported the paradox on patient data collected in a hospital. As these patients are in the hospital because they are sick, risk factors for their diseases, which do not correlate in the general population, happen to negatively correlate among them. Studies based on hospital data only can suffer from such bias.</p>
 <p>Altogether, the association arises once we condition on the third variable. This has two implications. First, conditioning should not be done systematically. Second, the data may already be conditioned and we are not aware of it! The data may have undergone some filtering during data analysis, or, less obviously, during data collection. Those possibilities should be considered when reporting associations between variables.</p>
 </div>
 </div>
-<div id="simpsons-paradox" class="section level3" number="6.2.4">
-<h3><span class="header-section-number">6.2.4</span> Simpson’s paradox</h3>
+<div id="simpsons-paradox" class="section level3 hasAnchor" number="6.2.4">
+<h3><span class="header-section-number">6.2.4</span> Simpson’s paradox<a href="graph-supported-hypos.html#simpsons-paradox" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In 1951, Simpson demonstrated that a statistical relationship observed within a group of individuals could be reversed within all subgroups that make up that population. This phenomenon, where a variable X seems to relate to a second variable Y in a certain way, but flips direction when the stratifying for another variable Z, has since been referred to as Simpson’s paradox.</p>
 <div class="figure"><span style="display:block;" id="fig:simpson-paradox"></span>
 <img src="assets/img/lec06_simpson_paradox.png" alt="Simpson's paradox. The sign (+ or -) designates positive or negative effects (causal diagram, left) or associations (right)." width="500px" />
@@ -967,11 +970,11 @@ Figure 6.4: Simpson’s paradox. The sign (+ or -) designates positive or negati
 </p>
 </div>
 <p>We simulate a dataset for illustrating the Simpson’s paradox with the help of the function <code>simulate_simpson()</code> from the library <code>correlation</code>:</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="graph-supported-hypos.html#cb470-1" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;easystats/correlation&quot;)</span></span>
-<span id="cb470-2"><a href="graph-supported-hypos.html#cb470-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(correlation)</span>
-<span id="cb470-3"><a href="graph-supported-hypos.html#cb470-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">simulate_simpson</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">groups =</span> <span class="dv">4</span>, <span class="at">r =</span> <span class="fl">0.6</span>) <span class="sc">%&gt;%</span> as.data.table</span>
-<span id="cb470-4"><a href="graph-supported-hypos.html#cb470-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;X&#39;</span>, <span class="st">&#39;Y&#39;</span>, <span class="st">&#39;Z&#39;</span>)</span>
-<span id="cb470-5"><a href="graph-supported-hypos.html#cb470-5" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="graph-supported-hypos.html#cb472-1" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;easystats/correlation&quot;)</span></span>
+<span id="cb472-2"><a href="graph-supported-hypos.html#cb472-2" tabindex="-1"></a><span class="fu">library</span>(correlation)</span>
+<span id="cb472-3"><a href="graph-supported-hypos.html#cb472-3" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">simulate_simpson</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">groups =</span> <span class="dv">4</span>, <span class="at">r =</span> <span class="fl">0.6</span>) <span class="sc">%&gt;%</span> as.data.table</span>
+<span id="cb472-4"><a href="graph-supported-hypos.html#cb472-4" tabindex="-1"></a><span class="fu">colnames</span>(data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;X&#39;</span>, <span class="st">&#39;Y&#39;</span>, <span class="st">&#39;Z&#39;</span>)</span>
+<span id="cb472-5"><a href="graph-supported-hypos.html#cb472-5" tabindex="-1"></a>data</span></code></pre></div>
 <pre><code>##              X          Y   Z
 ##   1: 0.7571442 -0.2531470 G_1
 ##   2: 1.3253338  0.2617510 G_1
@@ -985,68 +988,68 @@ Figure 6.4: Simpson’s paradox. The sign (+ or -) designates positive or negati
 ## 399: 3.7237566 -4.7194693 G_4
 ## 400: 4.3878277 -3.5184049 G_4</code></pre>
 <p>When visualizing the relationship between the variables <code>X</code> and <code>Y</code>, we observe a negative correlation between <code>X</code> and <code>Y</code>:</p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="graph-supported-hypos.html#cb472-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(X,Y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&#39;lm&#39;</span>) <span class="sc">+</span> mytheme</span></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="graph-supported-hypos.html#cb474-1" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(X,Y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&#39;lm&#39;</span>) <span class="sc">+</span> mytheme</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-272-1.png" width="672" /></p>
 <p>However, when grouping by the variable Z, we observe a positive correlation which is the opposite direction as before:</p>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="graph-supported-hypos.html#cb473-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y)) <span class="sc">+</span></span>
-<span id="cb473-2"><a href="graph-supported-hypos.html#cb473-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Z)) <span class="sc">+</span></span>
-<span id="cb473-3"><a href="graph-supported-hypos.html#cb473-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">color =</span> Z), <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
-<span id="cb473-4"><a href="graph-supported-hypos.html#cb473-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span> mytheme</span></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="graph-supported-hypos.html#cb475-1" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y)) <span class="sc">+</span></span>
+<span id="cb475-2"><a href="graph-supported-hypos.html#cb475-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Z)) <span class="sc">+</span></span>
+<span id="cb475-3"><a href="graph-supported-hypos.html#cb475-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">color =</span> Z), <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
+<span id="cb475-4"><a href="graph-supported-hypos.html#cb475-4" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span> mytheme</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/unnamed-chunk-273-1.png" width="672" /></p>
 <!-- https://paulvanderlaken.com/2017/09/27/simpsons-paradox-two-hr-examples-with-r-code/ -->
 <!-- https://rpubs.com/shampjeff/blog_post_2 -->
 </div>
 </div>
-<div id="data-presentation-as-story-telling" class="section level2" number="6.3">
-<h2><span class="header-section-number">6.3</span> Data presentation as story telling</h2>
+<div id="data-presentation-as-story-telling" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Data presentation as story telling<a href="graph-supported-hypos.html#data-presentation-as-story-telling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Data presentation plays an essential role in every field from academic studies to professional practices. However, it is often underestimated. Sometimes people work really hard on what they aim to present but fail to present it properly. The actual output of the analysis performed is almost singularly responsible for giving the message we want to give to the audience. For this, we have to first really understand who our audience is considering its background and interests.</p>
 <p>After spending some time reflecting on the audience, we want to be able to present the data and its analysis clearly and efficiently. We want to create a good presentation that, like a good story, is easy to understand, has a clear message and is exciting.</p>
-<div id="what-is-a-story" class="section level3" number="6.3.1">
-<h3><span class="header-section-number">6.3.1</span> What is a story?</h3>
+<div id="what-is-a-story" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> What is a story?<a href="graph-supported-hypos.html#what-is-a-story" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Before discussing strategies for turning visualizations into stories, we have to understand what a story actually is. A story is a set of observations, facts, or events, that are presented in a specific order such that they create an emotional reaction in the audience. The emotional reaction is created through the build-up of tension at the beginning of the story followed by some type of resolution towards the end of the story. We refer to the flow from tension to resolution also as the story arc, and every good story has a clear, identifiable arc.</p>
 <p>Commonly, a story teller first introduces the topic, then presents the challenge followed by a series of actions. Finally, the resolution is presented.</p>
 </div>
-<div id="presentation-structure" class="section level3" number="6.3.2">
-<h3><span class="header-section-number">6.3.2</span> Presentation structure</h3>
+<div id="presentation-structure" class="section level3 hasAnchor" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Presentation structure<a href="graph-supported-hypos.html#presentation-structure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <!-- - Introduction: motivation, background and goals -->
 <!-- - Main: hypotheses/claims/results supported by a plot -->
 <!-- - Closure: summary, conclusion and outlook -->
 <p>Usually, a presentation is clearly divided into three main elements just like a good story: an introduction, a central part, and a closure.</p>
-<div id="introduction-2" class="section level4" number="6.3.2.1">
-<h4><span class="header-section-number">6.3.2.1</span> Introduction</h4>
+<div id="introduction-2" class="section level4 hasAnchor" number="6.3.2.1">
+<h4><span class="header-section-number">6.3.2.1</span> Introduction<a href="graph-supported-hypos.html#introduction-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>A presentation should have an introduction which clearly states the motivation to the topic, gives an overview on the background needed to understand the data and finally states the goals of the presentation. The open questions should be formulated here. What is not yet known or unclear in the field that your analysis addresses?</p>
 </div>
-<div id="development" class="section level4" number="6.3.2.2">
-<h4><span class="header-section-number">6.3.2.2</span> Development</h4>
+<div id="development" class="section level4 hasAnchor" number="6.3.2.2">
+<h4><span class="header-section-number">6.3.2.2</span> Development<a href="graph-supported-hypos.html#development" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The central part of the presentation is all about transforming hypotheses, claims and results into slides.</p>
-<p>Two common misconceptions have to be avoided when presenting visualizations in a presentation. First, that the audience can see our figures and immediately infer the points we are trying to make. Second, that the audience can rapidly process complex visualizations and understand the key trends and relationships that are shown. We need to do everything we can to help our audience understands the meaning of our visualizations and see the same patterns in the data that we see. This usually means “less is more.”</p>
+<p>Two common misconceptions have to be avoided when presenting visualizations in a presentation. First, that the audience can see our figures and immediately infer the points we are trying to make. Second, that the audience can rapidly process complex visualizations and understand the key trends and relationships that are shown. We need to do everything we can to help our audience understands the meaning of our visualizations and see the same patterns in the data that we see. This usually means “less is more”.</p>
 <p>Sometimes, however, we do want to show more complex figures that contain a large amount of information at once. In those cases, we can make things easier for our audience if we first show a simplified version of the figure before we show the final one in its full complexity.</p>
 <p>Usually, we first show descriptive plots to first present the data and let the audience be able to understand the data. Then, we use associative plots to support claims, results and hypotheses.</p>
-<p>Ideally, one slide contains exactly one claim supported by one plot. For this, the plot type should be chosen carefully. The title of the slide or figure is a very important element. The title should give the take-home message of the presented visualizations. It is a clear and simple interpretation of the plot. For instance, a title such as “Scatterplot of diamond price versus carat” for Figure <a href="graph-supported-hypos.html#fig:price-vs-carat">6.1</a> would not be informative since it is evident from the type of the plot and the axis labels that we look at a scatter plot of price versus carat. More informative is your interpretation of it, which the reader can judge from the plot. Do you want to claim that “Price increases nearly linearly with carat,” or rather that “There remains much price variation among diamonds with the same carat?” Such statements make informative slide titles.</p>
+<p>Ideally, one slide contains exactly one claim supported by one plot. For this, the plot type should be chosen carefully. The title of the slide or figure is a very important element. The title should give the take-home message of the presented visualizations. It is a clear and simple interpretation of the plot. For instance, a title such as “Scatterplot of diamond price versus carat” for Figure <a href="graph-supported-hypos.html#fig:price-vs-carat">6.1</a> would not be informative since it is evident from the type of the plot and the axis labels that we look at a scatter plot of price versus carat. More informative is your interpretation of it, which the reader can judge from the plot. Do you want to claim that “Price increases nearly linearly with carat”, or rather that “There remains much price variation among diamonds with the same carat”? Such statements make informative slide titles.</p>
 </div>
-<div id="closure" class="section level4" number="6.3.2.3">
-<h4><span class="header-section-number">6.3.2.3</span> Closure</h4>
+<div id="closure" class="section level4 hasAnchor" number="6.3.2.3">
+<h4><span class="header-section-number">6.3.2.3</span> Closure<a href="graph-supported-hypos.html#closure" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The presentation should ideally have a strong closure. We can usually start with a summary of the presentation including a clear conclusion. With the conclusion, the audience should be able to answer the fundamental question: what do we learn from the presented data analysis? The conclusions typically correspond to the open questions formulated in the introduction. Often, an outlook containing possible next steps can be briefly summarized at the end of a presentation.</p>
 </div>
 </div>
 </div>
-<div id="guidelines-for-coloring-in-data-visualization" class="section level2" number="6.4">
-<h2><span class="header-section-number">6.4</span> Guidelines for coloring in data visualization</h2>
+<div id="guidelines-for-coloring-in-data-visualization" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Guidelines for coloring in data visualization<a href="graph-supported-hypos.html#guidelines-for-coloring-in-data-visualization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Colors are an effective and powerful medium for communicating meaning. In data visualization, color sets the tone and enforces a message for the underlying visual display.</p>
-<div id="color-coding-in-r" class="section level3" number="6.4.1">
-<h3><span class="header-section-number">6.4.1</span> Color coding in R</h3>
+<div id="color-coding-in-r" class="section level3 hasAnchor" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Color coding in R<a href="graph-supported-hypos.html#color-coding-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Basically, there are four options for color coding with <code>ggplot2</code> in R:</p>
 <ol style="list-style-type: decimal">
 <li>Using default colors</li>
-<li>Explicitly setting color names (e.g. “red,” “blue”)</li>
+<li>Explicitly setting color names (e.g. “red”, “blue”)</li>
 <li>Explicitly setting RGB or HTML color codes (e.g. 00-FF)</li>
 <li>Explicitly setting color palettes</li>
 </ol>
-<div id="color-palettes" class="section level4" number="6.4.1.1">
-<h4><span class="header-section-number">6.4.1.1</span> Color palettes</h4>
+<div id="color-palettes" class="section level4 hasAnchor" number="6.4.1.1">
+<h4><span class="header-section-number">6.4.1.1</span> Color palettes<a href="graph-supported-hypos.html#color-palettes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The package <code>RColorBrewer</code> provides a comprehensive set of nice color palettes:</p>
-<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="graph-supported-hypos.html#cb474-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb474-2"><a href="graph-supported-hypos.html#cb474-2" aria-hidden="true" tabindex="-1"></a><span class="fu">display.brewer.all</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="graph-supported-hypos.html#cb476-1" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb476-2"><a href="graph-supported-hypos.html#cb476-2" tabindex="-1"></a><span class="fu">display.brewer.all</span>()</span></code></pre></div>
 <p><img src="assets/img/palettess.png" width="200px" /></p>
 <p>Generally, we use sequential palettes for continuous variables to show quantitative differences:</p>
 <p><img src="assets/img/lec07_col_seq_pal.png" width="200px" /></p>
@@ -1054,8 +1057,8 @@ Figure 6.4: Simpson’s paradox. The sign (+ or -) designates positive or negati
 <p><img src="assets/img/lec07_col_div_pal.png" width="200px" /></p>
 </div>
 </div>
-<div id="general-rules-for-color-coding" class="section level3" number="6.4.2">
-<h3><span class="header-section-number">6.4.2</span> General rules for color coding</h3>
+<div id="general-rules-for-color-coding" class="section level3 hasAnchor" number="6.4.2">
+<h3><span class="header-section-number">6.4.2</span> General rules for color coding<a href="graph-supported-hypos.html#general-rules-for-color-coding" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Even though color coding can be very helpful in several visualizations, it has to be used with precaution. Like all aspects of visual perception, we do not perceive color in an absolute manner. Perception of an object is influenced by the context. Hence, visual perception is relative, not absolute.</p>
 <p><strong>Rule #1: consistent background</strong></p>
 <p>If we want different objects of the same color in a table or graph to look the same, we have to make sure that the background is consistent.</p>
@@ -1073,19 +1076,19 @@ Figure 6.4: Simpson’s paradox. The sign (+ or -) designates positive or negati
 <p>Use soft, natural colors to display most information and bright and/or dark colors to highlight only particular information that requires greater attention.</p>
 </div>
 </div>
-<div id="general-dos-and-donts-in-data-visualization" class="section level2" number="6.5">
-<h2><span class="header-section-number">6.5</span> General do’s and don’ts in data visualization</h2>
-<div id="dos" class="section level3" number="6.5.1">
-<h3><span class="header-section-number">6.5.1</span> Do’s</h3>
+<div id="general-dos-and-donts-in-data-visualization" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> General do’s and don’ts in data visualization<a href="graph-supported-hypos.html#general-dos-and-donts-in-data-visualization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="dos" class="section level3 hasAnchor" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> Do’s<a href="graph-supported-hypos.html#dos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Keep visualizations simple</strong></p>
 <p>Keeping simple visualizations is probably the most important guideline. Often people assume that complex plots are useful visualizations, while the opposite is actually true. Good plots should have simple messages and make the visualized data as easy to understand as possible. A visualization should be effective and simple. Do not try to present too much information.</p>
 <p><strong>Have meaningful and expressive titles</strong></p>
-<p>Figure title (or slide tile) states the finding (what do we observe?) and not the methods (how do you do it?). For example a good title is “The further away an airport, the longer the flight” instead of “Scatter-plotting air time and distance.”</p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="graph-supported-hypos.html#cb475-1" aria-hidden="true" tabindex="-1"></a>flightsLAX <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&#39;extdata/casestudy1/flightsLAX.csv&#39;</span>)</span>
-<span id="cb475-2"><a href="graph-supported-hypos.html#cb475-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(flightsLAX, <span class="fu">aes</span>(DISTANCE, AIR_TIME)) <span class="sc">+</span> </span>
-<span id="cb475-3"><a href="graph-supported-hypos.html#cb475-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb475-4"><a href="graph-supported-hypos.html#cb475-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&#39;lm&#39;</span>) <span class="sc">+</span> </span>
-<span id="cb475-5"><a href="graph-supported-hypos.html#cb475-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;The further away an airport, the longer the flight&#39;</span>) <span class="sc">+</span> mytheme</span></code></pre></div>
+<p>Figure title (or slide tile) states the finding (what do we observe?) and not the methods (how do you do it?). For example a good title is “The further away an airport, the longer the flight” instead of “Scatter-plotting air time and distance”.</p>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="graph-supported-hypos.html#cb477-1" tabindex="-1"></a>flightsLAX <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&#39;extdata/casestudy1/flightsLAX.csv&#39;</span>)</span>
+<span id="cb477-2"><a href="graph-supported-hypos.html#cb477-2" tabindex="-1"></a><span class="fu">ggplot</span>(flightsLAX, <span class="fu">aes</span>(DISTANCE, AIR_TIME)) <span class="sc">+</span> </span>
+<span id="cb477-3"><a href="graph-supported-hypos.html#cb477-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb477-4"><a href="graph-supported-hypos.html#cb477-4" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&#39;lm&#39;</span>) <span class="sc">+</span> </span>
+<span id="cb477-5"><a href="graph-supported-hypos.html#cb477-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&#39;The further away an airport, the longer the flight&#39;</span>) <span class="sc">+</span> mytheme</span></code></pre></div>
 <p><img src="dataviz_book_files/figure-html/artist-1.png" width="500px" /></p>
 <p><strong>Always label the axes</strong></p>
 <p>Axes, colors, and shapes should be labelled. All labels should be legible for the audience (big fonts).</p>
@@ -1101,10 +1104,10 @@ Figure 6.4: Simpson’s paradox. The sign (+ or -) designates positive or negati
 From the plot above, it appears that apprehensions have almost tripled, when in fact they have only increased by about 16%. Starting the graph at 0 illustrates this clearly:</p>
 <p><img src="dataviz_book_files/figure-html/lec07_include0-1.png" width="384" /></p>
 </div>
-<div id="donts" class="section level3" number="6.5.2">
-<h3><span class="header-section-number">6.5.2</span> Don’ts</h3>
+<div id="donts" class="section level3 hasAnchor" number="6.5.2">
+<h3><span class="header-section-number">6.5.2</span> Don’ts<a href="graph-supported-hypos.html#donts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Good plotting style is like good writing style: say the most with the least. We can here quote Antoine de Saint-Exupery:</p>
-<p><em>“Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.”</em></p>
+<p><em>“Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away”.</em></p>
 <p>The concept of <em>data-ink ratio</em> is therefore useful to critically chose a visualization. In particular, visualizations that contain at least one the following criteria can be considered as chart junk and should be avoided:</p>
 <ul>
 <li>double encoding (color and axis encode the same)</li>
@@ -1116,18 +1119,18 @@ From the plot above, it appears that apprehensions have almost tripled, when in 
 </ul>
 <p>A good example of a transformation of a bad plot into a good plot can be obtained from: <a href="https://www.darkhorseanalytics.com/blog/data-looks-better-naked/" class="uri">https://www.darkhorseanalytics.com/blog/data-looks-better-naked/</a></p>
 <p><strong>Avoid pseudo three-dimensional plots</strong></p>
-<p>The figure below, taken from the scientific literature<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> shows three variables: dose, drug type and survival. Although our screens are flat and two dimensional, the plot tries to imitate three dimensions and assigns a dimension to each variable.</p>
+<p>The figure below, taken from the scientific literature <a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> shows three variables: dose, drug type and survival. Although our screens are flat and two dimensional, the plot tries to imitate three dimensions and assigns a dimension to each variable.</p>
 <p><img src="assets/fig/d3_plot.png" width="500px" /></p>
 <p>However, humans are not good at seeing in three dimensions (which explains why it is hard to parallel park) and our limitation is even worse with pseudo-three-dimensions. To see this, we can try to determine the values of the survival variable in the plot above. Probably, we cannot really tell when the purple ribbon intersects the red one.</p>
 <p>Instead, we can easily use color to represent the categorical variable to avoid the pseudo 3 dimensional construction:</p>
 <p><img src="dataviz_book_files/figure-html/lec07_3d-1.png" width="384" /></p>
 <p>This plot demonstrates that using color is more than enough to distinguish the three lines.</p>
 <p><strong>Do not manipulate plots</strong></p>
-<p>A good practice in data science is to be as honest as possible with the plots we create. Intentional manipulation is definitely a “don’t.”</p>
+<p>A good practice in data science is to be as honest as possible with the plots we create. Intentional manipulation is definitely a “don’t”.</p>
 </div>
 </div>
-<div id="summary-4" class="section level2" number="6.6">
-<h2><span class="header-section-number">6.6</span> Summary</h2>
+<div id="summary-4" class="section level2 hasAnchor" number="6.6">
+<h2><span class="header-section-number">6.6</span> Summary<a href="graph-supported-hypos.html#summary-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>By now, you should be able to:</p>
 <ul>
 <li><p>Distinguish exploratory figures showing data distributions, from associative figures</p></li>
@@ -1143,8 +1146,8 @@ From the plot above, it appears that apprehensions have almost tripled, when in 
 <li><p>Prepare your report to provide novel insights. The audience should be able to easily answer the question: “What did I learn?”</p></li>
 </ul>
 </div>
-<div id="resources-2" class="section level2" number="6.7">
-<h2><span class="header-section-number">6.7</span> Resources</h2>
+<div id="resources-2" class="section level2 hasAnchor" number="6.7">
+<h2><span class="header-section-number">6.7</span> Resources<a href="graph-supported-hypos.html#resources-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p><a href="https://humansofdata.atlan.com/2019/02/dos-donts-data-visualization/" class="uri">https://humansofdata.atlan.com/2019/02/dos-donts-data-visualization/</a></p></li>
 <li><p><a href="http://paldhous.github.io/ucb/2016/dataviz/week2.html" class="uri">http://paldhous.github.io/ucb/2016/dataviz/week2.html</a></p></li>
@@ -1162,12 +1165,12 @@ From the plot above, it appears that apprehensions have almost tripled, when in 
 
 <div class="footnotes">
 <hr />
-<ol start="8">
-<li id="fn8"><p><a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet" class="uri">https://en.wikipedia.org/wiki/Anscombe%27s_quartet</a><a href="graph-supported-hypos.html#fnref8" class="footnote-back">↩︎</a></p></li>
-<li id="fn9"><p><a href="https://opinionator.blogs.nytimes.com/2014/04/12/parental-involvement-is-overrated" class="uri">https://opinionator.blogs.nytimes.com/2014/04/12/parental-involvement-is-overrated</a><a href="graph-supported-hypos.html#fnref9" class="footnote-back">↩︎</a></p></li>
-<li id="fn10"><p><a href="http://bayes.cs.ucla.edu/WHY/" class="uri">http://bayes.cs.ucla.edu/WHY/</a><a href="graph-supported-hypos.html#fnref10" class="footnote-back">↩︎</a></p></li>
-<li id="fn11"><p><a href="https://en.wikipedia.org/wiki/Berkson%27s_paradox" class="uri">https://en.wikipedia.org/wiki/Berkson%27s_paradox</a><a href="graph-supported-hypos.html#fnref11" class="footnote-back">↩︎</a></p></li>
-<li id="fn12"><p>DNA Fingerprinting: A Review of the Controversy Kathryn Roeder Statistical Science Vol. 9, No. 2 (May, 1994), pp. 222-247<a href="graph-supported-hypos.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<ol start="9">
+<li id="fn9"><p><a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet" class="uri">https://en.wikipedia.org/wiki/Anscombe%27s_quartet</a><a href="graph-supported-hypos.html#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn10"><p><a href="https://opinionator.blogs.nytimes.com/2014/04/12/parental-involvement-is-overrated" class="uri">https://opinionator.blogs.nytimes.com/2014/04/12/parental-involvement-is-overrated</a><a href="graph-supported-hypos.html#fnref10" class="footnote-back">↩︎</a></p></li>
+<li id="fn11"><p><a href="http://bayes.cs.ucla.edu/WHY/" class="uri">http://bayes.cs.ucla.edu/WHY/</a><a href="graph-supported-hypos.html#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p><a href="https://en.wikipedia.org/wiki/Berkson%27s_paradox" class="uri">https://en.wikipedia.org/wiki/Berkson%27s_paradox</a><a href="graph-supported-hypos.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>DNA Fingerprinting: A Review of the Controversy Kathryn Roeder Statistical Science Vol. 9, No. 2 (May, 1994), pp. 222-247<a href="graph-supported-hypos.html#fnref13" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -1236,7 +1239,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
